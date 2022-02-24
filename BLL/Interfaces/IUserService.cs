@@ -8,7 +8,6 @@ namespace BLL.Interfaces
 {
     public interface IUserService : IBaseService<User, RegisterUserModel, UserDto>
     {
-        Task<User> GetUser(Expression<Func<User, bool>> expression, object key);
         Task<Guid> GetIdFromEmail(string Email);
     }
 }

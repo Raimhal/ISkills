@@ -20,8 +20,7 @@ namespace BLL.Services
 
         public async Task<bool> HasAccessToCourse(Guid userId, Guid courseId)
         {
-            Expression<Func<User, bool>> expression = u => u.Id == userId;
-            var user = await _userService.GetUser(expression, userId);
+            var user = await _userService.GetByIdAsync(userId);
 
             if (user.Roles.Any(r => r.Name == AdminRoleName))
                 return true;
@@ -31,8 +30,7 @@ namespace BLL.Services
 
         public async Task<bool> HasAccessToUser(Guid userId, Guid id)
         {
-            Expression<Func<User, bool>> expression = u => u.Id == userId;
-            var user = await _userService.GetUser(expression, userId);
+            var user = await _userService.GetByIdAsync(userId);
 
             if (user.Roles.Any(r => r.Name == AdminRoleName))
                 return true;

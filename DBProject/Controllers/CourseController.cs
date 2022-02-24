@@ -21,9 +21,9 @@ namespace Iskills.Controllers
 
         [HttpGet]
         [Route("api/courses/all")]
-        public async Task<ActionResult<List<CourseDto>>> GetCourses()
+        public async Task<ActionResult<List<CourseDto>>> GetCourses(string query = "", string sortOption = "title", bool reverse = false)
         {
-            var courses = await _courseService.GetAll();
+            var courses = await _courseService.GetListAll(query, sortOption, reverse);
             return Ok(courses);
         }
 
@@ -31,7 +31,7 @@ namespace Iskills.Controllers
         [Route("api/courses")]
         public async Task<ActionResult<List<CourseDto>>> GetCourses(int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
         {
-            var courses = await _courseService.GetAll(skip, take, query, sortOption, reverse);
+            var courses = await _courseService.GetList(skip, take, query, sortOption, reverse);
             return Ok(courses);
         }
 

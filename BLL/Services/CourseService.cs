@@ -12,7 +12,6 @@ using BLL.Validation;
 using BLL.Validation.Exceptions;
 using Domain.Interfaces;
 using Domain.Models;
-//using Exp = System.Linq.Expressions.Expression<System.Func<>>;
 
 namespace BLL.Services
 {
@@ -24,31 +23,23 @@ namespace BLL.Services
         private readonly IMapper _mapper;
 
         public CourseService(ICourseDbContext courseDbContext, IUserDbContext userContext, IThemeDbContext themeContext, IMapper mapper) =>
-            (_courseDbContext, _userContext, _themeContext, _mapper) = (courseDbContext, userContext, themeContext,  mapper);
+            (_courseDbContext, _userContext, _themeContext, _mapper) = (courseDbContext, userContext, themeContext, mapper);
 
-        public async Task<List<CourseDto>> GetAll(int skip, int take, string query, string sortOption, bool reverse)
+        public async Task<List<CourseDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
         {
             Expression<Func<Course, bool>> expression = c => c.Title.Contains(query.ToLower().Trim());
-            return await LookUp.GetLookUpList<Course, CourseDto>(_courseDbContext.Courses, _mapper, skip, take, expression, sortOption,  reverse);
+            return await LookUp.GetListAsync<Course, CourseDto>(_courseDbContext.Courses, _mapper, skip, take, expression, sortOption, reverse);
         }
 
-        public async Task<List<CourseDto>> GetAll()
+        public async Task<List<CourseDto>> GetListAll(string query, string sortOption, bool reverse)
         {
-            return await _courseDbContext.Courses
-                .ProjectTo<CourseDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            Expression<Func<Course, bool>> expression = c => c.Title.Contains(query.ToLower().Trim());
+            return await LookUp.GetListAllAsync<Course, CourseDto>(_courseDbContext.Courses, _mapper, expression, sortOption, reverse);
         }
 
         public async Task<Course> GetByIdAsync(Guid id)
         {
             Expression<Func<Course, bool>> expression = x => x.Id == id;
-            var includes = new List<Expression<Func<Course, dynamic>>> {
-                x => x.Users,
-                x => x.Comments,
-                x => x.Chapters,
-                x => x.Theme
-            };
-
             return await LookUp.GetAsync(_courseDbContext.Courses, _mapper, expression, includes);
         }
 
@@ -56,7 +47,6 @@ namespace BLL.Services
         {
             Expression<Func<User, bool>> expression = u => u.Id == model.CreatorId;
             var user = await _userContext.Users
-                .Include(u => u.Courses)
                 .FirstOrDefaultAsync(expression, cancellationToken);
 
             if (user == null)
@@ -81,7 +71,7 @@ namespace BLL.Services
             return course.Id;
         }
 
-        public async Task  UpdateAsync(Guid id, CreateCourseDto model, CancellationToken cancellationToken)
+        public async Task UpdateAsync(Guid id, CreateCourseDto model, CancellationToken cancellationToken)
         {
             Expression<Func<Course, bool>> expression = c => c.Id == id;
             var course = await _courseDbContext.Courses
@@ -99,7 +89,7 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            if(id != Guid.Empty)
+            if (id != Guid.Empty)
             {
                 Expression<Func<Course, bool>> expression = c => c.Id == id;
                 var course = await _courseDbContext.Courses
@@ -109,12 +99,16 @@ namespace BLL.Services
                     throw new NotFoundException(nameof(Course), id);
 
                 _courseDbContext.Courses.Remove(course);
-                await _courseDbContext.SaveChangesAsync(cancellationToken);   
-                
+                await _courseDbContext.SaveChangesAsync(cancellationToken);
+
             }
         }
 
-
-
+        private List<Expression<Func<Course, dynamic>>> includes = new List<Expression<Func<Course, dynamic>>> {
+                x => x.Users,
+                x => x.Comments,
+                x => x.Chapters,
+                x => x.Theme
+        };
     }
 }

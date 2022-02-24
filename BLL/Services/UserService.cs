@@ -91,43 +91,44 @@ namespace BLL.Services
                 
             }
         }
-        public async Task<List<UserDto>> GetAll()
+        public async Task<List<UserDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
         {
-            return await _userContext.Users
-                //.Include(u=> u.Events)
-                .Include(u=> u.RefreshTokens)
-                .ProjectTo<UserDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+            Expression<Func<User, bool>> expression = u => u.Email.Contains(query.ToLower().Trim());
+            return await LookUp.GetListAsync<User, UserDto>(_userContext.Users, _mapper, skip, take, expression, sortOption, reverse);
         }
 
-        public async Task<User> GetByIdAsync(Guid id) 
-        { 
-            Expression<Func<User, bool>> expression = u => u.Id == id;
-
-            var user = await GetUser(expression, id);
-
-            return _mapper.Map<User>(user);
+        public async Task<List<UserDto>> GetListAll(string query, string sortOption, bool reverse)
+        {
+            Expression<Func<User, bool>> expression = u => u.Email.Contains(query.ToLower().Trim());
+            return await LookUp.GetListAllAsync<User, UserDto>(_userContext.Users, _mapper, expression, sortOption, reverse);
         }
 
-        public async Task<User> GetUser(Expression<Func<User, bool>> expression, object key)
+        public async Task<User> GetByIdAsync(Guid id)
         {
-            var user = await _userContext.Users
-                .Include(u => u.Roles)
-                .Include(u => u.Courses)
-                .FirstOrDefaultAsync(expression);
+            Expression<Func<User, bool>> expression = x => x.Id == id;
+            return await LookUp.GetAsync(_userContext.Users, _mapper, expression, includes);
+        }
 
-            if (user == null)
-                throw new NotFoundException(nameof(User), key);
-
-            return user;
-
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            Expression<Func<User, bool>> expression = x => x.Email == email;
+            return await LookUp.GetAsync(_userContext.Users, _mapper, expression, includes);
         }
 
         public async Task<Guid> GetIdFromEmail(string email)
-        {
-            Expression<Func<User, bool>> expression = u => u.Email == email;
-            var user = await GetUser(expression, email);
-            return user.Id;
-        }
+            => (await GetUserDtoByEmail(email)).Id;
+
+
+        private List<Expression<Func<User, dynamic>>> includes = new List<Expression<Func<User, dynamic>>> {
+                x => x.Courses,
+                x => x.Comments,
+                x => x.Roles,
+                x => x.RefreshTokens
+        };
+
+        private async Task<UserDto> GetUserDtoByEmail(string email) 
+            => await _userContext.Users.ProjectTo<UserDto>
+            (_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync(x => x.Email == email);
     }
 }

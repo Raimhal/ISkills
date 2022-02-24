@@ -2,6 +2,7 @@
 using System;
 using BLL.Mapping;
 using Domain.Models;
+using System.Text.Json.Serialization;
 
 namespace BLL.DtoModels
 {
@@ -14,6 +15,7 @@ namespace BLL.DtoModels
         public string Language { get; set; }
         public float Price { get; set; }
         public int ThemeId { get; set; }
+        [JsonIgnore]
         public Guid CreatorId { get; set; }
 
         public void Mapping(Profile profile)

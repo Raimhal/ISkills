@@ -9,6 +9,5 @@ namespace BLL.Interfaces
 {
     public interface ICourseService : IBaseService<Course, CreateCourseDto, CourseDto>
     {
-        Task<List<CourseDto>> GetAll(int skip, int take, string query, string sortOption, bool reverse);
     }
 }

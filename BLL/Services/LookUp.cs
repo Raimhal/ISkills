@@ -36,7 +36,7 @@ namespace BLL.Services
             return _mapper.Map<T>(entity);
         }
 
-        public static async Task<List<TDto>> GetLookUpList<T, TDto>(IQueryable<T> context,
+        public static async Task<List<TDto>> GetListAsync<T, TDto>(IQueryable<T> context,
             IMapper _mapper, int skip, int take, Expression<Func<T, bool>> expression, 
             string sortOption, bool reverse) where T : class where TDto : class 
             => await context.Where(expression)
@@ -47,7 +47,7 @@ namespace BLL.Services
                 .AsNoTracking()
                 .ToListAsync();
 
-        public static async Task<List<TDto>> GetLookUpListAll<T, TDto>(IQueryable<T> context,
+        public static async Task<List<TDto>> GetListAllAsync<T, TDto>(IQueryable<T> context,
             IMapper _mapper, Expression<Func<T, bool>> expression, string sortOption, bool reverse)
             where T : class where TDto : class 
             => await context.Where(expression)

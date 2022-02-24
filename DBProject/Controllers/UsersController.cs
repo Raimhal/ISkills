@@ -5,6 +5,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using BLL.DtoModels;
 using BLL.Interfaces;
+using System.Collections.Generic;
+using Domain.Models;
 
 namespace Iskills.Controllers
 {
@@ -19,18 +21,23 @@ namespace Iskills.Controllers
 
 
         [HttpGet]
+        [Route("api/users/all")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<UserDto>>> GetUsersAll(string query="",
+            string sortOption = "Email", bool reverse = false)
+            => Ok(await _userService.GetListAll(query, sortOption, reverse));
+
+        [HttpGet]
         [Route("api/users")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<UserListVm>> GetUsers()
-        {
-            var users = await _userService.GetAll();
-            return Ok(users);
-        }
+        public async Task<ActionResult<List<UserDto>>> GetUsers(int skip = 0, int take = 10,
+            string query="", string sortOption = "Email", bool reverse = false)
+            => Ok(await _userService.GetList(skip, take, query, sortOption, reverse));
 
         [HttpGet]
         [Route("api/users/{id}")]
         [Authorize]
-        public async Task<ActionResult<UserDto>> GetUser(Guid id)
+        public async Task<ActionResult<User>> GetUser(Guid id)
         {
             if (await _accessService.HasAccessToUser(UserId, id))
             {
@@ -41,9 +48,9 @@ namespace Iskills.Controllers
         }
 
         [HttpGet]
-        [Route("api/users/{email}/email")]
+        [Route("api/users/email")]
         [Authorize]
-        public async Task<ActionResult<UserDto>> GetUserByEmail(string email)
+        public async Task<ActionResult<User>> GetUserByEmail(string email)
         {
             var id = await _userService.GetIdFromEmail(email);
             if (await _accessService.HasAccessToUser(UserId, id))
@@ -58,9 +65,7 @@ namespace Iskills.Controllers
         [HttpGet]
         [Route("api/users/current")]
         public async Task<ActionResult<Guid>> GetCurrentUserId()
-        {
-            return Ok(await _userService.GetByIdAsync(UserId));
-        }
+            => Ok(await _userService.GetByIdAsync(UserId));
 
 
         [AllowAnonymous]
@@ -68,10 +73,7 @@ namespace Iskills.Controllers
         [Route("api/users")]
         public async Task<ActionResult<Guid>> CreateUser([FromBody] RegisterUserModel model,
             CancellationToken cancellationToken)
-        {
-            var user = await _userService.CreateAsync(model, cancellationToken);
-            return Ok(user);
-        }
+            => Ok(await _userService.CreateAsync(model, cancellationToken));
 
         [Authorize]
         [HttpPut]
@@ -95,7 +97,6 @@ namespace Iskills.Controllers
         {
             await _userService.DeleteByIdAsync(id, cancellationToken);
             return NoContent();
-
         }
 
     }
