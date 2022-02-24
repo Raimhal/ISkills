@@ -1,0 +1,17 @@
+E:\it\Secound Course\DBProject\DAL\obj\Debug\net5.0\DAL.csproj.AssemblyReference.cache
+E:\it\Secound Course\DBProject\DAL\obj\Debug\net5.0\DAL.GeneratedMSBuildEditorConfig.editorconfig
+E:\it\Secound Course\DBProject\DAL\obj\Debug\net5.0\DAL.AssemblyInfoInputs.cache
+E:\it\Secound Course\DBProject\DAL\obj\Debug\net5.0\DAL.AssemblyInfo.cs
+E:\it\Secound Course\DBProject\DAL\obj\Debug\net5.0\DAL.csproj.CoreCompileInputs.cache
+E:\it\Secound Course\DBProject\DAL\bin\Debug\net5.0\DAL.deps.json
+E:\it\Secound Course\DBProject\DAL\bin\Debug\net5.0\DAL.dll
+E:\it\Secound Course\DBProject\DAL\bin\Debug\net5.0\ref\DAL.dll
+E:\it\Secound Course\DBProject\DAL\bin\Debug\net5.0\DAL.pdb
+E:\it\Secound Course\DBProject\DAL\bin\Debug\net5.0\BLL.dll
+E:\it\Secound Course\DBProject\DAL\bin\Debug\net5.0\Domain.dll
+E:\it\Secound Course\DBProject\DAL\bin\Debug\net5.0\BLL.pdb
+E:\it\Secound Course\DBProject\DAL\bin\Debug\net5.0\Domain.pdb
+E:\it\Secound Course\DBProject\DAL\obj\Debug\net5.0\DAL.csproj.CopyComplete
+E:\it\Secound Course\DBProject\DAL\obj\Debug\net5.0\DAL.dll
+E:\it\Secound Course\DBProject\DAL\obj\Debug\net5.0\ref\DAL.dll
+E:\it\Secound Course\DBProject\DAL\obj\Debug\net5.0\DAL.pdb
