@@ -17,6 +17,7 @@ namespace Iskills.Controllers
         public AccountController(IAccountService accountService) =>
             _accountService = accountService;
 
+
         [AllowAnonymous]
         [HttpPost]
         [Route("api/account/authenticate")]
@@ -30,6 +31,7 @@ namespace Iskills.Controllers
             SetTokenCookie(tokens.RefreshToken);
             return Ok(tokens);
         }
+
 
         [HttpPost]
         [Route("api/account/refresh-token")]
@@ -46,6 +48,7 @@ namespace Iskills.Controllers
             return Ok(responce);
         }
 
+
         [HttpPost]
         [Route("api/account/revoke-token")]
         public async Task<IActionResult> RevokeToken([FromForm]string token, CancellationToken cancellationToken)
@@ -61,13 +64,12 @@ namespace Iskills.Controllers
             return Ok(new { message = "Token revoked" });
         }
 
+
         private string GetIp()
-        {
-            if (Request.Headers.ContainsKey("X-Forwarded-For"))
-                return Request.Headers["X-Forwarded-For"];
-            else
-                return HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
-        }
+            => Request.Headers.ContainsKey("X-Forwarded-For")
+            ? Request.Headers["X-Forwarded-For"]
+            : HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+        
 
         private void SetTokenCookie(string token)
         {

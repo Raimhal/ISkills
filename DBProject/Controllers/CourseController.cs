@@ -15,48 +15,44 @@ namespace Iskills.Controllers
         private readonly ICourseService _courseService;
         private readonly IAccessService _accessService;
 
-        public CourseController(ICourseService courseService, IAccessService accessService) =>
-            (_courseService, _accessService) = ( courseService, accessService);
+        public CourseController(ICourseService courseService, IAccessService accessService) => 
+            (_courseService, _accessService) = (courseService, accessService);
 
 
         [HttpGet]
         [Route("api/courses/all")]
-        public async Task<ActionResult<List<CourseDto>>> GetCourses(string query = "", string sortOption = "title", bool reverse = false)
-        {
-            var courses = await _courseService.GetListAll(query, sortOption, reverse);
-            return Ok(courses);
-        }
+        public async Task<ActionResult<List<CourseDto>>> GetCourses(string query = "",
+            string sortOption = "title", bool reverse = false)
+            => Ok(await _courseService.GetListAll(query, sortOption, reverse));
+        
 
         [HttpGet]
         [Route("api/courses")]
-        public async Task<ActionResult<List<CourseDto>>> GetCourses(int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
-        {
-            var courses = await _courseService.GetList(skip, take, query, sortOption, reverse);
-            return Ok(courses);
-        }
+        public async Task<ActionResult<List<CourseDto>>> GetCourses(int skip = 0, int take = 10,
+            string query = "", string sortOption = "title", bool reverse = false)
+            => Ok(await _courseService.GetList(skip, take, query, sortOption, reverse));
+        
 
         [HttpGet]
         [Route("api/courses/{id}")]
         public async Task<ActionResult<CourseDto>> GetCourse(Guid id)
-        {
-            var course = await _courseService.GetByIdAsync(id);
-            return Ok(course);
-        }
+            => Ok(await _courseService.GetByIdAsync(id));
+        
 
         [Authorize]
         [HttpPost]
         [Route("api/courses")]
-        public async Task<ActionResult<Guid>> CreateUser([FromBody] CreateCourseDto model,
+        public async Task<ActionResult<Guid>> CreateCourse([FromBody] CreateCourseDto model,
             CancellationToken cancellationToken)
         {
             model.CreatorId = UserId;
-            var course = await _courseService.CreateAsync(model, cancellationToken);
-            return Ok(course);
+            return Ok(await _courseService.CreateAsync(model, cancellationToken));
         }
+
 
         [Authorize]
         [HttpPut]
-        [Route("api/courses/{id}/update")]
+        [Route("api/courses/{id}")]
         public async Task<IActionResult> UpdateCourse(Guid id, [FromBody] CreateCourseDto model,
             CancellationToken cancellationToken)
         {
@@ -65,19 +61,32 @@ namespace Iskills.Controllers
                 await _courseService.UpdateAsync(id, model, cancellationToken);
                 return NoContent();
             }
-            return StatusCode(401);
+            return StatusCode(403);
         }
 
 
-        //[Authorize(Roles = "Admin")]
-        //[HttpDelete]
-        //[Route("api/users/{id}/delete")]
-        //public async Task<IActionResult> DeleteUser(Guid id, CancellationToken cancellationToken)
-        //{
-        //    await _userService.DeleteByIdAsync(id, cancellationToken);
-        //    return NoContent();
+        [Authorize]
+        [HttpPatch]
+        [Route("api/courses/{id}")]
+        public async Task<IActionResult> ToggleUserAssignment(Guid id, CancellationToken cancellationToken)
+        {
+            await _courseService.ToggleUserAssignment(UserId, id, cancellationToken);
+            return NoContent();
+        }
 
-        //}
+
+        [Authorize]
+        [HttpDelete]
+        [Route("api/couses/{id}")]
+        public async Task<IActionResult> DeleteCourse(Guid id, CancellationToken cancellationToken)
+        {
+            if (await _accessService.HasAccessToCourse(UserId, id))
+            {
+                await _courseService.DeleteByIdAsync(id, cancellationToken);
+                return NoContent();
+            }
+            return StatusCode(403);
+        }
 
     }
 }

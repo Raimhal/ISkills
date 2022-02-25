@@ -19,35 +19,44 @@ namespace Iskills.Controllers
 
 
         [HttpGet]
-        [Route("api/file-settings/types")]
-        [Authorize]
-        public async Task<ActionResult<List<AllowedFileType>>> GetFileTypes()
-        {
-            var allowedFileTypes = await _fileSettingsService.GetAllowedFileTypes();
-            return Ok(allowedFileTypes);
-        }
+        [Route("api/file-types/all")]
+        public async Task<ActionResult<List<CreateAllowedFileTypeDto>>> GetFileTypesAll(string query = "",
+            string sortOption = "title", bool reverse = false)
+            => Ok(await _fileSettingsService.GetListAll(query, sortOption, reverse));
+
+
+        [HttpGet]
+        [Route("api/file-types")]
+        public async Task<ActionResult<List<CreateAllowedFileTypeDto>>> GetFileTypes(int skip = 0, int take = 10,
+            string query = "", string sortOption = "title", bool reverse = false)
+            => Ok(await _fileSettingsService.GetList(skip, take, query, sortOption, reverse));
 
 
         [HttpPost]
-        [Route("api/file-settings/types/add")]
+        [Route("api/file-types")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<int>> AddFileType([FromBody] AllowedFileTypeDto fileTypeDto,
+        public async Task<ActionResult<int>> CreateFileType([FromBody] CreateAllowedFileTypeDto fileTypeDto,
+            CancellationToken cancellationToken)
+            => Ok(await _fileSettingsService.CreateAsync(fileTypeDto, cancellationToken));
+
+
+        [HttpPut]
+        [Route("api/themes/{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> UpdateFileType(int id, [FromBody] CreateAllowedFileTypeDto model,
             CancellationToken cancellationToken)
         {
-            var fileTypeId = await _fileSettingsService
-                .AddFileType(fileTypeDto, cancellationToken);
-            if (fileTypeId == default) 
-                return Ok(new { message = $"The file type '{fileTypeDto.FileType}' already exists" });
-            return Ok(fileTypeId);
-
+            await _fileSettingsService.UpdateAsync(id, model, cancellationToken);
+            return NoContent();
         }
 
+
         [HttpDelete]
-        [Route("api/file-settings/types/{id}/delete")]
+        [Route("api/file-types/{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFileType(int id, CancellationToken cancellationToken)
         {
-            await _fileSettingsService.DeleteFileType(id, cancellationToken);
+            await _fileSettingsService.DeleteByIdAsync(id, cancellationToken);
             return NoContent();
         }
     }

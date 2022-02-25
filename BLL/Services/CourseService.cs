@@ -22,26 +22,44 @@ namespace BLL.Services
         private readonly IThemeDbContext _themeContext;
         private readonly IMapper _mapper;
 
-        public CourseService(ICourseDbContext courseDbContext, IUserDbContext userContext, IThemeDbContext themeContext, IMapper mapper) =>
-            (_courseDbContext, _userContext, _themeContext, _mapper) = (courseDbContext, userContext, themeContext, mapper);
+        public CourseService(ICourseDbContext courseDbContext, IUserDbContext userContext,
+            IThemeDbContext themeContext, IMapper mapper) 
+            => (_courseDbContext, _userContext, _themeContext, _mapper) 
+            = (courseDbContext, userContext, themeContext, mapper);
+
+        private readonly List<Expression<Func<Course, dynamic>>> includes = new ()
+        {
+            x => x.Users,
+            x => x.Comments,
+            x => x.Chapters,
+            x => x.Theme
+        };
 
         public async Task<List<CourseDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
-        {
-            Expression<Func<Course, bool>> expression = c => c.Title.Contains(query.ToLower().Trim());
-            return await LookUp.GetListAsync<Course, CourseDto>(_courseDbContext.Courses, _mapper, skip, take, expression, sortOption, reverse);
-        }
+            => await LookUp.GetListAsync<Course, CourseDto>(
+                _courseDbContext.Courses,
+                _mapper,
+                skip,
+                take,
+                c => c.Title.Contains(query.ToLower().Trim()),
+                sortOption,
+                reverse);
 
         public async Task<List<CourseDto>> GetListAll(string query, string sortOption, bool reverse)
-        {
-            Expression<Func<Course, bool>> expression = c => c.Title.Contains(query.ToLower().Trim());
-            return await LookUp.GetListAllAsync<Course, CourseDto>(_courseDbContext.Courses, _mapper, expression, sortOption, reverse);
-        }
+            => await LookUp.GetListAllAsync<Course, CourseDto>(
+                _courseDbContext.Courses,
+                _mapper,
+                c => c.Title.Contains(query.ToLower().Trim()),
+                sortOption,
+                reverse);
 
         public async Task<Course> GetByIdAsync(Guid id)
-        {
-            Expression<Func<Course, bool>> expression = x => x.Id == id;
-            return await LookUp.GetAsync(_courseDbContext.Courses, _mapper, expression, includes);
-        }
+            => await LookUp.GetAsync(
+                _courseDbContext.Courses,
+                _mapper,
+                x => x.Id == id,
+                includes);
+        
 
         public async Task<Guid> CreateAsync(CreateCourseDto model, CancellationToken cancellationToken)
         {
@@ -89,26 +107,24 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            if (id != Guid.Empty)
-            {
-                Expression<Func<Course, bool>> expression = c => c.Id == id;
-                var course = await _courseDbContext.Courses
-                    .FirstOrDefaultAsync(expression, cancellationToken);
-
-                if (course == null)
-                    throw new NotFoundException(nameof(Course), id);
-
-                _courseDbContext.Courses.Remove(course);
-                await _courseDbContext.SaveChangesAsync(cancellationToken);
-
-            }
+            Expression<Func<Course, bool>> expression = c => c.Id == id;
+            await LookUp.DeleteByAsync<Course>(_courseDbContext.Courses, _mapper, expression);
+            await _courseDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        private List<Expression<Func<Course, dynamic>>> includes = new List<Expression<Func<Course, dynamic>>> {
-                x => x.Users,
-                x => x.Comments,
-                x => x.Chapters,
-                x => x.Theme
-        };
+        public async Task ToggleUserAssignment(Guid userId, Guid courseId, CancellationToken cancellationToken)
+        {
+            var user = await LookUp.GetAsync(_userContext.Users, _mapper, x => x.Id == userId, new() { x => x.Roles });
+            var course = await LookUp.GetAsync(_courseDbContext.Courses, _mapper, x => x.Id == courseId, new() { x => x.Users });
+
+            if (course.Users.Contains(user))
+                course.Users.Remove(user);
+            else
+                course.Users.Add(user);
+
+            _courseDbContext.Courses.Update(course);
+            await _courseDbContext.SaveChangesAsync(cancellationToken);
+        }
+
     }
 }

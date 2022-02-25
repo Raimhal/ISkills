@@ -10,9 +10,9 @@ namespace DAL.EntityTypeConfigurations
         {
 
             builder.ToTable("Themes").HasKey(t => t.Id);
-            builder.HasIndex(t => t.Id).IsUnique();
+            builder.HasIndex(t => new { t.Id, t.Title}).IsUnique();
             builder.Property(t => t.Title).HasMaxLength(256).IsRequired();
-            builder.HasOne(t => t.Category).WithMany(c => c.Themes).HasForeignKey(t => t.CategoryId);
+            builder.HasOne(t => t.Category).WithMany(c => c.Themes).HasForeignKey(t => t.CategoryId).OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

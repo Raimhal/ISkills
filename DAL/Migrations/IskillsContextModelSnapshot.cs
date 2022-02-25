@@ -3,17 +3,15 @@ using System;
 using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(IskillsContext))]
-    [Migration("20220221195340_init")]
-    partial class init
+    partial class IskillsContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,7 +70,7 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id")
+                    b.HasIndex("Id", "Title")
                         .IsUnique();
 
                     b.ToTable("Categories");
@@ -127,6 +125,9 @@ namespace DAL.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<DateTime>("DateUpdated")
+                        .HasColumnType("timestamp without time zone");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
@@ -163,7 +164,7 @@ namespace DAL.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
-                    b.Property<float>("Price")
+                    b.Property<float?>("Price")
                         .HasColumnType("real");
 
                     b.Property<string>("Requirements")
@@ -174,7 +175,7 @@ namespace DAL.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
-                    b.Property<int>("ThemeId")
+                    b.Property<int?>("ThemeId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
@@ -266,7 +267,7 @@ namespace DAL.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("Id")
+                    b.HasIndex("Id", "Title")
                         .IsUnique();
 
                     b.ToTable("Themes");
@@ -382,10 +383,10 @@ namespace DAL.Migrations
                     b.HasOne("Domain.Models.Course", "Course")
                         .WithMany("Comments")
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Models.User", "User")
+                    b.HasOne("Domain.Models.User", "Creator")
                         .WithMany("Comments")
                         .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -393,16 +394,14 @@ namespace DAL.Migrations
 
                     b.Navigation("Course");
 
-                    b.Navigation("User");
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("Domain.Models.Course", b =>
                 {
                     b.HasOne("Domain.Models.Theme", "Theme")
                         .WithMany("Courses")
-                        .HasForeignKey("ThemeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ThemeId");
 
                     b.Navigation("Theme");
                 });
@@ -423,7 +422,7 @@ namespace DAL.Migrations
                     b.HasOne("Domain.Models.Category", "Category")
                         .WithMany("Themes")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -434,7 +433,7 @@ namespace DAL.Migrations
                     b.HasOne("Domain.Models.Chapter", "Chapter")
                         .WithMany("Videos")
                         .HasForeignKey("ChapterId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("Chapter");

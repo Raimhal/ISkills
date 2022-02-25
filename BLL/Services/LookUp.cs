@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using BLL.Validation.Exceptions;
 using BLL.Extentions;
+using System.Threading;
 
 namespace BLL.Services
 {
@@ -55,7 +56,12 @@ namespace BLL.Services
                 .ProjectTo<TDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking()
                 .ToListAsync();
+
+        public static async Task DeleteByAsync<T>(DbSet<T> context, IMapper _mapper,
+            Expression<Func<T, bool>> expression) where T : class
+            => context.Remove(await GetAsync<T>(context, _mapper, expression, new List<Expression<Func<T, dynamic>>> { }));
         
+
 
 
 

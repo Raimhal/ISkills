@@ -12,8 +12,10 @@ namespace DAL.EntityTypeConfigurations
             builder.ToTable("Comments").HasKey(c => c.Id);
             builder.HasIndex(c => c.Id).IsUnique();
             builder.Property(c => c.Content).HasMaxLength(2048).IsRequired();
-            builder.HasOne(c => c.User).WithMany(u => u.Comments).HasForeignKey(c => c.CreatorId);
-            builder.HasOne(c => c.Course).WithMany(u => u.Comments).HasForeignKey(c => c.CourseId);
+            builder.Property(c => c.Date).IsRequired();
+            builder.Property(c => c.DateUpdated).IsRequired();
+            builder.HasOne(c => c.Creator).WithMany(u => u.Comments).HasForeignKey(c => c.CreatorId);
+            builder.HasOne(c => c.Course).WithMany(u => u.Comments).HasForeignKey(c => c.CourseId).OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

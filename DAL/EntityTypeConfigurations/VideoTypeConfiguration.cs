@@ -13,7 +13,7 @@ namespace DAL.EntityTypeConfigurations
             builder.HasIndex(v => v.Id).IsUnique();
             builder.Property(v => v.Title).HasMaxLength(256).IsRequired();
             builder.Property(v => v.Path).IsRequired();
-            builder.HasOne(v => v.Chapter).WithMany(c => c.Videos).HasForeignKey(c => c.ChapterId);
+            builder.HasOne(v => v.Chapter).WithMany(c => c.Videos).HasForeignKey(c => c.ChapterId).OnDelete(DeleteBehavior.ClientCascade);
         }
     }
 }

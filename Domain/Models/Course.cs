@@ -15,13 +15,12 @@ namespace Domain.Models
         public string Language { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
-        public float Price { get; set; }
+        public float? Price { get; set; }
         public int CountStudents => Users.Count;
         public int CountComments => Comments.Count;
-        public int ThemeId { get; set; }
+        public int? ThemeId { get; set; }
         public Theme Theme { get; set; }
         public Guid CreatorId { get; set; }
-
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Chapter> Chapters { get; set; }

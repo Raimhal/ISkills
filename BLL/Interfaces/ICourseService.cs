@@ -3,11 +3,13 @@ using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface ICourseService : IBaseService<Course, CreateCourseDto, CourseDto>
+    public interface ICourseService : IBaseService<Guid, Course, CreateCourseDto, CourseDto>
     {
+        Task ToggleUserAssignment(Guid userId, Guid courseId, CancellationToken cancellationToken);
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IUserService : IBaseService<User, RegisterUserModel, UserDto>
+    public interface IUserService : IBaseService<Guid, User, RegisterUserModel, UserDto>
     {
         Task<Guid> GetIdFromEmail(string Email);
     }

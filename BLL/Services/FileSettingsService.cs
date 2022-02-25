@@ -32,32 +32,47 @@ namespace BLL.Services
             (_fileTypesContext, _mapper, _logger, _configuration) 
             = (fileTypesContext, mapper, logger, configuration);
 
+        public async Task<AllowedFileType> GetByIdAsync(int id)
+            => await LookUp.GetAsync(
+                _fileTypesContext.AllowedFileTypes,
+                _mapper,
+                x => x.Id == id,
+                null);
 
-        public async Task<List<AllowedFileType>> GetAllowedFileTypes()
+        public async Task<List<AllowedFileTypeDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
+            => await LookUp.GetListAsync<AllowedFileType, AllowedFileTypeDto>(
+                _fileTypesContext.AllowedFileTypes,
+                _mapper,
+                skip,
+                take,
+                c => c.FileType.Contains(query.ToLower().Trim()),
+                sortOption,
+                reverse);
+
+        public async Task<List<AllowedFileTypeDto>> GetListAll(string query, string sortOption, bool reverse)
+            => await LookUp.GetListAllAsync<AllowedFileType, AllowedFileTypeDto>(
+                _fileTypesContext.AllowedFileTypes,
+                _mapper,
+                c => c.FileType.Contains(query.ToLower().Trim()),
+                sortOption,
+                reverse);
+
+        public async Task<int> CreateAsync(CreateAllowedFileTypeDto model, CancellationToken cancellationToken)
         {
-            return await _fileTypesContext.AllowedFileTypes
-               .ToListAsync();
+            if (await _fileTypesContext.AllowedFileTypes
+                .AnyAsync(t => t.FileType == model.FileType
+                , cancellationToken))
+                throw new AlreadyExistsException(nameof(AllowedFileType), model.FileType);
 
-        }
+            var type = _mapper.Map<AllowedFileType>(model);
 
-        public async Task<int> AddFileType(AllowedFileTypeDto fileTypeDto, CancellationToken cancellationToken)
-        {
-            var fileType = await _fileTypesContext.AllowedFileTypes
-                .FirstOrDefaultAsync(t =>
-                t.FileType == fileTypeDto.FileType, cancellationToken);
-
-            if (fileType != null) return default;
-
-            var type = _mapper.Map<AllowedFileType>(fileTypeDto);
             _fileTypesContext.AllowedFileTypes.Add(type);
-
             await _fileTypesContext.SaveChangesAsync(cancellationToken);
+
             return type.Id;
         }
 
-       
-
-        public async Task DeleteFileType(int id, CancellationToken cancellationToken)
+        public async Task UpdateAsync(int id, CreateAllowedFileTypeDto model, CancellationToken cancellationToken)
         {
             Expression<Func<AllowedFileType, bool>> expression = t => t.Id == id;
             var type = await _fileTypesContext.AllowedFileTypes
@@ -66,11 +81,29 @@ namespace BLL.Services
             if (type == null)
                 throw new NotFoundException(nameof(AllowedFileType), id);
 
-            _fileTypesContext.AllowedFileTypes.Remove(type);
+            type = _mapper.Map<AllowedFileType>(type);
+
+            if (!string.IsNullOrEmpty(model.FileType) && model.FileType != type.FileType)
+            {
+                if (await _fileTypesContext.AllowedFileTypes.AnyAsync(t => t.FileType == model.FileType, cancellationToken))
+                    throw new AlreadyExistsException(nameof(AllowedFileType), model.FileType);
+            }
+
+            type = _mapper.Map<AllowedFileType>(type);
+            _fileTypesContext.AllowedFileTypes.Update(type);
+
             await _fileTypesContext.SaveChangesAsync(cancellationToken);
         }
 
-        
+        public async Task DeleteByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            await LookUp.DeleteByAsync<AllowedFileType>(
+                _fileTypesContext.AllowedFileTypes,
+                _mapper,
+                t => t.Id == id);
+            await _fileTypesContext.SaveChangesAsync(cancellationToken);
+        }
+
 
         // antivirus
         private async Task<byte[]> CheckFile(IFormFile file, byte[] fileBytes)

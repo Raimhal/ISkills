@@ -27,12 +27,14 @@ namespace Iskills.Controllers
             string sortOption = "Email", bool reverse = false)
             => Ok(await _userService.GetListAll(query, sortOption, reverse));
 
+
         [HttpGet]
         [Route("api/users")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<UserDto>>> GetUsers(int skip = 0, int take = 10,
             string query="", string sortOption = "Email", bool reverse = false)
             => Ok(await _userService.GetList(skip, take, query, sortOption, reverse));
+
 
         [HttpGet]
         [Route("api/users/{id}")]
@@ -44,8 +46,9 @@ namespace Iskills.Controllers
                 var user = await _userService.GetByIdAsync(id);
                 return Ok(user);
             }
-            return StatusCode(401);
+            return StatusCode(403);
         }
+
 
         [HttpGet]
         [Route("api/users/email")]
@@ -58,8 +61,9 @@ namespace Iskills.Controllers
                 var user = await _userService.GetByIdAsync(id);
                 return Ok(user);
             }
-            return StatusCode(401);
+            return StatusCode(403);
         }
+
 
         [Authorize]
         [HttpGet]
@@ -75,9 +79,10 @@ namespace Iskills.Controllers
             CancellationToken cancellationToken)
             => Ok(await _userService.CreateAsync(model, cancellationToken));
 
+
         [Authorize]
         [HttpPut]
-        [Route("api/users/{id}/update")]
+        [Route("api/users/{id}")]
         public async Task<IActionResult> UpdateUser(Guid id, [FromBody] RegisterUserModel model,
             CancellationToken cancellationToken)
         {
@@ -86,13 +91,13 @@ namespace Iskills.Controllers
                 await _userService.UpdateAsync(id, model, cancellationToken);
                 return NoContent();
             }
-            return StatusCode(401);
+            return StatusCode(403);
         }
 
 
-        [Authorize(Roles = "Admin")]
         [HttpDelete]
-        [Route("api/users/{id}/delete")]
+        [Route("api/users/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(Guid id, CancellationToken cancellationToken)
         {
             await _userService.DeleteByIdAsync(id, cancellationToken);

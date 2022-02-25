@@ -10,7 +10,7 @@ namespace DAL.EntityTypeConfigurations
         {
 
             builder.ToTable("Categories").HasKey(c => c.Id);
-            builder.HasIndex(c => c.Id).IsUnique();
+            builder.HasIndex(c => new { c.Id, c.Title } ).IsUnique();
             builder.Property(c => c.Title).HasMaxLength(256).IsRequired();
         }
     }

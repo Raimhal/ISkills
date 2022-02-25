@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DAL.Migrations
 {
-    public partial class init : Migration
+    public partial class main_entities_implemented : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -82,7 +82,7 @@ namespace DAL.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,8 +146,8 @@ namespace DAL.Migrations
                     Language = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     DateUpdated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    Price = table.Column<float>(type: "real", nullable: false),
-                    ThemeId = table.Column<int>(type: "integer", nullable: false),
+                    Price = table.Column<float>(type: "real", nullable: true),
+                    ThemeId = table.Column<int>(type: "integer", nullable: true),
                     CreatorId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -158,7 +158,7 @@ namespace DAL.Migrations
                         column: x => x.ThemeId,
                         principalTable: "Themes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -188,6 +188,7 @@ namespace DAL.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Content = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    DateUpdated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     CourseId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatorId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -199,7 +200,7 @@ namespace DAL.Migrations
                         column: x => x.CourseId,
                         principalTable: "Courses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Comments_Users_CreatorId",
                         column: x => x.CreatorId,
@@ -249,7 +250,7 @@ namespace DAL.Migrations
                         column: x => x.ChapterId,
                         principalTable: "Chapters",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -259,9 +260,9 @@ namespace DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_Id",
+                name: "IX_Categories_Id_Title",
                 table: "Categories",
-                column: "Id",
+                columns: new[] { "Id", "Title" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -329,9 +330,9 @@ namespace DAL.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Themes_Id",
+                name: "IX_Themes_Id_Title",
                 table: "Themes",
-                column: "Id",
+                columns: new[] { "Id", "Title" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -350,12 +351,45 @@ namespace DAL.Migrations
                 table: "Videos",
                 column: "Id",
                 unique: true);
-
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            
+            migrationBuilder.DropTable(
+                name: "AllowedFileTypes");
+
+            migrationBuilder.DropTable(
+                name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "CourseUser");
+
+            migrationBuilder.DropTable(
+                name: "RefreshTokens");
+
+            migrationBuilder.DropTable(
+                name: "RoleUser");
+
+            migrationBuilder.DropTable(
+                name: "Videos");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Chapters");
+
+            migrationBuilder.DropTable(
+                name: "Courses");
+
+            migrationBuilder.DropTable(
+                name: "Themes");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }

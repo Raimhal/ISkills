@@ -7,10 +7,7 @@ using Domain.Models;
 
 namespace BLL.Interfaces
 {
-    public interface IFileSettingsService 
+    public interface IFileSettingsService : IBaseService<int, AllowedFileType, CreateAllowedFileTypeDto, AllowedFileTypeDto>
     {
-        Task<List<AllowedFileType>> GetAllowedFileTypes();
-        Task<int> AddFileType(AllowedFileTypeDto fileTypeDto, CancellationToken cancellationToken);
-        Task DeleteFileType(int id, CancellationToken cancellationToken);
     }
 }

@@ -20,6 +20,9 @@ namespace BLL
             services.AddScoped<IFileSettingsService, FileSettingsService>();
             services.AddScoped<IAccessService, AccessService>();
             services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IThemeService, ThemeService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICommentService, CommentService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

@@ -39,6 +39,9 @@ namespace Iskills.Middleware
                 case NotFoundException:
                     code = HttpStatusCode.NotFound;
                     break;
+                case AlreadyExistsException:
+                    code = HttpStatusCode.Conflict;
+                    break;
             }
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;
