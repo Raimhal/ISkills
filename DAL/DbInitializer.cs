@@ -43,7 +43,7 @@ namespace DAL
 
                 var salt = Hasher.GenerateSalt(size: 16);
 
-                User admin = new User
+                var admin = new User
                 {
                     Id = Guid.NewGuid(),
                     FirstName = "Admin",

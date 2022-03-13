@@ -71,15 +71,12 @@ namespace BLL.Services
 
         public async Task UpdateAsync(int id, CreateThemeDto model, CancellationToken cancellationToken)
         {
-            Expression<Func<Theme, bool>> expression = c => c.Id == id;
-            var theme = await _themeDbContext.Themes
-                .FirstOrDefaultAsync(expression, cancellationToken);
-
-            if (theme == null)
-                throw new NotFoundException(nameof(Theme), id);
 
             if (await _themeDbContext.Themes.AnyAsync(c => c.Title == model.Title, cancellationToken))
                 throw new AlreadyExistsException(nameof(Theme), model.Title);
+
+            var theme = await LookUp.GetAsync<Theme>(_themeDbContext.Themes,
+                _mapper, t => t.Id == id, new() { });
 
             theme = _mapper.Map<Theme>(model);
 

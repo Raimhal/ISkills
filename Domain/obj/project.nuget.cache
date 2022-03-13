@@ -1,9 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "LNk63U7doxZhSQcjKSrTAG+G0Gff+JawGFPB89zK8kB9GfFphXvsBS2xgk4tsWxwCqQCQM/hfm6wJOAqO06UMg==",
+  "dgSpecHash": "65plYW3qkLgRRB8Xcz0G1BWQvYc4vtmWDEl+i/i9ki6l+tyL4jZv8Iie0KmeKV/6gCVGVqsZiJ0VYzml1/BVgQ==",
   "success": true,
   "projectFilePath": "E:\\it\\Secound Course\\DBProject\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\kormi\\.nuget\\packages\\google.apis\\1.56.0\\google.apis.1.56.0.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\google.apis.auth\\1.56.0\\google.apis.auth.1.56.0.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\google.apis.core\\1.56.0\\google.apis.core.1.56.0.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\google.apis.drive.v3\\1.56.0.2601\\google.apis.drive.v3.1.56.0.2601.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\microsoft.entityframeworkcore\\5.0.14\\microsoft.entityframeworkcore.5.0.14.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\5.0.14\\microsoft.entityframeworkcore.abstractions.5.0.14.nupkg.sha512",
@@ -20,7 +24,7 @@
     "C:\\Users\\kormi\\.nuget\\packages\\microsoft.extensions.options\\5.0.0\\microsoft.extensions.options.5.0.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\microsoft.extensions.primitives\\5.0.0\\microsoft.extensions.primitives.5.0.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
-    "C:\\Users\\kormi\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\npgsql\\5.0.12\\npgsql.5.0.12.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\5.0.10\\npgsql.entityframeworkcore.postgresql.5.0.10.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\salaros.configparser\\0.3.2\\salaros.configparser.0.3.2.nupkg.sha512",

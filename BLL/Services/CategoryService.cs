@@ -70,15 +70,11 @@ namespace BLL.Services
 
         public async Task UpdateAsync(int id, CreateCategoryDto model, CancellationToken cancellationToken)
         {
-            Expression<Func<Category, bool>> expression = c => c.Id == id;
-            var category = await _categoryDbContext.Categories
-                .FirstOrDefaultAsync(expression, cancellationToken);
-
-            if (category == null)
-                throw new NotFoundException(nameof(Category), id);
-
             if (await _categoryDbContext.Categories.AnyAsync(c => c.Title == model.Title, cancellationToken))
                 throw new AlreadyExistsException(nameof(Category), model.Title);
+
+            var category = await LookUp.GetAsync<Category>(_categoryDbContext.Categories,
+                _mapper, c => c.Id == id, new() { });
 
             category = _mapper.Map<Category>(model);
 
@@ -88,8 +84,7 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(int id, CancellationToken cancellationToken)
         {
-            Expression<Func<Category, bool>> expression = c => c.Id == id;
-            await LookUp.DeleteByAsync<Category>(_categoryDbContext.Categories, _mapper, expression);
+            await LookUp.DeleteByAsync<Category>(_categoryDbContext.Categories, _mapper, c => c.Id == id);
             await _categoryDbContext.SaveChangesAsync(cancellationToken);
         }
 

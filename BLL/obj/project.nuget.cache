@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "cs/+lUH9YtZ5BPChH8i5Qhk2c6MYsH/gfxl0UzfuigFtWfWaKwJyCa1SZgiXij29TFjG32d+BR146bbK0yggqg==",
+  "dgSpecHash": "/nzHqW0/Bxj5Jjb42+uykdhI6WRsHsDE0Gwv/eNf/DMvZgubPlL+4gsXL/1b/GgP+zX/Hd3Rm0IKHSkSUJ8HAg==",
   "success": true,
   "projectFilePath": "E:\\it\\Secound Course\\DBProject\\BLL\\BLL.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,10 @@
     "C:\\Users\\kormi\\.nuget\\packages\\csvhelper\\27.2.1\\csvhelper.27.2.1.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\fluentvalidation\\10.3.6\\fluentvalidation.10.3.6.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\10.3.6\\fluentvalidation.dependencyinjectionextensions.10.3.6.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\google.apis\\1.56.0\\google.apis.1.56.0.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\google.apis.auth\\1.56.0\\google.apis.auth.1.56.0.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\google.apis.core\\1.56.0\\google.apis.core.1.56.0.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\google.apis.drive.v3\\1.56.0.2601\\google.apis.drive.v3.1.56.0.2601.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\10.0.1\\mediatr.extensions.microsoft.dependencyinjection.10.0.1.nupkg.sha512",

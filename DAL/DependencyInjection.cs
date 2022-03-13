@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Domain.Interfaces;
+using BLL.Interfaces;
 
 namespace DAL
 {
@@ -32,6 +33,7 @@ namespace DAL
                 provider.GetService<IskillsContext>());
             services.AddScoped<ICommentDbContext>(provider =>
                 provider.GetService<IskillsContext>());
+
 
             return services;
         }

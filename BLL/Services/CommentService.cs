@@ -78,12 +78,8 @@ namespace BLL.Services
 
         public async Task UpdateAsync(Guid id, CreateCommentDto model, CancellationToken cancellationToken)
         {
-            Expression<Func<Comment, bool>> expression = c => c.Id == id;
-            var comment = await _commentDbContext.Comments
-                .FirstOrDefaultAsync(expression, cancellationToken);
-
-            if (comment == null)
-                throw new NotFoundException(nameof(Comment), id);
+            var comment = await LookUp.GetAsync<Comment>(_commentDbContext.Comments,
+                _mapper, c => c.Id == id, new () { });
 
             comment = _mapper.Map<Comment>(model);
             comment.DateUpdated = DateTime.UtcNow;
@@ -94,8 +90,7 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            Expression<Func<Comment, bool>> expression = c => c.Id == id;
-            await LookUp.DeleteByAsync<Comment>(_commentDbContext.Comments, _mapper, expression);
+            await LookUp.DeleteByAsync<Comment>(_commentDbContext.Comments, _mapper, c => c.Id == id);
             await _courseDbContext.SaveChangesAsync(cancellationToken);
         }
 

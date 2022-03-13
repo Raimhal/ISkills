@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -7,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using nClam;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -74,33 +72,24 @@ namespace BLL.Services
 
         public async Task UpdateAsync(int id, CreateAllowedFileTypeDto model, CancellationToken cancellationToken)
         {
-            Expression<Func<AllowedFileType, bool>> expression = t => t.Id == id;
-            var type = await _fileTypesContext.AllowedFileTypes
-                .FirstOrDefaultAsync(expression, cancellationToken);
-
-            if (type == null)
-                throw new NotFoundException(nameof(AllowedFileType), id);
-
-            type = _mapper.Map<AllowedFileType>(type);
+            var type = await LookUp.GetAsync<AllowedFileType>(_fileTypesContext.AllowedFileTypes,
+                _mapper, t => t.Id == id, new() { });
 
             if (!string.IsNullOrEmpty(model.FileType) && model.FileType != type.FileType)
-            {
                 if (await _fileTypesContext.AllowedFileTypes.AnyAsync(t => t.FileType == model.FileType, cancellationToken))
                     throw new AlreadyExistsException(nameof(AllowedFileType), model.FileType);
-            }
+            
 
             type = _mapper.Map<AllowedFileType>(type);
-            _fileTypesContext.AllowedFileTypes.Update(type);
 
+            _fileTypesContext.AllowedFileTypes.Update(type);
             await _fileTypesContext.SaveChangesAsync(cancellationToken);
         }
 
         public async Task DeleteByIdAsync(int id, CancellationToken cancellationToken)
         {
-            await LookUp.DeleteByAsync<AllowedFileType>(
-                _fileTypesContext.AllowedFileTypes,
-                _mapper,
-                t => t.Id == id);
+            await LookUp.DeleteByAsync<AllowedFileType>(_fileTypesContext.AllowedFileTypes,
+                _mapper, t => t.Id == id);
             await _fileTypesContext.SaveChangesAsync(cancellationToken);
         }
 
@@ -150,6 +139,7 @@ namespace BLL.Services
 
             return (fileSize / Math.Pow(10, 6)) <= type.FileSize;
         }
+
     }
 }
 

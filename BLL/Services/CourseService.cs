@@ -63,16 +63,11 @@ namespace BLL.Services
 
         public async Task<Guid> CreateAsync(CreateCourseDto model, CancellationToken cancellationToken)
         {
-            Expression<Func<User, bool>> expression = u => u.Id == model.CreatorId;
-            var user = await _userContext.Users
-                .FirstOrDefaultAsync(expression, cancellationToken);
+            var user = await LookUp.GetAsync<User>(_userContext.Users, _mapper,
+                u => u.Id == model.CreatorId, new () { });
 
-            if (user == null)
-                throw new NotFoundException(nameof(User), model.CreatorId);
-
-            Expression<Func<Theme, bool>> themeExpression = t => t.Id == model.ThemeId;
-            if (!await _themeContext.Themes.AnyAsync(t => t.Id == model.ThemeId, cancellationToken))
-                throw new NotFoundException(nameof(Theme), model.ThemeId);
+            var theme = await LookUp.GetAsync<Theme>(_themeContext.Themes, _mapper,
+                t => t.Id == model.ThemeId, new () { });
 
             var course = _mapper.Map<Course>(model);
 
@@ -82,6 +77,7 @@ namespace BLL.Services
             course.Users = new List<User> { user };
             course.Comments = new List<Comment>();
             course.Chapters = new List<Chapter>();
+            course.Theme = theme;
 
             await _courseDbContext.Courses.AddAsync(course, cancellationToken);
             await _courseDbContext.SaveChangesAsync(cancellationToken);
@@ -91,14 +87,14 @@ namespace BLL.Services
 
         public async Task UpdateAsync(Guid id, CreateCourseDto model, CancellationToken cancellationToken)
         {
-            Expression<Func<Course, bool>> expression = c => c.Id == id;
-            var course = await _courseDbContext.Courses
-                .FirstOrDefaultAsync(expression, cancellationToken);
+            var course = await LookUp.GetAsync<Course>(_courseDbContext.Courses, _mapper,
+                v => v.Id == id, new () { x => x.Theme });
 
-            if (course == null)
-                throw new NotFoundException(nameof(Course), id);
+            var theme = await LookUp.GetAsync<Theme>(_themeContext.Themes, _mapper,
+                t => t.Id == model.ThemeId, new () { });
 
             course = _mapper.Map<Course>(model);
+            course.Theme = theme;
             course.DateUpdated = DateTime.UtcNow;
 
             _courseDbContext.Courses.Update(course);
@@ -107,8 +103,7 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            Expression<Func<Course, bool>> expression = c => c.Id == id;
-            await LookUp.DeleteByAsync<Course>(_courseDbContext.Courses, _mapper, expression);
+            await LookUp.DeleteByAsync<Course>(_courseDbContext.Courses, _mapper, c => c.Id == id);
             await _courseDbContext.SaveChangesAsync(cancellationToken);
         }
 

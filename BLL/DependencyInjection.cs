@@ -23,6 +23,7 @@ namespace BLL
             services.AddScoped<IThemeService, ThemeService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IGoogleDriveService, GoogleDriveService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

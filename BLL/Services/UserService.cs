@@ -19,11 +19,14 @@ namespace BLL.Services
     {
         private readonly IUserDbContext _userContext;
         private readonly IRoleDbContext _roleContext;
+        private readonly ICourseDbContext _courseDbContext;
         private readonly IMapper _mapper;
         private readonly int saltSize = 16;
 
-        public UserService(IUserDbContext userContext, IRoleDbContext roleContext,IMapper mapper) =>
-            (_userContext, _roleContext ,_mapper) = (userContext, roleContext, mapper);
+        public UserService(IUserDbContext userContext, IRoleDbContext roleContext,
+            ICourseDbContext courseContext, IMapper mapper) 
+            => (_userContext, _roleContext, _courseDbContext, _mapper)
+            = (userContext, roleContext, courseContext, mapper);
 
         private readonly List<Expression<Func<User, dynamic>>> includes = new ()
         {
@@ -60,12 +63,8 @@ namespace BLL.Services
 
         public async Task UpdateAsync(Guid id, RegisterUserModel model, CancellationToken cancellationToken)
         {
-            Expression<Func<User, bool>> expression = u => u.Id == id;
-            var user = await _userContext.Users
-                .FirstOrDefaultAsync(expression, cancellationToken);
-
-            if (user == null)
-                throw new NotFoundException(nameof(User), id);
+            var user = await LookUp.GetAsync<User>(_userContext.Users,
+                _mapper, u => u.Id == id, new() { });
 
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
@@ -88,7 +87,9 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            await LookUp.DeleteByAsync<User>(_userContext.Users, _mapper, u => u.Id == id);
+            var user = await LookUp.GetAsync(_userContext.Users, _mapper, u => u.Id == id, new() { x => x.Courses });
+            _courseDbContext.Courses.RemoveRange(user.Courses);
+            _userContext.Users.Remove(user);
             await _userContext.SaveChangesAsync(cancellationToken);   
         }
 
