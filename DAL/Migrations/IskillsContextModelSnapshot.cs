@@ -24,12 +24,12 @@ namespace DAL.Migrations
                     b.Property<Guid>("CoursesId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UsersId")
+                    b.Property<Guid>("StudentsId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("CoursesId", "UsersId");
+                    b.HasKey("CoursesId", "StudentsId");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("StudentsId");
 
                     b.ToTable("CourseUser");
                 });
@@ -86,7 +86,6 @@ namespace DAL.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)");
 
@@ -241,7 +240,9 @@ namespace DAL.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
 
                     b.HasKey("Id");
 
@@ -285,10 +286,12 @@ namespace DAL.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -299,7 +302,9 @@ namespace DAL.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
@@ -318,14 +323,14 @@ namespace DAL.Migrations
                     b.Property<Guid>("ChapterId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -362,7 +367,7 @@ namespace DAL.Migrations
 
                     b.HasOne("Domain.Models.User", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("StudentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

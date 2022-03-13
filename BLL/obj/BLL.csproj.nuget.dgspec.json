@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\it\\Secound Course\\DBProject\\BLL\\BLL.csproj": {}
+    "E:\\it\\Secound Course\\ISkills\\BLL\\BLL.csproj": {}
   },
   "projects": {
-    "E:\\it\\Secound Course\\DBProject\\BLL\\BLL.csproj": {
+    "E:\\it\\Secound Course\\ISkills\\BLL\\BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\it\\Secound Course\\DBProject\\BLL\\BLL.csproj",
+        "projectUniqueName": "E:\\it\\Secound Course\\ISkills\\BLL\\BLL.csproj",
         "projectName": "BLL",
-        "projectPath": "E:\\it\\Secound Course\\DBProject\\BLL\\BLL.csproj",
+        "projectPath": "E:\\it\\Secound Course\\ISkills\\BLL\\BLL.csproj",
         "packagesPath": "C:\\Users\\kormi\\.nuget\\packages\\",
-        "outputPath": "E:\\it\\Secound Course\\DBProject\\BLL\\obj\\",
+        "outputPath": "E:\\it\\Secound Course\\ISkills\\BLL\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kormi\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "E:\\it\\Secound Course\\DBProject\\Domain\\Domain.csproj": {
-                "projectPath": "E:\\it\\Secound Course\\DBProject\\Domain\\Domain.csproj"
+              "E:\\it\\Secound Course\\ISkills\\Domain\\Domain.csproj": {
+                "projectPath": "E:\\it\\Secound Course\\ISkills\\Domain\\Domain.csproj"
               }
             }
           }
@@ -47,6 +47,10 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[11.0.1, )"
+            },
+            "Azure.Storage.Blobs": {
+              "target": "Package",
+              "version": "[12.11.0, )"
             },
             "CsvHelper": {
               "target": "Package",
@@ -140,14 +144,14 @@
         }
       }
     },
-    "E:\\it\\Secound Course\\DBProject\\Domain\\Domain.csproj": {
+    "E:\\it\\Secound Course\\ISkills\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\it\\Secound Course\\DBProject\\Domain\\Domain.csproj",
+        "projectUniqueName": "E:\\it\\Secound Course\\ISkills\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "E:\\it\\Secound Course\\DBProject\\Domain\\Domain.csproj",
+        "projectPath": "E:\\it\\Secound Course\\ISkills\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\kormi\\.nuget\\packages\\",
-        "outputPath": "E:\\it\\Secound Course\\DBProject\\Domain\\obj\\",
+        "outputPath": "E:\\it\\Secound Course\\ISkills\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\kormi\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -176,6 +180,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "Azure.Storage.Blobs": {
+              "target": "Package",
+              "version": "[12.11.0, )"
+            },
             "Google.Apis": {
               "target": "Package",
               "version": "[1.56.0, )"

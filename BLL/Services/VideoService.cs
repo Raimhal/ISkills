@@ -19,11 +19,13 @@ namespace BLL.Services
     {
         private readonly IVideoDbContext _videoDbContext;
         private readonly IChapterDbContext _chapterDbContext;
+        private readonly IBlobStorage _blobStorage;
         private readonly IMapper _mapper;
 
-        public VideoService(IVideoDbContext videoDbContext, IChapterDbContext chapterDbContext, IMapper mapper)
-            => (_videoDbContext, _chapterDbContext, _mapper)
-            = (videoDbContext, chapterDbContext, mapper);
+        public VideoService(IVideoDbContext videoDbContext, IChapterDbContext chapterDbContext,
+            IBlobStorage blobStorage, IMapper mapper)
+            => (_videoDbContext, _chapterDbContext, _blobStorage,_mapper)
+            = (videoDbContext, chapterDbContext, blobStorage, mapper);
 
         private readonly List<Expression<Func<Video, dynamic>>> includes = new ()
         {
@@ -78,8 +80,9 @@ namespace BLL.Services
         {
             var chapter = await LookUp.GetAsync<Chapter>(_chapterDbContext.Chapters, _mapper,
                 c => c.Id == model.ChapterId, new () { c => c.Videos });
-
             var video = _mapper.Map<Video>(model);
+            video.Url = await _blobStorage.AddToStorage(model.File);
+
             //chapter.Videos.Add(video);
 
             await _videoDbContext.Videos.AddAsync(video, cancellationToken);

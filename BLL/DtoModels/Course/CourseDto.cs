@@ -15,6 +15,7 @@ namespace BLL.DtoModels
         public string Language { get; set; }
         public float Price { get; set; }
         public int ThemeId { get; set; }
+        public Guid CreatorId { get; set; }
 
         public void Mapping(Profile profile)
         {

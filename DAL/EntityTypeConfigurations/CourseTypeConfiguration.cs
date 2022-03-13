@@ -18,7 +18,7 @@ namespace DAL.EntityTypeConfigurations
             builder.Property(p => p.DateUpdated).IsRequired();
             builder.Property(p => p.Language).HasMaxLength(64).IsRequired();
             builder.HasOne(p => p.Theme).WithMany(t => t.Courses).HasForeignKey(p => p.ThemeId);
-            builder.HasMany(p => p.Users).WithMany(u => u.Courses);
+            builder.HasMany(p => p.Students).WithMany(u => u.Courses);
         }
     }
 }

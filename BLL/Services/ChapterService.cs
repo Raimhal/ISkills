@@ -78,10 +78,8 @@ namespace BLL.Services
         {
             var course = await LookUp.GetAsync<Course>(_courseDbContext.Courses, _mapper,
                 c => c.Id == model.CourseId, new() { c => c.Chapters });
-            //course.Chapters.Add(chapter);
 
             var chapter = _mapper.Map<Chapter>(model);
-
 
             await _chapterDbContext.Chapters.AddAsync(chapter, cancellationToken);
             await _chapterDbContext.SaveChangesAsync(cancellationToken);

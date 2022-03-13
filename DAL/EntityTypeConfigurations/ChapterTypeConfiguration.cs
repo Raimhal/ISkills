@@ -12,7 +12,7 @@ namespace DAL.EntityTypeConfigurations
             builder.ToTable("Chapters").HasKey(c => c.Id);
             builder.HasIndex(e => e.Id).IsUnique();
             builder.Property(c => c.Title).HasMaxLength(128).IsRequired();
-            builder.Property(c => c.Description).HasMaxLength(512).IsRequired();
+            builder.Property(c => c.Description).HasMaxLength(512);
             builder.HasOne(c => c.Course).WithMany(p => p.Chapters).HasForeignKey(c => c.CourseId);
         }
     }

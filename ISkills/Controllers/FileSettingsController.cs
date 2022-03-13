@@ -41,7 +41,7 @@ namespace Iskills.Controllers
 
 
         [HttpPut]
-        [Route("api/themes/{id}")]
+        [Route("api/file-types/{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateFileType(int id, [FromBody] CreateAllowedFileTypeDto model,
             CancellationToken cancellationToken)

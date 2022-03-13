@@ -24,7 +24,6 @@ namespace BLL.Services
                     context.AsQueryable<T>(),
                     (current, include) => current.Include(include)
                 )
-                .AsNoTracking()
                 .FirstOrDefaultAsync(expression);
 
             if (entity == null)

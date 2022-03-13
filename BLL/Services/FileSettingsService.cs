@@ -15,6 +15,8 @@ using BLL.Validation.Exceptions;
 using Domain.Interfaces;
 using Domain.Models;
 using System.Linq.Expressions;
+using System.IO;
+using BLL.DtoModels;
 
 namespace BLL.Services
 {
@@ -128,16 +130,17 @@ namespace BLL.Services
             return fileBytes;
         }
 
-        private async Task<bool> IsValidFile(string extension, long fileSize)
+        public  async Task<bool> IsValidFile(IFormFile file)
         {
-            Expression<Func<AllowedFileType, bool>> expression = t => t.FileType == extension;
-            var type = await _fileTypesContext.AllowedFileTypes
-                .FirstOrDefaultAsync(expression);
-
-            if (type == null)
-                throw new NotFoundException(nameof(AllowedFileType), extension);
-
-            return (fileSize / Math.Pow(10, 6)) <= type.FileSize;
+            if (file?.Length > 0)
+            {
+                var extension = Path.GetExtension(file.FileName).Replace(".", "");
+                var type = await LookUp.GetAsync<AllowedFileType>(_fileTypesContext.AllowedFileTypes,
+                    _mapper, t => t.FileType == extension, new() { });
+                return (file.Length / Math.Pow(10, 6)) <= type.FileSize;
+            }
+            else
+                return false;
         }
 
     }

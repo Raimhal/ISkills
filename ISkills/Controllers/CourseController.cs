@@ -37,7 +37,7 @@ namespace Iskills.Controllers
         [Route("api/courses/{id}")]
         public async Task<ActionResult<CourseDto>> GetCourse(Guid id)
             => Ok(await _courseService.GetByIdAsync(id));
-        
+
 
         [Authorize]
         [HttpPost]

@@ -10,7 +10,6 @@ namespace BLL.DtoModels
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        [JsonIgnore]
         public Guid CourseId { get; set; }
 
         public void Mapping(Profile profile)

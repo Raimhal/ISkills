@@ -29,7 +29,7 @@ namespace BLL.Services
 
         private readonly List<Expression<Func<Course, dynamic>>> includes = new ()
         {
-            x => x.Users,
+            x => x.Students,
             x => x.Comments,
             x => x.Chapters,
             x => x.Theme
@@ -74,10 +74,9 @@ namespace BLL.Services
             course.Id = Guid.NewGuid();
             course.DateCreated = DateTime.UtcNow;
             course.DateUpdated = DateTime.UtcNow;
-            course.Users = new List<User> { user };
+            course.Students = new List<User>();
             course.Comments = new List<Comment>();
             course.Chapters = new List<Chapter>();
-            course.Theme = theme;
 
             await _courseDbContext.Courses.AddAsync(course, cancellationToken);
             await _courseDbContext.SaveChangesAsync(cancellationToken);
@@ -110,12 +109,12 @@ namespace BLL.Services
         public async Task ToggleUserAssignment(Guid userId, Guid courseId, CancellationToken cancellationToken)
         {
             var user = await LookUp.GetAsync(_userContext.Users, _mapper, x => x.Id == userId, new() { x => x.Roles });
-            var course = await LookUp.GetAsync(_courseDbContext.Courses, _mapper, x => x.Id == courseId, new() { x => x.Users });
+            var course = await LookUp.GetAsync(_courseDbContext.Courses, _mapper, x => x.Id == courseId, new() { x => x.Students });
 
-            if (course.Users.Contains(user))
-                course.Users.Remove(user);
+            if (course.Students.Contains(user))
+                course.Students.Remove(user);
             else
-                course.Users.Add(user);
+                course.Students.Add(user);
 
             _courseDbContext.Courses.Update(course);
             await _courseDbContext.SaveChangesAsync(cancellationToken);

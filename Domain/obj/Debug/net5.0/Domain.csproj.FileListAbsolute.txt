@@ -10,3 +10,15 @@ E:\it\Secound Course\DBProject\Domain\obj\Debug\net5.0\Domain.dll
 E:\it\Secound Course\DBProject\Domain\obj\Debug\net5.0\ref\Domain.dll
 E:\it\Secound Course\DBProject\Domain\obj\Debug\net5.0\Domain.pdb
 E:\it\Secound Course\DBProject\Domain\obj\Debug\net5.0\Domain.csproj.AssemblyReference.cache
+E:\it\Secound Course\ISkills\Domain\bin\Debug\net5.0\Domain.deps.json
+E:\it\Secound Course\ISkills\Domain\bin\Debug\net5.0\Domain.dll
+E:\it\Secound Course\ISkills\Domain\bin\Debug\net5.0\ref\Domain.dll
+E:\it\Secound Course\ISkills\Domain\bin\Debug\net5.0\Domain.pdb
+E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\Domain.AssemblyInfoInputs.cache
+E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\Domain.AssemblyInfo.cs
+E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\Domain.csproj.CoreCompileInputs.cache
+E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\Domain.dll
+E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\ref\Domain.dll
+E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\Domain.pdb
+E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\Domain.csproj.AssemblyReference.cache
