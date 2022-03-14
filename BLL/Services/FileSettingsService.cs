@@ -14,9 +14,7 @@ using BLL.Interfaces;
 using BLL.Validation.Exceptions;
 using Domain.Interfaces;
 using Domain.Models;
-using System.Linq.Expressions;
 using System.IO;
-using BLL.DtoModels;
 
 namespace BLL.Services
 {
@@ -62,7 +60,7 @@ namespace BLL.Services
             if (await _fileTypesContext.AllowedFileTypes
                 .AnyAsync(t => t.FileType == model.FileType
                 , cancellationToken))
-                throw new AlreadyExistsException(nameof(AllowedFileType), model.FileType);
+                throw new AlreadyExistsException(nameof(AllowedFileType), nameof(model.FileType), model.FileType);
 
             var type = _mapper.Map<AllowedFileType>(model);
 
@@ -79,7 +77,7 @@ namespace BLL.Services
 
             if (!string.IsNullOrEmpty(model.FileType) && model.FileType != type.FileType)
                 if (await _fileTypesContext.AllowedFileTypes.AnyAsync(t => t.FileType == model.FileType, cancellationToken))
-                    throw new AlreadyExistsException(nameof(AllowedFileType), model.FileType);
+                    throw new AlreadyExistsException(nameof(AllowedFileType), nameof(model.FileType), model.FileType);
             
 
             type = _mapper.Map<AllowedFileType>(type);
@@ -130,18 +128,7 @@ namespace BLL.Services
             return fileBytes;
         }
 
-        public  async Task<bool> IsValidFile(IFormFile file)
-        {
-            if (file?.Length > 0)
-            {
-                var extension = Path.GetExtension(file.FileName).Replace(".", "");
-                var type = await LookUp.GetAsync<AllowedFileType>(_fileTypesContext.AllowedFileTypes,
-                    _mapper, t => t.FileType == extension, new() { });
-                return (file.Length / Math.Pow(10, 6)) <= type.FileSize;
-            }
-            else
-                return false;
-        }
+
 
     }
 }

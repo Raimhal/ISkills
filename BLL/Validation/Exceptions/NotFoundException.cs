@@ -6,12 +6,12 @@ namespace BLL.Validation.Exceptions
 {
     public class NotFoundException : Exception
     {
-        public NotFoundException(string entity, object key)
+        public NotFoundException(string entity, object key, object value)
             : base (
-                $"{entity} " +
-                $"with this " +
-                $"parameter " +
-                $"({key}) " +
+                @$"{entity} " +
+                $"with " +
+                $"{key} " +
+                $"({value}) " +
                 $"not found."
             )     
         { }

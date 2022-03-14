@@ -19,13 +19,13 @@ namespace BLL.Services
     {
         private readonly IVideoDbContext _videoDbContext;
         private readonly IChapterDbContext _chapterDbContext;
-        private readonly IBlobStorage _blobStorage;
+        private readonly IBlobService _blobService;
         private readonly IMapper _mapper;
 
         public VideoService(IVideoDbContext videoDbContext, IChapterDbContext chapterDbContext,
-            IBlobStorage blobStorage, IMapper mapper)
-            => (_videoDbContext, _chapterDbContext, _blobStorage,_mapper)
-            = (videoDbContext, chapterDbContext, blobStorage, mapper);
+            IBlobService blobService, IMapper mapper)
+            => (_videoDbContext, _chapterDbContext, _blobService,_mapper)
+            = (videoDbContext, chapterDbContext, blobService, mapper);
 
         private readonly List<Expression<Func<Video, dynamic>>> includes = new ()
         {
@@ -80,10 +80,11 @@ namespace BLL.Services
         {
             var chapter = await LookUp.GetAsync<Chapter>(_chapterDbContext.Chapters, _mapper,
                 c => c.Id == model.ChapterId, new () { c => c.Videos });
-            var video = _mapper.Map<Video>(model);
-            video.Url = await _blobStorage.AddToStorage(model.File);
 
-            //chapter.Videos.Add(video);
+            var video = _mapper.Map<Video>(model);
+
+            video.Id = Guid.NewGuid();
+            video.Url = await _blobService.CreateBlob(model.File, video.Id.ToString());
 
             await _videoDbContext.Videos.AddAsync(video, cancellationToken);
             await _videoDbContext.SaveChangesAsync(cancellationToken);
@@ -96,7 +97,28 @@ namespace BLL.Services
             var video = await LookUp.GetAsync<Video>(_videoDbContext.Videos, _mapper,
                 v => v.Id == id, new () { });
 
-            video = _mapper.Map<Video>(model);
+            if (await _chapterDbContext.Chapters
+                .AnyAsync(x => x.Id == model.ChapterId, cancellationToken))
+                video.ChapterId = model.ChapterId;
+
+            video.Title = model.Title;
+            await _blobService.UpdateBlob(model.File, video.Url);
+
+
+            _videoDbContext.Videos.Update(video);
+            await _videoDbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task PatchAsync(Guid id, UpdateVideoDto model, CancellationToken cancellationToken)
+        {
+            var video = await LookUp.GetAsync<Video>(_videoDbContext.Videos, _mapper,
+                v => v.Id == id, new() { });
+
+            if (await _chapterDbContext.Chapters
+                .AnyAsync(x => x.Id == model.ChapterId, cancellationToken))
+                video.ChapterId = model.ChapterId;
+
+            video.Title = model.Title;
 
             _videoDbContext.Videos.Update(video);
             await _videoDbContext.SaveChangesAsync(cancellationToken);
@@ -104,7 +126,12 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            await LookUp.DeleteByAsync<Video>(_videoDbContext.Videos, _mapper, v => v.Id == id);
+            var video = await LookUp.GetAsync<Video>(_videoDbContext.Videos,
+                _mapper, v => v.Id == id, new() { });
+
+            await _blobService.DeleteBlob(video.Url);
+            _videoDbContext.Videos.Remove(video);
+
             await _videoDbContext.SaveChangesAsync(cancellationToken);
         }
     }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BLL.DtoModels;
 using BLL.Interfaces;
 using System.Collections.Generic;
+using Domain.Models;
 
 namespace Iskills.Controllers
 {
@@ -34,8 +35,9 @@ namespace Iskills.Controllers
 
         [HttpGet]
         [Route("api/themes/{id}")]
-        public async Task<ActionResult<ThemeDto>> GetTheme(int id)
+        public async Task<ActionResult<Theme>> GetTheme(int id)
             => Ok(await _themeService.GetByIdAsync(id));
+
 
 
         [Authorize(Roles = "Admin")]

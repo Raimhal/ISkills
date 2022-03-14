@@ -36,6 +36,41 @@ namespace BLL.Services
             x => x.RefreshTokens
         };
 
+        public async Task<List<UserDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
+            => await LookUp.GetListAsync<User, UserDto>(
+                _userContext.Users,
+                _mapper,
+                skip,
+                take,
+                u => u.Email.Contains(query.ToLower().Trim()),
+                sortOption,
+                reverse);
+
+
+        public async Task<List<UserDto>> GetListAll(string query, string sortOption, bool reverse)
+            => await LookUp.GetListAllAsync<User, UserDto>(
+                _userContext.Users,
+                _mapper,
+                u => u.Email.Contains(query.ToLower().Trim()),
+                sortOption,
+                reverse);
+
+
+        public async Task<User> GetByIdAsync(Guid id)
+            => await LookUp.GetAsync(_userContext.Users, _mapper, x => x.Id == id, includes);
+
+        public async Task<User> GetByEmailAsync(string email)
+            => await LookUp.GetAsync(_userContext.Users, _mapper, x => x.Email == email, includes);
+
+        public async Task<Guid> GetIdFromEmail(string email)
+            => (await GetUserDtoByEmail(email)).Id;
+
+
+        private async Task<UserDto> GetUserDtoByEmail(string email)
+            => await _userContext.Users.ProjectTo<UserDto>
+            (_mapper.ConfigurationProvider)
+            .FirstOrDefaultAsync(x => x.Email == email);
+
         public async Task<Guid> CreateAsync(RegisterUserModel model, CancellationToken cancellationToken)
         {
             if (await _userContext.Users.SingleOrDefaultAsync(u =>
@@ -73,7 +108,7 @@ namespace BLL.Services
             if (!string.IsNullOrEmpty(model.Email) && model.Email != user.Email)
             {
                 if (await _userContext.Users.AnyAsync(u => u.Email == model.Email, cancellationToken))
-                    throw new AlreadyExistsException(nameof(User), model.Email);
+                    throw new AlreadyExistsException(nameof(User), nameof(model.Email), model.Email);
                 user.Email = model.Email;
             }
 
@@ -87,46 +122,23 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var user = await LookUp.GetAsync(_userContext.Users, _mapper, u => u.Id == id, new() { x => x.Courses });
+            var user = await LookUp.GetAsync<User>(_userContext.Users, _mapper, u => u.Id == id, new() { x => x.Courses });
             _courseDbContext.Courses.RemoveRange(user.Courses);
+            foreach (var course in user.Courses)
+            {
+                foreach (var chapter in course.Chapters)
+                {
+                    foreach (var video in chapter.Videos)
+                    {
+
+                    }
+                }
+            }
             _userContext.Users.Remove(user);
             await _userContext.SaveChangesAsync(cancellationToken);   
         }
 
-        public async Task<List<UserDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
-            => await LookUp.GetListAsync<User, UserDto>(
-                _userContext.Users,
-                _mapper,
-                skip,
-                take,
-                u => u.Email.Contains(query.ToLower().Trim()),
-                sortOption,
-                reverse);
         
-
-        public async Task<List<UserDto>> GetListAll(string query, string sortOption, bool reverse)
-            => await LookUp.GetListAllAsync<User, UserDto>(
-                _userContext.Users,
-                _mapper,
-                u => u.Email.Contains(query.ToLower().Trim()),
-                sortOption,
-                reverse);
-        
-
-        public async Task<User> GetByIdAsync(Guid id)
-            => await LookUp.GetAsync(_userContext.Users, _mapper, x => x.Id == id, includes);
-
-        public async Task<User> GetByEmailAsync(string email)
-            => await LookUp.GetAsync(_userContext.Users, _mapper, x => x.Email == email, includes);
-
-        public async Task<Guid> GetIdFromEmail(string email)
-            => (await GetUserDtoByEmail(email)).Id;
-
-
-        private async Task<UserDto> GetUserDtoByEmail(string email) 
-            => await _userContext.Users.ProjectTo<UserDto>
-            (_mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync(x => x.Email == email);
 
     }
 }

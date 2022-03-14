@@ -10,6 +10,7 @@ namespace BLL.DtoModels
         public int Id { get; set; }
         public string Title { get; set; }
         public int CategoryId { get; set; }
+        public int CountCourses { get; set; }
 
         public void Mapping(Profile profile)
         {

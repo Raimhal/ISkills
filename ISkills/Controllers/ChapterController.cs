@@ -18,6 +18,10 @@ namespace Iskills.Controllers
         public ChapterController(IChapterService chapterService, IAccessService accessService) => 
             (_chapterService, _accessService) = (chapterService, accessService);
 
+        [HttpGet]
+        [Route("api/chapters/{id}")]
+        public async Task<ActionResult<ChapterDto>> GetCourse(Guid id)
+            => Ok(await _chapterService.GetByIdAsync(id));
 
         [HttpGet]
         [Route("api/chapters/all")]
@@ -63,12 +67,9 @@ namespace Iskills.Controllers
         public async Task<IActionResult> UpdateComment(Guid id, [FromBody] CreateChapterDto model,
             CancellationToken cancellationToken)
         {
-            if (await _accessService.HasAccessToComment(UserId, id))
-            {
-                await _chapterService.UpdateAsync(id, model, cancellationToken);
-                return NoContent();
-            }
-            return StatusCode(403);
+
+            await _chapterService.UpdateAsync(id, model, cancellationToken);
+            return NoContent();
         }
 
 
@@ -77,12 +78,8 @@ namespace Iskills.Controllers
         [Route("api/chapters/{id}")]
         public async Task<IActionResult> DeleteCourse(Guid id, CancellationToken cancellationToken)
         {
-            if (await _accessService.HasAccessToComment(UserId, id))
-            {
-                await _chapterService.DeleteByIdAsync(id, cancellationToken);
-                return NoContent();
-            }
-            return StatusCode(403);
+            await _chapterService.DeleteByIdAsync(id, cancellationToken);
+            return NoContent();
 
         }
 

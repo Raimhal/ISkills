@@ -25,7 +25,7 @@ namespace BLL
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IChapterService, ChapterService>();
             services.AddScoped<IVideoService, VideoService>();
-            services.AddScoped<IBlobStorage, BlobStorage>();
+            services.AddScoped<IBlobService, BlobService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

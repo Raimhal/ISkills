@@ -12,5 +12,6 @@ namespace BLL.Interfaces
     {
         Task<List<VideoDto>> GetChapterVideos(Guid chapterId, int skip, int take, string query, string sortOption, bool reverse);
         Task<List<VideoDto>> GetChapterVideosAll(Guid chapterId, string query, string sortOption, bool reverse);
+        Task PatchAsync(Guid id, UpdateVideoDto model, CancellationToken cancellationToken);
     }
 }

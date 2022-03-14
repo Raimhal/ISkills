@@ -36,7 +36,7 @@ namespace BLL.Services
                 .SingleOrDefaultAsync(expression, cancellationToken);
 
             if (user == null)
-                throw new NotFoundException(nameof(User), model.Email);
+                throw new NotFoundException(nameof(User), nameof(model.Email), model.Email);
 
             if (!model.Password.AreEqual(user.Salt, user.Password))
                 throw new Exception(message: "Email or password incorrect");

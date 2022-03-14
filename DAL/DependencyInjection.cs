@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Domain.Interfaces;
 using BLL.Interfaces;
+using Azure.Storage.Blobs;
 
 namespace DAL
 {
@@ -11,7 +12,6 @@ namespace DAL
         public static IServiceCollection AddPersistence(this IServiceCollection services,
             IConfiguration configuration)
         {
-
             services.AddDbContext<IskillsContext>(options =>
                 options.UseNpgsql(configuration.GetConnectionString("DbConnection")));
 
@@ -34,6 +34,10 @@ namespace DAL
             services.AddScoped<ICommentDbContext>(provider =>
                 provider.GetService<IskillsContext>());
 
+            services.AddSingleton(x => new BlobServiceClient
+            (
+                configuration.GetConnectionString("BlobServiceConnection")
+            ));
 
             return services;
         }

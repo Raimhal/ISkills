@@ -16,8 +16,8 @@ namespace Domain.Models
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
         public float? Price { get; set; }
-        public int CountStudents => Students.Count;
-        public int CountComments => Comments.Count;
+        public int? CountStudents => Students?.Count;
+        public int? CountComments => Comments?.Count;
         public int? ThemeId { get; set; }
         public Theme Theme { get; set; }
         public Guid CreatorId { get; set; }

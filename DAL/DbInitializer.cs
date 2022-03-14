@@ -59,6 +59,65 @@ namespace DAL
                 };
 
                 context.Users.Add(admin);
+
+                context.AllowedFileTypes.AddRange
+                    (
+                    new AllowedFileType
+                    {
+                        Id = 1,
+                        FileType = "mp4",
+                        FileSize = 128
+                    },
+                    new AllowedFileType
+                    {
+                        Id = 2,
+                        FileType = "jpeg",
+                        FileSize = 16
+                    },
+                    new AllowedFileType
+                    {
+
+                        Id = 3,
+                        FileType = "png",
+                        FileSize = 16
+                    },
+                    new AllowedFileType
+                    {
+                        Id = 4,
+                        FileType = "gif",
+                        FileSize = 32
+                    },
+                    new AllowedFileType
+                    {
+                        Id = 5,
+                        FileType = "avi",
+                        FileSize = 128
+                    },
+                    new AllowedFileType
+                    {
+                        Id = 6,
+                        FileType = "pdf",
+                        FileSize = 16
+                    }
+                    );
+
+                var category = new Category
+                {
+                    Id = 1,
+                    Title = "Other"
+                };
+
+                context.Categories.Add(category);
+
+                var theme = new Theme
+                {
+                    Id = 1,
+                    Title = "Other",
+                    CategoryId = category.Id
+                };
+
+                context.Themes.Add(theme);
+
                 context.SaveChanges();
             }
                 

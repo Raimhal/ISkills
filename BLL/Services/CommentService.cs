@@ -62,11 +62,11 @@ namespace BLL.Services
         {
             Expression<Func<User, bool>> expression = u => u.Id == model.CreatorId;
             if (!await _userDbContext.Users.AnyAsync(expression, cancellationToken))
-                throw new NotFoundException(nameof(User), model.CreatorId);
+                throw new NotFoundException(nameof(User), nameof(model.CreatorId), model.CreatorId);
 
             Expression<Func<Course, bool>> courseExpression = t => t.Id == model.CourseId;
             if (!await _courseDbContext.Courses.AnyAsync(courseExpression, cancellationToken))
-                throw new NotFoundException(nameof(Course), model.CourseId);
+                throw new NotFoundException(nameof(Course), nameof(model.CourseId), model.CreatorId);
 
             var comment = _mapper.Map<Comment>(model);
 

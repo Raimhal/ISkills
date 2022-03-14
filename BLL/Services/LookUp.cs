@@ -28,9 +28,11 @@ namespace BLL.Services
 
             if (entity == null)
             {
-                var body = (BinaryExpression)expression.Body;
-                var entityType = expression.Parameters[0].Type.Name;
-                throw new NotFoundException(entityType, Expression.Lambda(body.Right).Compile().DynamicInvoke());
+                
+                var entityType = expression.GetExpressionEntityName();
+                var key = expression.GetExpressionPropertyName();
+                var value = expression.GetExpressionPropertyValue();
+                throw new NotFoundException(entityType, key, value);
             }
 
             return _mapper.Map<T>(entity);

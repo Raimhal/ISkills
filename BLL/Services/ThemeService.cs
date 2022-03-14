@@ -25,7 +25,8 @@ namespace BLL.Services
 
         private readonly List<Expression<Func<Theme, dynamic>>> includes = new ()
         {
-            x => x.Category
+            x => x.Category,
+            x => x.Courses
         };
 
         public async Task<List<ThemeDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
@@ -53,15 +54,14 @@ namespace BLL.Services
                 _mapper,
                 x => x.Id == id,
                 includes);
-        
+
 
         public async Task<int> CreateAsync(CreateThemeDto model, CancellationToken cancellationToken)
         {
             if (await _themeDbContext.Themes.AnyAsync(c => c.Title == model.Title, cancellationToken))
-                throw new AlreadyExistsException(nameof(Theme), model.Title);
+                throw new AlreadyExistsException(nameof(Theme), nameof(model.Title), model.Title);
 
             var theme = _mapper.Map<Theme>(model);
-            theme.Courses = new List<Course>();
 
             await _themeDbContext.Themes.AddAsync(theme, cancellationToken);
             await _themeDbContext.SaveChangesAsync(cancellationToken);
@@ -72,8 +72,8 @@ namespace BLL.Services
         public async Task UpdateAsync(int id, CreateThemeDto model, CancellationToken cancellationToken)
         {
 
-            if (await _themeDbContext.Themes.AnyAsync(c => c.Title == model.Title, cancellationToken))
-                throw new AlreadyExistsException(nameof(Theme), model.Title);
+            if (await _themeDbContext.Themes.AnyAsync(c => c.Title == model.Title && c.Id != id, cancellationToken))
+                throw new AlreadyExistsException(nameof(Theme), nameof(model.Title), model.Title);
 
             var theme = await LookUp.GetAsync<Theme>(_themeDbContext.Themes,
                 _mapper, t => t.Id == id, new() { });

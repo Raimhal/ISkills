@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DAL.Migrations
 {
     [DbContext(typeof(IskillsContext))]
-    [Migration("20220313203107_changed requiredness of Video entity field ")]
-    partial class changedrequirednessofVideoentityfield
+    [Migration("20220314155449_Entity changes")]
+    partial class Entitychanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

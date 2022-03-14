@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "yFaUH3UJkdxQjB2p78zPDaHNhTRh2BWj8gZb8s5V/6zAfiw9F+EKxjjslYbL2b6dDkCw6xPtiGZuyxpBjdhggQ==",
+  "dgSpecHash": "tp6x6mnjJb7YcCWg5A+In+BtiERmu1iLPeBZj3+/gEmLLBhV/6FWl+l0T99r8fgEAgIzPq/41ySaBiAJrRsIhg==",
   "success": true,
   "projectFilePath": "E:\\it\\Secound Course\\ISkills\\ISkills\\ISkills.csproj",
   "expectedPackageFiles": [
@@ -139,8 +139,7 @@
     "C:\\Users\\kormi\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\system.xml.xmlserializer\\4.3.0\\system.xml.xmlserializer.4.3.0.nupkg.sha512",
-    "C:\\Users\\kormi\\.nuget\\packages\\wakatime\\8.1.11\\wakatime.8.1.11.nupkg.sha512",
-    "C:\\Users\\kormi\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.14\\microsoft.netcore.app.host.win-x64.5.0.14.nupkg.sha512"
+    "C:\\Users\\kormi\\.nuget\\packages\\wakatime\\8.1.11\\wakatime.8.1.11.nupkg.sha512"
   ],
   "logs": []
 }

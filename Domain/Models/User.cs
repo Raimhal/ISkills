@@ -18,7 +18,7 @@ namespace Domain.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
         public string Salt { get; set; }
-        public int CountCourses => Courses.Count;
+        public int? CountCourses => Courses?.Count;
 
         public virtual ICollection<Role> Roles { get; set; }
         public virtual ICollection<Course> Courses { get; set; }

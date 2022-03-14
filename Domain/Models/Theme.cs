@@ -11,7 +11,7 @@ namespace Domain.Models
         public string Title { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-        public int CountCourses => Courses.Count;
+        public int? CountCourses => Courses?.Count;
         public virtual ICollection<Course> Courses { get; set; }
     }
 }
