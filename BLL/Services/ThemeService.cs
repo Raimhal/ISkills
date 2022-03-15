@@ -75,7 +75,7 @@ namespace BLL.Services
             if (await _themeDbContext.Themes.AnyAsync(c => c.Title == model.Title && c.Id != id, cancellationToken))
                 throw new AlreadyExistsException(nameof(Theme), nameof(model.Title), model.Title);
 
-            var theme = await LookUp.GetAsync<Theme>(_themeDbContext.Themes,
+            var theme = await LookUp.GetAsync(_themeDbContext.Themes,
                 _mapper, t => t.Id == id, new() { });
 
             theme = _mapper.Map<Theme>(model);

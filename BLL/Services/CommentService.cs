@@ -78,7 +78,7 @@ namespace BLL.Services
 
         public async Task UpdateAsync(Guid id, CreateCommentDto model, CancellationToken cancellationToken)
         {
-            var comment = await LookUp.GetAsync<Comment>(_commentDbContext.Comments,
+            var comment = await LookUp.GetAsync(_commentDbContext.Comments,
                 _mapper, c => c.Id == id, new () { });
 
             comment = _mapper.Map<Comment>(model);

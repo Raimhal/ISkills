@@ -71,7 +71,7 @@ namespace DAL
                     new AllowedFileType
                     {
                         Id = 2,
-                        FileType = "jpeg",
+                        FileType = "jpg",
                         FileSize = 16
                     },
                     new AllowedFileType

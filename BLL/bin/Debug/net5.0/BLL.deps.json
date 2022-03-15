@@ -17,6 +17,8 @@
           "Google.Apis": "1.56.0",
           "Google.Apis.Auth": "1.56.0",
           "Google.Apis.Drive.v3": "1.56.0.2601",
+          "ImageResizer": "4.2.8",
+          "LazZiya.ImageResize": "4.1.0",
           "MediatR": "10.0.1",
           "MediatR.Extensions.Microsoft.DependencyInjection": "10.0.1",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "5.0.14",
@@ -25,6 +27,7 @@
           "Npgsql": "5.0.12",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.10",
           "Swashbuckle.AspNetCore": "6.2.3",
+          "System.Drawing.Common": "6.0.0",
           "System.Linq.Dynamic.Core": "1.2.17",
           "System.Security.Claims": "4.3.0",
           "WakaTime": "8.1.11",
@@ -161,6 +164,25 @@
           "lib/netstandard2.0/Google.Apis.Drive.v3.dll": {
             "assemblyVersion": "1.56.0.2601",
             "fileVersion": "1.56.0.2601"
+          }
+        }
+      },
+      "ImageResizer/4.2.8": {
+        "runtime": {
+          "lib/net45/ImageResizer.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.2.8.1168"
+          }
+        }
+      },
+      "LazZiya.ImageResize/4.1.0": {
+        "dependencies": {
+          "System.Drawing.Common": "6.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/LazZiya.ImageResize.dll": {
+            "assemblyVersion": "4.1.0.0",
+            "fileVersion": "4.1.0.0"
           }
         }
       },
@@ -375,6 +397,22 @@
           }
         }
       },
+      "Microsoft.Win32.SystemEvents/6.0.0": {
+        "runtime": {
+          "lib/netcoreapp3.1/Microsoft.Win32.SystemEvents.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.52210"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/netcoreapp3.1/Microsoft.Win32.SystemEvents.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.52210"
+          }
+        }
+      },
       "nClam/7.0.0": {
         "runtime": {
           "lib/netstandard2.0/nClam.dll": {
@@ -480,6 +518,31 @@
           "lib/net5.0/System.Diagnostics.DiagnosticSource.dll": {
             "assemblyVersion": "5.0.0.0",
             "fileVersion": "5.0.220.61120"
+          }
+        }
+      },
+      "System.Drawing.Common/6.0.0": {
+        "dependencies": {
+          "Microsoft.Win32.SystemEvents": "6.0.0"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/System.Drawing.Common.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.52210"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/unix/lib/netcoreapp3.1/System.Drawing.Common.dll": {
+            "rid": "unix",
+            "assetType": "runtime",
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.52210"
+          },
+          "runtimes/win/lib/netcoreapp3.1/System.Drawing.Common.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.52210"
           }
         }
       },
@@ -732,6 +795,20 @@
       "path": "google.apis.drive.v3/1.56.0.2601",
       "hashPath": "google.apis.drive.v3.1.56.0.2601.nupkg.sha512"
     },
+    "ImageResizer/4.2.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3OZKxlsyYr9Zxsz0KwXJ5S749azmjcPV4B344ssR/3oneEY6ZdTawDPochD4Z4RHBs4bYBf592lVhmEngxtZ7g==",
+      "path": "imageresizer/4.2.8",
+      "hashPath": "imageresizer.4.2.8.nupkg.sha512"
+    },
+    "LazZiya.ImageResize/4.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bTAJ7Coa2I2PAKw7rcIyjVZlpJnoJacTpkAYAFDSQTrWC4r6m19zoVfMYbn/CXsJc9mfVqznuf0Ql0uwvproKg==",
+      "path": "lazziya.imageresize/4.1.0",
+      "hashPath": "lazziya.imageresize.4.1.0.nupkg.sha512"
+    },
     "MediatR/10.0.1": {
       "type": "package",
       "serviceable": true,
@@ -928,6 +1005,13 @@
       "path": "microsoft.openapi/1.2.3",
       "hashPath": "microsoft.openapi.1.2.3.nupkg.sha512"
     },
+    "Microsoft.Win32.SystemEvents/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hqTM5628jSsQiv+HGpiq3WKBl2c8v1KZfby2J6Pr7pEPlK9waPdgEO6b8A/+/xn/yZ9ulv8HuqK71ONy2tg67A==",
+      "path": "microsoft.win32.systemevents/6.0.0",
+      "hashPath": "microsoft.win32.systemevents.6.0.0.nupkg.sha512"
+    },
     "nClam/7.0.0": {
       "type": "package",
       "serviceable": true,
@@ -1025,6 +1109,13 @@
       "sha512": "sha512-uXQEYqav2V3zP6OwkOKtLv+qIi6z3m1hsGyKwXX7ZA7htT4shoVccGxnJ9kVRFPNAsi1ArZTq2oh7WOto6GbkQ==",
       "path": "system.diagnostics.diagnosticsource/5.0.1",
       "hashPath": "system.diagnostics.diagnosticsource.5.0.1.nupkg.sha512"
+    },
+    "System.Drawing.Common/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NfuoKUiP2nUWwKZN6twGqXioIe1zVD0RIj2t976A+czLHr2nY454RwwXs6JU9Htc6mwqL6Dn/nEL3dpVf2jOhg==",
+      "path": "system.drawing.common/6.0.0",
+      "hashPath": "system.drawing.common.6.0.0.nupkg.sha512"
     },
     "System.Globalization/4.3.0": {
       "type": "package",

@@ -63,10 +63,10 @@ namespace BLL.Services
 
         public async Task<Guid> CreateAsync(CreateCourseDto model, CancellationToken cancellationToken)
         {
-            var user = await LookUp.GetAsync<User>(_userContext.Users, _mapper,
+            var user = await LookUp.GetAsync(_userContext.Users, _mapper,
                 u => u.Id == model.CreatorId, new () { });
 
-            var theme = await LookUp.GetAsync<Theme>(_themeContext.Themes, _mapper,
+            var theme = await LookUp.GetAsync(_themeContext.Themes, _mapper,
                 t => t.Id == model.ThemeId, new () { });
 
             var course = _mapper.Map<Course>(model);
@@ -86,10 +86,10 @@ namespace BLL.Services
 
         public async Task UpdateAsync(Guid id, CreateCourseDto model, CancellationToken cancellationToken)
         {
-            var course = await LookUp.GetAsync<Course>(_courseDbContext.Courses, _mapper,
+            var course = await LookUp.GetAsync(_courseDbContext.Courses, _mapper,
                 v => v.Id == id, new () { x => x.Theme });
 
-            var theme = await LookUp.GetAsync<Theme>(_themeContext.Themes, _mapper,
+            var theme = await LookUp.GetAsync(_themeContext.Themes, _mapper,
                 t => t.Id == model.ThemeId, new () { });
 
             course = _mapper.Map<Course>(model);

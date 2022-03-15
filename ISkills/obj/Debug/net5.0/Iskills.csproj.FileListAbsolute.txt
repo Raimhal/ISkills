@@ -193,3 +193,10 @@ E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\Azure.Storage.Common.dll
 E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
 E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\System.IO.Hashing.dll
 E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\System.Memory.Data.dll
+E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\ImageResizer.dll
+E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\LazZiya.ImageResize.dll
+E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\Microsoft.Win32.SystemEvents.dll
+E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\System.Drawing.Common.dll
+E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp3.1\System.Drawing.Common.dll
+E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\System.Drawing.Common.dll

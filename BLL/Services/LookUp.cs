@@ -38,13 +38,18 @@ namespace BLL.Services
             return _mapper.Map<T>(entity);
         }
 
+        internal static Task GetAsync(object allowedFileTypes, object mapper, Func<object, bool> p1, object p2)
+        {
+            throw new NotImplementedException();
+        }
+
         public static async Task<List<TDto>> GetListAsync<T, TDto>(IQueryable<T> context,
             IMapper _mapper, int skip, int take, Expression<Func<T, bool>> expression, 
             string sortOption, bool reverse) where T : class where TDto : class 
             => await context.Where(expression)
                 .Skip(skip)
                 .Take(take)
-                .OrderBy<T>(sortOption, reverse)
+                .OrderBy(sortOption, reverse)
                 .ProjectTo<TDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking()
                 .ToListAsync();
@@ -53,14 +58,14 @@ namespace BLL.Services
             IMapper _mapper, Expression<Func<T, bool>> expression, string sortOption, bool reverse)
             where T : class where TDto : class 
             => await context.Where(expression)
-                .OrderBy<T>(sortOption, reverse)
+                .OrderBy(sortOption, reverse)
                 .ProjectTo<TDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking()
                 .ToListAsync();
 
         public static async Task DeleteByAsync<T>(DbSet<T> context, IMapper _mapper,
             Expression<Func<T, bool>> expression) where T : class
-            => context.Remove(await GetAsync<T>(context, _mapper, expression, new List<Expression<Func<T, dynamic>>> { }));
+            => context.Remove(await GetAsync(context, _mapper, expression, new List<Expression<Func<T, dynamic>>> { }));
         
 
 

@@ -13,11 +13,11 @@ namespace BLL
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddValidatorsFromAssemblies(new[] { Assembly.GetExecutingAssembly(), typeof(IUserService).Assembly });
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IFileSettingsService, FileSettingsService>();
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<IAccessService, AccessService>();
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IThemeService, ThemeService>();
@@ -26,6 +26,8 @@ namespace BLL
             services.AddScoped<IChapterService, ChapterService>();
             services.AddScoped<IVideoService, VideoService>();
             services.AddScoped<IBlobService, BlobService>();
+            services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IAntivirusService, AntivirusService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -44,6 +46,7 @@ namespace BLL
                     };
 
                 });
+
             return services;
         }
     }

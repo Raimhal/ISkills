@@ -7,14 +7,11 @@ namespace BLL.Extentions
 {
     public static class BlobClientExtensions
     {
-        public static async Task UploadBlobAsync(this BlobClient blobClient, IFormFile file)
+        public static async Task UploadBlobAsync(this BlobClient blobClient, IFormFile file, bool _override = false)
         {
-            using (var stream = new MemoryStream())
-            {
-                await file.OpenReadStream().CopyToAsync(stream);
-                stream.Position = 0;
-                await blobClient.UploadAsync(stream);
-            }
+            await using var stream = file.OpenReadStream();
+            stream.Seek(0, SeekOrigin.Begin);
+            await blobClient.UploadAsync(stream, _override);
         }
     }
 }

@@ -7,6 +7,7 @@ using BLL.DtoModels;
 using BLL.Interfaces;
 using System.Collections.Generic;
 using Domain.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Iskills.Controllers
 {
@@ -89,6 +90,21 @@ namespace Iskills.Controllers
             if (await _accessService.HasAccessToUser(UserId, id))
             {
                 await _userService.UpdateAsync(id, model, cancellationToken);
+                return NoContent();
+            }
+            return StatusCode(403);
+        }
+
+
+        [Authorize]
+        [HttpPatch]
+        [Route("api/users/{id}")]
+        public async Task<IActionResult> UpdateUserImage(Guid id, [FromForm] IFormFile file,
+            CancellationToken cancellationToken, int width=128, int height=128)
+        {
+            if (await _accessService.HasAccessToUser(UserId, id))
+            {
+                await _userService.UpdateUserImageAsync(id, file, width, height, cancellationToken);
                 return NoContent();
             }
             return StatusCode(403);

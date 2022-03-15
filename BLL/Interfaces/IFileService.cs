@@ -8,7 +8,8 @@ using Google.Apis.Drive.v3;
 
 namespace BLL.Interfaces
 {
-    public interface IFileSettingsService : IBaseService<int, AllowedFileType, CreateAllowedFileTypeDto, AllowedFileTypeDto>
+    public interface IFileService : IBaseService<int, AllowedFileType, CreateAllowedFileTypeDto, AllowedFileTypeDto>
     {
+        Task<bool> IsValidFile(IFormFile file);
     }
 }

@@ -42,14 +42,14 @@ namespace Iskills.Controllers
         [Route("api/chapters/{id}/videos/all")]
         public async Task<ActionResult<List<ChapterDto>>> GetCourseChaptersAll(Guid id, string query = "",
             string sortOption = "title", bool reverse = false)
-            => Ok(await _videoService.GetChapterVideosAll(id, query, sortOption, reverse));
+            => Ok(await _videoService.GetParentItemsAll(id, query, sortOption, reverse));
 
 
         [HttpGet]
         [Route("api/chapters/{id}/videos")]
         public async Task<ActionResult<List<ChapterDto>>> GetCourseChapters(Guid id, int skip = 0, int take = 10,
             string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _videoService.GetChapterVideos(id, skip, take, query, sortOption, reverse));
+            => Ok(await _videoService.GetParentItems(id, skip, take, query, sortOption, reverse));
 
         [Authorize]
         [HttpPost]

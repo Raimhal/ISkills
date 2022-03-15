@@ -48,7 +48,7 @@ namespace BLL.Services
                 sortOption,
                 reverse);
 
-        public async Task<List<ChapterDto>> GetCourseComments(Guid courseId, int skip, int take, string query, string sortOption, bool reverse)
+        public async Task<List<ChapterDto>> GetParentItems(Guid courseId, int skip, int take, string query, string sortOption, bool reverse)
             => await LookUp.GetListAsync<Chapter, ChapterDto>(
                 _chapterDbContext.Chapters,
                 _mapper,
@@ -58,7 +58,7 @@ namespace BLL.Services
                 sortOption,
                 reverse);
 
-        public async Task<List<ChapterDto>> GetCourseCommentsAll(Guid courseId, string query, string sortOption, bool reverse)
+        public async Task<List<ChapterDto>> GetParentItemsAll(Guid courseId, string query, string sortOption, bool reverse)
             => await LookUp.GetListAllAsync<Chapter, ChapterDto>(
                 _chapterDbContext.Chapters,
                 _mapper,
@@ -76,7 +76,7 @@ namespace BLL.Services
 
         public async Task<Guid> CreateAsync(CreateChapterDto model, CancellationToken cancellationToken)
         {
-            var course = await LookUp.GetAsync<Course>(_courseDbContext.Courses, _mapper,
+            var course = await LookUp.GetAsync(_courseDbContext.Courses, _mapper,
                 c => c.Id == model.CourseId, new() { c => c.Chapters });
 
             var chapter = _mapper.Map<Chapter>(model);
@@ -89,7 +89,7 @@ namespace BLL.Services
 
         public async Task UpdateAsync(Guid id, CreateChapterDto model, CancellationToken cancellationToken)
         {
-            var chapter = await LookUp.GetAsync<Chapter>(_chapterDbContext.Chapters, _mapper,
+            var chapter = await LookUp.GetAsync(_chapterDbContext.Chapters, _mapper,
                 v => v.Id == id, new() { });
 
             chapter = _mapper.Map<Chapter>(model);

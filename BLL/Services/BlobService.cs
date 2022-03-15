@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Azure.Storage;
 using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 using BLL.Extentions;
 using BLL.Interfaces;
 using Domain.Interfaces;
@@ -18,37 +20,42 @@ namespace BLL.Services
         private readonly string _blobStorageVideoContainerName = "iskills-videos";
         private readonly string _blobStorageTextContainerName = "iskills-texts";
 
-
-        private readonly IAllowedFileTypeDbContext _allowedFileTypesContext;
-        private readonly IMapper _mapper;
-
-        public BlobService(BlobServiceClient blobServiceClient, 
-            IAllowedFileTypeDbContext fileTypeContext, IMapper mapper) 
-            => (_blobServiceClient, _allowedFileTypesContext, _mapper)
-            = (blobServiceClient, fileTypeContext, mapper);
+        public BlobService(BlobServiceClient blobServiceClient) =>
+            (_blobServiceClient) = (blobServiceClient);
 
         public async Task<string> CreateBlob(IFormFile file, string name)
         {
-            if (!await IsValidFile(file))
-                throw new FormatException("Too large file");
             var containerClient = GetBlobContainer(file.ContentType);
             var fileName = $"{name}.{file.FileName.Split('.')[^1]}";
             var blobClient = containerClient.GetBlobClient(fileName);
-
+            
             await blobClient.UploadBlobAsync(file);
+            return blobClient.Uri.AbsoluteUri;
+        }
+
+        public async Task<string> CreateBlob(Stream stream, string contentType, string name, string extension)
+        {
+            var containerClient = GetBlobContainer(contentType);
+            var fileName = $"{name}.{extension}";
+            var blobClient = containerClient.GetBlobClient(fileName);
+
+            await blobClient.UploadAsync(stream);
             return blobClient.Uri.AbsoluteUri;
         }
 
         public async Task UpdateBlob(IFormFile file, string url)
         {
-            if (!await IsValidFile(file))
-                throw new FormatException("Too large file");
             var blobClient = GetBlobClientFromUrl(url);
-            await blobClient.DeleteIfExistsAsync();
-            await blobClient.UploadBlobAsync(file);
+            await blobClient.UploadBlobAsync(file, true);
         }
 
-        
+        public async Task UpdateBlob(Stream stream, string url)
+        {
+            var blobClient = GetBlobClientFromUrl(url);
+            await blobClient.UploadAsync(stream, true);
+        }
+
+
 
         public async Task DeleteBlob(string url) =>
             await GetBlobClientFromUrl(url).DeleteIfExistsAsync();
@@ -74,16 +81,6 @@ namespace BLL.Services
             return containerClient.GetBlobClient(info[^1]);
         }
 
-        private async Task<bool> IsValidFile(IFormFile file)
-        {
-            if (file?.Length > 0)
-            {
-                var extension = Path.GetExtension(file.FileName).Replace(".", "");
-                var type = await LookUp.GetAsync<AllowedFileType>(_allowedFileTypesContext.AllowedFileTypes,
-                    _mapper, t => t.FileType == extension, new() { });
-                return (file.Length / Math.Pow(10, 6)) <= type.FileSize;
-            }
-            return false;
-        }
+
     }
 }

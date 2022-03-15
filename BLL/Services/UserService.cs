@@ -12,6 +12,9 @@ using BLL.Validation;
 using BLL.Validation.Exceptions;
 using Domain.Interfaces;
 using Domain.Models;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
+using System.IO;
 
 namespace BLL.Services
 {
@@ -20,13 +23,17 @@ namespace BLL.Services
         private readonly IUserDbContext _userContext;
         private readonly IRoleDbContext _roleContext;
         private readonly ICourseDbContext _courseDbContext;
+        private readonly IBlobService _blobService;
+        private readonly IImageService _imageService;
+        private readonly IFileService _fileService;
         private readonly IMapper _mapper;
         private readonly int saltSize = 16;
 
         public UserService(IUserDbContext userContext, IRoleDbContext roleContext,
-            ICourseDbContext courseContext, IMapper mapper) 
-            => (_userContext, _roleContext, _courseDbContext, _mapper)
-            = (userContext, roleContext, courseContext, mapper);
+            ICourseDbContext courseContext, IBlobService blobService, IImageService imageService,
+            IFileService fileService, IMapper mapper) 
+            => (_userContext, _roleContext, _courseDbContext, _blobService, _imageService, _fileService, _mapper)
+            = (userContext, roleContext, courseContext, blobService, imageService, fileService,  mapper);
 
         private readonly List<Expression<Func<User, dynamic>>> includes = new ()
         {
@@ -98,12 +105,8 @@ namespace BLL.Services
 
         public async Task UpdateAsync(Guid id, RegisterUserModel model, CancellationToken cancellationToken)
         {
-            var user = await LookUp.GetAsync<User>(_userContext.Users,
+            var user = await LookUp.GetAsync(_userContext.Users,
                 _mapper, u => u.Id == id, new() { });
-
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.UserName = model.UserName;
 
             if (!string.IsNullOrEmpty(model.Email) && model.Email != user.Email)
             {
@@ -111,6 +114,10 @@ namespace BLL.Services
                     throw new AlreadyExistsException(nameof(User), nameof(model.Email), model.Email);
                 user.Email = model.Email;
             }
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.UserName = model.UserName;
 
             if (!string.IsNullOrEmpty(model.Password)) 
                 user.Password = Hasher.GetSaltedHash(model.Password, user.Salt);
@@ -120,21 +127,37 @@ namespace BLL.Services
             await _userContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task UpdateUserImageAsync(Guid id, IFormFile file, int width, int height, CancellationToken cancellationToken)
+        {
+            var user = await LookUp.GetAsync(_userContext.Users,
+                _mapper, x => x.Id == id, new() { });
+
+
+            if (!await _fileService.IsValidFile(file))
+                throw new FormatException("Too large file");
+
+            var imageStream = await _imageService.ResizeImage(file, width, height);
+            await using var stream = new MemoryStream(imageStream.ToArray());
+
+            if (string.IsNullOrEmpty(user.ImageUrl))
+                user.ImageUrl = await _blobService.CreateBlob(stream, file.ContentType, user.Id.ToString(), file.FileName.Split(".")[^1]);
+            else
+                await _blobService.UpdateBlob(stream, user.ImageUrl);
+
+            _userContext.Users.Update(user);
+            await _userContext.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var user = await LookUp.GetAsync<User>(_userContext.Users, _mapper, u => u.Id == id, new() { x => x.Courses });
-            _courseDbContext.Courses.RemoveRange(user.Courses);
-            foreach (var course in user.Courses)
-            {
-                foreach (var chapter in course.Chapters)
-                {
-                    foreach (var video in chapter.Videos)
-                    {
+            var user = await LookUp.GetAsync(_userContext.Users, _mapper, u => u.Id == id, new() { });
+            var courses = await _courseDbContext.Courses
+                .Where(c => c.CreatorId == id)
+                .ToListAsync(cancellationToken);
 
-                    }
-                }
-            }
+            _courseDbContext.Courses.RemoveRange(courses);
             _userContext.Users.Remove(user);
+
             await _userContext.SaveChangesAsync(cancellationToken);   
         }
 

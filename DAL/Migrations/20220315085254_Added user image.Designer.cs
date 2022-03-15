@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DAL.Migrations
 {
     [DbContext(typeof(IskillsContext))]
-    [Migration("20220314155449_Entity changes")]
-    partial class Entitychanges
+    [Migration("20220315085254_Added user image")]
+    partial class Addeduserimage
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -290,6 +290,9 @@ namespace DAL.Migrations
                     b.Property<string>("FirstName")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("text");
 
                     b.Property<string>("LastName")
                         .HasMaxLength(50)

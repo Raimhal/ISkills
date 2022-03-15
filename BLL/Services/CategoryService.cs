@@ -73,7 +73,7 @@ namespace BLL.Services
             if (await _categoryDbContext.Categories.AnyAsync(c => c.Title == model.Title, cancellationToken))
                 throw new AlreadyExistsException(nameof(Category), nameof(model.Title), model.Title);
 
-            var category = await LookUp.GetAsync<Category>(_categoryDbContext.Categories,
+            var category = await LookUp.GetAsync(_categoryDbContext.Categories,
                 _mapper, c => c.Id == id, new() { });
 
             category = _mapper.Map<Category>(model);

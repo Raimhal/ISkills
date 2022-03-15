@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "NioRKjedGZ6eHIrb7Z0O93lest8k4sqE5kqYiZtxsOiMhF2uVu9SlyCv6ZaJcj8rjWI4GNyzrbA177mf0fTI5Q==",
+  "dgSpecHash": "rFuOdEuNmBXo5Cn9GBempFaJHAciaIeHnC5OG/k768B+VdYanDhV+ok0ndzUuYSVk6Ue/JyavxvxRHhlTF6nXw==",
   "success": true,
   "projectFilePath": "E:\\it\\Secound Course\\ISkills\\BLL\\BLL.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,8 @@
     "C:\\Users\\kormi\\.nuget\\packages\\google.apis.auth\\1.56.0\\google.apis.auth.1.56.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\google.apis.core\\1.56.0\\google.apis.core.1.56.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\google.apis.drive.v3\\1.56.0.2601\\google.apis.drive.v3.1.56.0.2601.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\imageresizer\\4.2.8\\imageresizer.4.2.8.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\lazziya.imageresize\\4.1.0\\lazziya.imageresize.4.1.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\mediatr\\10.0.1\\mediatr.10.0.1.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\10.0.1\\mediatr.extensions.microsoft.dependencyinjection.10.0.1.nupkg.sha512",
@@ -43,6 +45,7 @@
     "C:\\Users\\kormi\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\nclam\\7.0.0\\nclam.7.0.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\npgsql\\5.0.12\\npgsql.5.0.12.nupkg.sha512",
@@ -57,6 +60,7 @@
     "C:\\Users\\kormi\\.nuget\\packages\\system.collections.immutable\\5.0.0\\system.collections.immutable.5.0.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\system.diagnostics.diagnosticsource\\5.0.1\\system.diagnostics.diagnosticsource.5.0.1.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\system.globalization\\4.3.0\\system.globalization.4.3.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.7.1\\system.identitymodel.tokens.jwt.6.7.1.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\system.io\\4.3.0\\system.io.4.3.0.nupkg.sha512",
@@ -81,5 +85,16 @@
     "C:\\Users\\kormi\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\wakatime\\8.1.11\\wakatime.8.1.11.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Пакет \"ImageResizer 4.2.8\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \"net5.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
+      "libraryId": "ImageResizer",
+      "targetGraphs": [
+        "net5.0"
+      ]
+    }
+  ]
 }

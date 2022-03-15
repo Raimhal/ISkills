@@ -19,6 +19,7 @@ namespace Domain.Models
         public string Password { get; set; }
         public string Salt { get; set; }
         public int? CountCourses => Courses?.Count;
+        public string ImageUrl { get; set; }
 
         public virtual ICollection<Role> Roles { get; set; }
         public virtual ICollection<Course> Courses { get; set; }

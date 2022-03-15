@@ -12,9 +12,9 @@ namespace Iskills.Controllers
 
     public class FileSettingsController : BaseController
     {
-        private readonly IFileSettingsService _fileSettingsService;
+        private readonly IFileService _fileSettingsService;
 
-        public FileSettingsController(IFileSettingsService fileSettingsService) =>
+        public FileSettingsController(IFileService fileSettingsService) =>
             _fileSettingsService = fileSettingsService;
 
 

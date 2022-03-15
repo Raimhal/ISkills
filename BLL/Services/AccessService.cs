@@ -25,21 +25,18 @@ namespace BLL.Services
 
 
         public async Task<bool> HasAccessToCourse(Guid userId, Guid id)
-            => await IsAdmin(userId) 
-            ? true 
-            : (await _courseService.GetByIdAsync(id)).CreatorId == userId;
+            => await IsAdmin(userId)
+            || (await _courseService.GetByIdAsync(id)).CreatorId == userId;
 
 
         public async Task<bool> HasAccessToComment(Guid userId, Guid id)
             => await IsAdmin(userId)
-            ? true
-            : (await _commentService.GetByIdAsync(id)).CreatorId == userId;
+            || (await _commentService.GetByIdAsync(id)).CreatorId == userId;
 
 
         public async Task<bool> HasAccessToUser(Guid userId, Guid id)
             => await IsAdmin(userId)
-            ? true
-            : userId == id;
+            || userId == id;
 
 
         private async Task<bool> IsAdmin(Guid id)
