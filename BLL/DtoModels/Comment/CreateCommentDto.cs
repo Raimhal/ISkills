@@ -10,8 +10,6 @@ namespace BLL.DtoModels
     {
 
         public string Content { get; set; }
-        public DateTime Date { get; set; }
-        [JsonIgnore]
         public Guid CourseId { get; set; }
         [JsonIgnore]
         public Guid CreatorId { get; set; }

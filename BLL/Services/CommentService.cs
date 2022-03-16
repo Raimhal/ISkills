@@ -12,6 +12,7 @@ using BLL.Validation;
 using BLL.Validation.Exceptions;
 using Domain.Interfaces;
 using Domain.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace BLL.Services
 {
@@ -33,30 +34,57 @@ namespace BLL.Services
             x => x.Creator
         };
 
-        public async Task<List<CommentDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
-            => await LookUp.GetListAsync<Comment, CommentDto>(
+        public async Task<List<CommentDto>> GetList(int skip, int take, string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAsync<Comment, CommentDto>(
                 _commentDbContext.Comments,
                 _mapper,
                 skip,
                 take,
                 c => c.Content.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse);
+                reverse,
+                cancellationToken);
 
-        public async Task<List<CommentDto>> GetListAll(string query, string sortOption, bool reverse)
-            => await LookUp.GetListAllAsync<Comment, CommentDto>(
+        public async Task<List<CommentDto>> GetListAll(string query, string sortOption,
+            bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAllAsync<Comment, CommentDto>(
                 _commentDbContext.Comments,
                 _mapper,
                 c => c.Content.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse);
+                reverse,
+                cancellationToken);
 
-        public async Task<Comment> GetByIdAsync(Guid id)
-            => await LookUp.GetAsync(
+        public async Task<List<CommentDto>> GetParentItems(Guid courseId, int skip, int take,
+            string query, string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAsync<Comment, CommentDto>(
+                _commentDbContext.Comments,
+                _mapper,
+                skip,
+                take,
+                c => c.Content.Contains(query.ToLower().Trim()) && c.CourseId == courseId,
+                sortOption,
+                reverse,
+                cancellationToken);
+
+        public async Task<List<CommentDto>> GetParentItemsAll(Guid courseId, string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAllAsync<Comment, CommentDto>(
+                _commentDbContext.Comments,
+                _mapper,
+                c => c.Content.Contains(query.ToLower().Trim()) && c.CourseId == courseId,
+                sortOption,
+                reverse,
+                cancellationToken);
+
+        public async Task<Comment> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+            => await EntityService.GetAsync(
                 _commentDbContext.Comments,
                 _mapper,
                 x => x.Id == id,
-                includes);
+                includes,
+                cancellationToken);
 
         public async Task<Guid> CreateAsync(CreateCommentDto model, CancellationToken cancellationToken)
         {
@@ -69,6 +97,8 @@ namespace BLL.Services
                 throw new NotFoundException(nameof(Course), nameof(model.CourseId), model.CreatorId);
 
             var comment = _mapper.Map<Comment>(model);
+            comment.Date = DateTime.UtcNow;
+            comment.DateUpdated = DateTime.UtcNow;
 
             await _commentDbContext.Comments.AddAsync(comment, cancellationToken);
             await _commentDbContext.SaveChangesAsync(cancellationToken);
@@ -78,10 +108,13 @@ namespace BLL.Services
 
         public async Task UpdateAsync(Guid id, CreateCommentDto model, CancellationToken cancellationToken)
         {
-            var comment = await LookUp.GetAsync(_commentDbContext.Comments,
-                _mapper, c => c.Id == id, new () { });
+            var comment = await EntityService.GetAsync(_commentDbContext.Comments,
+                _mapper, c => c.Id == id, new () { }, cancellationToken);
 
-            comment = _mapper.Map<Comment>(model);
+            if (string.IsNullOrEmpty(model.Content))
+                throw new ValidationException();
+
+            comment.Content = model.Content;
             comment.DateUpdated = DateTime.UtcNow;
 
             _commentDbContext.Comments.Update(comment);
@@ -90,10 +123,8 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            await LookUp.DeleteByAsync<Comment>(_commentDbContext.Comments, _mapper, c => c.Id == id);
+            await EntityService.DeleteByAsync(_commentDbContext.Comments, _mapper, c => c.Id == id, cancellationToken);
             await _courseDbContext.SaveChangesAsync(cancellationToken);
         }
-
-
     }
 }

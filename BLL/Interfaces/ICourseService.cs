@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface ICourseService : IBaseService<Guid, Course, CreateCourseDto, CourseDto>
+    public interface ICourseService : IBaseService<Guid, Course, CreateCourseDto, CourseDto>, IParentService<Guid, CourseDto>
     {
         Task ToggleUserAssignment(Guid userId, Guid courseId, CancellationToken cancellationToken);
     }

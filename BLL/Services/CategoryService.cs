@@ -28,35 +28,38 @@ namespace BLL.Services
             x => x.Themes
         };
 
-        public async Task<List<CategoryDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
-            => await LookUp.GetListAsync<Category, CategoryDto>(
+        public async Task<List<CategoryDto>> GetList(int skip, int take, string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAsync<Category, CategoryDto>(
                 _categoryDbContext.Categories,
                 _mapper,
                 skip,
                 take,
                 c => c.Title.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse);
+                reverse,
+                cancellationToken);
 
-        public async Task<List<CategoryDto>> GetListAll(string query, string sortOption, bool reverse)
-            => await LookUp.GetListAllAsync<Category, CategoryDto>(
+        public async Task<List<CategoryDto>> GetListAll(string query, string sortOption,
+            bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAllAsync<Category, CategoryDto>(
                 _categoryDbContext.Categories,
                 _mapper,
                 c => c.Title.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse);
+                reverse,
+                cancellationToken);
 
-        public async Task<Category> GetByIdAsync(int id) 
-            => await LookUp.GetAsync(
+        public async Task<Category> GetByIdAsync(int id, CancellationToken cancellationToken) 
+            => await EntityService.GetAsync(
                 _categoryDbContext.Categories,
                 _mapper,
                 x => x.Id == id,
-                includes);
-        
+                includes,
+                cancellationToken);
 
         public async Task<int> CreateAsync(CreateCategoryDto model, CancellationToken cancellationToken)
         {
-
             if (await _categoryDbContext.Categories.AnyAsync(c => c.Title == model.Title, cancellationToken))
                 throw new AlreadyExistsException(nameof(Category), nameof(model.Title), model.Title);
 
@@ -73,8 +76,8 @@ namespace BLL.Services
             if (await _categoryDbContext.Categories.AnyAsync(c => c.Title == model.Title, cancellationToken))
                 throw new AlreadyExistsException(nameof(Category), nameof(model.Title), model.Title);
 
-            var category = await LookUp.GetAsync(_categoryDbContext.Categories,
-                _mapper, c => c.Id == id, new() { });
+            var category = await EntityService.GetAsync(_categoryDbContext.Categories,
+                _mapper, c => c.Id == id, new() { }, cancellationToken);
 
             category = _mapper.Map<Category>(model);
 
@@ -84,7 +87,8 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(int id, CancellationToken cancellationToken)
         {
-            await LookUp.DeleteByAsync<Category>(_categoryDbContext.Categories, _mapper, c => c.Id == id);
+            await EntityService.DeleteByAsync(_categoryDbContext.Categories,
+                _mapper, c => c.Id == id, cancellationToken);
             await _categoryDbContext.SaveChangesAsync(cancellationToken);
         }
 

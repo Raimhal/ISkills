@@ -43,40 +43,44 @@ namespace BLL.Services
             x => x.RefreshTokens
         };
 
-        public async Task<List<UserDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
-            => await LookUp.GetListAsync<User, UserDto>(
+        public async Task<List<UserDto>> GetList(int skip, int take, string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAsync<User, UserDto>(
                 _userContext.Users,
                 _mapper,
                 skip,
                 take,
                 u => u.Email.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse);
+                reverse, 
+                cancellationToken);
 
 
-        public async Task<List<UserDto>> GetListAll(string query, string sortOption, bool reverse)
-            => await LookUp.GetListAllAsync<User, UserDto>(
+        public async Task<List<UserDto>> GetListAll(string query, string sortOption,
+            bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAllAsync<User, UserDto>(
                 _userContext.Users,
                 _mapper,
                 u => u.Email.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse);
+                reverse, 
+                cancellationToken);
 
+        public async Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+            => await EntityService.GetAsync(_userContext.Users, _mapper,
+                x => x.Id == id, includes, cancellationToken);
 
-        public async Task<User> GetByIdAsync(Guid id)
-            => await LookUp.GetAsync(_userContext.Users, _mapper, x => x.Id == id, includes);
+        public async Task<User> GetByEmailAsync(string email, CancellationToken cancellationToken)
+            => await EntityService.GetAsync(_userContext.Users, _mapper,
+                x => x.Email == email, includes, cancellationToken);
 
-        public async Task<User> GetByEmailAsync(string email)
-            => await LookUp.GetAsync(_userContext.Users, _mapper, x => x.Email == email, includes);
+        public async Task<Guid> GetIdFromEmail(string email, CancellationToken cancellationToken)
+            => (await GetUserDtoByEmail(email, cancellationToken)).Id;
 
-        public async Task<Guid> GetIdFromEmail(string email)
-            => (await GetUserDtoByEmail(email)).Id;
-
-
-        private async Task<UserDto> GetUserDtoByEmail(string email)
+        private async Task<UserDto> GetUserDtoByEmail(string email, CancellationToken cancellationToken)
             => await _userContext.Users.ProjectTo<UserDto>
             (_mapper.ConfigurationProvider)
-            .FirstOrDefaultAsync(x => x.Email == email);
+            .FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
 
         public async Task<Guid> CreateAsync(RegisterUserModel model, CancellationToken cancellationToken)
         {
@@ -105,8 +109,8 @@ namespace BLL.Services
 
         public async Task UpdateAsync(Guid id, RegisterUserModel model, CancellationToken cancellationToken)
         {
-            var user = await LookUp.GetAsync(_userContext.Users,
-                _mapper, u => u.Id == id, new() { });
+            var user = await EntityService.GetAsync(_userContext.Users, _mapper,
+                u => u.Id == id, new() { }, cancellationToken);
 
             if (!string.IsNullOrEmpty(model.Email) && model.Email != user.Email)
             {
@@ -127,10 +131,11 @@ namespace BLL.Services
             await _userContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task UpdateUserImageAsync(Guid id, IFormFile file, int width, int height, CancellationToken cancellationToken)
+        public async Task UpdateUserImageAsync(Guid id, IFormFile file,
+            int width, int height, CancellationToken cancellationToken)
         {
-            var user = await LookUp.GetAsync(_userContext.Users,
-                _mapper, x => x.Id == id, new() { });
+            var user = await EntityService.GetAsync(_userContext.Users, _mapper,
+                x => x.Id == id, new() { }, cancellationToken);
 
 
             if (!await _fileService.IsValidFile(file))
@@ -140,7 +145,8 @@ namespace BLL.Services
             await using var stream = new MemoryStream(imageStream.ToArray());
 
             if (string.IsNullOrEmpty(user.ImageUrl))
-                user.ImageUrl = await _blobService.CreateBlob(stream, file.ContentType, user.Id.ToString(), file.FileName.Split(".")[^1]);
+                user.ImageUrl = await _blobService.CreateBlob(stream,
+                    file.ContentType, user.Id.ToString(), file.FileName.Split(".")[^1]);
             else
                 await _blobService.UpdateBlob(stream, user.ImageUrl);
 
@@ -150,7 +156,8 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var user = await LookUp.GetAsync(_userContext.Users, _mapper, u => u.Id == id, new() { });
+            var user = await EntityService.GetAsync(_userContext.Users, _mapper,
+                u => u.Id == id, new() { }, cancellationToken);
             var courses = await _courseDbContext.Courses
                 .Where(c => c.CreatorId == id)
                 .ToListAsync(cancellationToken);

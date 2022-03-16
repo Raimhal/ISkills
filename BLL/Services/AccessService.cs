@@ -5,43 +5,55 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using BLL.Interfaces;
 using Domain.Interfaces;
-using Domain.Models;
-using System.Collections.Generic;
+using System.Threading;
 
 namespace BLL.Services
 {
 
     public class AccessService : IAccessService
     {
-        private readonly IUserService _userService;
-        private readonly ICourseService _courseService;
-        private readonly ICommentService _commentService;
+        private readonly IUserDbContext _userContext;
+        private readonly ICourseDbContext _courseContext;
+        private readonly ICommentDbContext _commentContext;
+        private readonly IVideoDbContext _videoContext;
+        private readonly IChapterDbContext _chapterContext;
         private readonly string AdminRoleName = "Admin";
 
-        public AccessService(IUserService userService, ICourseService courseService,
-            ICommentService commentService) 
-            => (_userService, _courseService, _commentService) 
-            = (userService, courseService, commentService);
+        public AccessService(IUserDbContext userContext, ICourseDbContext courseContext,
+            ICommentDbContext commentContext, IVideoDbContext videoContext, IChapterDbContext chapterContext) 
+            => (_userContext, _courseContext, _commentContext, _videoContext, _chapterContext) 
+            = (userContext, courseContext, commentContext, videoContext, chapterContext);
 
+        public async Task<bool> HasAccessToUser(Guid userId, Guid id, CancellationToken cancellationToken)
+            => await HasAccessToEntity(userId, _userContext.Users,
+                x => x.Id == id, cancellationToken);
 
-        public async Task<bool> HasAccessToCourse(Guid userId, Guid id)
-            => await IsAdmin(userId)
-            || (await _courseService.GetByIdAsync(id)).CreatorId == userId;
+        public async Task<bool> HasAccessToCourse(Guid userId, Guid id, CancellationToken cancellationToken)
+            => await HasAccessToEntity(userId, _courseContext.Courses,
+                x => x.CreatorId == userId && x.Id == id, cancellationToken);
 
+        public async Task<bool> HasAccessToComment(Guid userId, Guid id, CancellationToken cancellationToken)
+            => await HasAccessToEntity(userId, _commentContext.Comments,
+                x => x.CreatorId == userId && x.Id == id, cancellationToken);
 
-        public async Task<bool> HasAccessToComment(Guid userId, Guid id)
-            => await IsAdmin(userId)
-            || (await _commentService.GetByIdAsync(id)).CreatorId == userId;
+        public async Task<bool> HasAccessToChapter(Guid userId, Guid id, CancellationToken cancellationToken)
+            => await HasAccessToEntity(userId, _chapterContext.Chapters, 
+                x => x.Course.CreatorId == userId && x.Id == id, cancellationToken);
 
+        public async Task<bool> HasAccessToVideo(Guid userId, Guid id, CancellationToken cancellationToken)
+            => await HasAccessToEntity(userId, _videoContext.Videos,
+                x => x.Chapter.Course.CreatorId == userId && x.Id == id, cancellationToken);
 
-        public async Task<bool> HasAccessToUser(Guid userId, Guid id)
-            => await IsAdmin(userId)
-            || userId == id;
+        private async Task<bool> IsAdmin(Guid id, CancellationToken cancellationToken)
+            => await _userContext.Users
+            .AnyAsync(u => u.Id == id
+            && u.Roles.Any(r => r.Name == AdminRoleName), cancellationToken);
 
-
-        private async Task<bool> IsAdmin(Guid id)
-            => (await _userService.GetByIdAsync(id))
-            .Roles.Any(r => r.Name == AdminRoleName);
+        private async Task<bool> HasAccessToEntity<T>(Guid userId, DbSet<T> context,
+            Expression<Func<T, bool>> expression, CancellationToken cancellationToken)
+            where T : class
+            => await IsAdmin(userId, cancellationToken) 
+            || await context.AnyAsync(expression, cancellationToken);
 
     }
 }

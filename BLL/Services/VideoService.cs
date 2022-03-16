@@ -34,54 +34,63 @@ namespace BLL.Services
             x => x.Chapter
         };
 
-        public async Task<List<VideoDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
-            => await LookUp.GetListAsync<Video, VideoDto>(
+        public async Task<List<VideoDto>> GetList(int skip, int take, string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAsync<Video, VideoDto>(
                 _videoDbContext.Videos,
                 _mapper,
                 skip,
                 take,
                 c => c.Title.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse);
+                reverse, 
+                cancellationToken);
 
-        public async Task<List<VideoDto>> GetListAll(string query, string sortOption, bool reverse)
-            => await LookUp.GetListAllAsync<Video, VideoDto>(
+        public async Task<List<VideoDto>> GetListAll(string query, string sortOption,
+            bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAllAsync<Video, VideoDto>(
                 _videoDbContext.Videos,
                 _mapper,
                 c => c.Title.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse);
+                reverse, 
+                cancellationToken);
 
-        public async Task<List<VideoDto>> GetParentItems(Guid chapterId, int skip, int take, string query, string sortOption, bool reverse)
-           => await LookUp.GetListAsync<Video, VideoDto>(
+        public async Task<List<VideoDto>> GetParentItems(Guid chapterId, int skip, int take,
+            string query, string sortOption, bool reverse, CancellationToken cancellationToken)
+           => await EntityService.GetListAsync<Video, VideoDto>(
                _videoDbContext.Videos,
                _mapper,
                skip,
                take,
                c => c.Title.Contains(query.ToLower().Trim()) && c.ChapterId == chapterId,
                sortOption,
-               reverse);
+               reverse, 
+               cancellationToken);
 
-        public async Task<List<VideoDto>> GetParentItemsAll(Guid chapterId, string query, string sortOption, bool reverse)
-            => await LookUp.GetListAllAsync<Video, VideoDto>(
+        public async Task<List<VideoDto>> GetParentItemsAll(Guid chapterId, string query, string sortOption,
+            bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAllAsync<Video, VideoDto>(
                 _videoDbContext.Videos,
                 _mapper,
                 c => c.Title.Contains(query.ToLower().Trim()) && c.ChapterId == chapterId,
                 sortOption,
-                reverse);
+                reverse, 
+                cancellationToken);
 
-        public async Task<Video> GetByIdAsync(Guid id)
-            => await LookUp.GetAsync(
+        public async Task<Video> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+            => await EntityService.GetAsync(
                 _videoDbContext.Videos,
                 _mapper,
                 x => x.Id == id,
-                includes);
+                includes, 
+                cancellationToken);
         
 
         public async Task<Guid> CreateAsync(CreateVideoDto model, CancellationToken cancellationToken)
         {
-            var chapter = await LookUp.GetAsync(_chapterDbContext.Chapters, _mapper,
-                c => c.Id == model.ChapterId, new () { c => c.Videos });
+            var chapter = await EntityService.GetAsync(_chapterDbContext.Chapters, _mapper,
+                c => c.Id == model.ChapterId, new () { c => c.Videos }, cancellationToken);
 
             if (!await _fileService.IsValidFile(model.File))
                 throw new FormatException("Too large file");
@@ -90,7 +99,7 @@ namespace BLL.Services
 
             video.Id = Guid.NewGuid();
 
-            await _antivirusService.CheckFile(model.File);
+            //await _antivirusService.CheckFile(model.File);
             video.Url = await _blobService.CreateBlob(model.File, video.Id.ToString());
 
             await _videoDbContext.Videos.AddAsync(video, cancellationToken);
@@ -101,19 +110,18 @@ namespace BLL.Services
 
         public async Task UpdateAsync(Guid id, CreateVideoDto model, CancellationToken cancellationToken)
         {
-            var video = await LookUp.GetAsync(_videoDbContext.Videos, _mapper,
-                v => v.Id == id, new () { });
+            var video = await EntityService.GetAsync(_videoDbContext.Videos, _mapper,
+                v => v.Id == id, new () { }, cancellationToken);
 
             if (!await _fileService.IsValidFile(model.File))
                 throw new FormatException("Too large file");
 
-            if (await _chapterDbContext.Chapters
-                .AnyAsync(x => x.Id == model.ChapterId, cancellationToken))
+            if (await _chapterDbContext.Chapters.AnyAsync(x => x.Id == model.ChapterId, cancellationToken))
                 video.ChapterId = model.ChapterId;
 
             video.Title = model.Title;
 
-            await _antivirusService.CheckFile(model.File);
+            //await _antivirusService.CheckFile(model.File);
             await _blobService.UpdateBlob(model.File, video.Url);
 
 
@@ -123,8 +131,8 @@ namespace BLL.Services
 
         public async Task PatchAsync(Guid id, UpdateVideoDto model, CancellationToken cancellationToken)
         {
-            var video = await LookUp.GetAsync(_videoDbContext.Videos, _mapper,
-                v => v.Id == id, new() { });
+            var video = await EntityService.GetAsync(_videoDbContext.Videos, _mapper,
+                v => v.Id == id, new() { }, cancellationToken);
 
             if (await _chapterDbContext.Chapters
                 .AnyAsync(x => x.Id == model.ChapterId, cancellationToken))
@@ -138,8 +146,8 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var video = await LookUp.GetAsync(_videoDbContext.Videos,
-                _mapper, v => v.Id == id, new() { });
+            var video = await EntityService.GetAsync(_videoDbContext.Videos,
+                _mapper, v => v.Id == id, new() { }, cancellationToken);
 
             await _blobService.DeleteBlob(video.Url);
             _videoDbContext.Videos.Remove(video);

@@ -20,22 +20,22 @@ namespace Iskills.Controllers
 
         [HttpGet]
         [Route("api/categories/all")]
-        public async Task<ActionResult<List<CategoryDto>>> GetCategorys(string query = "",
-            string sortOption = "title", bool reverse = false)
-            => Ok(await _categoryService.GetListAll(query, sortOption, reverse));
+        public async Task<ActionResult<List<CategoryDto>>> GetCategories(CancellationToken cancellationToken,
+            string query = "", string sortOption = "title", bool reverse = false)
+            => Ok(await _categoryService.GetListAll(query, sortOption, reverse, cancellationToken));
         
 
         [HttpGet]
         [Route("api/categories")]
-        public async Task<ActionResult<List<CategoryDto>>> GetCategorys(int skip = 0, int take = 10,
-            string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _categoryService.GetList(skip, take, query, sortOption, reverse));
+        public async Task<ActionResult<List<CategoryDto>>> GetCategoryies(CancellationToken cancellationToken,
+            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
+            => Ok(await _categoryService.GetList(skip, take, query, sortOption, reverse, cancellationToken));
         
 
         [HttpGet]
         [Route("api/categories/{id}")]
-        public async Task<ActionResult<CategoryDto>> GetCategory(int id)
-            => Ok(await _categoryService.GetByIdAsync(id));
+        public async Task<ActionResult<CategoryDto>> GetCategory(int id, CancellationToken cancellationToken)
+            => Ok(await _categoryService.GetByIdAsync(id, cancellationToken));
         
 
         [Authorize(Roles="Admin")]

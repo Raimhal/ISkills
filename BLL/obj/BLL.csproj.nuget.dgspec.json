@@ -135,6 +135,10 @@
             "nClam": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "nClam.Net": {
+              "target": "Package",
+              "version": "[0.0.3, )"
             }
           },
           "imports": [

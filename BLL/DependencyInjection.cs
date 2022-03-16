@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MediatR;
 using System.Reflection;
 using FluentValidation;
 using BLL.Interfaces;

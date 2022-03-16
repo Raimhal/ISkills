@@ -42,6 +42,9 @@ namespace Iskills.Middleware
                 case AlreadyExistsException:
                     code = HttpStatusCode.Conflict;
                     break;
+                case ConflictException:
+                    code = HttpStatusCode.Conflict;
+                    break;
                 case FormatException:
                     code = HttpStatusCode.RequestEntityTooLarge;
                     break;

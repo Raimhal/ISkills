@@ -29,14 +29,10 @@ namespace BLL.Services
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest model, string ip, CancellationToken cancellationToken)
         {
-            Expression<Func<User, bool>> expression = u => u.Email == model.Email;
-            var user = await _userContext.Users
-                .Include(u => u.Roles)
-                .Include(u => u.RefreshTokens)
-                .SingleOrDefaultAsync(expression, cancellationToken);
-
-            if (user == null)
-                throw new NotFoundException(nameof(User), nameof(model.Email), model.Email);
+            var user = await EntityService
+                .GetAsync(_userContext.Users, _mapper,
+                u => u.Email == model.Email,
+                new() { u => u.Roles, u => u.RefreshTokens }, cancellationToken);
 
             if (!model.Password.AreEqual(user.Salt, user.Password))
                 throw new Exception(message: "Email or password incorrect");
@@ -61,19 +57,14 @@ namespace BLL.Services
 
         public async Task<AuthenticateResponse> RefreshToken(string token , string ip, CancellationToken cancellationToken)
         {
-            var user = await _userContext.Users
-                .Include(u => u.Roles)
-                .Include(u => u.RefreshTokens)
-                .FirstOrDefaultAsync(u => u.RefreshTokens
-                .Any(t => t.Token == token),
-                cancellationToken);
-
-
-            if (user == null) 
-                return null;
+            var user = await EntityService
+                .GetAsync(_userContext.Users, _mapper,
+                u => u.RefreshTokens.Any(t => t.Token == token),
+                new () { u => u.Roles, u => u.RefreshTokens }, cancellationToken);
 
             var refreshToken = user.RefreshTokens
                 .FirstOrDefault(t => t.Token == token);
+
             var newRefreshTokenDto = GenerateRefreshToken(ip);
 
             refreshToken.Revoked = DateTime.UtcNow;
@@ -92,16 +83,13 @@ namespace BLL.Services
         }
         public async Task<bool> RevokeToken(string token, string ip, CancellationToken cancellationToken)
         {
-            var user = await _userContext.Users
-                .Include(u => u.RefreshTokens)
-                .FirstOrDefaultAsync(u =>
-                u.RefreshTokens.Any(t => t.Token == token),
-                cancellationToken);
+            var user = await EntityService
+                .GetAsync(_userContext.Users, _mapper,
+                u => u.RefreshTokens.Any(t => t.Token == token),
+                new() { u => u.RefreshTokens }, cancellationToken);
 
-            if(user == null) 
-                return false;
-
-            var refreshToken = user.RefreshTokens.Single(t => t.Token == token);
+            var refreshToken = user.RefreshTokens
+                .Single(t => t.Token == token);
 
             if (!refreshToken.IsActive) 
                 return false;
@@ -121,12 +109,11 @@ namespace BLL.Services
             };
 
             foreach (var role in user.Roles)
-            {
                 claims.Add(new Claim(ClaimTypes.Role, role.Name));
-            }
 
             var claimsIdentity = new ClaimsIdentity(claims, "Token",
                 ClaimsIdentity.DefaultRoleClaimType, ClaimsIdentity.DefaultRoleClaimType);
+
             return claimsIdentity;
         }
         private static string GenerateJwtToken(User user)
@@ -149,21 +136,17 @@ namespace BLL.Services
 
         private static RefreshTokenDto GenerateRefreshToken(string ip)
         {
-            using(var rngCryptoServiceProvider = new RNGCryptoServiceProvider())
+            using var rngCryptoServiceProvider = new RNGCryptoServiceProvider();
+            var randomBytes = new byte[64];
+            rngCryptoServiceProvider.GetBytes(randomBytes);
+
+            return new RefreshTokenDto
             {
-                var randomBytes = new byte[64];
-                rngCryptoServiceProvider.GetBytes(randomBytes);
-
-                return new RefreshTokenDto
-                {
-                    Token = Convert.ToBase64String(randomBytes),
-                    Expires = DateTime.UtcNow.AddDays(7),
-                    Created = DateTime.UtcNow,
-                    CreatedByIp = ip
-                };
-            }
+                Token = Convert.ToBase64String(randomBytes),
+                Expires = DateTime.UtcNow.AddDays(7),
+                Created = DateTime.UtcNow,
+                CreatedByIp = ip
+            };
         }
-
-
     }
 }

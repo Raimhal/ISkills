@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface ICommentService : IBaseService<Guid, Comment, CreateCommentDto, CommentDto>
+    public interface ICommentService : IBaseService<Guid, Comment, CreateCommentDto, CommentDto>, IParentService<Guid, CommentDto>
     {
     }
 }

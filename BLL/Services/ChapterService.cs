@@ -30,54 +30,62 @@ namespace BLL.Services
             x => x.Course
         };
 
-        public async Task<List<ChapterDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
-            => await LookUp.GetListAsync<Chapter, ChapterDto>(
+        public async Task<List<ChapterDto>> GetList(int skip, int take, string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAsync<Chapter, ChapterDto>(
                 _chapterDbContext.Chapters,
                 _mapper,
                 skip,
                 take,
                 c => c.Title.Contains(query.ToLower().Trim()), 
                 sortOption,
-                reverse);
+                reverse,
+                cancellationToken);
 
-        public async Task<List<ChapterDto>> GetListAll(string query, string sortOption, bool reverse)
-            => await LookUp.GetListAllAsync<Chapter, ChapterDto>(
+        public async Task<List<ChapterDto>> GetListAll(string query, string sortOption,
+            bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAllAsync<Chapter, ChapterDto>(
                 _chapterDbContext.Chapters,
                 _mapper,
                 c => c.Title.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse);
+                reverse,
+                cancellationToken);
 
-        public async Task<List<ChapterDto>> GetParentItems(Guid courseId, int skip, int take, string query, string sortOption, bool reverse)
-            => await LookUp.GetListAsync<Chapter, ChapterDto>(
+        public async Task<List<ChapterDto>> GetParentItems(Guid courseId, int skip, int take,
+            string query, string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAsync<Chapter, ChapterDto>(
                 _chapterDbContext.Chapters,
                 _mapper,
                 skip,
                 take,
                 c => c.Title.Contains(query.ToLower().Trim()) && c.CourseId == courseId,
                 sortOption,
-                reverse);
+                reverse,
+                cancellationToken);
 
-        public async Task<List<ChapterDto>> GetParentItemsAll(Guid courseId, string query, string sortOption, bool reverse)
-            => await LookUp.GetListAllAsync<Chapter, ChapterDto>(
+        public async Task<List<ChapterDto>> GetParentItemsAll(Guid courseId, string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAllAsync<Chapter, ChapterDto>(
                 _chapterDbContext.Chapters,
                 _mapper,
                 c => c.Title.Contains(query.ToLower().Trim()) && c.CourseId == courseId,
                 sortOption,
-                reverse);
+                reverse,
+                cancellationToken);
 
-        public async Task<Chapter> GetByIdAsync(Guid id)
-            => await LookUp.GetAsync(
+        public async Task<Chapter> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+            => await EntityService.GetAsync(
                 _chapterDbContext.Chapters,
                 _mapper,
                 x => x.Id == id,
-                includes);
-        
+                includes,
+                cancellationToken);
 
         public async Task<Guid> CreateAsync(CreateChapterDto model, CancellationToken cancellationToken)
         {
-            var course = await LookUp.GetAsync(_courseDbContext.Courses, _mapper,
-                c => c.Id == model.CourseId, new() { c => c.Chapters });
+            var course = await EntityService.GetAsync(_courseDbContext.Courses, _mapper,
+                c => c.Id == model.CourseId, new() { c => c.Chapters }, cancellationToken);
 
             var chapter = _mapper.Map<Chapter>(model);
 
@@ -89,8 +97,8 @@ namespace BLL.Services
 
         public async Task UpdateAsync(Guid id, CreateChapterDto model, CancellationToken cancellationToken)
         {
-            var chapter = await LookUp.GetAsync(_chapterDbContext.Chapters, _mapper,
-                v => v.Id == id, new() { });
+            var chapter = await EntityService.GetAsync(_chapterDbContext.Chapters, _mapper,
+                v => v.Id == id, new() { }, cancellationToken);
 
             chapter = _mapper.Map<Chapter>(model);
 
@@ -100,7 +108,7 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            await LookUp.DeleteByAsync<Chapter>(_chapterDbContext.Chapters, _mapper, c => c.Id == id);
+            await EntityService.DeleteByAsync(_chapterDbContext.Chapters, _mapper, c => c.Id == id, cancellationToken);
             await _chapterDbContext.SaveChangesAsync(cancellationToken);
         }
     }

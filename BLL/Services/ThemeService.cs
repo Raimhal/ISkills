@@ -29,31 +29,36 @@ namespace BLL.Services
             x => x.Courses
         };
 
-        public async Task<List<ThemeDto>> GetList(int skip, int take, string query, string sortOption, bool reverse)
-            => await LookUp.GetListAsync<Theme, ThemeDto>(
+        public async Task<List<ThemeDto>> GetList(int skip, int take, string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAsync<Theme, ThemeDto>(
                 _themeDbContext.Themes,
                 _mapper,
                 skip,
                 take,
                 c => c.Title.Contains(query.ToLower().Trim()), 
                 sortOption, 
-                reverse);
+                reverse, 
+                cancellationToken);
 
-        public async Task<List<ThemeDto>> GetListAll(string query, string sortOption, bool reverse)
-            => await LookUp.GetListAllAsync<Theme, ThemeDto>(
+        public async Task<List<ThemeDto>> GetListAll(string query, string sortOption,
+            bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAllAsync<Theme, ThemeDto>(
                 _themeDbContext.Themes, 
                 _mapper, 
                 c => c.Title.Contains(query.ToLower().Trim()), 
                 sortOption,
-                reverse);
+                reverse, 
+                cancellationToken);
         
 
-        public async Task<Theme> GetByIdAsync(int id)
-            => await LookUp.GetAsync(
+        public async Task<Theme> GetByIdAsync(int id, CancellationToken cancellationToken)
+            => await EntityService.GetAsync(
                 _themeDbContext.Themes,
                 _mapper,
                 x => x.Id == id,
-                includes);
+                includes, 
+                cancellationToken);
 
 
         public async Task<int> CreateAsync(CreateThemeDto model, CancellationToken cancellationToken)
@@ -75,10 +80,10 @@ namespace BLL.Services
             if (await _themeDbContext.Themes.AnyAsync(c => c.Title == model.Title && c.Id != id, cancellationToken))
                 throw new AlreadyExistsException(nameof(Theme), nameof(model.Title), model.Title);
 
-            var theme = await LookUp.GetAsync(_themeDbContext.Themes,
-                _mapper, t => t.Id == id, new() { });
+            var theme = await EntityService.GetAsync(_themeDbContext.Themes,
+                _mapper, t => t.Id == id, new() { }, cancellationToken);
 
-            theme = _mapper.Map<Theme>(model);
+            theme.Title = model.Title;
 
             _themeDbContext.Themes.Update(theme);
             await _themeDbContext.SaveChangesAsync(cancellationToken);
@@ -86,7 +91,7 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(int id, CancellationToken cancellationToken)
         {
-            await LookUp.DeleteByAsync<Theme>(_themeDbContext.Themes, _mapper, u => u.Id == id);
+            await EntityService.DeleteByAsync(_themeDbContext.Themes, _mapper, u => u.Id == id, cancellationToken);
             await _themeDbContext.SaveChangesAsync(cancellationToken);
         }
 

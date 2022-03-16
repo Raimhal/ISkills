@@ -21,22 +21,22 @@ namespace Iskills.Controllers
 
         [HttpGet]
         [Route("api/themes/all")]
-        public async Task<ActionResult<List<ThemeDto>>> GetThemes(string query = "",
-            string sortOption = "title", bool reverse = false)
-            => Ok(await _themeService.GetListAll(query, sortOption, reverse));
+        public async Task<ActionResult<List<ThemeDto>>> GetThemes(CancellationToken cancellationToken, 
+            string query = "", string sortOption = "title", bool reverse = false)
+            => Ok(await _themeService.GetListAll(query, sortOption, reverse, cancellationToken));
 
 
         [HttpGet]
         [Route("api/themes")]
-        public async Task<ActionResult<List<ThemeDto>>> GetThemes(int skip = 0, int take = 10,
-            string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _themeService.GetList(skip, take, query, sortOption, reverse));
+        public async Task<ActionResult<List<ThemeDto>>> GetThemes(CancellationToken cancellationToken, 
+            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
+            => Ok(await _themeService.GetList(skip, take, query, sortOption, reverse, cancellationToken));
 
 
         [HttpGet]
         [Route("api/themes/{id}")]
-        public async Task<ActionResult<Theme>> GetTheme(int id)
-            => Ok(await _themeService.GetByIdAsync(id));
+        public async Task<ActionResult<Theme>> GetTheme(int id, CancellationToken cancellationToken)
+            => Ok(await _themeService.GetByIdAsync(id, cancellationToken));
 
 
 

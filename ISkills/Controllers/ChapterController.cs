@@ -18,45 +18,50 @@ namespace Iskills.Controllers
         public ChapterController(IChapterService chapterService, IAccessService accessService) => 
             (_chapterService, _accessService) = (chapterService, accessService);
 
+
         [HttpGet]
         [Route("api/chapters/{id}")]
-        public async Task<ActionResult<ChapterDto>> GetCourse(Guid id)
-            => Ok(await _chapterService.GetByIdAsync(id));
+        public async Task<ActionResult<ChapterDto>> GetCourse(Guid id, CancellationToken cancellationToken)
+            => Ok(await _chapterService.GetByIdAsync(id, cancellationToken));
+
 
         [HttpGet]
         [Route("api/chapters/all")]
-        public async Task<ActionResult<List<ChapterDto>>> GetChaptersAll(string query = "",
-            string sortOption = "title", bool reverse = false)
-            => Ok(await _chapterService.GetListAll(query, sortOption, reverse));
+        public async Task<ActionResult<List<ChapterDto>>> GetChaptersAll(CancellationToken cancellationToken,
+            string query = "", string sortOption = "title", bool reverse = false)
+            => Ok(await _chapterService.GetListAll(query, sortOption, reverse, cancellationToken));
 
 
         [HttpGet]
         [Route("api/chapters")]
-        public async Task<ActionResult<List<ChapterDto>>> GetChapters(int skip = 0, int take = 10,
-            string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _chapterService.GetList(skip, take, query, sortOption, reverse));
+        public async Task<ActionResult<List<ChapterDto>>> GetChapters(CancellationToken cancellationToken, 
+            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
+            => Ok(await _chapterService.GetList(skip, take, query, sortOption, reverse, cancellationToken));
 
 
         [HttpGet]
         [Route("api/courses/{id}/chapters/all")]
-        public async Task<ActionResult<List<ChapterDto>>> GetCourseChaptersAll(Guid id, string query = "",
-            string sortOption = "title", bool reverse = false)
-            => Ok(await _chapterService.GetParentItemsAll(id, query, sortOption, reverse));
+        public async Task<ActionResult<List<ChapterDto>>> GetCourseChaptersAll(Guid id, CancellationToken cancellationToken, 
+            string query = "", string sortOption = "title", bool reverse = false)
+            => Ok(await _chapterService.GetParentItemsAll(id, query, sortOption, reverse, cancellationToken));
 
 
         [HttpGet]
         [Route("api/courses/{id}/chapters")]
-        public async Task<ActionResult<List<ChapterDto>>> GetCourseChapters(Guid id, int skip = 0, int take = 10,
-            string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _chapterService.GetParentItems(id, skip, take, query, sortOption, reverse));
+        public async Task<ActionResult<List<ChapterDto>>> GetCourseChapters(Guid id, CancellationToken cancellationToken, 
+            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
+            => Ok(await _chapterService.GetParentItems(id, skip, take, query, sortOption, reverse, cancellationToken));
 
 
         [Authorize]
         [HttpPost]
         [Route("api/chapters")]
-        public async Task<ActionResult<Guid>> CreateCourseComment([FromBody] CreateChapterDto model,
+        public async Task<ActionResult<Guid>> CreateChapter([FromBody] CreateChapterDto model,
             CancellationToken cancellationToken)
         {
+            if (!await _accessService.HasAccessToCourse(UserId, model.CourseId, cancellationToken))
+                return Forbid();
+
             return Ok(await _chapterService.CreateAsync(model, cancellationToken));
         }
 
@@ -64,9 +69,11 @@ namespace Iskills.Controllers
         [Authorize]
         [HttpPut]
         [Route("api/chapters/{id}")]
-        public async Task<IActionResult> UpdateComment(Guid id, [FromBody] CreateChapterDto model,
+        public async Task<IActionResult> UpdateChapter(Guid id, [FromBody] CreateChapterDto model,
             CancellationToken cancellationToken)
         {
+            if (!await _accessService.HasAccessToChapter(UserId, id, cancellationToken))
+                return Forbid();
 
             await _chapterService.UpdateAsync(id, model, cancellationToken);
             return NoContent();
@@ -76,11 +83,13 @@ namespace Iskills.Controllers
         [Authorize]
         [HttpDelete]
         [Route("api/chapters/{id}")]
-        public async Task<IActionResult> DeleteCourse(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteChapter(Guid id, CancellationToken cancellationToken)
         {
+            if (!await _accessService.HasAccessToChapter(UserId, id, cancellationToken))
+                return Forbid();
+
             await _chapterService.DeleteByIdAsync(id, cancellationToken);
             return NoContent();
-
         }
 
     }

@@ -10,7 +10,7 @@ namespace BLL.Interfaces
 {
     public interface IUserService : IBaseService<Guid, User, RegisterUserModel, UserDto>
     {
-        Task<Guid> GetIdFromEmail(string Email);
+        Task<Guid> GetIdFromEmail(string Email, CancellationToken cancellationToken);
         Task UpdateUserImageAsync(Guid id, IFormFile file, int width, int height, CancellationToken cancellationToken);
     }
 }

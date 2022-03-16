@@ -10,7 +10,7 @@ namespace BLL.Interfaces
 {
     public interface IParentService<IdType, TDto>
     { 
-        Task<List<TDto>> GetParentItems(IdType chapterId, int skip, int take, string query, string sortOption, bool reverse);
-        Task<List<TDto>> GetParentItemsAll(IdType chapterId, string query, string sortOption, bool reverse);
+        Task<List<TDto>> GetParentItems(IdType parentId, int skip, int take, string query, string sortOption, bool reverse, CancellationToken cancellationToken);
+        Task<List<TDto>> GetParentItemsAll(IdType parentId, string query, string sortOption, bool reverse, CancellationToken cancellationToken);
     }
 }

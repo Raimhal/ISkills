@@ -60,7 +60,8 @@ namespace Iskills.Controllers
 
             var responce = await _accountService.RevokeToken(token, GetIp(), cancellationToken);
 
-            if (!responce) return NotFound(new { message = "Token not found" });
+            if (!responce) 
+                return NotFound(new { message = "Token not found" });
             return Ok(new { message = "Token revoked" });
         }
 

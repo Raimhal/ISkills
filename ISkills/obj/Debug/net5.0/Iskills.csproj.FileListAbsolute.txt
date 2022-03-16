@@ -200,3 +200,4 @@ E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\System.Drawing.Common.dll
 E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
 E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp3.1\System.Drawing.Common.dll
 E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\runtimes\win\lib\netcoreapp3.1\System.Drawing.Common.dll
+E:\it\Secound Course\ISkills\ISkills\bin\Debug\net5.0\nClam.Net.dll

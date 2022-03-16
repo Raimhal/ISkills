@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "4mLSZ+M48MqQCosD4cu01wK0CuHq4HytzYgzJkdjbc3J0i8SI8iNl9eR/MRmZD8vMvZh3GF2py41veWefYx3+Q==",
+  "dgSpecHash": "Q4jyXoXeJG1917AAGtoC4LkWveqQEFBig1gIWXfkIuHOH+/fTphJBLDSig9B6gmTbsraYmzJHSeb+r7n4LycsA==",
   "success": true,
   "projectFilePath": "E:\\it\\Secound Course\\ISkills\\DAL\\DAL.csproj",
   "expectedPackageFiles": [
@@ -52,6 +52,7 @@
     "C:\\Users\\kormi\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\nclam\\7.0.0\\nclam.7.0.0.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\nclam.net\\0.0.3\\nclam.net.0.0.3.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\npgsql\\5.0.12\\npgsql.5.0.12.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\5.0.10\\npgsql.entityframeworkcore.postgresql.5.0.10.nupkg.sha512",

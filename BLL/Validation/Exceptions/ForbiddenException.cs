@@ -6,11 +6,11 @@ namespace BLL.Validation.Exceptions
 {
     public class AlreadyExistsException : Exception
     {
-        public AlreadyExistsException(string entity, object key, object value)
+        public AlreadyExistsException(string entity, string key, object value)
             : base (
                 $"{entity} " +
-                $"with this " +
-                $"{key} " +
+                $"with " +
+                $"{key.ToLower()} " +
                 $"({value}) " +
                 $"already exists."
             )     
