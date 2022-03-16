@@ -9,7 +9,7 @@ namespace BLL.DtoModels
         public string FileType { get; set; }
         public double FileSize { get; set; }
 
-        public void Mapping(Profile profile)
+        public virtual void Mapping(Profile profile)
         {
             profile.CreateMap<CreateAllowedFileTypeDto, AllowedFileType>();
         }

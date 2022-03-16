@@ -12,7 +12,7 @@ namespace BLL.DtoModels
         public string Title { get; set; }
         public Guid ChapterId { get; set; }
 
-        public void Mapping(Profile profile)
+        public virtual void Mapping(Profile profile)
         {
             profile.CreateMap<UpdateVideoDto, Video>();
         }

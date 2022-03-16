@@ -12,7 +12,7 @@ namespace BLL.DtoModels
         public string Description { get; set; }
         public Guid CourseId { get; set; }
 
-        public void Mapping(Profile profile)
+        public virtual void Mapping(Profile profile)
         {
             profile.CreateMap<CreateChapterDto, Chapter>();
         }

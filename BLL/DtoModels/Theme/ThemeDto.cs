@@ -5,14 +5,11 @@ using Domain.Models;
 
 namespace BLL.DtoModels
 {
-    public class ThemeDto : IMapWith<Theme>
+    public class ThemeDto : CreateThemeDto, IMapWith<Theme>
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public int CategoryId { get; set; }
-        public int CountCourses { get; set; }
 
-        public void Mapping(Profile profile)
+        public override void Mapping(Profile profile)
         {
             profile.CreateMap<ThemeDto, Theme>()
                 .ReverseMap();

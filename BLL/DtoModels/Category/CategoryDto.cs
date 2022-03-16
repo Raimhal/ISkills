@@ -5,12 +5,11 @@ using Domain.Models;
 
 namespace BLL.DtoModels
 {
-    public class CategoryDto : IMapWith<Category>
+    public class CategoryDto : CreateCategoryDto, IMapWith<Category>
     {
         public int Id { get; set; }
-        public string Title { get; set; }
 
-        public void Mapping(Profile profile)
+        public override void Mapping(Profile profile)
         {
             profile.CreateMap<CategoryDto, Category>()
                 .ReverseMap();

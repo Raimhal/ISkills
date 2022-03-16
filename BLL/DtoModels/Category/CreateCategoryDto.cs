@@ -9,7 +9,7 @@ namespace BLL.DtoModels
     {  
         public string Title { get; set; }
 
-        public void Mapping(Profile profile)
+        public virtual void Mapping(Profile profile)
         {
             profile.CreateMap<CreateCategoryDto, Category>()
                 .ReverseMap();

@@ -14,7 +14,7 @@ namespace BLL.DtoModels
         [JsonIgnore]
         public Guid CreatorId { get; set; }
 
-        public void Mapping(Profile profile)
+        public virtual void Mapping(Profile profile)
         {
             profile.CreateMap<CreateCommentDto, Comment>();
         }

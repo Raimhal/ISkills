@@ -5,13 +5,13 @@ using System;
 
 namespace BLL.DtoModels
 {
-    public class AllowedFileTypeDto : IMapWith<AllowedFileType>
+    public class AllowedFileTypeDto : CreateAllowedFileTypeDto, IMapWith<AllowedFileType>
     {
         public Guid Id { get; set; }
         public string FileType { get; set; }
         public double FileSize { get; set; }
 
-        public void Mapping(Profile profile)
+        public override void Mapping(Profile profile)
         {
             profile.CreateMap<AllowedFileType, AllowedFileTypeDto>().ReverseMap();
         }
