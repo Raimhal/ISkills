@@ -98,9 +98,14 @@ namespace BLL.Services
         public async Task UpdateAsync(Guid id, CreateChapterDto model, CancellationToken cancellationToken)
         {
             var chapter = await EntityService.GetAsync(_chapterDbContext.Chapters, _mapper,
-                v => v.Id == id, new() { }, cancellationToken);
+                c => c.Id == id, new() { }, cancellationToken);
 
-            chapter = _mapper.Map<Chapter>(model);
+            var course = await EntityService.GetAsync(_courseDbContext.Courses , _mapper,
+                c => c.Id == model.CourseId, new() { }, cancellationToken);
+
+            chapter.Title = model.Title;
+            chapter.Description = model.Description;
+            chapter.Course = course;
 
             _chapterDbContext.Chapters.Update(chapter);
             await _courseDbContext.SaveChangesAsync(cancellationToken);

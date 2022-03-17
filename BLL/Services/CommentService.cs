@@ -114,8 +114,13 @@ namespace BLL.Services
             if (string.IsNullOrEmpty(model.Content))
                 throw new ValidationException();
 
+            var course = await EntityService.GetAsync(_courseDbContext.Courses,
+                _mapper, c => c.Id == model.CourseId, new() { }, cancellationToken);
+
             comment.Content = model.Content;
             comment.DateUpdated = DateTime.UtcNow;
+            comment.Course = course;
+
 
             _commentDbContext.Comments.Update(comment);
             await _commentDbContext.SaveChangesAsync(cancellationToken);

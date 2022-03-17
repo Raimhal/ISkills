@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BLL.DtoModels;
 using BLL.Interfaces;
 using System.Collections.Generic;
+using Domain.Models;
 
 namespace Iskills.Controllers
 {
@@ -35,16 +36,22 @@ namespace Iskills.Controllers
 
         [HttpGet]
         [Route("api/courses/{id}/comments/all")]
-        public async Task<ActionResult<List<ChapterDto>>> GetCourseCommentsAll(Guid id, CancellationToken cancellationToken,
+        public async Task<ActionResult<List<CommentDto>>> GetCourseCommentsAll(Guid id, CancellationToken cancellationToken,
             string query = "", string sortOption = "date", bool reverse = false)
             => Ok(await _commentService.GetParentItemsAll(id, query, sortOption, reverse, cancellationToken));
 
 
         [HttpGet]
         [Route("api/courses/{id}/comments")]
-        public async Task<ActionResult<List<ChapterDto>>> GetCourseComments(Guid id, CancellationToken cancellationToken,
+        public async Task<ActionResult<List<CommentDto>>> GetCourseComments(Guid id, CancellationToken cancellationToken,
             int skip = 0, int take = 10, string query = "", string sortOption = "date", bool reverse = false)
             => Ok(await _commentService.GetParentItems(id, skip, take, query, sortOption, reverse, cancellationToken));
+
+
+        [HttpGet]
+        [Route("api/comments/{id}")]
+        public async Task<ActionResult<Comment>> GetCourse(Guid id, CancellationToken cancellationToken)
+            => Ok(await _commentService.GetByIdAsync(id, cancellationToken));
 
 
         [Authorize]
@@ -86,6 +93,5 @@ namespace Iskills.Controllers
             await _commentService.DeleteByIdAsync(id, cancellationToken);
             return NoContent();
         }
-
     }
 }

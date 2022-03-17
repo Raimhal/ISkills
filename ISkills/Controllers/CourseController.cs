@@ -49,6 +49,19 @@ namespace Iskills.Controllers
             => Ok(await _courseService.GetParentItems(UserId, skip, take, query, sortOption, reverse, cancellationToken));
 
 
+        [HttpGet]
+        [Route("api/themes/{id}/courses/all")]
+        public async Task<ActionResult<List<CourseDto>>> GetThemeCoursesAll(int id, CancellationToken cancellationToken,
+            string query = "", string sortOption = "title", bool reverse = false)
+            => Ok(await _courseService.GetParentItemsAll(id, query, sortOption, reverse, cancellationToken));
+
+
+        [HttpGet]
+        [Route("api/themes/{id}/courses")]
+        public async Task<ActionResult<List<CourseDto>>> GetThemeCourses(int id, CancellationToken cancellationToken,
+            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
+            => Ok(await _courseService.GetParentItems(id, skip, take, query, sortOption, reverse, cancellationToken));
+
 
         [HttpGet]
         [Route("api/courses/{id}")]

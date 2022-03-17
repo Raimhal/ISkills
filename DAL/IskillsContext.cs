@@ -9,7 +9,7 @@ namespace DAL
     public class IskillsContext : DbContext, IUserDbContext,
         IRoleDbContext, IAllowedFileTypeDbContext, ICourseDbContext,
         ICommentDbContext, IChapterDbContext, IVideoDbContext, 
-        IThemeDbContext, ICategoryDbContext
+        IThemeDbContext, ICategoryDbContext, IRefreshTokenDbContext
     {
         public IskillsContext(DbContextOptions<IskillsContext> options)
             : base(options)
@@ -26,6 +26,7 @@ namespace DAL
         public DbSet<Video> Videos { get; set; }
         public DbSet<Theme> Themes { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

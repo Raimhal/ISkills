@@ -7,8 +7,8 @@ namespace BLL.Validation.ModelValidators
     {
         public AuthenticateRequestValidator()
         {
-            RuleFor(request => request.Email).NotEmpty().MaximumLength(50);
-            RuleFor(request => request.Password).NotEmpty().MinimumLength(5);
+            RuleFor(request => request.Email).NotEmpty().NotNull().EmailAddress().WithMessage("A valid email address is required").MaximumLength(64);
+            RuleFor(request => request.Password).NotEmpty().NotNull().MinimumLength(5);
         }
     }
 

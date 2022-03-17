@@ -10,10 +10,10 @@ namespace DAL.EntityTypeConfigurations
         {
             builder.ToTable("Courses").HasKey(p => p.Id);
             builder.HasIndex(p => p.Id).IsUnique();
-            builder.Property(p => p.Title).HasMaxLength(128).IsRequired();
+            builder.Property(p => p.Title).HasMaxLength(256).IsRequired();
             builder.Property(p => p.ShortInfo).HasMaxLength(256);
-            builder.Property(p => p.Requirements).HasMaxLength(1024);
-            builder.Property(p => p.Description).HasMaxLength(1024);
+            builder.Property(p => p.Requirements).HasMaxLength(2048);
+            builder.Property(p => p.Description).HasMaxLength(2048);
             builder.Property(p => p.DateCreated).IsRequired();
             builder.Property(p => p.DateUpdated).IsRequired();
             builder.Property(p => p.Language).HasMaxLength(64).IsRequired();

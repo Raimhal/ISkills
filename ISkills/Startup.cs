@@ -14,6 +14,7 @@ using BLL.Interfaces;
 using Iskills.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using FluentValidation.AspNetCore;
 
 namespace Iskills
 {
@@ -37,9 +38,17 @@ namespace Iskills
 
             services.AddApplication();
             services.AddPersistence(Configuration);
-            services.AddControllers().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddControllers()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                })
+                .AddFluentValidation(options => {
+                    options.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    options.DisableDataAnnotationsValidation = false;
+                });
             services.AddSwaggerGen();
+            
            
 
             services.AddCors(options =>

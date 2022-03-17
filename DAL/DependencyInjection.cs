@@ -33,6 +33,8 @@ namespace DAL
                 provider.GetService<IskillsContext>());
             services.AddScoped<ICommentDbContext>(provider =>
                 provider.GetService<IskillsContext>());
+            services.AddScoped<IRefreshTokenDbContext>(provider =>
+                provider.GetService<IskillsContext>());
 
             services.AddSingleton(x => new BlobServiceClient
             (

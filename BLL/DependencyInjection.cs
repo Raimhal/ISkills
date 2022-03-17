@@ -12,7 +12,7 @@ namespace BLL
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssemblies(new[] { Assembly.GetExecutingAssembly(), typeof(IUserService).Assembly });
+            services.AddValidatorsFromAssemblies(new[] { Assembly.GetExecutingAssembly() });
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
@@ -43,7 +43,6 @@ namespace BLL
                         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                         RequireExpirationTime = true,
                     };
-
                 });
 
             return services;

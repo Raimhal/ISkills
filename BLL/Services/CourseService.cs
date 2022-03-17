@@ -79,6 +79,28 @@ namespace BLL.Services
                 reverse,
                 cancellationToken);
 
+        public async Task<List<CourseDto>> GetParentItems(int themeId, int skip, int take,
+            string query, string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAsync<Course, CourseDto>(
+                _courseDbContext.Courses,
+                _mapper,
+                skip,
+                take,
+                c => c.Title.Contains(query.ToLower().Trim()) && c.ThemeId == themeId,
+                sortOption,
+                reverse,
+                cancellationToken);
+
+        public async Task<List<CourseDto>> GetParentItemsAll(int themeId, string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await EntityService.GetListAllAsync<Course, CourseDto>(
+                _courseDbContext.Courses,
+                _mapper,
+                c => c.Title.Contains(query.ToLower().Trim()) && c.ThemeId == themeId,
+                sortOption,
+                reverse,
+                cancellationToken);
+
         public async Task<Course> GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => await EntityService.GetAsync(
                 _courseDbContext.Courses,
@@ -118,7 +140,13 @@ namespace BLL.Services
             var theme = await EntityService.GetAsync(_themeContext.Themes, _mapper,
                 t => t.Id == model.ThemeId, new () { }, cancellationToken);
 
-            course = _mapper.Map<Course>(model);
+            course.Title = model.Title;
+            course.ShortInfo = model.ShortInfo;
+            course.Requirements = model.Requirements;
+            course.Description = model.Description;
+            course.Language = model.Language;
+            course.Price = model.Price;
+
             course.Theme = theme;
             course.DateUpdated = DateTime.UtcNow;
 

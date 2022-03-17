@@ -20,16 +20,22 @@ namespace Iskills.Controllers
 
         [HttpGet]
         [Route("api/file-types/all")]
-        public async Task<ActionResult<List<CreateAllowedFileTypeDto>>> GetFileTypesAll(CancellationToken cancellationToken, 
-            string query = "", string sortOption = "title", bool reverse = false)
+        public async Task<ActionResult<List<AllowedFileTypeDto>>> GetFileTypesAll(CancellationToken cancellationToken, 
+            string query = "", string sortOption = "filetype", bool reverse = false)
             => Ok(await _fileService.GetListAll(query, sortOption, reverse, cancellationToken));
 
 
         [HttpGet]
         [Route("api/file-types")]
-        public async Task<ActionResult<List<CreateAllowedFileTypeDto>>> GetFileTypes(CancellationToken cancellationToken, 
-            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
+        public async Task<ActionResult<List<AllowedFileTypeDto>>> GetFileTypes(CancellationToken cancellationToken, 
+            int skip = 0, int take = 10, string query = "", string sortOption = "filetype", bool reverse = false)
             => Ok(await _fileService.GetList(skip, take, query, sortOption, reverse, cancellationToken));
+
+
+        [HttpGet]
+        [Route("api/file-types/{id}")]
+        public async Task<ActionResult<AllowedFileType>> GetCourse(int id, CancellationToken cancellationToken)
+            => Ok(await _fileService.GetByIdAsync(id, cancellationToken));
 
 
         [Authorize(Roles = "Admin")]

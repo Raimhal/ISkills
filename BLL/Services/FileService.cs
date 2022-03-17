@@ -31,7 +31,7 @@ namespace BLL.Services
                 _fileTypesContext.AllowedFileTypes,
                 _mapper,
                 x => x.Id == id,
-                null,
+                new () { },
                 cancellationToken);
 
         public async Task<List<AllowedFileTypeDto>> GetList(int skip, int take,
@@ -80,9 +80,10 @@ namespace BLL.Services
                 if (await _fileTypesContext.AllowedFileTypes
                     .AnyAsync(t => t.FileType == model.FileType, cancellationToken))
                     throw new AlreadyExistsException(nameof(AllowedFileType), nameof(model.FileType), model.FileType);
-            
 
-            type = _mapper.Map<AllowedFileType>(type);
+
+            type.FileType = model.FileType;
+            type.FileSize = model.FileSize;
 
             _fileTypesContext.AllowedFileTypes.Update(type);
             await _fileTypesContext.SaveChangesAsync(cancellationToken);

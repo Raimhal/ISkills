@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Q4jyXoXeJG1917AAGtoC4LkWveqQEFBig1gIWXfkIuHOH+/fTphJBLDSig9B6gmTbsraYmzJHSeb+r7n4LycsA==",
+  "dgSpecHash": "HbJqI/gBHbONVKJKLnReCebIhGohd3Vx1QRPqIaUaZey0mbr0d4ff+Wvl45xC3zdkMQlwzjuYWfInIfYj5wRhg==",
   "success": true,
   "projectFilePath": "E:\\it\\Secound Course\\ISkills\\DAL\\DAL.csproj",
   "expectedPackageFiles": [
@@ -9,8 +9,9 @@
     "C:\\Users\\kormi\\.nuget\\packages\\azure.storage.blobs\\12.11.0\\azure.storage.blobs.12.11.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\azure.storage.common\\12.10.0\\azure.storage.common.12.10.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\csvhelper\\27.2.1\\csvhelper.27.2.1.nupkg.sha512",
-    "C:\\Users\\kormi\\.nuget\\packages\\fluentvalidation\\10.3.6\\fluentvalidation.10.3.6.nupkg.sha512",
-    "C:\\Users\\kormi\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\10.3.6\\fluentvalidation.dependencyinjectionextensions.10.3.6.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\fluentvalidation\\10.4.0\\fluentvalidation.10.4.0.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\fluentvalidation.aspnetcore\\10.4.0\\fluentvalidation.aspnetcore.10.4.0.nupkg.sha512",
+    "C:\\Users\\kormi\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\10.4.0\\fluentvalidation.dependencyinjectionextensions.10.4.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\google.apis\\1.56.0\\google.apis.1.56.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\google.apis.auth\\1.56.0\\google.apis.auth.1.56.0.nupkg.sha512",
     "C:\\Users\\kormi\\.nuget\\packages\\google.apis.core\\1.56.0\\google.apis.core.1.56.0.nupkg.sha512",

@@ -22,10 +22,11 @@ namespace BLL.Services
     public class AccountService : IAccountService
     {
         private readonly IUserDbContext _userContext;
+        private readonly IRefreshTokenDbContext _refreshTokenContext;
         private readonly IMapper _mapper;
 
-        public AccountService(IUserDbContext userContext, IMapper mapper) =>
-            (_userContext, _mapper) = (userContext, mapper);
+        public AccountService(IUserDbContext userContext, IRefreshTokenDbContext refreshTokenContext, IMapper mapper) =>
+            (_userContext, _refreshTokenContext, _mapper) = (userContext, refreshTokenContext, mapper);
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest model, string ip, CancellationToken cancellationToken)
         {
@@ -50,7 +51,7 @@ namespace BLL.Services
             }
             else
                 refreshToken = user.RefreshTokens
-                    .FirstOrDefault(t => t.IsActive == true);
+                    .FirstOrDefault(t => t.IsActive);
 
             return new AuthenticateResponse(user, jwtToken, refreshToken.Token);
         }
@@ -61,6 +62,7 @@ namespace BLL.Services
                 .GetAsync(_userContext.Users, _mapper,
                 u => u.RefreshTokens.Any(t => t.Token == token),
                 new () { u => u.Roles, u => u.RefreshTokens }, cancellationToken);
+
 
             var refreshToken = user.RefreshTokens
                 .FirstOrDefault(t => t.Token == token);

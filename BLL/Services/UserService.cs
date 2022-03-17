@@ -39,8 +39,7 @@ namespace BLL.Services
         {
             x => x.Courses,
             x => x.Comments,
-            x => x.Roles,
-            x => x.RefreshTokens
+            x => x.Roles
         };
 
         public async Task<List<UserDto>> GetList(int skip, int take, string query,

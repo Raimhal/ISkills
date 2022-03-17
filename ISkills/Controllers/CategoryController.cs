@@ -48,7 +48,7 @@ namespace Iskills.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPut]
-        [Route("api/categories/{id}/update")]
+        [Route("api/categories/{id}")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CreateCategoryDto model,
             CancellationToken cancellationToken)
         {
@@ -57,14 +57,13 @@ namespace Iskills.Controllers
         }
 
 
-        [Authorize(Roles ="Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpDelete]
-        [Route("api/categories/{id}/delete")]
+        [Route("api/categories/{id}")]
         public async Task<IActionResult> DeleteCategory(int id, CancellationToken cancellationToken)
         {
             await _categoryService.DeleteByIdAsync(id, cancellationToken);
             return NoContent();
         }
-
     }
 }

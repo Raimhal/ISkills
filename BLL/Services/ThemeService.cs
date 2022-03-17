@@ -18,10 +18,11 @@ namespace BLL.Services
     class ThemeService : IThemeService
     {
         private readonly IThemeDbContext _themeDbContext;
+        private readonly ICategoryDbContext _categoryDbContext;
         private readonly IMapper _mapper;
 
-        public ThemeService(IThemeDbContext themeDbContext, IMapper mapper) =>
-            (_themeDbContext, _mapper) = (themeDbContext, mapper);
+        public ThemeService(IThemeDbContext themeDbContext, ICategoryDbContext categoryContext, IMapper mapper) =>
+            (_themeDbContext, _categoryDbContext, _mapper) = (themeDbContext, categoryContext, mapper);
 
         private readonly List<Expression<Func<Theme, dynamic>>> includes = new ()
         {
@@ -76,14 +77,17 @@ namespace BLL.Services
 
         public async Task UpdateAsync(int id, CreateThemeDto model, CancellationToken cancellationToken)
         {
-
-            if (await _themeDbContext.Themes.AnyAsync(c => c.Title == model.Title && c.Id != id, cancellationToken))
-                throw new AlreadyExistsException(nameof(Theme), nameof(model.Title), model.Title);
-
             var theme = await EntityService.GetAsync(_themeDbContext.Themes,
                 _mapper, t => t.Id == id, new() { }, cancellationToken);
 
+            if (await _themeDbContext.Themes.AnyAsync(c => c.Title == model.Title, cancellationToken) && theme.Title != model.Title)
+                throw new AlreadyExistsException(nameof(Theme), nameof(model.Title), model.Title);
+
+            var category = await EntityService.GetAsync(_categoryDbContext.Categories,
+                _mapper, c => c.Id == model.CategoryId, new() { }, cancellationToken);
+
             theme.Title = model.Title;
+            theme.Category = category;
 
             _themeDbContext.Themes.Update(theme);
             await _themeDbContext.SaveChangesAsync(cancellationToken);

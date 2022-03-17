@@ -73,13 +73,13 @@ namespace BLL.Services
 
         public async Task UpdateAsync(int id, CreateCategoryDto model, CancellationToken cancellationToken)
         {
-            if (await _categoryDbContext.Categories.AnyAsync(c => c.Title == model.Title, cancellationToken))
-                throw new AlreadyExistsException(nameof(Category), nameof(model.Title), model.Title);
-
             var category = await EntityService.GetAsync(_categoryDbContext.Categories,
                 _mapper, c => c.Id == id, new() { }, cancellationToken);
 
-            category = _mapper.Map<Category>(model);
+            if (await _categoryDbContext.Categories.AnyAsync(c => c.Title == model.Title, cancellationToken) && category.Title != model.Title)
+                throw new AlreadyExistsException(nameof(Category), nameof(model.Title), model.Title);
+
+            category.Title = model.Title;
 
             _categoryDbContext.Categories.Update(category);
             await _categoryDbContext.SaveChangesAsync(cancellationToken);
