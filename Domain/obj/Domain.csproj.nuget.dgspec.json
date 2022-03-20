@@ -40,45 +40,9 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
-            "Azure.Storage.Blobs": {
-              "target": "Package",
-              "version": "[12.11.0, )"
-            },
-            "Google.Apis": {
-              "target": "Package",
-              "version": "[1.56.0, )"
-            },
-            "Google.Apis.Auth": {
-              "target": "Package",
-              "version": "[1.56.0, )"
-            },
-            "Google.Apis.Drive.v3": {
-              "target": "Package",
-              "version": "[1.56.0.2601, )"
-            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.14, )"
-            },
-            "Npgsql": {
-              "target": "Package",
-              "version": "[5.0.12, )"
-            },
-            "Npgsql.EntityFrameworkCore.PostgreSQL": {
-              "target": "Package",
-              "version": "[5.0.10, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.2.3, )"
-            },
-            "System.Linq.Dynamic.Core": {
-              "target": "Package",
-              "version": "[1.2.17, )"
-            },
-            "WakaTime": {
-              "target": "Package",
-              "version": "[8.1.11, )"
+              "version": "[5.0.15, )"
             }
           },
           "imports": [

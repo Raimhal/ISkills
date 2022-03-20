@@ -52,15 +52,7 @@
               "target": "Package",
               "version": "[12.11.0, )"
             },
-            "CsvHelper": {
-              "target": "Package",
-              "version": "[27.2.1, )"
-            },
             "FluentValidation": {
-              "target": "Package",
-              "version": "[10.4.0, )"
-            },
-            "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[10.4.0, )"
             },
@@ -68,81 +60,29 @@
               "target": "Package",
               "version": "[10.4.0, )"
             },
-            "Google.Apis": {
-              "target": "Package",
-              "version": "[1.56.0, )"
-            },
-            "Google.Apis.Auth": {
-              "target": "Package",
-              "version": "[1.56.0, )"
-            },
-            "Google.Apis.Drive.v3": {
-              "target": "Package",
-              "version": "[1.56.0.2601, )"
-            },
-            "ImageResizer": {
-              "target": "Package",
-              "version": "[4.2.8, )"
-            },
             "LazZiya.ImageResize": {
               "target": "Package",
               "version": "[4.1.0, )"
             },
-            "MediatR": {
+            "Microsoft.AspNetCore": {
               "target": "Package",
-              "version": "[10.0.1, )"
-            },
-            "MediatR.Extensions.Microsoft.DependencyInjection": {
-              "target": "Package",
-              "version": "[10.0.1, )"
+              "version": "[2.2.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[5.0.14, )"
+              "version": "[5.0.15, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[5.0.15, )"
             },
             "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
               "version": "[6.16.0, )"
             },
-            "Newtonsoft.Json": {
-              "target": "Package",
-              "version": "[13.0.1, )"
-            },
-            "Npgsql": {
-              "target": "Package",
-              "version": "[5.0.12, )"
-            },
-            "Npgsql.EntityFrameworkCore.PostgreSQL": {
-              "target": "Package",
-              "version": "[5.0.10, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.2.3, )"
-            },
-            "System.Drawing.Common": {
-              "target": "Package",
-              "version": "[6.0.0, )"
-            },
-            "System.Linq.Dynamic.Core": {
-              "target": "Package",
-              "version": "[1.2.17, )"
-            },
-            "System.Security.Claims": {
-              "target": "Package",
-              "version": "[4.3.0, )"
-            },
-            "WakaTime": {
-              "target": "Package",
-              "version": "[8.1.11, )"
-            },
             "nClam": {
               "target": "Package",
               "version": "[7.0.0, )"
-            },
-            "nClam.Net": {
-              "target": "Package",
-              "version": "[0.0.3, )"
             }
           },
           "imports": [
@@ -207,57 +147,13 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[11.0.1, )"
-            },
-            "Azure.Storage.Blobs": {
-              "target": "Package",
-              "version": "[12.11.0, )"
-            },
-            "Google.Apis": {
-              "target": "Package",
-              "version": "[1.56.0, )"
-            },
-            "Google.Apis.Auth": {
-              "target": "Package",
-              "version": "[1.56.0, )"
-            },
-            "Google.Apis.Drive.v3": {
-              "target": "Package",
-              "version": "[1.56.0.2601, )"
-            },
-            "Microsoft.EntityFrameworkCore": {
-              "target": "Package",
-              "version": "[5.0.14, )"
-            },
             "Microsoft.EntityFrameworkCore.Relational": {
               "target": "Package",
-              "version": "[5.0.14, )"
-            },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[5.0.14, )"
-            },
-            "Npgsql": {
-              "target": "Package",
-              "version": "[5.0.12, )"
+              "version": "[5.0.15, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[5.0.10, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.2.3, )"
-            },
-            "System.Linq.Dynamic.Core": {
-              "target": "Package",
-              "version": "[1.2.17, )"
-            },
-            "WakaTime": {
-              "target": "Package",
-              "version": "[8.1.11, )"
             }
           },
           "imports": [
@@ -315,45 +211,9 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
-            "Azure.Storage.Blobs": {
-              "target": "Package",
-              "version": "[12.11.0, )"
-            },
-            "Google.Apis": {
-              "target": "Package",
-              "version": "[1.56.0, )"
-            },
-            "Google.Apis.Auth": {
-              "target": "Package",
-              "version": "[1.56.0, )"
-            },
-            "Google.Apis.Drive.v3": {
-              "target": "Package",
-              "version": "[1.56.0.2601, )"
-            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.14, )"
-            },
-            "Npgsql": {
-              "target": "Package",
-              "version": "[5.0.12, )"
-            },
-            "Npgsql.EntityFrameworkCore.PostgreSQL": {
-              "target": "Package",
-              "version": "[5.0.10, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.2.3, )"
-            },
-            "System.Linq.Dynamic.Core": {
-              "target": "Package",
-              "version": "[1.2.17, )"
-            },
-            "WakaTime": {
-              "target": "Package",
-              "version": "[8.1.11, )"
+              "version": "[5.0.15, )"
             }
           },
           "imports": [
@@ -418,81 +278,41 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[11.0.1, )"
-            },
             "AutoMapper.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
               "version": "[11.0.0, )"
             },
-            "Azure.Storage.Blobs": {
+            "FluentValidation.AspNetCore": {
               "target": "Package",
-              "version": "[12.11.0, )"
-            },
-            "Google.Apis": {
-              "target": "Package",
-              "version": "[1.56.0, )"
-            },
-            "Google.Apis.Auth": {
-              "target": "Package",
-              "version": "[1.56.0, )"
-            },
-            "Google.Apis.Drive.v3": {
-              "target": "Package",
-              "version": "[1.56.0.2601, )"
+              "version": "[10.4.0, )"
             },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
-              "version": "[5.0.14, )"
+              "version": "[5.0.15, )"
             },
-            "Microsoft.EntityFrameworkCore": {
+            "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",
-              "version": "[5.0.14, )"
+              "version": "[6.0.0, )"
             },
-            "Microsoft.EntityFrameworkCore.Design": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
+            "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
-              "version": "[5.0.14, )"
+              "version": "[1.11.1, )"
             },
-            "Microsoft.EntityFrameworkCore.InMemory": {
+            "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[5.0.14, )"
+              "version": "[13.0.1, )"
             },
-            "Microsoft.EntityFrameworkCore.Relational": {
+            "Swashbuckle.AspNetCore.Swagger": {
               "target": "Package",
-              "version": "[5.0.14, )"
+              "version": "[6.3.0, )"
             },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
+            "Swashbuckle.AspNetCore.SwaggerGen": {
               "target": "Package",
-              "version": "[5.0.14, )"
+              "version": "[6.3.0, )"
             },
-            "Microsoft.EntityFrameworkCore.Tools": {
-              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
-              "suppressParent": "All",
+            "Swashbuckle.AspNetCore.SwaggerUI": {
               "target": "Package",
-              "version": "[5.0.14, )"
-            },
-            "Npgsql": {
-              "target": "Package",
-              "version": "[5.0.12, )"
-            },
-            "Npgsql.EntityFrameworkCore.PostgreSQL": {
-              "target": "Package",
-              "version": "[5.0.10, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[6.2.3, )"
-            },
-            "System.Linq.Dynamic.Core": {
-              "target": "Package",
-              "version": "[1.2.17, )"
-            },
-            "WakaTime": {
-              "target": "Package",
-              "version": "[8.1.11, )"
+              "version": "[6.3.0, )"
             }
           },
           "imports": [

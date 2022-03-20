@@ -13,29 +13,14 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.11.0" />
-    <PackageReference Include="CsvHelper" Version="27.2.1" />
     <PackageReference Include="FluentValidation" Version="10.4.0" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="10.4.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.4.0" />
-    <PackageReference Include="Google.Apis" Version="1.56.0" />
-    <PackageReference Include="Google.Apis.Auth" Version="1.56.0" />
-    <PackageReference Include="Google.Apis.Drive.v3" Version="1.56.0.2601" />
-    <PackageReference Include="ImageResizer" Version="4.2.8" />
     <PackageReference Include="LazZiya.ImageResize" Version="4.1.0" />
-    <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.14" />
+    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.15" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.15" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.16.0" />
     <PackageReference Include="nClam" Version="7.0.0" />
-    <PackageReference Include="nClam.Net" Version="0.0.3" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Npgsql" Version="5.0.12" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
-    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.17" />
-    <PackageReference Include="System.Security.Claims" Version="4.3.0" />
-    <PackageReference Include="WakaTime" Version="8.1.11" />
   </ItemGroup>
 
   <ItemGroup>

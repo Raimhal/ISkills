@@ -1,0 +1,48 @@
+﻿version: '3.5'
+ 
+networks:
+  network:
+    driver: nat
+ 
+services:
+  postgres_db:
+    image: postgres:latest
+    restart: always
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Epidemic2021
+      POSTGRES_DB: ISkillsDB
+      PGDATA: /var/lib/postgresql/data/pgdata
+    networks:
+      - network
+
+  backend:
+    image: iskills:latest
+    depends_on:
+      - postgres_db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:80"
+    stdin_open: true
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      POSTGRES_HOST: postgres_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Epidemic2021
+      POSTGRES_DB: ISkillsDB
+      POSTGRES_PORT: 5432
+    networks:
+      - network
+
+volumes:
+  db_volume:
+         
+    
+     
+
+
+

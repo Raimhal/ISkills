@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using BLL.DtoModels;
-using System;
 
 namespace BLL.Validation.ModelValidators
 {

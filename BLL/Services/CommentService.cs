@@ -31,7 +31,6 @@ namespace BLL.Services
         private readonly List<Expression<Func<Comment, dynamic>>> includes = new ()
         {
             x => x.Course,
-            x => x.Creator
         };
 
         public async Task<List<CommentDto>> GetList(int skip, int take, string query,
@@ -88,12 +87,10 @@ namespace BLL.Services
 
         public async Task<Guid> CreateAsync(CreateCommentDto model, CancellationToken cancellationToken)
         {
-            Expression<Func<User, bool>> expression = u => u.Id == model.CreatorId;
-            if (!await _userDbContext.Users.AnyAsync(expression, cancellationToken))
+            if (!await _userDbContext.Users.AnyAsync(u => u.Id == model.CreatorId, cancellationToken))
                 throw new NotFoundException(nameof(User), nameof(model.CreatorId), model.CreatorId);
 
-            Expression<Func<Course, bool>> courseExpression = t => t.Id == model.CourseId;
-            if (!await _courseDbContext.Courses.AnyAsync(courseExpression, cancellationToken))
+            if (!await _courseDbContext.Courses.AnyAsync(t => t.Id == model.CourseId, cancellationToken))
                 throw new NotFoundException(nameof(Course), nameof(model.CourseId), model.CreatorId);
 
             var comment = _mapper.Map<Comment>(model);

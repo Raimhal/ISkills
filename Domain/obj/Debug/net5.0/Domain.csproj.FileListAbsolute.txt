@@ -21,4 +21,3 @@ E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\Domain.csproj.CoreCompileIn
 E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\Domain.dll
 E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\ref\Domain.dll
 E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\Domain.pdb
-E:\it\Secound Course\ISkills\Domain\obj\Debug\net5.0\Domain.csproj.AssemblyReference.cache

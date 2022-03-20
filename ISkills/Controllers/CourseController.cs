@@ -24,7 +24,7 @@ namespace Iskills.Controllers
         public async Task<ActionResult<List<CourseDto>>> GetCoursesAll(CancellationToken cancellationToken,
             string query = "", string sortOption = "title", bool reverse = false)
             => Ok(await _courseService.GetListAll(query, sortOption, reverse, cancellationToken));
-        
+
 
         [HttpGet]
         [Route("api/courses")]
@@ -115,6 +115,8 @@ namespace Iskills.Controllers
             await _courseService.DeleteByIdAsync(id, cancellationToken);
             return NoContent();
         }
+
+        
 
     }
 }

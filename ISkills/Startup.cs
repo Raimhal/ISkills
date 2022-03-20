@@ -48,6 +48,7 @@ namespace Iskills
                     options.DisableDataAnnotationsValidation = false;
                 });
             services.AddSwaggerGen();
+           
             
            
 
@@ -57,7 +58,7 @@ namespace Iskills
                       builder =>
                       {
                           builder
-                          .WithOrigins("http://localhost:3000","http://localhost:8080", "http://192.168.0.108:3000")
+                          .AllowAnyOrigin()
                           .AllowAnyHeader()
                           .AllowAnyMethod();
                       });
@@ -75,6 +76,7 @@ namespace Iskills
             }
 
             app.UseCustomExceptionHandler();
+            app.UseHttpsRedirection();
             app.UseRouting();
             app.UseHttpsRedirection();
             app.UseCors("MyCors");

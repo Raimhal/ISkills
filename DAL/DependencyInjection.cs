@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Domain.Interfaces;
 using BLL.Interfaces;
 using Azure.Storage.Blobs;
+using System;
 
 namespace DAL
 {
@@ -12,8 +13,17 @@ namespace DAL
         public static IServiceCollection AddPersistence(this IServiceCollection services,
             IConfiguration configuration)
         {
+            //services.AddDbContext<IskillsContext>(options =>
+            //    options.UseNpgsql(configuration.GetConnectionString("DbConnection")));
+
+            var connectionString = $"host={Environment.GetEnvironmentVariable("POSTGRES_HOST")};" +
+                $"port={Environment.GetEnvironmentVariable("POSTGRES_PORT")};" +
+                $"database={Environment.GetEnvironmentVariable("POSTGRES_DB")};" +
+                $"username={Environment.GetEnvironmentVariable("POSTGRES_USER")};" +
+                $"password={Environment.GetEnvironmentVariable("POSTGRES_PASSWORD")};";
+
             services.AddDbContext<IskillsContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DbConnection")));
+                options.UseNpgsql(connectionString));
 
             services.AddScoped<IUserDbContext>(provider =>
                 provider.GetService<IskillsContext>());

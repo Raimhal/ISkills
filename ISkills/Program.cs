@@ -36,6 +36,10 @@ namespace Iskills
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                })
+                .ConfigureAppConfiguration(configurationBuilder =>
+                {
+                    configurationBuilder.AddEnvironmentVariables();
                 });
     }
 }

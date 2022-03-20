@@ -5,5 +5,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>IIS Express</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>E:\it\Secound Course\ISkills\ISkills\Properties\PublishProfiles\registry.hub.docker.com_raimhal.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>
