@@ -1,0 +1,64 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.3",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/react-redux": "^7.1.23",
+    "axios": "^0.26.1",
+    "bootstrap": "^5.1.3",
+    "buffer": "^6.0.3",
+    "draft-convert": "^2.1.12",
+    "draft-js": "^0.11.7",
+    "draft-js-export-html": "^1.4.1",
+    "draftjs-to-html": "^0.9.1",
+    "formik": "^2.2.9",
+    "html-react-parser": "^1.4.10",
+    "react": "^18.0.0",
+    "react-bootstrap": "^2.2.3",
+    "react-dom": "^18.0.0",
+    "react-draft-wysiwyg": "^1.14.7",
+    "react-global-storage": "^0.0.5",
+    "react-html-parser": "^2.0.2",
+    "react-pagination-js": "^2.0.0",
+    "react-ratings-declarative": "^3.4.1",
+    "react-redux": "^7.2.8",
+    "react-router-dom": "^6.3.0",
+    "react-scripts": "5.0.0",
+    "react-simple-star-rating": "^4.0.5",
+    "react-star-ratings": "^2.3.0",
+    "react-transition-group": "^4.4.2",
+    "redux": "^4.1.2",
+    "slate": "^0.76.1",
+    "slate-history": "^0.66.0",
+    "slate-react": "^0.76.1",
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

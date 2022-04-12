@@ -1,0 +1,12 @@
+.myInput{
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0;
+    border: none;
+    border-bottom: 1px solid rgba(120, 108, 108, 0.21);
+}
+
+.myInput:focus{
+    outline: none;
+    border-bottom-color: #975ad4;
+}
