@@ -41,7 +41,8 @@ namespace BLL.Services
                 take,
                 c => c.FileType.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse, 
+                reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<List<AllowedFileTypeDto>> GetListAll(string query, string sortOption,
@@ -50,7 +51,8 @@ namespace BLL.Services
                 _mapper,
                 c => c.FileType.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse, 
+                reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<int> CreateAsync(CreateAllowedFileTypeDto model, CancellationToken cancellationToken)

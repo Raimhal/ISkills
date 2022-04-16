@@ -14,8 +14,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -41,7 +41,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="E:\WebStorm 2020.3.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
@@ -49,14 +49,18 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\it\Secound Course\ISkills\frontend\src\components\UI\input" />
-      <recent name="E:\it\Secound Course\ISkills\frontend\src" />
-      <recent name="E:\it\Secound Course\ISkills\frontend\src\components" />
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\assets" />
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\assets\images" />
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\components\comment" />
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\components\user" />
+      <recent name="E:\it\Secound Course\ISkills\frontend\public" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\assets\images" />
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\pages" />
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\components\course" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\components\UI" />
       <recent name="E:\it\Secound Course\ISkills\frontend\public" />
-      <recent name="E:\it\Secound Course\ISkills\frontend\src\assets" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -93,6 +97,17 @@
       <workItem from="1649663582253" duration="11391000" />
       <workItem from="1649681340204" duration="15182000" />
       <workItem from="1649743825083" duration="8785000" />
+      <workItem from="1649766634223" duration="13633000" />
+      <workItem from="1649832531779" duration="2399000" />
+      <workItem from="1649835032003" duration="2177000" />
+      <workItem from="1649843394282" duration="6896000" />
+      <workItem from="1649855392536" duration="2841000" />
+      <workItem from="1649881647365" duration="659000" />
+      <workItem from="1649915925625" duration="697000" />
+      <workItem from="1649917375300" duration="5562000" />
+      <workItem from="1649931015463" duration="19466000" />
+      <workItem from="1650031074947" duration="7197000" />
+      <workItem from="1650093346615" duration="16992000" />
     </task>
     <servers />
   </component>

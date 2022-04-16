@@ -35,7 +35,7 @@ namespace BLL.Services
                 new() { u => u.Roles, u => u.RefreshTokens }, cancellationToken);
 
             if (!model.Password.AreEqual(user.Salt, user.Password))
-                throw new Exception(message: "Email or password incorrect");
+                throw new ConflictException(message: "Email or password is incorrect");
 
             var jwtToken = GenerateJwtToken(user);
 

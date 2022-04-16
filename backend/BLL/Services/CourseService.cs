@@ -29,15 +29,12 @@ namespace BLL.Services
 
         public CourseService(ICourseDbContext courseDbContext, IUserDbContext userContext,
             IThemeDbContext themeContext, IBlobService blobService, IImageService imageService,
-            IFileService fileService, IMapper mapper) 
-            => (_courseDbContext, _userContext, _themeContext, _blobService, _imageService, _fileService, _mapper) 
+            IFileService fileService, IMapper mapper)
+            => (_courseDbContext, _userContext, _themeContext, _blobService, _imageService, _fileService, _mapper)
             = (courseDbContext, userContext, themeContext, blobService, imageService, fileService, mapper);
 
-        private readonly List<Expression<Func<Course, dynamic>>> includes = new ()
+        private readonly List<Expression<Func<Course, dynamic>>> includes = new()
         {
-            x => x.Students,
-            x => x.Comments,
-            x => x.Chapters,
             x => x.Theme
         };
 
@@ -50,15 +47,17 @@ namespace BLL.Services
                   c => c.Title.Contains(query.ToLower().Trim()),
                   sortOption,
                   reverse,
+                  new() { },
                   cancellationToken);
-        
+
         public async Task<List<CourseDto>> GetListAll(string query, string sortOption,
             bool reverse, CancellationToken cancellationToken)
             => await _courseDbContext.Courses.GetListAllAsync<Course, CourseDto>(
                 _mapper,
                 c => c.Title.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse, 
+                reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<PaginationList<CourseDto>> GetParentItems(Guid userId, int skip, int take,
@@ -70,6 +69,7 @@ namespace BLL.Services
                 c => c.Title.Contains(query.ToLower().Trim()) && c.CreatorId == userId,
                 sortOption,
                 reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<List<CourseDto>> GetParentItemsAll(Guid userId, string query,
@@ -79,6 +79,7 @@ namespace BLL.Services
                 c => c.Title.Contains(query.ToLower().Trim()) && c.CreatorId == userId,
                 sortOption,
                 reverse,
+                new() { },
                 cancellationToken);
         
 
@@ -91,6 +92,7 @@ namespace BLL.Services
                 c => c.Title.Contains(query.ToLower().Trim()) && c.ThemeId == themeId,
                 sortOption,
                 reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<List<CourseDto>> GetParentItemsAll(int themeId, string query,
@@ -100,6 +102,7 @@ namespace BLL.Services
                 c => c.Title.Contains(query.ToLower().Trim()) && c.ThemeId == themeId,
                 sortOption,
                 reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<Course> GetByIdAsync(Guid id, CancellationToken cancellationToken)

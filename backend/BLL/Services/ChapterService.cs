@@ -39,6 +39,7 @@ namespace BLL.Services
                 c => c.Title.Contains(query.ToLower().Trim()), 
                 sortOption,
                 reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<List<ChapterDto>> GetListAll(string query, string sortOption,
@@ -48,6 +49,7 @@ namespace BLL.Services
                 c => c.Title.Contains(query.ToLower().Trim()),
                 sortOption,
                 reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<PaginationList<ChapterDto>> GetParentItems(Guid courseId, int skip, int take,
@@ -59,6 +61,7 @@ namespace BLL.Services
                 c => c.Title.Contains(query.ToLower().Trim()) && c.CourseId == courseId,
                 sortOption,
                 reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<List<ChapterDto>> GetParentItemsAll(Guid courseId, string query,
@@ -68,6 +71,7 @@ namespace BLL.Services
                 c => c.Title.Contains(query.ToLower().Trim()) && c.CourseId == courseId,
                 sortOption,
                 reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<Chapter> GetByIdAsync(Guid id, CancellationToken cancellationToken)

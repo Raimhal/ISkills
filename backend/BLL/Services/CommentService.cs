@@ -43,6 +43,7 @@ namespace BLL.Services
                 c => c.Content.Contains(query.ToLower().Trim()),
                 sortOption,
                 reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<List<CommentDto>> GetListAll(string query, string sortOption,
@@ -52,6 +53,7 @@ namespace BLL.Services
                 c => c.Content.Contains(query.ToLower().Trim()),
                 sortOption,
                 reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<PaginationList<CommentDto>> GetParentItems(Guid courseId, int skip, int take,
@@ -63,6 +65,7 @@ namespace BLL.Services
                 c => c.Content.Contains(query.ToLower().Trim()) && c.CourseId == courseId,
                 sortOption,
                 reverse,
+                new () { x => x.Creator},
                 cancellationToken);
 
         public async Task<List<CommentDto>> GetParentItemsAll(Guid courseId, string query,
@@ -72,6 +75,7 @@ namespace BLL.Services
                 c => c.Content.Contains(query.ToLower().Trim()) && c.CourseId == courseId,
                 sortOption,
                 reverse,
+                new() { x => x.Creator},
                 cancellationToken);
 
         public async Task<Comment> GetByIdAsync(Guid id, CancellationToken cancellationToken)

@@ -1,0 +1,9 @@
+
+.rating {
+    color: rgb(255, 188, 11);
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    gap: 0.2rem;
+
+}

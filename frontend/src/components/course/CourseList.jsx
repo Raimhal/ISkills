@@ -1,9 +1,7 @@
 import React from 'react';
 import CourseItem from "./CourseItem";
-import '../styles/App.css'
+import '../../styles/App.css'
 import {CSSTransition, TransitionGroup} from "react-transition-group";
-import MyRating from "./UI/rating/MyRating";
-import MyEditor from "./UI/editor/MyEditor";
 
 const CourseList = ({courses, title, remove}) => {
     return (
@@ -23,7 +21,6 @@ const CourseList = ({courses, title, remove}) => {
                     )}
                 </TransitionGroup>
             }
-            <MyRating value={0} onChange={value => console.log(value)} readonly={false}/>
         </div>
     );
 };

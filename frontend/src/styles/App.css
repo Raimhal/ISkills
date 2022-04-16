@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    word-break: break-word;
 }
 
 #root{
@@ -11,12 +12,12 @@
 }
 
 .App {
-    width: 100vw;
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
 
 .main {
     margin: auto;
-    width: 80%;
+    width: 50%;
 }

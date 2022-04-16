@@ -54,17 +54,23 @@ namespace Iskills.Controllers
         }
 
 
+        [HttpGet]
+        [Route("api/users/{id}/short-information")]
+        public async Task<ActionResult<UserDto>> GetUserShortInfo(Guid id, CancellationToken cancellationToken)
+            => Ok(await _userService.GetShortInfoByIdAsync(id, cancellationToken));
+
+
         [Authorize]
         [HttpGet]
         [Route("api/users/by-email")]
         public async Task<ActionResult<User>> GetUserByEmail(string email, CancellationToken cancellationToken)
-            => await GetUser(await _userService.GetIdFromEmail(email, cancellationToken), cancellationToken);
+            => Ok(await GetUser(await _userService.GetIdFromEmail(email, cancellationToken), cancellationToken));
         
 
         [Authorize]
         [HttpGet]
         [Route("api/users/current")]
-        public async Task<ActionResult<Guid>> GetCurrentUser(CancellationToken cancellationToken)
+        public async Task<ActionResult<UserDto>> GetCurrentUser(CancellationToken cancellationToken)
             => Ok(await _userService.GetByIdAsync(UserId, cancellationToken));
 
 

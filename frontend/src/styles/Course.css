@@ -29,7 +29,7 @@
 
 .course__image{
     border: 1px solid rgba(120, 108, 108, 0.20);
-    width: 224px;
+    min-width: 224px;
     height: 160px;
 }
 
@@ -62,4 +62,45 @@
 .course-exit-active {
     opacity: 0;
     transition: opacity 500ms ease-in;
+}
+
+.course__page {
+    display: flex;
+    flex-direction: column;
+    gap:  0.5rem;
+}
+
+.course__page > div.card {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.course__page > div.card > div.head {
+    padding: 15px;
+}
+
+.language {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+}
+
+.block {
+    padding: 15px;
+    border: solid 1px rgba(169, 169, 169, 0.4);
+}
+
+.buy {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.free {
+    display: flex;
+    justify-self: flex-end;
 }

@@ -37,6 +37,7 @@ namespace BLL.Services
                 c => c.Title.Contains(query.ToLower().Trim()),
                 sortOption,
                 reverse,
+                new () { },
                 cancellationToken);
 
         public async Task<List<CategoryDto>> GetListAll(string query, string sortOption,
@@ -46,6 +47,7 @@ namespace BLL.Services
                 c => c.Title.Contains(query.ToLower().Trim()),
                 sortOption,
                 reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<Category> GetByIdAsync(int id, CancellationToken cancellationToken) 

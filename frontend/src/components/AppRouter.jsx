@@ -1,19 +1,20 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
-import Courses from "../pages/Courses";
-import NotFoundPage from "../pages/NotFoundPage";
-import CoursePage from "../pages/CoursePage";
+import {publicRoutes, privateRoutes} from "../router";
+import {useSelector} from "react-redux";
 
 const AppRouter = () => {
+    const isAuth = useSelector(state => state.user.isAuth)
     return (
-        <div>
             <Routes>
-                <Route path="/courses" element={<Courses />} />
-                <Route path="/courses/:id" element={<CoursePage />} />
-                <Route path="*" element={<NotFoundPage />} />
+                {publicRoutes.map(route =>
+                    <Route path={route.path} element={route.component} exact={route.exact} key={route.path}/>
+                )}
+                {privateRoutes.map(route =>
+                    <Route path={route.path} element={route.component} exact={route.exact} key={route.path}/>
+                )}
             </Routes>
-        </div>
     );
-};
+}
 
 export default AppRouter;

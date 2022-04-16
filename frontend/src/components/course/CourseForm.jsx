@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
-import MyInput from "./UI/input/MyInput";
-import MyButton from "./UI/button/MyButton";
-import MySelect from "./UI/select/MySelect";
-import {instance} from "../router/instance";
+import MyInput from "../UI/input/MyInput";
+import MyButton from "../UI/button/MyButton";
+import MySelect from "../UI/select/MySelect";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import MyEditor from "./UI/editor/MyEditor";
+import MyEditor from "../UI/editor/MyEditor";
 
-const CourseForm = ({create}) => {
+const CourseForm = ({action, title}) => {
     const languages = [
         {name: "English", value: "english"},
         {name: "Russian", value: "russian"},
@@ -38,12 +37,10 @@ const CourseForm = ({create}) => {
     const [course, setCourse] = useState(initialCourseState)
     const [buyMode, setBuyMode] = useState(false)
 
-    const createCourse = (e) => {
+    const courseAction = (e) => {
         e.preventDefault()
-        const newCourse = {
-            ...course, id: Date.now()
-        }
-        create(newCourse)
+        console.log(course)
+        action(course)
         setCourse(initialCourseState)
     }
 
@@ -77,8 +74,7 @@ const CourseForm = ({create}) => {
                 <p><input type="radio" name="buyMode" onChange={() => setBuyMode(true)}/> buy to learn </p>
             </div>
             {buyMode && <MyInput type="text" onChange={e => setCourse({...course, price: e.target.value})} placeholder="Price"/>}
-            <MyButton onClick={createCourse}>Create</MyButton>
-            {console.log(course)}
+            <MyButton onClick={courseAction}>{title}</MyButton>
         </form>
     );
 };

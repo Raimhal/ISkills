@@ -1,8 +1,10 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom'
-import '../styles/Course.css'
-import '../styles/Button.css'
-import MyRating from "./UI/rating/MyRating";
+import '../../styles/Course.css'
+import '../../styles/Button.css'
+import MyRating from "../UI/rating/MyRating";
+import defaultCourseImage from '../../assets/images/defaultCourseImage.png'
+import ReactHtmlParser from "react-html-parser";
 
 
 const CourseItem = ({course, remove}) => {
@@ -15,11 +17,11 @@ const CourseItem = ({course, remove}) => {
     return (
         <div className="course__item" onClick={() => navigate(`/courses/${course.id}`)}>
             <div className="course">
-                <img src={course.imageUrl} alt="course image" className="course__image"/>
+                <img src={course.imageUrl || defaultCourseImage} alt="course image" className="course__image"/>
                 <div className="course__content">
                     <h3>{course.title}</h3>
                     <MyRating value={course.rating} readonly={true}/>
-                    <div>{course.shortInfo}</div>
+                    <div>{ReactHtmlParser(course.shortInfo)}</div>
                     <div>{course.language}</div>
                 </div>
             </div>

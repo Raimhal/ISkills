@@ -42,7 +42,8 @@ namespace BLL.Services
                 take,
                 c => c.Title.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse, 
+                reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<List<VideoDto>> GetListAll(string query, string sortOption,
@@ -51,7 +52,8 @@ namespace BLL.Services
                 _mapper,
                 c => c.Title.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse, 
+                reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<PaginationList<VideoDto>> GetParentItems(Guid chapterId, int skip, int take,
@@ -62,7 +64,8 @@ namespace BLL.Services
                take,
                c => c.Title.Contains(query.ToLower().Trim()) && c.ChapterId == chapterId,
                sortOption,
-               reverse, 
+               reverse,
+               new() { },
                cancellationToken);
 
         public async Task<List<VideoDto>> GetParentItemsAll(Guid chapterId, string query, string sortOption,
@@ -71,7 +74,8 @@ namespace BLL.Services
                 _mapper,
                 c => c.Title.Contains(query.ToLower().Trim()) && c.ChapterId == chapterId,
                 sortOption,
-                reverse, 
+                reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<Video> GetByIdAsync(Guid id, CancellationToken cancellationToken)

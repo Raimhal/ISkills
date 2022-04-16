@@ -1,14 +1,20 @@
 import React, {useState} from 'react';
-import {convertToRaw, EditorState} from "draft-js";
+import {convertToRaw, EditorState, ContentState} from "draft-js";
 import {Editor} from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
-import ReactHtmlParser from "react-html-parser";
+import htmlToDraft from "html-to-draftjs"
 import classes from './MyEditor.module.css'
 
-const MyEditor = ({onChange, ...props}) => {
+const MyEditor = ({defaultValue = '', onChange = null, readonly = false,  ...props}) => {
+
+    const blocksFromHTML = htmlToDraft(defaultValue);
+    const state = ContentState.createFromBlockArray(
+        blocksFromHTML.contentBlocks,
+        blocksFromHTML.entityMap
+    );
 
     const [editorState, setEditorState] = useState(
-        () => EditorState.createEmpty()
+        () => EditorState.createWithContent(state)
     )
 
     const content = draftToHtml(convertToRaw(editorState.getCurrentContent()))
@@ -21,8 +27,9 @@ const MyEditor = ({onChange, ...props}) => {
                 onChange={() => onChange(content)}
                 editorClassName={classes.editorContent}
                 onEditorStateChange={setEditorState}
+                readOnly={readonly}
+                toolbarClassName={readonly && classes.toolbar__none}
             />
-            <div>{ReactHtmlParser(content)}</div>
         </div>
     );
 };

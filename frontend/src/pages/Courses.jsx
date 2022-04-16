@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react'
 import "../styles/App.css"
 import "../styles/Course.css"
-import CourseList from "../components/CourseList";
+import CourseList from "../components/course/CourseList";
 import MyButton from "../components/UI/button/MyButton";
-import CourseForm from "../components/CourseForm";
+import CourseForm from "../components/course/CourseForm";
 import MyModal from "../components/UI/MyModal/MyModal";
 import CourseService from "../API/CourseService";
 import {useFetching} from "../hooks/useFetching";
 import MyPagination from "../components/UI/pagination/MyPagination";
+import {token} from "../router/token";
+
 
 const Courses = () => {
     const [courses, setCourses] = useState([])
@@ -36,8 +38,13 @@ const Courses = () => {
         setTotalCount(totalCount)
     })
 
-    const createCourse = (course) => {
-        setCourses([...courses, course])
+    const createCourse = async (course) => {
+        const courseId = await CourseService.Create(course, {
+            headers: {
+                Authorization: token
+            }
+        })
+        setCourses([...courses, {...course, id: courseId}])
         setModal(false)
         setTotalCount(totalCount + 1)
     }
@@ -63,18 +70,18 @@ const Courses = () => {
         <div className="main">
             <MyButton onClick={() => setModal(true)}>Add course</MyButton>
             <MyModal visible={modal} setVisible={setModal}>
-                <CourseForm create={createCourse}/>
+                <CourseForm action={createCourse} title="Create"/>
             </MyModal>
             <div>
+                <MyPagination page={page} pageSize={params.take} pageCount={courses.length} totalCount={totalCount} changePage={changePage} />
                 {isCoursesLoading
                     ? <div>Loading...</div>
                     : <CourseList remove={removeCourse} courses={courses} title="Courses"/>
                 }
                 {coursesError &&
-                <div>{coursesError}</div>
+                    <div>{coursesError}</div>
                 }
                 <MyPagination page={page} pageSize={params.take} pageCount={courses.length} totalCount={totalCount} changePage={changePage} />
-
             </div>
         </div>
     );

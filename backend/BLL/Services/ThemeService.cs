@@ -38,7 +38,8 @@ namespace BLL.Services
                 take,
                 c => c.Title.Contains(query.ToLower().Trim()), 
                 sortOption, 
-                reverse, 
+                reverse,
+                default,
                 cancellationToken);
 
         public async Task<List<ThemeDto>> GetListAll(string query, string sortOption,
@@ -47,7 +48,8 @@ namespace BLL.Services
                 _mapper, 
                 c => c.Title.Contains(query.ToLower().Trim()), 
                 sortOption,
-                reverse, 
+                reverse,
+                default,
                 cancellationToken);
         
 

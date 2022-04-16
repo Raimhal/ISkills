@@ -1,17 +1,21 @@
 
 .navbar {
     height: 50px;
-    width: 100vw;
     display: flex;
     align-items: center;
     padding: 0 15px;
-    background: rebeccapurple;
+    background: whitesmoke;
+    box-sizing: border-box;
+    margin: 0
 }
 
 .navbar__links {
     margin-left: auto;
+    display: flex;
+    gap: 0.5rem;
 }
 
 .navbar__link {
     text-decoration: none;
+    color: #975ad4;
 }

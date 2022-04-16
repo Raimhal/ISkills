@@ -50,7 +50,8 @@ namespace BLL.Services
                 take,
                 u => u.Email.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse, 
+                reverse,
+                new() { },
                 cancellationToken);
 
 
@@ -60,12 +61,16 @@ namespace BLL.Services
                 _mapper,
                 u => u.Email.Contains(query.ToLower().Trim()),
                 sortOption,
-                reverse, 
+                reverse,
+                new() { },
                 cancellationToken);
 
         public async Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => await _userContext.Users.GetAsync(_mapper,
                 x => x.Id == id, includes, cancellationToken);
+
+        public async Task<UserDto> GetShortInfoByIdAsync(Guid id, CancellationToken cancellationToken)
+            => _mapper.Map<UserDto>(await GetByIdAsync(id, cancellationToken));
 
         public async Task<User> GetByEmailAsync(string email, CancellationToken cancellationToken)
             => await _userContext.Users.GetAsync(_mapper,

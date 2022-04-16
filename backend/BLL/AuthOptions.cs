@@ -5,7 +5,7 @@ namespace BLL
 {
     public class AuthOptions
     {
-        public const string ISSUER = "AuthSchedulerServer"; 
+        public const string ISSUER = "ISkillsServer"; 
         public const string AUDIENCE = "Iskills"; 
         const string KEY = "BQsaPQExFthrFnAk9Kr9F64dTQBcLgRb";  
         public const int LIFETIME = 1440; 

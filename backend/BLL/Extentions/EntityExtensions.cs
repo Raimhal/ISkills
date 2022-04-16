@@ -17,7 +17,7 @@ namespace BLL.Services
     {
 
         public static async Task<T> GetAsync<T>(this DbSet<T> context, IMapper _mapper, Expression<Func<T, bool>> expression,
-            List<Expression<Func<T, dynamic>>> includes, CancellationToken cancellationToken = default)
+            List<Expression<Func<T, dynamic>>> includes , CancellationToken cancellationToken = default)
             where T : class
         {
             var entity = await includes
@@ -39,39 +39,49 @@ namespace BLL.Services
 
         public static async Task<PaginationList<TDto>> GetListAsync<T, TDto>(this IQueryable<T> context, IMapper _mapper,
             int skip, int take, Expression<Func<T, bool>> expression, string sortOption, bool reverse,
-            CancellationToken cancellationToken) where T : class where TDto : class
+            List<Expression<Func<T, dynamic>>> includes, CancellationToken cancellationToken = default) 
+            where T : class where TDto : class
             => new()
             {
-                TotalCount = await context
+                TotalCount = await includes
+                .Aggregate(
+                    context.AsQueryable<T>(),
+                    (current, include) => current.Include(include)
+                )
                 .Where(expression)
                 .AsNoTracking()
                 .CountAsync(cancellationToken),
 
-                List = await context
+                List = _mapper.Map<List<TDto>>(await context
                 .Where(expression)
                 .OrderBy(sortOption, reverse)
                 .Skip(skip)
                 .Take(take)
                 .ProjectTo<TDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking()
-                .ToListAsync(cancellationToken)
+                .ToListAsync(cancellationToken))
             };
 
         public static async Task<List<TDto>> GetListAllAsync<T, TDto>(this IQueryable<T> context, IMapper _mapper,
             Expression<Func<T, bool>> expression, string sortOption, bool reverse,
-            CancellationToken cancellationToken) where T : class where TDto : class 
-            => await context.Where(expression)
+             List<Expression<Func<T, dynamic>>> includes, CancellationToken cancellationToken = default)
+            where T : class where TDto : class 
+            => _mapper.Map<List<TDto>>(await includes
+                .Aggregate(
+                    context.AsQueryable<T>(),
+                    (current, include) => current.Include(include)
+                )
                 .OrderBy(sortOption, reverse)
                 .ProjectTo<TDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking()
-                .ToListAsync(cancellationToken);
+                .ToListAsync(cancellationToken));
 
         public static async Task DeleteByAsync<T>(this DbSet<T> context, IMapper _mapper,
-            Expression<Func<T, bool>> expression, CancellationToken cancellationToken) where T : class
+            Expression<Func<T, bool>> expression, CancellationToken cancellationToken = default) where T : class
             => context.Remove(await GetAsync(context, _mapper, expression, new () { }, cancellationToken));
 
         public static async Task<double> GetAvarage<T>(this DbSet<T> context, Expression<Func<T, bool>> sortExpression,
-            Expression<Func<T, double>> avarageExpression) where T : class
-            => await context.Where(sortExpression).AverageAsync(avarageExpression);
+            Expression<Func<T, double>> avarageExpression, CancellationToken cancellationToken = default) where T : class
+            => await context.Where(sortExpression).AverageAsync(avarageExpression, cancellationToken);
     }
 }
