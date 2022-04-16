@@ -55,7 +55,7 @@ const AccountPage = () => {
             {!isUserLoading &&
             <div>
                 <img src={currentUser.imageUrl || defaultUserImage} alt="current user image" className='user__image' />
-                <MyRating value={currentUser.rating} readonly={true}/>
+                <MyRating value={currentUser.rating} readonly/>
                 <UserForm action={updateUser} defaultState={currentUser} title="Update"/>
             </div>
             }

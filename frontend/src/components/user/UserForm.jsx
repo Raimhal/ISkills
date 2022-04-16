@@ -3,7 +3,7 @@ import MyInput from "../UI/input/MyInput";
 import MyButton from "../UI/button/MyButton";
 import defaultUserImage from "../../assets/images/defaultUserImage.png";
 
-const UserForm = ({action, title, defaultState = {}}) => {
+const UserForm = ({action, title, defaultState = {}, ...props}) => {
     const [currentUser, setCurrentUser] = useState({...defaultState, password: ''})
 
     const userAction = (e) => {

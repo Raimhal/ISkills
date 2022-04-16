@@ -20,7 +20,7 @@ const CourseItem = ({course, remove}) => {
                 <img src={course.imageUrl || defaultCourseImage} alt="course image" className="course__image"/>
                 <div className="course__content">
                     <h3>{course.title}</h3>
-                    <MyRating value={course.rating} readonly={true}/>
+                    <MyRating value={course.rating} readonly/>
                     <div>{ReactHtmlParser(course.shortInfo)}</div>
                     <div>{course.language}</div>
                 </div>

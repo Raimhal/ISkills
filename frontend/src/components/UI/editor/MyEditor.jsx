@@ -19,13 +19,17 @@ const MyEditor = ({defaultValue = '', onChange = null, readonly = false,  ...pro
 
     const content = draftToHtml(convertToRaw(editorState.getCurrentContent()))
 
+    const rootClasses = [classes.editorContent]
+    if(!readonly)
+        rootClasses.push(classes.underline)
+
     return (
         <div>
             <Editor
                 {...props}
                 editorState={editorState}
                 onChange={() => onChange(content)}
-                editorClassName={classes.editorContent}
+                editorClassName={rootClasses.join(' ')}
                 onEditorStateChange={setEditorState}
                 readOnly={readonly}
                 toolbarClassName={readonly && classes.toolbar__none}

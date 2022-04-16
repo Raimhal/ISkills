@@ -16,8 +16,10 @@ import CommentForm from "../components/comment/CommentForm";
 
 import CommentList from "../components/comment/CommentList";
 import MyButton from "../components/UI/button/MyButton";
+import MyModal from "../components/UI/MyModal/MyModal";
+import CourseForm from "../components/course/CourseForm";
 
-const CoursePage = () => {
+const CoursePage = ({route, navigation}) => {
 
     const {id} = useParams()
 
@@ -42,6 +44,8 @@ const CoursePage = () => {
     const [comments, setComments] = useState([])
 
     const [totalCount, setTotalCount] = useState(0)
+
+    const [modal, setModal] = useState(false)
 
     const [getCourse, isCourseLoading, courseError] = useFetching(async (id) =>{
         const course = await CourseService.getOne(id)
@@ -68,6 +72,14 @@ const CoursePage = () => {
         setTotalCount(totalCount + 1)
     }
 
+    const updateCourse = async (course) => {
+        await CourseService.Update(course, {
+            headers: {
+                Authorization: token
+            }
+        })
+    }
+
     useEffect(() => {
         getCourse(id)
     }, [])
@@ -87,7 +99,7 @@ const CoursePage = () => {
                     <div className="card">
                         <div className="head">
                             <h3>{course.title}</h3>
-                            <MyEditor defaultValue={course.shortInfo} readonly={true} />
+                            <MyEditor defaultValue={course.shortInfo} readonly/>
                             <div className="language">
                                 <img src={languageImage} alt="language : " style={{width: 16}}/>
                                 <span>{course.language}</span>
@@ -96,7 +108,7 @@ const CoursePage = () => {
                             {course.dateUpdated <= course.dateCreated &&
                                 <div>Last updated : {new Date(course.dateUpdated).toDateString()}</div>
                             }
-                            <MyRating value={course.rating} readonly={true}/>
+                            <MyRating value={course.rating} readonly/>
                             <div>{course.theme.title}</div>
                         </div>
                         <div className="body">
@@ -114,11 +126,17 @@ const CoursePage = () => {
                     </div>
                     <div className="block">
                         <h4>Description :</h4>
-                        <MyEditor defaultValue={course.description} readonly={true} />
+                        <MyEditor defaultValue={course.description} readonly/>
                     </div>
                     <div className="block">
                         <h4>Requirements :</h4>
-                        <MyEditor defaultValue={course.requirements} readonly={true} />
+                        <MyEditor defaultValue={course.requirements} readonly />
+                    </div>
+                    <div>
+                        <MyButton onClick={() => setModal(true)}>Update</MyButton>
+                        <MyModal visible={modal} setVisible={setModal}>
+                            <CourseForm action={updateCourse} title="Create" defaultState={course}/>
+                        </MyModal>
                     </div>
                     {!isCommentsLoading &&
                         <div>
@@ -140,6 +158,6 @@ const CoursePage = () => {
             }
         </div>
     );
-}
+};
 
 export default CoursePage;

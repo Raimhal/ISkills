@@ -18,4 +18,9 @@ export  default class CourseService {
         const response = await EntityService.Create('/courses', data, config)
         return response.data
     }
+
+    static async Update(id, data, config = {}) {
+        const path = `/courses/${id}`
+        await EntityService.Update(path, data, config)
+    }
 }

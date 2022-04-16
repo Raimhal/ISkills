@@ -19,3 +19,12 @@
     flex-direction: column;
     gap: 0.5rem;
 }
+
+.comment__form {
+
+}
+
+div.rb_div{
+    display: flex;
+    justify-content: space-between;
+}
