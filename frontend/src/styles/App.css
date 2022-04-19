@@ -21,3 +21,7 @@
     margin: auto;
     width: 50%;
 }
+
+.main.wide {
+    width: 70%;
+}

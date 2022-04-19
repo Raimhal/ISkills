@@ -8,10 +8,13 @@ import MyModal from "../components/UI/MyModal/MyModal";
 import CourseService from "../API/CourseService";
 import {useFetching} from "../hooks/useFetching";
 import MyPagination from "../components/UI/pagination/MyPagination";
-import {token} from "../router/token";
+import {useSelector} from "react-redux";
 
 
 const Courses = () => {
+
+    const token = useSelector(state => state.user.tokens.accessToken)
+
     const [courses, setCourses] = useState([])
     const initialParamsState = {
         skip: 0,
@@ -39,11 +42,7 @@ const Courses = () => {
     })
 
     const createCourse = async (course) => {
-        const courseId = await CourseService.Create(course, {
-            headers: {
-                Authorization: token
-            }
-        })
+        const courseId = await CourseService.Create(course)
         setCourses([...courses, {...course, id: courseId}])
         setModal(false)
         setTotalCount(totalCount + 1)
@@ -67,7 +66,7 @@ const Courses = () => {
     const [modal, setModal] = useState(false)
 
     return (
-        <div className="main">
+        <div className="wide main">
             <MyButton onClick={() => setModal(true)}>Add course</MyButton>
             <MyModal visible={modal} setVisible={setModal}>
                 <CourseForm action={createCourse} title="Create"/>

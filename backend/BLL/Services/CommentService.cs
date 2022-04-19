@@ -31,7 +31,7 @@ namespace BLL.Services
 
         private readonly List<Expression<Func<Comment, dynamic>>> includes = new ()
         {
-            x => x.Course,
+            x => x.Creator
         };
 
         public async Task<PaginationList<CommentDto>> GetList(int skip, int take, string query,

@@ -53,6 +53,23 @@ namespace Iskills.Controllers
             return Ok(await _userService.GetByIdAsync(id, cancellationToken));
         }
 
+        [HttpGet]
+        [Route("api/courses/{id}/students/all")]
+        public async Task<ActionResult<List<CommentDto>>> GetCourseStudentsAll(Guid id, CancellationToken cancellationToken,
+            string query = "", string sortOption = "username", bool reverse = false)
+            => Ok(await _userService.GetParentItemsAll(id, query, sortOption, reverse, cancellationToken));
+
+
+        [HttpGet]
+        [Route("api/courses/{id}/students")]
+        public async Task<ActionResult<List<CommentDto>>> GetCourseStudents(Guid id, CancellationToken cancellationToken,
+            int skip = 0, int take = 10, string query = "", string sortOption = "username", bool reverse = false)
+        {
+            var content = await _userService.GetParentItems(id, skip, take, query, sortOption, reverse, cancellationToken);
+            Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
+            return Ok(content.List);
+        }
+
 
         [HttpGet]
         [Route("api/users/{id}/short-information")]

@@ -9,27 +9,29 @@ import "../styles/User.css"
 import CommentService from "../API/CommentService";
 import MyPagination from "../components/UI/pagination/MyPagination";
 import defaultCourseImage from '../assets/images/defaultCourseImage.png'
+import defaultUserImage from '../assets/images/defaultUserImage.png'
 import languageImage from '../assets/images/language.png'
 import MyEditor from "../components/UI/editor/MyEditor";
-import {token} from "../router/token";
 import CommentForm from "../components/comment/CommentForm";
 
 import CommentList from "../components/comment/CommentList";
 import MyButton from "../components/UI/button/MyButton";
 import MyModal from "../components/UI/MyModal/MyModal";
 import CourseForm from "../components/course/CourseForm";
+import {useDispatch, useSelector} from "react-redux";
+import {setCourse} from "../store/CourseReducer";
+import {clearComment, setComments} from "../store/CommentReducer";
+import UserService from "../API/UserService";
+import {setUsers} from "../store/UserReducer";
+import ReactHtmlParser from "react-html-parser";
 
-const CoursePage = ({route, navigation}) => {
+const CoursePage = () => {
+    const dispatch = useDispatch()
+    const course = useSelector((state) => state.course.course)
+    const comments = useSelector((state) => state.comment.comments)
+    const students = useSelector((state) => state.user.users)
 
     const {id} = useParams()
-
-    const [course, setCourse] = useState({
-        theme: {
-            title: ''
-        },
-        comments: []
-    })
-
     const initialParamsState = {
         skip: 0,
         take: 10,
@@ -40,16 +42,15 @@ const CoursePage = ({route, navigation}) => {
     const [params, setParams] = useState(initialParamsState)
 
     const [page, setPage] = useState(1)
-
-    const [comments, setComments] = useState([])
-
+    const [userPage, setUserPage] = useState(1)
     const [totalCount, setTotalCount] = useState(0)
-
+    const [totalUserCount, setUserTotalCount] = useState(0)
     const [modal, setModal] = useState(false)
+    const [modalComment, setCommentModal] = useState(false)
 
     const [getCourse, isCourseLoading, courseError] = useFetching(async (id) =>{
         const course = await CourseService.getOne(id)
-        setCourse(course)
+        dispatch(setCourse(course))
     })
 
     const [getComments, isCommentsLoading, commentsError] = useFetching( async (courseId) => {
@@ -59,25 +60,51 @@ const CoursePage = ({route, navigation}) => {
                 skip: (page - 1) * params.take,
             }
         })
-        setComments([...newComments])
+        dispatch(setComments(newComments))
         setTotalCount(count)
     })
 
-    const createComment = async (comment) => {
-        const commentId = await CommentService.Create({...comment, courseId: id}, {
-            headers: {
-                Authorization: token
+    const [getStudents, isStudentsLoading, studentsError] = useFetching( async (courseId) => {
+        const [count, newStudents] = await UserService.getCourseStudents(courseId, {
+            params: {
+                ...params,
+                reverse: false,
+                sortOption: 'username',
+                skip: (page - 1) * params.take,
             }
         })
-        setTotalCount(totalCount + 1)
+        dispatch(setUsers(newStudents))
+        setUserTotalCount(count)
+    })
+
+    const createComment = async (comment) => {
+        const commentId = await CommentService.Create({...comment, courseId: id})
+        const newComment = await CommentService.getOne(commentId)
+        console.log(newComment)
+        dispatch(setComments([newComment, ...comments]))
+        setTotalCount(+totalCount + 1)
+    }
+
+    const updateComment = async (comment) => {
+        await CommentService.Update(comment.id, comment)
+        dispatch(setComments([...comments.map(c => {
+            if(c.id === comment.id) {
+                console.log(comment)
+                return comment
+            }
+            return c
+        })]))
+        setCommentModal(false)
     }
 
     const updateCourse = async (course) => {
-        await CourseService.Update(course, {
-            headers: {
-                Authorization: token
-            }
-        })
+        await CourseService.Update(course.id, course)
+    }
+
+    const removeComment = async (id) => {
+        console.log(id)
+        await CommentService.Delete(id)
+        dispatch(setComments(comments.filter(c => c.id !== id)))
     }
 
     useEffect(() => {
@@ -86,7 +113,11 @@ const CoursePage = ({route, navigation}) => {
 
     useEffect(() => {
         getComments(id)
-    }, [page, totalCount])
+    }, [page])
+
+    useEffect( () => {
+        getStudents(id)
+    }, [userPage])
 
     const changePage = (page) => {
         setPage(page)
@@ -99,7 +130,7 @@ const CoursePage = ({route, navigation}) => {
                     <div className="card">
                         <div className="head">
                             <h3>{course.title}</h3>
-                            <MyEditor defaultValue={course.shortInfo} readonly/>
+                            <div>{ReactHtmlParser(course.shortInfo)}</div>
                             <div className="language">
                                 <img src={languageImage} alt="language : " style={{width: 16}}/>
                                 <span>{course.language}</span>
@@ -115,7 +146,7 @@ const CoursePage = ({route, navigation}) => {
                             <img src={course.imageUrl || defaultCourseImage} alt="course image" className="course__image"/>
                             {course.price === null
                                 ? <div className="free">
-                                    <MyButton >Get for free</MyButton>
+                                    <MyButton>Get for free</MyButton>
                                 </div>
                                 : <div className="buy">
                                     <div>{course.price} $</div>
@@ -124,40 +155,54 @@ const CoursePage = ({route, navigation}) => {
                             }
                         </div>
                     </div>
+                    { !isStudentsLoading &&
+                        <div className="block">
+                            <h4>Students : </h4>
+                            {students.map(student =>
+                                <div key={student.id}>
+                                    <img src={student.src || defaultUserImage} alt="student" className="user__image"/>
+                                </div>
+                            )}
+                        </div>
+                    }
                     <div className="block">
                         <h4>Description :</h4>
-                        <MyEditor defaultValue={course.description} readonly/>
+                        <div>{ReactHtmlParser(course.description)}</div>
                     </div>
                     <div className="block">
                         <h4>Requirements :</h4>
-                        <MyEditor defaultValue={course.requirements} readonly />
+                        <div>{ReactHtmlParser(course.requirements)}</div>
                     </div>
                     <div>
                         <MyButton onClick={() => setModal(true)}>Update</MyButton>
                         <MyModal visible={modal} setVisible={setModal}>
-                            <CourseForm action={updateCourse} title="Create" defaultState={course}/>
+                            <CourseForm action={updateCourse} title="Save" defaultState={course}/>
                         </MyModal>
                     </div>
-                    {!isCommentsLoading &&
+                    {/*{!isCommentsLoading &&*/}
                         <div>
                             <CommentForm action={createComment} title="Create" className='block'/>
                             <h4>{totalCount} comments :</h4>
                             {comments.length > 0 &&
-                            <div>
-                                <MyPagination page={page} pageSize={params.take} pageCount={comments.length} totalCount={totalCount}
-                                              changePage={changePage}/>
-                                <CommentList comments={comments}/>
-                                <MyPagination page={page} pageSize={params.take} pageCount={comments.length} totalCount={totalCount}
-                                              changePage={changePage}/>
-                            </div>
+                                <div>
+                                    <MyPagination page={page} pageSize={params.take} pageCount={comments.length} totalCount={totalCount}
+                                                  changePage={changePage}/>
+                                    <CommentList comments={comments} update={() => setCommentModal(true)} remove={removeComment}/>
+                                    <MyPagination page={page} pageSize={params.take} pageCount={comments.length} totalCount={totalCount}
+                                                  changePage={changePage}/>
+                                </div>
+                            }
+                            {modalComment && <MyModal visible={modalComment} setVisible={setCommentModal}>
+                                <CommentForm action={updateComment} title="Save"/>
+                            </MyModal>
                             }
                         </div>
-                    }
+                    {/*}*/}
                 </div>
                 : <p>Loading...</p>
             }
         </div>
     );
-};
+}
 
 export default CoursePage;

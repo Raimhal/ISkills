@@ -44,6 +44,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="ts.external.directory.path" value="E:\WebStorm 2020.3.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -109,6 +110,12 @@
       <workItem from="1650031074947" duration="7197000" />
       <workItem from="1650093346615" duration="16992000" />
       <workItem from="1650112495777" duration="10064000" />
+      <workItem from="1650125478502" duration="90000" />
+      <workItem from="1650125582315" duration="42000" />
+      <workItem from="1650177738410" duration="14413000" />
+      <workItem from="1650212431999" duration="1284000" />
+      <workItem from="1650265851020" duration="16362000" />
+      <workItem from="1650346646077" duration="13034000" />
     </task>
     <servers />
   </component>

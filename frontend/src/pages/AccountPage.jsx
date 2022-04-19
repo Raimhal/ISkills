@@ -10,9 +10,10 @@ import UserForm from "../components/user/UserForm";
 import {getAuthHeader} from "../router/instance";
 import {useFetching} from "../hooks/useFetching";
 import MyRating from "../components/UI/rating/MyRating";
-import {token} from "../router/token";
+import {useSelector} from "react-redux";
 
 const AccountPage = () => {
+    const token = useSelector(state => state.user.tokens.accessToken)
     const [currentUser, setCurrentUser] = useState({
         firstName: '',
         lastName: '',

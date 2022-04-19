@@ -37,8 +37,6 @@ namespace BLL.Services
 
         private readonly List<Expression<Func<User, dynamic>>> includes = new ()
         {
-            x => x.Courses,
-            x => x.Comments,
             x => x.Roles
         };
 
@@ -60,6 +58,28 @@ namespace BLL.Services
             => await _userContext.Users.GetListAllAsync<User, UserDto>(
                 _mapper,
                 u => u.Email.Contains(query.ToLower().Trim()),
+                sortOption,
+                reverse,
+                new() { },
+                cancellationToken);
+
+        public async Task<PaginationList<UserDto>> GetParentItems(Guid courseId, int skip, int take,
+           string query, string sortOption, bool reverse, CancellationToken cancellationToken)
+           => await _userContext.Users.GetListAsync<User, UserDto>(
+               _mapper,
+               skip,
+               take,
+               u => u.Email.Contains(query.ToLower().Trim()) && u.Courses.Any(c => c.Id == courseId),
+               sortOption,
+               reverse,
+               new() { },
+               cancellationToken);
+
+        public async Task<List<UserDto>> GetParentItemsAll(Guid courseId, string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await _userContext.Users.GetListAllAsync<User, UserDto>(
+                _mapper,
+                u => u.Email.Contains(query.ToLower().Trim()) && u.Courses.Any(c => c.Id == courseId),
                 sortOption,
                 reverse,
                 new() { },

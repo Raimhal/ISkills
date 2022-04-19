@@ -5,25 +5,41 @@ import '../../styles/Comment.css'
 import MyRating from "../UI/rating/MyRating";
 import defaultUserImage from "../../assets/images/defaultUserImage.png";
 import MyEditor from "../UI/editor/MyEditor";
+import MyButton from "../UI/button/MyButton";
+import {useDispatch} from "react-redux";
+import {setComment} from "../../store/CommentReducer";
+import ReactHtmlParser from "react-html-parser";
+import Parse from "html-react-parser"
 
-
-const CommentItem = ({comment, remove}) => {
-    const navigate = useNavigate();
-
+const CommentItem = ({comment, remove, update}) => {
+    const dispatch = useDispatch()
     const removeHandleClick = (e) => {
         e.stopPropagation()
         remove(comment.id)
     }
 
+    const handleUpdateClick = (e) => {
+        e.stopPropagation()
+        console.log(comment)
+        dispatch(setComment(comment))
+        update()
+    }
+
     return (
         <div key={comment.id} className="comment">
             <div className="comment__body">
-                <img src={comment.creator.imageUrl || defaultUserImage}
+                <img src={comment?.creator.imageUrl || defaultUserImage}
                      alt='user image' className='user__image'/>
-                <div>
-                    {comment.creator.firstName} {comment.creator.lastName} ({comment.creator.userName})
-                    <MyRating value={comment.rating} readonly/>
-                    <MyEditor defaultValue={comment.content} readonly/>
+                <div className="content">
+                    <div>
+                        {comment.creator.firstName} {comment.creator.lastName} ({comment.creator.userName})
+                        <MyRating value={comment.rating} readonly/>
+                        <div>{ReactHtmlParser(comment.content)}</div>
+                    </div>
+                    <div className="comment__btns">
+                        <MyButton onClick={removeHandleClick}>X</MyButton>
+                        <MyButton onClick={handleUpdateClick}>U</MyButton>
+                    </div>
                 </div>
             </div>
             <div className='comment__date'>

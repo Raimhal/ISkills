@@ -125,7 +125,7 @@ namespace BLL.Services
                 audience: AuthOptions.AUDIENCE,
                 notBefore: now,
                 claims: identity.Claims,
-                expires: now.AddMinutes(AuthOptions.LIFETIME),
+                expires: now.AddDays(AuthOptions.LIFETIME),
                 signingCredentials: new SigningCredentials(
                     AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
                 );

@@ -3,7 +3,7 @@ import '../../styles/App.css'
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 import CommentItem from "./CommentItem";
 
-const CommentList = ({comments, title, remove}) => {
+const CommentList = ({comments, title, remove, update}) => {
     return (
         <div className="comments">
             <h2 style={{padding: "5px"}}>{title}</h2>
@@ -16,7 +16,7 @@ const CommentList = ({comments, title, remove}) => {
                             timeout={500}
                             classNames="course"
                         >
-                            <CommentItem comment={comment} />
+                            <CommentItem comment={comment} remove={remove} update={update}/>
                         </CSSTransition>
                     )}
                 </TransitionGroup>

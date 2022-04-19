@@ -9,6 +9,18 @@
     gap: 0.5rem;
 }
 
+.comment__body > div.content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment__btns {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
 .comment__date {
     display: flex;
     justify-content: flex-end;
@@ -28,3 +40,4 @@ div.rb_div{
     display: flex;
     justify-content: space-between;
 }
+

@@ -13,4 +13,8 @@ export default class EntityService {
         await instance.put(path, data, config)
     }
 
+    static async Delete(path, id) {
+        await instance.delete(path)
+    }
+
 }

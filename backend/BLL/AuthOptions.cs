@@ -8,7 +8,7 @@ namespace BLL
         public const string ISSUER = "ISkillsServer"; 
         public const string AUDIENCE = "Iskills"; 
         const string KEY = "BQsaPQExFthrFnAk9Kr9F64dTQBcLgRb";  
-        public const int LIFETIME = 1440; 
+        public const int LIFETIME = 7; 
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
         {
             return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(KEY));

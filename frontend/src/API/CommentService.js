@@ -30,4 +30,14 @@ export default class CommentService {
         const response = await EntityService.Create('/comments', data, config)
         return response.data
     }
+
+    static async Update(id, data, config = {}) {
+        const path = `/comments/${id}`
+        await EntityService.Update(path, data, config)
+    }
+
+    static async Delete(id) {
+        const path = `/comments/${id}`
+        await EntityService.Delete(path)
+    }
 }

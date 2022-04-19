@@ -5,6 +5,7 @@ import '../../styles/Button.css'
 import MyRating from "../UI/rating/MyRating";
 import defaultCourseImage from '../../assets/images/defaultCourseImage.png'
 import ReactHtmlParser from "react-html-parser";
+import MyEditor from "../UI/editor/MyEditor";
 
 
 const CourseItem = ({course, remove}) => {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IUserService : IBaseService<Guid, User, RegisterUserModel, UserDto>
+    public interface IUserService : IBaseService<Guid, User, RegisterUserModel, UserDto>, IParentService<Guid, UserDto>
     {
         Task<Guid> GetIdFromEmail(string Email, CancellationToken cancellationToken);
         Task<UserDto> GetShortInfoByIdAsync(Guid id, CancellationToken cancellationToken);

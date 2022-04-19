@@ -17,11 +17,14 @@ const MyEditor = ({defaultValue = '', onChange = null, readonly = false,  ...pro
         () => EditorState.createWithContent(state)
     )
 
+
     const content = draftToHtml(convertToRaw(editorState.getCurrentContent()))
 
     const rootClasses = [classes.editorContent]
+
     if(!readonly)
         rootClasses.push(classes.underline)
+
 
     return (
         <div>
