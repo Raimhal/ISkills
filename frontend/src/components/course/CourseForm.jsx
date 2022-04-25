@@ -5,7 +5,13 @@ import MySelect from "../UI/select/MySelect";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import MyEditor from "../UI/editor/MyEditor";
 import {useDispatch, useSelector} from "react-redux";
-import {setCourse} from "../../store/CourseReducer";
+import {clearCourse, setCourse} from "../../store/CourseReducer";
+import CategoryService from "../../API/CategoryService";
+import {useFetching} from "../../hooks/useFetching";
+import CourseService from "../../API/CourseService";
+import ThemeService from "../../API/ThemeService";
+import {setCategories} from "../../store/CategoryReducer";
+import {setThemes} from "../../store/ThemeReducer";
 
 const CourseForm = ({action, title, ...props}) => {
     const course = useSelector(state => state.course.course)
@@ -16,21 +22,32 @@ const CourseForm = ({action, title, ...props}) => {
         {name: "Ukrainian", value: "ukrainian"}
     ]
 
-    const categories = [
-        {id: 1, title: "other"},
-        {id: 2, title: "other 2"},
-        {id: 3, title: "other 4"},
-    ]
-
-    const themes = [
-        {id: 1, title: "other"}
-    ]
+    const themes = useSelector(state => state.theme.themes)
+    const categories = useSelector(state => state.category.categories)
 
     const courseAction = (e) => {
         e.preventDefault()
         console.log(course)
         action(course)
     }
+
+    const [getThemes, isThemesLoading, themesError] = useFetching(async (id) =>{
+        const themes = await ThemeService.GetCategoryAllThemes(id)
+        dispatch(setThemes(themes))
+    })
+
+    const [getCategories, isCategoriesLoading, categoriesError] = useFetching(async () =>{
+        const categories = await CategoryService.GetCategoriesAll()
+        dispatch(setCategories(categories))
+    })
+
+    useEffect(() => {
+        getCategories()
+    }, [])
+
+    useEffect(() => {
+        getThemes(course.categoryId)
+    }, [course.categoryId])
 
 
     return (
@@ -64,18 +81,18 @@ const CourseForm = ({action, title, ...props}) => {
                     defaultValue="Category"
                     options={categories.map(c => ({name: c.title, value: c.id.toString()}))}
                 />
-                <MySelect
-                    disabled={course.categoryId === '' }
+                {course.categoryId !== '' && <MySelect
                     value={course.themeId}
                     onChange={value => dispatch(setCourse({...course, themeId: +value}))}
                     defaultValue="Theme"
                     options={themes.map(c => ({name: c.title, value: c.id}))}
                 />
+                }
             </div>
             <div className="block">
-                <p><input type="radio" name="buyMode" onChange={() => dispatch(setCourse({...course, price: null}))} defaultChecked={course.price === null}/> free to learn</p>
-                <p><input type="radio" name="buyMode" onChange={() => dispatch(setCourse({...course, price: 0}))} defaultChecked={course.price !== null}/> buy to learn </p>
-                {course.price !== null && <MyInput type="text" value={course.price} onChange={e => dispatch(setCourse({...course, price: e.target.value}))} placeholder="Price"/>}
+                <p><input type="radio" name="buyMode" onChange={() => dispatch(setCourse({...course, price: 0}))} defaultChecked={course.price === 0}/> free to learn</p>
+                <p><input type="radio" name="buyMode" onChange={() => dispatch(setCourse({...course, price: 0.99}))} defaultChecked={course.price !== 0}/> buy to learn </p>
+                {course.price !== 0 && <MyInput type="text" value={course.price} onChange={e => dispatch(setCourse({...course, price: e.target.value}))} placeholder="Price"/>}
             </div>
             <MyButton onClick={courseAction}>{title}</MyButton>
         </form>

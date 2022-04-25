@@ -36,6 +36,23 @@ namespace ISkills.Controllers
             return Ok(content.List);
         }
 
+        [HttpGet]
+        [Route("api/categories/{id}/themes/all")]
+        public async Task<ActionResult<List<CourseDto>>> GetThemeCoursesAll(int id, CancellationToken cancellationToken,
+           string query = "", string sortOption = "title", bool reverse = false)
+           => Ok(await _themeService.GetParentItemsAll(id, query, sortOption, reverse, cancellationToken));
+
+
+        [HttpGet]
+        [Route("api/categories/{id}/themes")]
+        public async Task<ActionResult<List<CourseDto>>> GetThemeCourses(int id, CancellationToken cancellationToken,
+            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
+        {
+            var content = await _themeService.GetParentItems(id, skip, take, query, sortOption, reverse, cancellationToken);
+            Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
+            return Ok(content.List);
+        }
+
 
         [HttpGet]
         [Route("api/themes/{id}")]

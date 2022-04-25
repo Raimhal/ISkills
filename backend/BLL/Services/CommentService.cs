@@ -107,8 +107,11 @@ namespace BLL.Services
 
             await _courseDbContext.SaveChangesAsync(cancellationToken);
 
-            user.Rating = await _courseDbContext.Courses
-                .GetAvarage(x => x.CreatorId == user.Id && x.Rating != default, x => x.Rating);
+            var creator = await _userDbContext.Users
+                .GetAsync(_mapper, x => x.Id == course.CreatorId, new() { }, cancellationToken);
+
+            creator.Rating = await _courseDbContext.Courses
+                .GetAvarage(x => x.CreatorId == creator.Id && x.Rating != default, x => x.Rating);
 
             await _userDbContext.SaveChangesAsync(cancellationToken);
 

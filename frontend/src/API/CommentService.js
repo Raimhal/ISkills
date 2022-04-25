@@ -2,26 +2,21 @@ import EntityService from "./EntityService";
 
 
 export default class CommentService {
-    static async getAll(config = {}) {
+    static async GetComments(config = {}) {
         const response = await EntityService.Get('/comments', config)
-        const courses = response.data
+        const comments = response.data
         const totalCount = response.headers['x-total-count']
-        courses.map(course => {
-                if (!course.imageUrl)
-                    course.imageUrl = 'defaultCourseImage.png'
-            }
-        )
-        return [totalCount, courses]
+        return [totalCount, comments]
     }
 
-    static async Get(courseId, config = {}) {
+    static async GetCourseComments(courseId, config = {}) {
         const path = `/courses/${courseId}/comments`
         const response = await EntityService.Get(path, config)
         const totalCount = response.headers['x-total-count']
         return [totalCount, response.data]
     }
 
-    static async getOne(id, config ={}) {
+    static async GetComment(id, config ={}) {
         const path = `/comments/${id}`
         return (await EntityService.Get(path, config)).data
     }

@@ -172,7 +172,7 @@ namespace BLL.Services
                 user.ImageUrl = await _blobService.CreateBlob(stream,
                     file.ContentType, user.Id.ToString(), file.FileName.Split(".")[^1]);
             else
-                await _blobService.UpdateBlob(stream, user.ImageUrl);
+                await _blobService.UpdateBlob(stream, user.ImageUrl, file.ContentType);
 
             _userContext.Users.Update(user);
             await _userContext.SaveChangesAsync(cancellationToken);

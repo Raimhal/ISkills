@@ -4,5 +4,6 @@
     font-size: 14px;
     background: transparent;
     border: 1px solid #975ad4;
+    border-radius: 3px;
     cursor: pointer;
 }

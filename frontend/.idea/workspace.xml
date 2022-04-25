@@ -41,7 +41,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/assets" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/API" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -50,11 +50,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\API" />
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\store" />
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\components" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\assets" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\assets\images" />
-      <recent name="E:\it\Secound Course\ISkills\frontend\src\components\comment" />
-      <recent name="E:\it\Secound Course\ISkills\frontend\src\components\user" />
-      <recent name="E:\it\Secound Course\ISkills\frontend\public" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\it\Secound Course\ISkills\frontend\src\assets\images" />
@@ -116,6 +116,14 @@
       <workItem from="1650212431999" duration="1284000" />
       <workItem from="1650265851020" duration="16362000" />
       <workItem from="1650346646077" duration="13034000" />
+      <workItem from="1650403711826" duration="619000" />
+      <workItem from="1650475618718" duration="9932000" />
+      <workItem from="1650525909987" duration="10086000" />
+      <workItem from="1650550285856" duration="1399000" />
+      <workItem from="1650605756325" duration="13505000" />
+      <workItem from="1650819082908" duration="2841000" />
+      <workItem from="1650886686247" duration="8843000" />
+      <workItem from="1650901823682" duration="10951000" />
     </task>
     <servers />
   </component>

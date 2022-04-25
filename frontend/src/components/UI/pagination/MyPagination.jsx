@@ -8,13 +8,13 @@ const MyPagination = ({page, pageSize, totalCount, changePage, pageCount}) => {
     return (
         <div className={classes.PaginationWrap}>
             { totalCount > pageSize &&
-            <Pagination
-                currentPage={page}
-                totalSize={totalCount}
-                sizePerPage={pageSize}
-                changeCurrentPage={changePage}
-                theme="border-bottom"
-            />
+                <Pagination
+                    currentPage={page}
+                    totalSize={totalCount}
+                    sizePerPage={pageSize}
+                    changeCurrentPage={changePage}
+                    theme="border-bottom"
+                />
             }
 
         </div>

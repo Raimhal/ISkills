@@ -68,7 +68,7 @@ namespace ISkills.Controllers
         public async Task<ActionResult<Guid>> CreateComment([FromBody] CreateCommentDto model,
             CancellationToken cancellationToken)
         {
-            if (!await _accessService.HasAccessToCourse(UserId, model.CourseId, cancellationToken))
+            if (!await _accessService.HasAccessToCreateComment(UserId, model.CourseId, cancellationToken))
                 return Forbid();
 
             model.CreatorId = UserId;

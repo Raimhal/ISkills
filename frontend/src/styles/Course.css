@@ -30,6 +30,7 @@
 .course__image{
     border: 1px solid rgba(120, 108, 108, 0.20);
     min-width: 224px;
+    width: 224px;
     height: 160px;
 }
 

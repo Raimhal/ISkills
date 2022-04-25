@@ -1,0 +1,16 @@
+
+.div {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.3rem;
+}
+
+.div > * {
+    padding: 8px;
+    margin: 0;
+    max-height: 40px;
+}
+
+.div > button {
+    min-width: fit-content;
+}

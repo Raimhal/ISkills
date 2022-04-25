@@ -44,6 +44,10 @@ namespace BLL.Services
             => await HasAccessToEntity(userId, _videoContext.Videos,
                 x => x.Chapter.Course.CreatorId == userId && x.Id == id, cancellationToken);
 
+        public async Task<bool> HasAccessToCreateComment(Guid userId, Guid id, CancellationToken cancellationToken)
+            => await HasAccessToEntity(userId, _courseContext.Courses,
+                x => (x.CreatorId == userId || x.Students.Any(x => x.Id == userId)) && x.Id == id, cancellationToken);
+
         private async Task<bool> IsAdmin(Guid id, CancellationToken cancellationToken)
             => await _userContext.Users
             .AnyAsync(u => u.Id == id

@@ -10,7 +10,7 @@ namespace BLL.Interfaces
         Task<string> CreateBlob(IFormFile file, string name);
         Task<string> CreateBlob(Stream stream, string contentType, string name, string extension);
         Task UpdateBlob(IFormFile stream, string url);
-        Task UpdateBlob(Stream stream, string url);
+        Task UpdateBlob(Stream stream, string url, string contentType);
         Task DeleteBlob(string url);
     }
 }

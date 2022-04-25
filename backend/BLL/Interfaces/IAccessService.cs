@@ -11,5 +11,6 @@ namespace BLL.Interfaces
         Task<bool> HasAccessToUser(Guid userId, Guid id, CancellationToken cancellationToken);
         Task<bool> HasAccessToChapter(Guid userId, Guid id, CancellationToken cancellationToken);
         Task<bool> HasAccessToVideo(Guid userId, Guid id, CancellationToken cancellationToken);
+        Task<bool> HasAccessToCreateComment(Guid userId, Guid id, CancellationToken cancellationToken);
     }
 }

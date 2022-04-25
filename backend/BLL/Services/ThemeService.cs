@@ -60,6 +60,28 @@ namespace BLL.Services
                 includes, 
                 cancellationToken);
 
+        public async Task<PaginationList<ThemeDto>> GetParentItems(int categoryId, int skip, int take,
+            string query, string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await _themeDbContext.Themes.GetListAsync<Theme, ThemeDto>(
+                _mapper,
+                skip,
+                take,
+                t => t.Title.Contains(query.ToLower().Trim()) && t.CategoryId == categoryId,
+                sortOption,
+                reverse,
+                new() { },
+                cancellationToken);
+
+        public async Task<List<ThemeDto>> GetParentItemsAll(int categoryId, string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken)
+            => await _themeDbContext.Themes.GetListAllAsync<Theme, ThemeDto>(
+                _mapper,
+                t => t.Title.Contains(query.ToLower().Trim()) && t.CategoryId == categoryId,
+                sortOption,
+                reverse,
+                new() { },
+                cancellationToken);
+
 
         public async Task<int> CreateAsync(CreateThemeDto model, CancellationToken cancellationToken)
         {

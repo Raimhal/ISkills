@@ -30,6 +30,6 @@ export const CommentReducer = (state = defaultState, action) => {
 }
 
 export const setComment = (payload) => ({type: SET_COMMENT, payload: payload})
-export const clearComment = () => ({type: CLEAR_COMMENT, payload: null})
+export const clearComment = () => ({type: CLEAR_COMMENT})
 export const setComments = (payload) => ({type: SET_COMMENTS, payload: payload})
-export const clearComments = () => ({type: CLEAR_COMMENTS, payload: null})
+export const clearComments = () => ({type: CLEAR_COMMENTS})

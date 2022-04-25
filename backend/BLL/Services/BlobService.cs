@@ -28,8 +28,8 @@ namespace BLL.Services
             var containerClient = GetBlobContainer(file.ContentType);
             var fileName = $"{name}.{file.FileName.Split('.')[^1]}";
             var blobClient = containerClient.GetBlobClient(fileName);
-            
-            await blobClient.UploadBlobAsync(file);
+            blobClient.WithVersion("2021-04-10");
+            await blobClient.UploadBlobAsync(file, new BlobHttpHeaders { ContentType = file.ContentType,  });
             return blobClient.Uri.AbsoluteUri;
         }
 
@@ -38,21 +38,23 @@ namespace BLL.Services
             var containerClient = GetBlobContainer(contentType);
             var fileName = $"{name}.{extension}";
             var blobClient = containerClient.GetBlobClient(fileName);
-
-            await blobClient.UploadAsync(stream);
+            blobClient.WithVersion("2021-04-10");
+            await blobClient.UploadAsync(stream, new BlobUploadOptions { HttpHeaders = new BlobHttpHeaders { ContentType = contentType } });
             return blobClient.Uri.AbsoluteUri;
         }
 
         public async Task UpdateBlob(IFormFile file, string url)
         {
             var blobClient = GetBlobClientFromUrl(url);
-            await blobClient.UploadBlobAsync(file, true);
+            blobClient.WithVersion("2021-04-10");
+            await blobClient.UploadBlobAsync(file, new BlobHttpHeaders { ContentType = file.ContentType });
         }
 
-        public async Task UpdateBlob(Stream stream, string url)
+        public async Task UpdateBlob(Stream stream, string url, string contentType)
         {
             var blobClient = GetBlobClientFromUrl(url);
-            await blobClient.UploadAsync(stream, true);
+            blobClient.WithVersion("2021-04-10");
+            await blobClient.UploadAsync(stream, new BlobHttpHeaders { ContentType = contentType });
         }
 
 

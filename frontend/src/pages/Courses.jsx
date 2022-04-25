@@ -8,82 +8,92 @@ import MyModal from "../components/UI/MyModal/MyModal";
 import CourseService from "../API/CourseService";
 import {useFetching} from "../hooks/useFetching";
 import MyPagination from "../components/UI/pagination/MyPagination";
-import {useSelector} from "react-redux";
+import MySelect from "../components/UI/select/MySelect";
+import {setCourse, setCourses, setParams, setTotalCount} from "../store/CourseReducer";
+import MyInput from "../components/UI/input/MyInput";
+import {useDispatch, useSelector} from "react-redux";
+import SortAndSearch from "../components/UI/sortAndSearch/SortAndSearch";
 
 
 const Courses = () => {
 
-    const token = useSelector(state => state.user.tokens.accessToken)
+    const dispatch = useDispatch()
+    const courses = useSelector(state => state.course.courses)
+    const params = useSelector(state => state.course.params)
+    const totalCount = useSelector(state => state.course.totalCount)
+    const sortList = useSelector(state => state.course.sortList)
+    const userId = useSelector(state => state.user.user.userId)
+    const isAdmin = useSelector(state => state.user.isAdmin)
 
-    const [courses, setCourses] = useState([])
-    const initialParamsState = {
-        skip: 0,
-        take: 10,
-        reverse: true,
-        sortOption: 'rating'
-    }
-
-    const [params, setParams] = useState(initialParamsState)
-
-    const [page, setPage] = useState(1)
-
-    const [totalCount, setTotalCount] = useState(0)
-
-    const [getCourses, isCoursesLoading, coursesError] = useFetching(async () =>{
-        const [totalCount, newCourses] = await CourseService.getAll({
-            params: {
-                ...params,
-                skip: (page - 1) * params.take,
-
-            }
+    const [getCourses, isCoursesLoading, coursesError] = useFetching(async () => {
+        if(params.query === '')
+            delete params.query
+        const newParams = {
+            ...params,
+            skip: (params.page - 1) * params.take
+        }
+        const [totalCount, newCourses] = await CourseService.GetCourses({
+            params: newParams
         })
-        setCourses([...newCourses])
-        setTotalCount(totalCount)
+        dispatch(setParams(newParams))
+        dispatch(setCourses(newCourses))
+        dispatch(setTotalCount(+totalCount))
     })
 
     const createCourse = async (course) => {
         const courseId = await CourseService.Create(course)
-        setCourses([...courses, {...course, id: courseId}])
+        dispatch(setCourses([...courses, {...course, id: courseId, rating: 0, creatorId: userId}]))
         setModal(false)
-        setTotalCount(totalCount + 1)
+        dispatch(setTotalCount(+totalCount + 1))
     }
 
-    const removeCourse = (id) => {
-        setCourses(courses.filter(c => c.id !== id))
-        setTotalCount(totalCount - 1)
+    const removeCourse = async (id) => {
+        await CourseService.Delete(id)
+        dispatch(setCourses(courses.filter(c => c.id !== id)))
+        dispatch(setTotalCount(+totalCount - 1))
     }
+
 
 
     useEffect( () => {
         getCourses();
-    }, [page, courses.length])
+    }, [params.page])
 
     const changePage = (page) => {
-        setPage(page)
+        dispatch(setParams({...params, page: page}))
     }
 
 
     const [modal, setModal] = useState(false)
 
     return (
-        <div className="wide main">
-            <MyButton onClick={() => setModal(true)}>Add course</MyButton>
-            <MyModal visible={modal} setVisible={setModal}>
-                <CourseForm action={createCourse} title="Create"/>
-            </MyModal>
-            <div>
-                <MyPagination page={page} pageSize={params.take} pageCount={courses.length} totalCount={totalCount} changePage={changePage} />
-                {isCoursesLoading
-                    ? <div>Loading...</div>
-                    : <CourseList remove={removeCourse} courses={courses} title="Courses"/>
-                }
-                {coursesError &&
-                    <div>{coursesError}</div>
-                }
-                <MyPagination page={page} pageSize={params.take} pageCount={courses.length} totalCount={totalCount} changePage={changePage} />
-            </div>
+        <div>
+            {!isCoursesLoading
+                ? <div className="wide main">
+                    <SortAndSearch
+                        params={params}
+                        onParamsChange={value => dispatch(setParams(value))}
+                        action={getCourses}
+                        sortList={sortList}
+                    />
+                    <MyButton onClick={() => setModal(true)}>Add course</MyButton>
+                    {modal && <MyModal visible={modal} setVisible={setModal}>
+                        <CourseForm action={createCourse} title="Create"/>
+                    </MyModal>
+                    }
+                    <div>
+                        <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
+                                      totalCount={totalCount} changePage={changePage}/>
+                            <CourseList remove={removeCourse} courses={courses} userId={userId} isAdmin={isAdmin}/>
+                        {coursesError && <div>{coursesError}</div>}
+                        <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
+                                      totalCount={totalCount} changePage={changePage}/>
+                    </div>
+                </div>
+                : <div>Loading...</div>
+            }
         </div>
     );
-}
+};
 
 export default Courses;

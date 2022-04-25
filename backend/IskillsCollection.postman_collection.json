@@ -186,7 +186,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:44343/api/themes/1/courses?skip=0&take=10&sortOption=Title&reverse=false",
+							"raw": "https://localhost:44343/api/themes/1/courses/all?skip=0&take=10&sortOption=Title&reverse=false",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -196,7 +196,8 @@
 								"api",
 								"themes",
 								"1",
-								"courses"
+								"courses",
+								"all"
 							],
 							"query": [
 								{
@@ -321,7 +322,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"title\": \"string\",\r\n  \"shortInfo\": \"string\",\r\n  \"requirements\": \"string\",\r\n  \"description\": \"string\",\r\n  \"language\": \"string\",\r\n  \"price\": 0,\r\n  \"themeId\": 1\r\n}",
+							"raw": "{\r\n  \"title\": \"string\",\r\n  \"shortInfo\": \"string\",\r\n  \"requirements\": \"string\",\r\n  \"description\": \"string\",\r\n  \"language\": \"string\",\r\n  \"price\": 10,\r\n  \"themeId\": 1,\r\n  \"categoryId\": 2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -408,7 +409,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:44343/api/courses/cc1ce667-97af-4677-85f6-7e98699a2bad",
+							"raw": "https://localhost:44343/api/courses/9659a272-2b9d-4c6e-ae0f-9d89e62f95c8/assignment",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -417,7 +418,8 @@
 							"path": [
 								"api",
 								"courses",
-								"cc1ce667-97af-4677-85f6-7e98699a2bad"
+								"9659a272-2b9d-4c6e-ae0f-9d89e62f95c8",
+								"assignment"
 							]
 						}
 					},
@@ -458,6 +460,47 @@
 								"api",
 								"courses",
 								"cc1ce667-97af-4677-85f6-7e98699a2bad"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCourseImage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/kormi/Downloads/imgonline-com-ua-Resize-zYun9bDpTT2DF.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:44343/api/courses/d0b5ffc8-e9cb-4749-a2d7-7aa87f9aad8f",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"courses",
+								"d0b5ffc8-e9cb-4749-a2d7-7aa87f9aad8f"
 							]
 						}
 					},
@@ -750,7 +793,7 @@
 					"response": []
 				},
 				{
-					"name": "DeleteCourse",
+					"name": "DeleteComment",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -774,7 +817,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:44343/api/comments/6049f8b2-8145-4e35-aeac-9f7ac6aaa150",
+							"raw": "https://localhost:44343/api/comments/b9c28d31-6a93-4293-a301-58353cf8d40c",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -783,7 +826,7 @@
 							"path": [
 								"api",
 								"comments",
-								"6049f8b2-8145-4e35-aeac-9f7ac6aaa150"
+								"b9c28d31-6a93-4293-a301-58353cf8d40c"
 							]
 						}
 					},
@@ -1121,7 +1164,7 @@
 			"name": "Video",
 			"item": [
 				{
-					"name": "GetVideos",
+					"name": "GetVideo",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1590,6 +1633,103 @@
 								"all"
 							],
 							"query": [
+								{
+									"key": "sortOption",
+									"value": "Title"
+								},
+								{
+									"key": "reverse",
+									"value": "false"
+								},
+								{
+									"key": "query",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCategoryThemes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44343/api/categories/1/themes?skip=0&take=10&sortOption=Title&reverse=false",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"categories",
+								"1",
+								"themes"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "sortOption",
+									"value": "Title"
+								},
+								{
+									"key": "reverse",
+									"value": "false"
+								},
+								{
+									"key": "query",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCategoryAllThemes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44343/api/categories/1/themes/all?skip=0&take=10&sortOption=Title&reverse=false",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"categories",
+								"1",
+								"themes",
+								"all"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
 								{
 									"key": "sortOption",
 									"value": "Title"
@@ -2439,45 +2579,6 @@
 					"response": []
 				},
 				{
-					"name": "CreateUser",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{access_token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\",\r\n  \"userName\": \"string\",\r\n  \"email\": \"string@string.com\",\r\n  \"password\": \"string\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://localhost:44343/api/Users",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "44343",
-							"path": [
-								"api",
-								"Users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "PutUser",
 					"request": {
 						"auth": {
@@ -2512,6 +2613,45 @@
 								"api",
 								"users",
 								"4a8ef616-ed69-46a4-87f3-b0ccec999ea2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"string\",\r\n  \"lastName\": \"string\",\r\n  \"userName\": \"string\",\r\n  \"email\": \"string@string.com\",\r\n  \"password\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44343/api/Users",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"Users"
 							]
 						}
 					},
@@ -2597,6 +2737,108 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "GetCourseAllStudents",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44343/api/courses/0c750b5c-19f4-45a2-b526-066b512691cf/students?reverse=false&sortOption=username",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"courses",
+								"0c750b5c-19f4-45a2-b526-066b512691cf",
+								"students"
+							],
+							"query": [
+								{
+									"key": "reverse",
+									"value": "false"
+								},
+								{
+									"key": "query",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "sortOption",
+									"value": "username"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetCourseStudents",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44343/api/courses/0c750b5c-19f4-45a2-b526-066b512691cf/students?skip=0&take=10&sortOption=username&reverse=false",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"courses",
+								"0c750b5c-19f4-45a2-b526-066b512691cf",
+								"students"
+							],
+							"query": [
+								{
+									"key": "skip",
+									"value": "0"
+								},
+								{
+									"key": "take",
+									"value": "10"
+								},
+								{
+									"key": "sortOption",
+									"value": "username"
+								},
+								{
+									"key": "reverse",
+									"value": "false"
+								},
+								{
+									"key": "query",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -2633,7 +2875,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Email\" : \"admin@gmail.com\",\r\n    \"Password\" : \"admin\"\r\n}",
+							"raw": "{\r\n    \"Email\" : \"stepan@gmail.com\",\r\n    \"Password\" : \"stepan\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2749,6 +2991,173 @@
 								"api",
 								"Account",
 								"revoke-token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Database",
+			"item": [
+				{
+					"name": "https://localhost:44343/api/database/backup",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "databaseName",
+									"value": "ISkillsDB",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "outputPath",
+									"value": "E:\\it\\Secound Course\\ISkills\\backend",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:44343/api/database/backup?outputDirectoryPath=E:\\it\\Secound Course\\ISkills\\backend",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"database",
+								"backup"
+							],
+							"query": [
+								{
+									"key": "postgresqlPath",
+									"value": "E:\\Postgresql\\bin",
+									"disabled": true
+								},
+								{
+									"key": "databaseName",
+									"value": "ISkillsDB",
+									"disabled": true
+								},
+								{
+									"key": "outputDirectoryPath",
+									"value": "E:\\it\\Secound Course\\ISkills\\backend"
+								},
+								{
+									"key": "username",
+									"value": "postgres",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "Epidemic2021",
+									"disabled": true
+								},
+								{
+									"key": "host",
+									"value": "127.0.0.1",
+									"disabled": true
+								},
+								{
+									"key": "port",
+									"value": "5432",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:44343/api/database/restore",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "databaseName",
+									"value": "ISkillsDB",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "outputPath",
+									"value": "E:\\it\\Secound Course\\ISkills\\backend",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:44343/api/database/restore?postgresqlPath=E:\\Postgresql\\bin&databaseName=ISkillsDB&inputFilePath=E:\\it\\Secound Course\\ISkills\\backend\\ISkills_backup.sql&username=postgres&password=Epidemic2021&host=127.0.0.1&port=5432",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44343",
+							"path": [
+								"api",
+								"database",
+								"restore"
+							],
+							"query": [
+								{
+									"key": "postgresqlPath",
+									"value": "E:\\Postgresql\\bin"
+								},
+								{
+									"key": "databaseName",
+									"value": "ISkillsDB"
+								},
+								{
+									"key": "inputFilePath",
+									"value": "E:\\it\\Secound Course\\ISkills\\backend\\ISkills_backup.sql"
+								},
+								{
+									"key": "username",
+									"value": "postgres"
+								},
+								{
+									"key": "password",
+									"value": "Epidemic2021"
+								},
+								{
+									"key": "host",
+									"value": "127.0.0.1"
+								},
+								{
+									"key": "port",
+									"value": "5432"
+								}
 							]
 						}
 					},

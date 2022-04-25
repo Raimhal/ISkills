@@ -6,10 +6,12 @@ import MyRating from "../UI/rating/MyRating";
 import defaultCourseImage from '../../assets/images/defaultCourseImage.png'
 import ReactHtmlParser from "react-html-parser";
 import MyEditor from "../UI/editor/MyEditor";
+import MyTextarea from "../UI/textarea/MyTextarea";
 
 
-const CourseItem = ({course, remove}) => {
+const CourseItem = ({course, remove, userId, isAdmin}) => {
     const navigate = useNavigate();
+
 
     const removeHandleClick = (e) => {
         e.stopPropagation()
@@ -22,16 +24,18 @@ const CourseItem = ({course, remove}) => {
                 <div className="course__content">
                     <h3>{course.title}</h3>
                     <MyRating value={course.rating} readonly/>
-                    <div>{ReactHtmlParser(course.shortInfo)}</div>
+                    <MyTextarea value={course.shortInfo} />
                     <div>{course.language}</div>
                 </div>
             </div>
             <div className='course__content'>
-                <div className="course__btns">
-                    <button className="cancelButton" onClick={removeHandleClick}>X</button>
-                </div>
+                {(userId === course.creatorId || isAdmin) &&
+                    <div className="course__btns">
+                        <button className="cancelButton" onClick={removeHandleClick}>X</button>
+                    </div>
+                }
                 <div>
-                    {course.price !== null
+                    {course.price !== 0
                         ? <div>{course.price} $</div>
                         : <div>For free</div>
                     }

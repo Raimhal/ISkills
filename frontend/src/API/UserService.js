@@ -22,11 +22,17 @@ export  default class UserService {
     }
 
     static async getCurrentUser(config = {}) {
-        const response = await EntityService.Get('/users/current', config)
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+        const response = await EntityService.Get(`/users/${currentUser.userId}/short-information`, config)
         return response.data
     }
 
     static async updateUser(id, data, config={}) {
         await EntityService.Update(`/users/${id}`, data, config)
+    }
+
+    static async Create(data, config = {}){
+        const response = await EntityService.Create('/users', data, config)
+        return response.data
     }
 }

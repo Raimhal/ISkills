@@ -5,3 +5,23 @@
     height: 48px;
     border-radius: 50%;
 }
+
+.account > div.top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.account > div.top img.user__image {
+    width: 192px;
+    height: 192px;
+}
+
+.look-up {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+

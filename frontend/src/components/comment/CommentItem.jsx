@@ -10,8 +10,9 @@ import {useDispatch} from "react-redux";
 import {setComment} from "../../store/CommentReducer";
 import ReactHtmlParser from "react-html-parser";
 import Parse from "html-react-parser"
+import MyTextarea from "../UI/textarea/MyTextarea";
 
-const CommentItem = ({comment, remove, update}) => {
+const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
     const dispatch = useDispatch()
     const removeHandleClick = (e) => {
         e.stopPropagation()
@@ -34,12 +35,14 @@ const CommentItem = ({comment, remove, update}) => {
                     <div>
                         {comment.creator.firstName} {comment.creator.lastName} ({comment.creator.userName})
                         <MyRating value={comment.rating} readonly/>
-                        <div>{ReactHtmlParser(comment.content)}</div>
+                        <MyTextarea value={comment.content} />
                     </div>
+                    {(userId === comment.creator.id || isAdmin) &&
                     <div className="comment__btns">
                         <MyButton onClick={removeHandleClick}>X</MyButton>
                         <MyButton onClick={handleUpdateClick}>U</MyButton>
                     </div>
+                    }
                 </div>
             </div>
             <div className='comment__date'>

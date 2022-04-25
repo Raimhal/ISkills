@@ -182,8 +182,7 @@ namespace BLL.Services
                 course.ImageUrl = await _blobService.CreateBlob(stream,
                     file.ContentType, course.Id.ToString(), file.FileName.Split(".")[^1]);
             else
-                await _blobService.UpdateBlob(stream, course.ImageUrl);
-
+                await _blobService.UpdateBlob(stream, course.ImageUrl, file.ContentType);
             _courseDbContext.Courses.Update(course);
             await _userContext.SaveChangesAsync(cancellationToken);
         }

@@ -5,8 +5,11 @@ export const instance = axios.create({
 });
 
 instance.interceptors.request.use((config) => {
-    const token = `Bearer ${localStorage.getItem('accessToken')}`;
-    if(config && config.headers)
-        config.headers.Authorization = token ? token : '';
+    if((JSON.parse(localStorage.getItem('isAuth')))) {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'))
+        const token = `Bearer ${currentUser.jwtToken}`;
+        if (config && config.headers)
+            config.headers.Authorization = token ? token : '';
+    }
     return config;
 });

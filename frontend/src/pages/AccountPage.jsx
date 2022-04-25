@@ -10,41 +10,20 @@ import UserForm from "../components/user/UserForm";
 import {getAuthHeader} from "../router/instance";
 import {useFetching} from "../hooks/useFetching";
 import MyRating from "../components/UI/rating/MyRating";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {setUser} from "../store/UserReducer";
 
 const AccountPage = () => {
-    const token = useSelector(state => state.user.tokens.accessToken)
-    const [currentUser, setCurrentUser] = useState({
-        firstName: '',
-        lastName: '',
-        userName: '',
-        email: '',
-        confirmPassword: '',
-        password: '',
-        imageUrl: defaultUserImage,
-        rating: 0
-    })
+    const dispatch = useDispatch()
+     const currentUser = useSelector(state => state.user.user)
 
     const [getCurrentUser, isUserLoading, userError] = useFetching(async () => {
-        const user = await UserService.getCurrentUser({
-            headers: {
-                Authorization: token
-            }
-        })
-        setCurrentUser(user)
+        const user = await UserService.getCurrentUser()
+        dispatch(setUser(user))
     })
 
-    const createUser = async (user) => {
-        const userId = await UserService.Create(user)
-        setCurrentUser([...currentUser, {...user, id: userId}])
-    }
-
     const updateUser = async (user) => {
-        await UserService.updateUser(user, {
-            headers: {
-                Authorization: token
-            }
-        })
+        await UserService.updateUser(user.id, user)
     }
 
     useEffect(() => {
@@ -52,16 +31,20 @@ const AccountPage = () => {
     }, [])
 
     return (
-        <div>
+        <div className="wide main account">
             {!isUserLoading &&
-            <div>
-                <img src={currentUser.imageUrl || defaultUserImage} alt="current user image" className='user__image' />
-                <MyRating value={currentUser.rating} readonly/>
-                <UserForm action={updateUser} defaultState={currentUser} title="Update"/>
-            </div>
+                <div className="top">
+                    <div className="look-up">
+                        <img src={ defaultUserImage} alt="current user image" className='user__image' />
+                        <MyRating value={currentUser.rating} readonly/>
+                    </div>
+                    <div>
+                        <UserForm action={updateUser} defaultState={currentUser} title="Update"/>
+                    </div>
+                </div>
             }
         </div>
     );
-};
+}
 
 export default AccountPage;

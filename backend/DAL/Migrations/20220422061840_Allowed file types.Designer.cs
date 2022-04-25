@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DAL.Migrations
 {
     [DbContext(typeof(IskillsContext))]
-    [Migration("20220412065224_Renamed raiting to rating")]
-    partial class Renamedraitingtorating
+    [Migration("20220422061840_Allowed file types")]
+    partial class Allowedfiletypes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -306,6 +306,9 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("double precision");
 
                     b.Property<string>("Salt")
                         .HasColumnType("text");

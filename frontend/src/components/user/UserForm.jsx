@@ -13,7 +13,7 @@ const UserForm = ({action, title, defaultState = {}, ...props}) => {
     }
 
     return (
-        <form className="user__form" onSubmit={userAction}>
+        <form className="user__form" onSubmit={userAction} {...props}>
             <MyInput type="text" value={currentUser.userName} onChange={e => setCurrentUser({...currentUser, userName: e.target.value})} placeholder="Username"/>
             <MyInput type="text" value={currentUser.email} onChange={e => setCurrentUser({...currentUser, email: e.target.value})} placeholder="Email"/>
             <MyInput type="text" value={currentUser.firstName} onChange={e => setCurrentUser({...currentUser, firstName: e.target.value})} placeholder="Firstname"/>
