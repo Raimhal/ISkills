@@ -13,8 +13,9 @@ namespace DAL
         public static IServiceCollection AddPersistence(this IServiceCollection services,
             IConfiguration configuration)
         {
+
             services.AddDbContext<IskillsContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DbConnection")));
+                options.UseNpgsql(IskillsContext.GetConnectionString(configuration)));
 
             //var connectionString = $"host={Environment.GetEnvironmentVariable("POSTGRES_HOST")};" +
             //    $"port={Environment.GetEnvironmentVariable("POSTGRES_PORT")};" +
