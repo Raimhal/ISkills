@@ -5,12 +5,13 @@ using BLL.Interfaces;
 using BLL.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using BLL.Tasks;
 
 namespace BLL
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplication(this IServiceCollection services)
+        public static IServiceCollection AddApplication(this IServiceCollection services, bool isDevelopment)
         {
             services.AddValidatorsFromAssemblies(new[] { Assembly.GetExecutingAssembly() });
 
@@ -28,6 +29,11 @@ namespace BLL
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IAntivirusService, AntivirusService>();
             services.AddScoped<IDatabaseService, DatabaseService>();
+            if (!isDevelopment)
+            {
+                services.AddSingleton<AutoBackupService>();
+                services.AddHostedService<AutoBackupService>();
+            }
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

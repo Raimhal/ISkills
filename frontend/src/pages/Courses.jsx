@@ -22,7 +22,7 @@ const Courses = () => {
     const params = useSelector(state => state.course.params)
     const totalCount = useSelector(state => state.course.totalCount)
     const sortList = useSelector(state => state.course.sortList)
-    const userId = useSelector(state => state.user.user.userId)
+    const userId = useSelector(state => state.user.user.userId || state.user.user.id)
     const isAdmin = useSelector(state => state.user.isAdmin)
 
     const [getCourses, isCoursesLoading, coursesError] = useFetching(async () => {
@@ -40,13 +40,6 @@ const Courses = () => {
         dispatch(setTotalCount(+totalCount))
     })
 
-    const createCourse = async (course) => {
-        const courseId = await CourseService.Create(course)
-        dispatch(setCourses([...courses, {...course, id: courseId, rating: 0, creatorId: userId}]))
-        setModal(false)
-        dispatch(setTotalCount(+totalCount + 1))
-    }
-
     const removeCourse = async (id) => {
         await CourseService.Delete(id)
         dispatch(setCourses(courses.filter(c => c.id !== id)))
@@ -57,39 +50,29 @@ const Courses = () => {
 
     useEffect( () => {
         getCourses();
-    }, [params.page])
+    }, [params.page, params.sortOption])
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
     }
 
-
-    const [modal, setModal] = useState(false)
-
     return (
-        <div>
+        <div className="wide main">
+            <SortAndSearch
+                params={params}
+                onParamsChange={value => dispatch(setParams(value))}
+                action={getCourses}
+                sortList={sortList}
+            />
             {!isCoursesLoading
-                ? <div className="wide main">
-                    <SortAndSearch
-                        params={params}
-                        onParamsChange={value => dispatch(setParams(value))}
-                        action={getCourses}
-                        sortList={sortList}
-                    />
-                    <MyButton onClick={() => setModal(true)}>Add course</MyButton>
-                    {modal && <MyModal visible={modal} setVisible={setModal}>
-                        <CourseForm action={createCourse} title="Create"/>
-                    </MyModal>
-                    }
-                    <div>
+                ?   <div>
                         <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                                       totalCount={totalCount} changePage={changePage}/>
-                            <CourseList remove={removeCourse} courses={courses} userId={userId} isAdmin={isAdmin}/>
+                        <CourseList remove={removeCourse} courses={courses} userId={userId} isAdmin={isAdmin}/>
                         {coursesError && <div>{coursesError}</div>}
                         <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                                       totalCount={totalCount} changePage={changePage}/>
                     </div>
-                </div>
                 : <div>Loading...</div>
             }
         </div>

@@ -19,7 +19,7 @@ const CommentForm = ({action, title, ...props}) => {
     }
 
     return (
-        <form className="comment__form" {...props}>
+        <form className="form" {...props}>
             <MyEditor defaultValue={comment.content} onChange={value => dispatch(setComment({...comment, content: value}))} placeholder="Enter your comment"/>
             {/*<MyCKEditor text={comment.content} setText={value => dispatch(setComment({...comment, content: value}))}/>*/}
             <div className="rb_div">

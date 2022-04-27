@@ -73,7 +73,7 @@ namespace Iskills.Controllers
 
         [HttpGet]
         [Route("api/users/{id}/short-information")]
-        public async Task<ActionResult<UserDto>> GetUserShortInfo(Guid id, CancellationToken cancellationToken)
+        public async Task<ActionResult<UserDetailsDto>> GetUserShortInfo(Guid id, CancellationToken cancellationToken)
             => Ok(await _userService.GetShortInfoByIdAsync(id, cancellationToken));
 
 

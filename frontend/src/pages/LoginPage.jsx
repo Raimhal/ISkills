@@ -29,11 +29,14 @@ const LoginPage = () => {
     }
 
     return (
-        <form className="user__form" onSubmit={login}>
-            <MyInput type="text" onChange={e => dispatch(setUser({...user, email: e.target.value}))} placeholder="Email"/>
-            <MyInput type="text" onChange={e => dispatch(setUser({...user, password: e.target.value}))} placeholder="Password"/>
-            <MyButton type="submit">Log in</MyButton>
-        </form>
+        <div className="center">
+            <form className="form login" onSubmit={login}>
+                <p>Log in</p>
+                <MyInput type="text" onChange={e => dispatch(setUser({...user, email: e.target.value}))} placeholder="Email"/>
+                <MyInput type="text" onChange={e => dispatch(setUser({...user, password: e.target.value}))} placeholder="Password"/>
+                <MyButton type="submit">Log in</MyButton>
+            </form>
+        </div>
     );
 };
 

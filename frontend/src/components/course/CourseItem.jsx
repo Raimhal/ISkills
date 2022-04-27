@@ -11,6 +11,7 @@ import MyTextarea from "../UI/textarea/MyTextarea";
 
 const CourseItem = ({course, remove, userId, isAdmin}) => {
     const navigate = useNavigate();
+    const hasAccess = (userId === course.creatorId || isAdmin)
 
 
     const removeHandleClick = (e) => {
@@ -29,7 +30,7 @@ const CourseItem = ({course, remove, userId, isAdmin}) => {
                 </div>
             </div>
             <div className='course__content'>
-                {(userId === course.creatorId || isAdmin) &&
+                {hasAccess &&
                     <div className="course__btns">
                         <button className="cancelButton" onClick={removeHandleClick}>X</button>
                     </div>

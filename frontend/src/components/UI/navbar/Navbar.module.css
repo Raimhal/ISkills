@@ -1,5 +1,7 @@
 
 .navbar {
+    position: fixed;
+    min-width: 100%;
     height: 50px;
     display: flex;
     justify-content: space-between;
@@ -7,7 +9,13 @@
     padding: 0 15px;
     background: whitesmoke;
     box-sizing: border-box;
-    margin: 0
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
+.navbar > div {
+    display: flex;
+    gap: 1rem;
 }
 
 .navbar__links {
@@ -18,5 +26,7 @@
 
 .navbar__link {
     text-decoration: none;
-    color: #975ad4;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    cursor: pointer;
 }

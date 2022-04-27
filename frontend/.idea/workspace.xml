@@ -41,7 +41,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/API" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../NodeJS/lab3" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -50,9 +50,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\components" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\API" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\store" />
-      <recent name="E:\it\Secound Course\ISkills\frontend\src\components" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\assets" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\assets\images" />
     </key>
@@ -124,6 +124,12 @@
       <workItem from="1650819082908" duration="2841000" />
       <workItem from="1650886686247" duration="8843000" />
       <workItem from="1650901823682" duration="10951000" />
+      <workItem from="1650951998844" duration="3961000" />
+      <workItem from="1650958234638" duration="4444000" />
+      <workItem from="1650973594607" duration="2315000" />
+      <workItem from="1650978209362" duration="776000" />
+      <workItem from="1651040052607" duration="17771000" />
+      <workItem from="1651061875791" duration="7617000" />
     </task>
     <servers />
   </component>

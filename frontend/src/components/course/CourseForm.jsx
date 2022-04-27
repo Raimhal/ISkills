@@ -51,22 +51,18 @@ const CourseForm = ({action, title, ...props}) => {
 
 
     return (
-        <form className="course__form">
+        <form className="form">
             <div className="block">
-                Title :
-                <MyInput type="text" defaultValue={course.title} onChange={e => dispatch(setCourse({...course, title: e.target.value}))}/>
+                <MyInput type="text" defaultValue={course.title} label="Title" onChange={e => dispatch(setCourse({...course, title: e.target.value}))}/>
             </div>
             <div className="block">
-                Short information :
-                <MyEditor defaultValue={course.shortInfo} onChange={value => dispatch(setCourse({...course, shortInfo: value}))}/>
+                <MyEditor defaultValue={course.shortInfo} onChange={value => dispatch(setCourse({...course, shortInfo: value}))} placeholder="Short information"/>
             </div>
             <div className="block">
-                Description :
-                <MyEditor defaultValue={course.description} onChange={value => dispatch(setCourse({...course, description: value}))}/>
+                <MyEditor defaultValue={course.description} onChange={value => dispatch(setCourse({...course, description: value}))} placeholder="Description"/>
             </div>
             <div className="block">
-                Requirements :
-                <MyEditor defaultValue={course.requirements} onChange={value => dispatch(setCourse({...course, requirements: value}))}/>
+                <MyEditor defaultValue={course.requirements} onChange={value => dispatch(setCourse({...course, requirements: value}))} placeholder="Requirements"/>
             </div>
             <div className="block">
                 <MySelect
@@ -92,7 +88,7 @@ const CourseForm = ({action, title, ...props}) => {
             <div className="block">
                 <p><input type="radio" name="buyMode" onChange={() => dispatch(setCourse({...course, price: 0}))} defaultChecked={course.price === 0}/> free to learn</p>
                 <p><input type="radio" name="buyMode" onChange={() => dispatch(setCourse({...course, price: 0.99}))} defaultChecked={course.price !== 0}/> buy to learn </p>
-                {course.price !== 0 && <MyInput type="text" value={course.price} onChange={e => dispatch(setCourse({...course, price: e.target.value}))} placeholder="Price"/>}
+                {course.price !== 0 && <MyInput type="text" value={course.price} onChange={e => dispatch(setCourse({...course, price: e.target.value}))} label="Price"/>}
             </div>
             <MyButton onClick={courseAction}>{title}</MyButton>
         </form>

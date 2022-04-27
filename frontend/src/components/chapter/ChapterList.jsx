@@ -3,7 +3,7 @@ import ChapterItem from "./ChapterItem";
 import '../../styles/App.css'
 import {CSSTransition, TransitionGroup} from "react-transition-group";
 
-const ChapterList = ({chapters, title, remove}) => {
+const ChapterList = ({chapters, title, remove, update, userId, isAdmin}) => {
     return (
         <div>
             <h2 style={{padding: "5px"}}>{title}</h2>
@@ -16,7 +16,7 @@ const ChapterList = ({chapters, title, remove}) => {
                             timeout={500}
                             classNames="chapter"
                         >
-                            <ChapterItem chapter={chapter} remove={remove} />
+                            <ChapterItem chapter={chapter} remove={remove} update={update} userId={userId} isAdmin={isAdmin}/>
                         </CSSTransition>
                     )}
                 </TransitionGroup>

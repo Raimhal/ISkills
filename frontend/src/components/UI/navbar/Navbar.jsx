@@ -1,15 +1,42 @@
-import React from 'react';
-import {Link} from "react-router-dom";
+import React, {useState} from 'react';
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import classes from "./Navbar.module.css"
 import {useDispatch, useSelector} from "react-redux";
 import {logoutUser} from "../../../store/UserReducer";
+import MyButton from "../button/MyButton";
+import MyModal from "../MyModal/MyModal";
+import CourseForm from "../../course/CourseForm";
+import CourseService from "../../../API/CourseService";
+import {setCourses, setTotalCount} from "../../../store/CourseReducer";
 const Navbar = () => {
     const isAuth = useSelector(state => state.user.isAuth)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    const isCreateCourse = new RegExp(/^\/courses\/([\w\d-]+)/).test(location.pathname)
+    // const userId = useState(state => state.user?.user?.userId)
+    const courses = useSelector(state => state.course.courses)
+    const totalCount = useSelector(state => state.course.totalCount)
+
+    const createCourse = async (course) => {
+        const courseId = await CourseService.Create(course)
+        dispatch(setCourses([...courses, {...course, id: courseId, rating: 0}]))
+        setModal(false)
+        dispatch(setTotalCount(+totalCount + 1))
+        navigate(`/courses/${courseId}`)
+    }
+
+    const [modal, setModal] = useState(false)
     return (
         <div className={classes.navbar}>
             <div>
                 <Link to="/courses" className={classes.navbar__link}>ISkills</Link>
+                {isAuth && !isCreateCourse && <p onClick={() => setModal(true)} className={classes.navbar__link}>+</p>}
+                {modal && <MyModal visible={modal} setVisible={setModal}>
+                    <CourseForm action={createCourse} title="Create"/>
+                </MyModal>
+                }
             </div>
             <div>
                 {isAuth
@@ -20,12 +47,12 @@ const Navbar = () => {
                             dispatch(logoutUser())
                             localStorage.clear()
                         }
-                        }>Logout</Link>
+                        }>Log out</Link>
                     </div>
                     : <div className={classes.navbar__links}>
                         <Link to="/courses" className={classes.navbar__link}>Courses</Link>
                         <Link to="/login" className={classes.navbar__link}>Log in</Link>
-                        <Link to="/register" className={classes.navbar__link}>Register</Link>
+                        <Link to="/register" className={classes.navbar__link}>Sing up</Link>
                     </div>
                 }
             </div>

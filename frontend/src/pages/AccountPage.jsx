@@ -19,7 +19,7 @@ const AccountPage = () => {
 
     const [getCurrentUser, isUserLoading, userError] = useFetching(async () => {
         const user = await UserService.getCurrentUser()
-        dispatch(setUser(user))
+        dispatch(setUser({...currentUser, ...user}))
     })
 
     const updateUser = async (user) => {
@@ -35,16 +35,16 @@ const AccountPage = () => {
             {!isUserLoading &&
                 <div className="top">
                     <div className="look-up">
-                        <img src={ defaultUserImage} alt="current user image" className='user__image' />
+                        <img src={ currentUser.imageUrl || defaultUserImage} alt="current user image" className='user__image' />
                         <MyRating value={currentUser.rating} readonly/>
                     </div>
                     <div>
-                        <UserForm action={updateUser} defaultState={currentUser} title="Update"/>
+                        <UserForm action={updateUser} defaultState={currentUser} title="Account" submitTitle="Save"/>
                     </div>
                 </div>
             }
         </div>
     );
-}
+};
 
 export default AccountPage;

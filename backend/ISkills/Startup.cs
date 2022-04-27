@@ -20,12 +20,14 @@ namespace ISkills
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Env = env;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
+        private readonly IWebHostEnvironment Env;
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -36,8 +38,9 @@ namespace ISkills
 
             });
 
-            services.AddApplication();
+            services.AddApplication(Env.IsDevelopment());
             services.AddPersistence(Configuration);
+            
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {

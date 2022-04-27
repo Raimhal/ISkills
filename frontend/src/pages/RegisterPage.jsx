@@ -17,8 +17,8 @@ const RegisterPage = () => {
     }
 
     return (
-        <div>
-            <UserForm action={createUser} defaultState={user} title="Register"/>
+        <div className="center">
+            <UserForm action={createUser} defaultState={user} submitTitle="Sign up" title="Registration" className="form register"/>
         </div>
     );
 };

@@ -15,7 +15,7 @@ namespace BLL.DtoModels
         public string ImageUrl { get; set; }
         public double Rating { get; set; }  
 
-        public void Mapping(Profile profile)
+        public virtual void Mapping(Profile profile)
         {
             profile.CreateMap<UserDto, User>()
                 .ReverseMap();

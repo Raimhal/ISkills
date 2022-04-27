@@ -2,6 +2,7 @@
 .editorContent {
     line-height: 85%;
     word-break: break-word;
+    background-color: transparent;
 }
 
 .toolbar__none {
@@ -11,4 +12,9 @@
 .underline {
     padding: 0 15px;
     border-bottom: 1px solid rgba(120, 108, 108, 0.21);
+}
+
+.focus {
+    display: none;
+    border-bottom: 1px solid #975ad4 !important;
 }

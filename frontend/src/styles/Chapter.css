@@ -3,13 +3,24 @@ h1 {
     text-align: center;
 }
 
+.chapter {
+    border: solid 1px rgba(169, 169, 169, 0.4);
+    display: flex;
+    gap: 0.2rem;
+}
+
+.chapter__btns {
+    display: flex;
+    justify-content: end;
+    gap: 0.2rem;
+}
+
 
 .tab {
     position: relative;
     margin-bottom: 1px;
     width: 100%;
     overflow: hidden;
-    border: solid 1px rgba(169, 169, 169, 0.4);
 }
 .tab input {
     position: absolute;
@@ -75,4 +86,10 @@ h1 {
     width: 100%;
     height: auto;
     padding: 10px;
+}
+
+.chapter__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

@@ -29,6 +29,7 @@ import ChapterService from "../API/ChapterService";
 import {setChapters} from "../store/ChapterReducer";
 import ChapterList from "../components/chapter/ChapterList";
 import ChapterForm from "../components/chapter/ChapterForm";
+import '../styles/Chapter.css'
 
 const CoursePage = () => {
     const dispatch = useDispatch()
@@ -39,6 +40,8 @@ const CoursePage = () => {
     const chapters = useSelector((state) => state.chapter.chapters)
     const currentUser = useSelector(state => state.user.user)
     const isAdmin = useSelector(state => state.user.isAdmin)
+
+    const hasAccess = (course.creatorId === currentUser.id || isAdmin || currentUser.courses?.some(x => x.id === course.id))
 
     const {id} = useParams()
     const initialParamsState = {
@@ -59,6 +62,7 @@ const CoursePage = () => {
     const [modal, setModal] = useState(false)
     const [modalComment, setCommentModal] = useState(false)
     const [modalChapter, setChapterModal] = useState(false)
+    const [modalChapterUpdate, setChapterUpdateModal] = useState(false)
 
     const [getCourse, isCourseLoading, courseError] = useFetching(async (id) =>{
         const _course = await CourseService.GetCourse(id)
@@ -104,7 +108,7 @@ const CoursePage = () => {
                 skip: (chapterPage - 1) * params.take,
             }
         })
-        dispatch(setChapters(newChapters))
+        dispatch(setChapters([...newChapters]))
         setChapterTotalCount(count)
     })
 
@@ -115,6 +119,7 @@ const CoursePage = () => {
     const assignUser = async (id) => {
         await CourseService.ToggleAssignment(id)
         dispatch(setUsers([...students, currentUser]))
+        dispatch(setUser({...currentUser, courses: [...currentUser.courses, course]}))
     }
 
     const createComment = async (comment) => {
@@ -125,6 +130,12 @@ const CoursePage = () => {
         const newRating = ((course.rating * +totalCount + comment.rating) / (+totalCount + 1))
         dispatch(setCourse({...course, rating: newRating }))
         setTotalCount(+totalCount + 1)
+    }
+
+    const createChapter = async (chapter) => {
+        const chapterId = await ChapterService.Create({...chapter, courseId: id})
+        dispatch(setChapters([...chapters, {...chapter, id: chapterId, creatorId: currentUser.id, courseId: id}]))
+        setChapterTotalCount(+totalChapterCount + 1)
     }
 
     const updateComment = async (comment) => {
@@ -147,13 +158,6 @@ const CoursePage = () => {
         dispatch(setComments(comments.filter(c => c.id !== id)))
     }
 
-    const createChapter = async (chapter) => {
-        const chapterId = await ChapterService.Create({...chapter, courseId: id})
-        const newChapter = {...chapterId, id: chapterId}
-        dispatch(setChapters([...chapters, newChapter]))
-        setChapterTotalCount(+totalChapterCount + 1)
-    }
-
     const updateChapter = async (chapter) => {
         await ChapterService.Update(chapter.id, chapter)
         dispatch(setChapters([...chapters.map(c => {
@@ -166,7 +170,7 @@ const CoursePage = () => {
     }
 
     const removeChapter = async (id) => {
-        await CommentService.Delete(id)
+        await ChapterService.Delete(id)
         dispatch(setChapters(chapters.filter(c => c.id !== id)))
     }
 
@@ -218,7 +222,7 @@ const CoursePage = () => {
                         </div>
                         <div className="body">
                             <img src={course.imageUrl || defaultCourseImage} alt="course image" className="course__image"/>
-                            {!students.some(x => x.id === currentUser.id) &&
+                            {!hasAccess &&
                                 <div>
                                 {course.price === 0
                                     ? <div className="free">
@@ -226,7 +230,7 @@ const CoursePage = () => {
                                     </div>
                                     : <div className="buy">
                                     <div>{course.price} $</div>
-                                    <MyButton>Buy now</MyButton>
+                                    <MyButton onClick={() => assignUser(course.id)}>Buy now</MyButton>
                                     </div>
                                 }
                                 </div>
@@ -236,59 +240,85 @@ const CoursePage = () => {
                     { !isStudentsLoading && students.length > 0 &&
                         <div className="block">
                             <h4>Students : </h4>
-                            {students.map(student =>
-                                <div key={student.id}>
-                                    <img src={student.src || defaultUserImage} alt="student" className="user__image"/>
-                                </div>
-                            )}
+                            <div className="user__list">
+                                {students.map(student =>
+                                    <img src={student.src || defaultUserImage} alt="student" className="user__image" key={student.id}/>
+                                )}
+                            </div>
                             <MyPagination page={userPage} pageSize={params.take} pageCount={students.length} totalCount={totalUserCount}
                                           changePage={page => setUserPage(page)}/>
                         </div>
                     }
-                    {course.description &&
+                    {course.description && course.description.trim() !== '<p></p>' &&
                     <div className="block">
                         <h4>Description :</h4>
                         <MyTextarea value={course.description}/>
                     </div>
                     }
-                    {course.requirements &&
+                    {course.requirements && course.requirements.trim() !== '<p></p>' &&
                     <div className="block">
                         <h4>Requirements :</h4>
                         <MyTextarea value={course.requirements}/>
                     </div>
                     }
-                    <div>
-                        <MyButton onClick={() => setModal(true)}>Update</MyButton>
-                        {modal && <MyModal visible={modal} setVisible={setModal}>
-                            <CourseForm action={value => {
-                                updateCourse(value)
-                                setModal(false)
-                            }} title="Save" defaultState={course}/>
-                        </MyModal>
-                        }
-                    </div>
+                    { (course.creatorId === currentUser.id || isAdmin) &&
+                        <div>
+                            <MyButton onClick={() => setModal(true)}>Update</MyButton>
+                            {modal && <MyModal visible={modal} setVisible={setModal}>
+                                <CourseForm action={value => {
+                                    updateCourse(value)
+                                    setModal(false)
+                                }} title="Save" defaultState={course}/>
+                            </MyModal>
+                            }
+                        </div>
+                    }
                     {chapters.length > 0 &&
                     <div className="block">
-                        <ChapterForm action={createChapter} title="Create" className='block'/>
-                        <h4>{totalChapterCount} chapters :</h4>
+                        <div className="chapter__title">
+                            <h4>{totalChapterCount} chapters :</h4>
+                            {(currentUser.id === course.creatorId || isAdmin) &&
+                            <div>
+                                <MyButton onClick={() => setChapterModal(true)}>+</MyButton>
+                                {modalChapter && <MyModal visible={modalChapter} setVisible={setChapterModal}>
+                                    <ChapterForm action={value => {
+                                        createChapter(value)
+                                        setChapterModal(false)
+                                    }} title="Create"/>
+                                </MyModal>}
+                                {modalChapterUpdate && <MyModal visible={modalChapterUpdate} setVisible={setChapterUpdateModal}>
+                                    <ChapterForm action={value => {
+                                        updateChapter(value)
+                                        setChapterUpdateModal(false)
+                                    }} title="Save"/>
+                                </MyModal>}
+                            </div>
+                            }
+                        </div>
                         {chapters.length > 0 &&
                         <div>
-                            <MyPagination page={chapterPage} pageSize={params.take} pageCount={chapters.length} totalCount={totalChapterCount}
+                            <MyPagination page={chapterPage} pageSize={params.take} pageCount={chapters.length}
+                                          totalCount={totalChapterCount}
                                           changePage={page => setChapterPage(page)}/>
-                            <ChapterList chapters={chapters} update={() => setChapterModal(true)} remove={removeChapter}/>
-                            <MyPagination page={chapterPage} pageSize={params.take} pageCount={chapters.length} totalCount={totalChapterCount}
+                            <ChapterList
+                                chapters={chapters}
+                                update={() => setChapterUpdateModal(true)}
+                                remove={removeChapter}
+                                userId={currentUser.id}
+                                isAdmin={isAdmin}
+                            />
+                            <MyPagination page={chapterPage} pageSize={params.take} pageCount={chapters.length}
+                                          totalCount={totalChapterCount}
                                           changePage={page => setChapterPage(page)}/>
                         </div>
                         }
-                        {modalChapter && <MyModal visible={modalChapter} setVisible={setChapterModal}>
-                            <ChapterForm action={updateChapter} title="Save"/>
-                        </MyModal>
-                        }
                     </div>
+                    }
+                    { hasAccess &&
+                        <CommentForm action={createComment} title="Create" className='block'/>
                     }
                     {comments.length > 0 &&
                         <div>
-                            <CommentForm action={createComment} title="Create" className='block'/>
                             <h4>{totalCount} comments :</h4>
                             {comments.length > 0 &&
                                 <div>

@@ -296,6 +296,16 @@ COPY public."Chapters" ("Id", "Title", "Description", "CourseId") FROM stdin;
 f590c795-b31a-4fe7-8d0f-4f9e9f76996e	string	string	93eb1bdb-eb7c-4b5c-8bcd-361e280493f7
 57348201-d1cd-4f29-b302-7224911c17ed	string	string	93eb1bdb-eb7c-4b5c-8bcd-361e280493f7
 8c5d4359-2f9b-4049-b337-44aa0d2e73ab	string	string	93eb1bdb-eb7c-4b5c-8bcd-361e280493f7
+e3d91c7d-1f2f-4870-bf67-e0984dc2977c	sdf	<p>sdf</p>\n	9a75b819-29ea-467e-8eef-353f294658e4
+ee2772c4-c6af-48b6-8e5a-d51ce8b653d2	sdfs	<p>sdf</p>\n	9a75b819-29ea-467e-8eef-353f294658e4
+7c90523c-d4d3-449b-bbc5-7a6e53264ccb	fdg	<p>dfg</p>\n	9a75b819-29ea-467e-8eef-353f294658e4
+2cb1dc0a-bea6-4d0b-9222-b8bc6306b486	fdgdfg	<p>dgfdfg</p>\n	9a75b819-29ea-467e-8eef-353f294658e4
+9289c1a7-701b-4420-bec7-5ade7ad91407	sdf	<p>sdf</p>\n	9a75b819-29ea-467e-8eef-353f294658e4
+7bd585d3-7e35-48a8-a9f1-cb5ee8789373	zdfs	<p>sdf</p>\n	9a75b819-29ea-467e-8eef-353f294658e4
+8bd51ddd-17d7-40f2-b782-00ec164d857a	zdfs	<p>sdf</p>\n	9a75b819-29ea-467e-8eef-353f294658e4
+7b6bf887-d53d-447c-86b8-32277111e96e	zdfs	<p>sdf</p>\n	9a75b819-29ea-467e-8eef-353f294658e4
+cbe4e613-09a2-4472-aa93-11701d061927	sad	<p>ads</p>\n	9a75b819-29ea-467e-8eef-353f294658e4
+a54a50a6-39c7-46bb-a1aa-8d191b1abc11	fdfgdvcxcvxvvxvxcxvxcv	<p>dfg</p>\n	9a75b819-29ea-467e-8eef-353f294658e4
 \.
 
 
@@ -304,7 +314,6 @@ f590c795-b31a-4fe7-8d0f-4f9e9f76996e	string	string	93eb1bdb-eb7c-4b5c-8bcd-361e2
 --
 
 COPY public."Comments" ("Id", "Content", "Date", "DateUpdated", "CourseId", "CreatorId", "Rating") FROM stdin;
-ff10bf19-39c3-4483-9d62-389fe2d8f2cf	<p>sdjflkasfdjadfskalsdjfasf</p>\n<p></p>\n<p>asdfljkakfa</p>\n<p>fd ajsk fda sf</p>\n<p>d&nbsp;</p>\n<p>DFALDAA</p>\n<p>DFDAFDADJKFA JDFAJ SFLAS DFALSJDF LAJFDLAJ LFAJ FLAKJ LFAJ FLSAJFDLKJASDF LKASJDFLA SLDFASLFDJ ALSDJF LASFD JLADS FLASJ LFDASJ FLKADSJ DLFASJ FDLKAS JFLA DFLA DJLFJ LAJFLAKD LAS FDAJ DFKLAJSLF JLA FJLAJ LFAJ LA JFLAJ FLKAJ KFKSA D</p>\n<ul>\n<li>ASDKJLFJALFJA</li>\n<li>AFJKLALJ FL</li>\n<li>AFDJKLAJ DFA</li>\n<li>FJADF LKAFJ</li>\n<li>AFJKLAJ FDA&nbsp;</li>\n<li>AFJKLAJ FA</li>\n<li>AJFKLAJ FA</li>\n<li>SFALKF AFLAF</li>\n</ul>\n<p>ASDKLJFAKJFALJDFLALKJ</p>\n<ol>\n<li>ANJSDFJALKJF</li>\n<li>AJFKDAFJ</li>\n<li>AFDJAKSLFDLDA</li>\n<li>FAKLFJA</li>\n<li>ASFDJLKASJL</li>\n<li>AASJKLFDJALJF</li>\n<li>AFDLJKA</li>\n</ol>\n<p><strong>JSDJFLSJFLSJFLSJLFD</strong></p>\n<p><strong>SDLKJFSJDFSDF</strong></p>\n<p><strong>SFJLKSdJF</strong></p>\n<p><strong>JKHJKHJKHK</strong></p>\n	2022-04-20 17:46:38.147928	2022-04-20 17:48:47.06068	9a75b819-29ea-467e-8eef-353f294658e4	e53f038f-af0e-4113-83c7-c105f12829fb	5
 613bf86d-857b-4550-bedb-a5e8208fb8ef	<p>j</p>\n	2022-04-20 19:51:53.26515	2022-04-20 19:51:53.26515	9b511247-904b-4d54-b92a-1ae9e690fa8e	e53f038f-af0e-4113-83c7-c105f12829fb	5
 79d58aa7-96d3-4e1c-bb64-89f0004efec0	<p>j</p>\n	2022-04-20 19:56:26.172546	2022-04-20 19:56:26.172546	d1f8c924-ecaf-42a2-bf5c-02dbe11e44e5	e53f038f-af0e-4113-83c7-c105f12829fb	5
 36e20551-f19b-4af0-bc7a-11b64de9f3b8		2022-04-20 19:56:29.063779	2022-04-20 19:56:29.063779	d1f8c924-ecaf-42a2-bf5c-02dbe11e44e5	e53f038f-af0e-4113-83c7-c105f12829fb	5
@@ -324,10 +333,10 @@ d102a8d0-61e7-4cdc-a2b7-92f5528f6ed6		2022-04-21 14:32:03.655102	2022-04-21 14:3
 064ff756-c138-4604-9615-3fb84c93ea37		2022-04-21 14:32:11.804011	2022-04-21 14:32:11.804011	93eb1bdb-eb7c-4b5c-8bcd-361e280493f7	4a312d2f-a82d-484a-93ab-514c36d458f5	5
 e25ed9ee-a0e0-4baa-b087-b63558083b33	<p></p>\n<iframe width="auto" height="auto" src="https://raimhalazurestorage.blob.core.windows.net/iskills-videos/f59e51c6-cb78-42c3-bd0a-8ebab0fb7496.mp4" frameBorder="0"></iframe>\n<p>sdfjklasjdlfk jasldjflas dlfwjalfjawilejf iwahf ksfsjf lsjfl slf sld fjlskdjf lsdfl jsd</p>\n	2022-04-22 09:31:17.112442	2022-04-22 09:31:17.11248	93eb1bdb-eb7c-4b5c-8bcd-361e280493f7	e53f038f-af0e-4113-83c7-c105f12829fb	2
 519c7888-f9a9-4466-84be-3fa197316013	<p>😍</p>\n	2022-04-25 14:02:39.219542	2022-04-25 14:02:39.219542	9a75b819-29ea-467e-8eef-353f294658e4	e53f038f-af0e-4113-83c7-c105f12829fb	5
-a3a5bfe9-0caf-4019-974b-be47b4df0b4d	<p></p>\n<iframe width="auto" height="auto" src="localhost:3000/" frameBorder="0"></iframe>\n<p></p>\n<iframe width="auto" height="auto" src="youtube.com/watch?v=ZNdAA1Yp15c" frameBorder="0"></iframe>\n<p></p>\n	2022-04-25 14:03:42.183746	2022-04-25 14:03:42.183746	9a75b819-29ea-467e-8eef-353f294658e4	e53f038f-af0e-4113-83c7-c105f12829fb	5
 a89f3b88-352b-46e2-a341-f52195937372	<p>comment<strong>sdjlkfklas </strong><strong><em>sdfkjaklfjadsf</em></strong><strong><em><ins>sajlkfjdlasjdfalfj </ins></em></strong><del><strong><em><ins>lajsdkfaldfjkaljfdallasdjflafa asdjkhfl</ins></em></strong></del><sub><del><strong><em><ins> sdajofjlkaldsfafjaljflajfajsfa[oifuowef=wjfijwf</ins></em></strong></del></sub></p>\n<ol>\n<li style="text-align:center;"><sub><del><strong><em><ins>sjdalf</ins></em></strong></del></sub></li>\n<li><sub><del><strong><em><ins>asdfl]</ins></em></strong></del></sub></li>\n</ol>\n<p><sub><del><strong><em><ins>j</ins></em></strong></del></sub></p>\n<p><sub><del><strong><em><ins>af</ins></em></strong></del></sub></p>\n<p><sub><del><strong><em><ins>asdlkjf</ins></em></strong></del></sub></p>\n<p><sub><del><strong><em><ins>ajskdfl</ins></em></strong></del></sub></p>\n<p><sub><del><strong><em><ins>a</ins></em></strong></del></sub></p>\n<p><sub><del><strong><em><ins>dsfj</ins></em></strong></del></sub></p>\n<p><sub><del><strong><em><ins>a;j</ins></em></strong></del></sub></p>\n	2022-04-16 09:59:38.211927	2022-04-16 09:59:38.211927	9a75b819-29ea-467e-8eef-353f294658e4	e53f038f-af0e-4113-83c7-c105f12829fb	5
 fbaa6bd6-bd2d-405c-8fe6-6339e80d7f38	<p>jfkdkklsa</p>\n<p>asfdjkla\\</p>\n<p>afj;ada</p>\n<p>fajdfk;asdf</p>\n<p>asf</p>\n<p>\\a;jkfda</p>\n<p>fa';fd</p>\n<p>af</p>\n	2022-04-16 10:01:13.005972	2022-04-16 10:01:13.005972	9a75b819-29ea-467e-8eef-353f294658e4	e53f038f-af0e-4113-83c7-c105f12829fb	5
 1a67a143-189a-4dea-93a4-6a9b444dd6a7	<p>dsafmklajmllllllllllllllllllfjioasdjflaspiofojiasjio fd ua omifwoergfwe ogr ioejrofjeirjfioewrjiogfjwejrfjewofreorjfgioejorgjoejoigjeiorjgioejrgiojeiogjioejigjeojgioegorjerogjioerjogjeogiejogjeiorjgejgoejorgoejgiojeroigjierjgjeiogjeogrjeor</p>\n	2022-04-16 10:05:30.100065	2022-04-16 10:05:30.100066	9a75b819-29ea-467e-8eef-353f294658e4	e53f038f-af0e-4113-83c7-c105f12829fb	5
+ff10bf19-39c3-4483-9d62-389fe2d8f2cf	<p>sdjflkasfdjadfskalsdjfasf</p>\n<p></p>\n<p>asdfljkakfa</p>\n<p>fd ajsk fda sf</p>\n<p>d&nbsp;</p>\n<p></p>\n<ul>\n<li></li>\n</ul>\n<p><strong>SDLKJFSJDFSDF</strong></p>\n<p><strong>SFJLKSdJF</strong></p>\n<p><strong>JKHJKHJKHK</strong></p>\n	2022-04-20 17:46:38.147928	2022-04-26 11:03:59.413687	9a75b819-29ea-467e-8eef-353f294658e4	e53f038f-af0e-4113-83c7-c105f12829fb	5
 d5e5bb9f-db22-40cb-a3c7-038410f03d5a		2022-04-17 10:47:55.75869	2022-04-17 10:47:55.758723	9a75b819-29ea-467e-8eef-353f294658e4	e53f038f-af0e-4113-83c7-c105f12829fb	5
 75689569-7550-4b06-abe8-484358bf4383	<p>sdfjklsjflsjdflsdf</p>\n	2022-04-17 10:54:45.47027	2022-04-17 10:54:45.47027	9a75b819-29ea-467e-8eef-353f294658e4	e53f038f-af0e-4113-83c7-c105f12829fb	5
 987999e5-5ad8-4afa-9450-35ca45492210	<p>j</p>\n	2022-04-18 12:03:39.12689	2022-04-18 12:03:39.12689	9a75b819-29ea-467e-8eef-353f294658e4	e53f038f-af0e-4113-83c7-c105f12829fb	5
@@ -392,6 +401,7 @@ cef5d4d2-2834-441e-b574-57099638c4d5	<p>dsfkhsjfhskjdhfsd</p>\n	2022-04-18 12:46
 COPY public."CourseUser" ("CoursesId", "StudentsId") FROM stdin;
 9a75b819-29ea-467e-8eef-353f294658e4	4a312d2f-a82d-484a-93ab-514c36d458f5
 93eb1bdb-eb7c-4b5c-8bcd-361e280493f7	4a312d2f-a82d-484a-93ab-514c36d458f5
+9a75b819-29ea-467e-8eef-353f294658e4	80214376-fa55-418f-a519-ab1f239004df
 \.
 
 
@@ -400,12 +410,25 @@ COPY public."CourseUser" ("CoursesId", "StudentsId") FROM stdin;
 --
 
 COPY public."Courses" ("Id", "Title", "ShortInfo", "Requirements", "Description", "Language", "DateCreated", "DateUpdated", "Price", "ImageUrl", "ThemeId", "CreatorId", "Rating") FROM stdin;
+32556230-7659-4c89-8dc3-a6beee4dc80b	bfdb	<p>cvb</p>\n	<p>bcv</p>\n	<p>cbv</p>\n	russian	2022-04-25 15:55:07.893297	2022-04-25 15:55:07.893297	34235	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	0
+5983216c-a73a-452a-ab63-14bfad103541	bfdb	<p>cvb</p>\n	<p>bcv</p>\n	<p>cbv</p>\n	russian	2022-04-25 15:55:20.825899	2022-04-25 15:55:20.825899	34235	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	0
+a5ce457d-f556-4ed2-be04-6c036c326cfd	bfdb	<p>cvb</p>\n	<p>bcv</p>\n	<p>cbv</p>\n	russian	2022-04-25 15:55:28.110044	2022-04-25 15:55:28.110044	34235	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	0
+fd2746d6-06ae-415c-a05c-88aa078ee216	fdgsfg	<p>gfdgs</p>\n	<p>sdfg</p>\n	<p>sgd</p>\n	russian	2022-04-25 18:25:24.851572	2022-04-25 18:25:24.851573	0	\N	1	4a312d2f-a82d-484a-93ab-514c36d458f5	0
+e42f06ce-f1ae-4fc7-89e4-88d105e963a3	dfgs	<p>sfgd</p>\n	<p>sdfg</p>\n	<p>sdgf</p>\n	ukrainian	2022-04-25 18:26:06.228013	2022-04-25 18:26:06.228014	0	\N	1	4a312d2f-a82d-484a-93ab-514c36d458f5	0
+3e9b7c93-3c6f-4df8-9ad3-873da659023e	df51213	<p>1231</p>\n	<p>123</p>\n	<p>123</p>\n	russian	2022-04-25 18:50:52.808858	2022-04-25 18:50:52.808859	0.99	\N	1	4a312d2f-a82d-484a-93ab-514c36d458f5	0
+4a89fccb-26cf-41c3-a2d5-c34386c21096	k				russian	2022-04-25 18:52:27.176991	2022-04-25 18:52:27.176991	0	\N	1	4a312d2f-a82d-484a-93ab-514c36d458f5	0
+bd10e968-3eaf-47e2-aca0-10d56cd220cd	fgdgf11111111	<p>dfgdg</p>\n	<p>1</p>\n	<p>ddf</p>\n	russian	2022-04-27 07:22:06.67342	2022-04-27 07:22:06.67342	0	\N	1	80214376-fa55-418f-a519-ab1f239004df	0
 d0b5ffc8-e9cb-4749-a2d7-7aa87f9aad8f	string	string	<p></p>\n	string	string	2022-04-08 06:53:42.930803	2022-04-21 09:46:40.394647	50	https://raimhalazurestorage.blob.core.windows.net/iskills-images/d0b5ffc8-e9cb-4749-a2d7-7aa87f9aad8f.jpg	1	e53f038f-af0e-4113-83c7-c105f12829fb	0
 93eb1bdb-eb7c-4b5c-8bcd-361e280493f7	string	<p>string sdjkfksd</p>\n<p>fsd</p>\n<p>fsdfs</p>\n<p>dfs</p>\n<p>fd</p>\n<p>sf</p>\n<p>sdf</p>\n	<ul>\n<li>dsjhfkdahdsfahsdfa</li>\n<li>fda</li>\n<li>df</li>\n<li>a</li>\n<li>fa</li>\n<li>sfsa</li>\n<li>f</li>\n</ul>\n	<p>string'</p>\n<p>askdjhfa</p>\n<p>af</p>\n<p>a</p>\n<ul>\n<li>dsfkaa</li>\n<li>fadsfaf</li>\n<li>asf</li>\n<li>a</li>\n<li>fa</li>\n<li>fa</li>\n<li>s</li>\n<li>safa</li>\n<li></li>\n</ul>\n	string	2022-04-08 15:15:17.03945	2022-04-22 05:44:57.23059	200	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	4.666666666666667
 5ee9450c-cd5f-4fd0-b25b-ad9ec645d996	sdfdsfsdfasdf	<p>sfdsfsdf🤓</p>\n	<p>asdfafdaf</p>\n	<p>sdfsdfs😂</p>\n	english	2022-04-25 13:41:03.427694	2022-04-25 13:52:11.48985	0	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	0
-9a75b819-29ea-467e-8eef-353f294658e4	advocate	<p>asdasdasdasdstring</p>\n	string	<p>string</p>\n	russian	2022-04-08 15:38:04.632262	2022-04-25 13:57:13.508848	199.99	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	4.75
-9b511247-904b-4d54-b92a-1ae9e690fa8e	Course	<p>Short information about course</p>\n	<p></p>\n	<p>course description with&nbsp;</p>\n<ul>\n<li>Times new roman</li>\n<li>Arial</li>\n<li>Tahoma</li>\n</ul>\n	english	2022-04-15 14:59:38.036961	2022-04-15 14:59:38.512071	20	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	5
+a6e59cc9-05c6-498e-ae21-f13debdb56b0	dfsdf	<p>sdf</p>\n	<p>sdf</p>\n	<p>sdf</p>\n	russian	2022-04-27 07:19:39.644358	2022-04-27 07:19:39.644395	0	\N	1	80214376-fa55-418f-a519-ab1f239004df	0
+e20f073b-6cc1-4605-a452-1747e6d97daf	sdfsf	<p>sdfsf</p>\n	<p>sdf</p>\n	<p>sdf</p>\n	ukrainian	2022-04-27 07:36:23.403629	2022-04-27 07:36:23.403629	0	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	0
+9a75b819-29ea-467e-8eef-353f294658e4	advocate	<p>asdasdasdasdstring</p>\n	string	<p>string</p>\n	russian	2022-04-08 15:38:04.632262	2022-04-25 13:57:13.508848	199.99	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	4.745454545454545
+2866454a-c863-4cf6-adfa-be8318ca880d	bfdb	<p>cvb</p>\n	<p>bcv</p>\n	<p>cbv</p>\n	russian	2022-04-25 15:55:17.392102	2022-04-25 15:55:17.392102	34235	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	0
+9b511247-904b-4d54-b92a-1ae9e690fa8e	Course	<p>Short information about course</p>\n	<p></p>\n	<p>course description with&nbsp;</p>\n<ul>\n<li>Times new roman</li>\n<li>Arial</li>\n<li>Tahoma</li>\n</ul>\n	english	2022-04-15 14:59:38.036961	2022-04-27 10:23:35.727002	20	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	5
+e7966bee-1109-4b7e-903b-70def29ec920	safaf	<p>adfadfa</p>\n	<p>afd</p>\n	<p>fasdfa</p>\n	ukrainian	2022-04-25 18:02:06.862758	2022-04-25 18:02:06.862758	0.99	\N	1	4a312d2f-a82d-484a-93ab-514c36d458f5	0
 9ab5ae04-c8e8-4196-a02c-83454cd41215	sfdsf	<p>sdfsfd</p>\n	<p>sdfsfds</p>\n	<p>sdfsdf</p>\n	ukrainian	2022-04-25 13:46:08.398156	2022-04-25 13:46:08.398156	0	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	0
+52921193-5fcd-46d5-b4fc-10421839015f	dfgs	<p>sfgd</p>\n	<p>sdfg</p>\n	<p>sdgf</p>\n	ukrainian	2022-04-25 18:27:18.188849	2022-04-25 18:27:18.188849	0	\N	1	4a312d2f-a82d-484a-93ab-514c36d458f5	0
 d1f8c924-ecaf-42a2-bf5c-02dbe11e44e5	sadfasdasjkdfasljdfka	<p>asdfjalsfajdfla</p>\n	<p>saidijflkasfiajsldfa</p>\n	<p>jsafdalofjaljakfds</p>\n	english	2022-04-15 14:45:23.421686	2022-04-25 13:51:08.204535	0	\N	1	e53f038f-af0e-4113-83c7-c105f12829fb	5
 6dc846ad-f1b1-43d7-a8bd-266030a9bf26	string	string	string	string	string	2022-04-12 09:13:50.32889	2022-04-12 09:13:50.32889	10	\N	1	6dbccf13-3aa6-4a08-aede-01b0f357c6a3	4.125
 \.
@@ -421,6 +444,9 @@ COPY public."RefreshTokens" ("Id", "Token", "Expires", "Created", "CreatedByIp",
 76a8475b-c57a-4271-a10c-6d44b8f5f8eb	wxnziwTGC9zLrc2MQS8k95Vc6BTv1lgRM7BJmhmhpD4Vift7Ws6HdCz64KnK7U+dR/f5lztS/l3zPkD/Qb0Zmw==	2022-04-19 09:13:27.298079	2022-04-12 09:13:27.298162	0.0.0.1	\N	\N	\N	6dbccf13-3aa6-4a08-aede-01b0f357c6a3
 4930225d-7270-420d-8f4f-b3905ccf82df	o0AbQCQ8J9JtPjAMpsQj1F+4jAcysW2fNU0p89iuE3lCCUnOIRtXcAi/cKEu+I0fyQr5tcjd11FckLLC8poaKA==	2022-04-26 07:04:27.888384	2022-04-19 07:04:27.888425	0.0.0.1	\N	\N	\N	e53f038f-af0e-4113-83c7-c105f12829fb
 2cc004f2-f471-4d39-a212-2d7157892bf7	Azc6fncZTg6vkDIeYrirO0f3h5lAdje/mMJftZ36E1H2sUAplKZNHZETTnvrLhKEDZHzOumV4LRgQtP0didy3w==	2022-04-26 07:06:54.446614	2022-04-19 07:06:54.446615	0.0.0.1	\N	\N	\N	4a312d2f-a82d-484a-93ab-514c36d458f5
+a404429c-96bb-4c94-8c3c-7fc9f06d183d	GiiVL56hasdT6z0zbbPGTgOXlDjn1eo0g9MsTBX1eRrY0OiFhBSZ6UMtdxemQujijYdIecm3XGd9v5xDXhc1AQ==	2022-05-02 17:25:38.634808	2022-04-25 17:25:38.634881	0.0.0.1	\N	\N	\N	1a57c281-30b2-4036-b660-b774166d3ffb
+c2eeb915-94a6-426f-a7dd-864b642dbe76	lH0Q62u3fC8G6uBHow2sEj1CpGqU96GaUVr3en+tafUsMf/I+mQ5UjsnU5DWxc/g5mhAvLUw46GndbphL37Jbw==	2022-05-03 11:22:27.262584	2022-04-26 11:22:27.262638	0.0.0.1	\N	\N	\N	e53f038f-af0e-4113-83c7-c105f12829fb
+09f9defa-bdc5-4bb9-822c-385fcbbd3bc0	6osEmadBfSizOLLfu3ywAlNzm53Juku9t0qDNBnApgHWs9GEEHH3CBNnglQz5BMXJn0uw25uw8mBAiSxLvhs/A==	2022-05-04 07:05:36.98403	2022-04-27 07:05:36.984074	0.0.0.1	\N	\N	\N	80214376-fa55-418f-a519-ab1f239004df
 \.
 
 
@@ -432,6 +458,8 @@ COPY public."RoleUser" ("RolesId", "UsersId") FROM stdin;
 1	e53f038f-af0e-4113-83c7-c105f12829fb
 2	6dbccf13-3aa6-4a08-aede-01b0f357c6a3
 2	4a312d2f-a82d-484a-93ab-514c36d458f5
+2	1a57c281-30b2-4036-b660-b774166d3ffb
+2	80214376-fa55-418f-a519-ab1f239004df
 \.
 
 
@@ -459,8 +487,10 @@ COPY public."Themes" ("Id", "Title", "CategoryId") FROM stdin;
 --
 
 COPY public."Users" ("Id", "FirstName", "LastName", "UserName", "Email", "Password", "Salt", "ImageUrl", "Rating") FROM stdin;
+1a57c281-30b2-4036-b660-b774166d3ffb	bender	bender	bender	bender@gmail.com	Hs1OqZ0aiHRz8B8Y2gxN8R9SLT6qhSSxMB5/oEsGhu4=	Zpz3fFWA1M0sMMq6/NVmGA==	\N	0
+e53f038f-af0e-4113-83c7-c105f12829fb	Admin	Admin	Admin	admin@gmail.com	Muv7WMj++seJbxzhwSHGlzHVbe5M6cvnJkOP2KmXBa0=	GYkTqJVopUA5mAHr1lC7+Q==	https://raimhalazurestorage.blob.core.windows.net/iskills-images/e53f038f-af0e-4113-83c7-c105f12829fb.jpg	4.8530303030303035
+80214376-fa55-418f-a519-ab1f239004df	border	border 1	border	border@gmail.com	mUQv8QT4q8XFj8C25BYfhghUBtNUuIriPRGPMDotXBw=	RCMCDkmZcl3G28mmBblRDA==	\N	0
 6dbccf13-3aa6-4a08-aede-01b0f357c6a3	string	string	string	string@string.com	9ZeCM0bsWMwOtyZSf5yG7z25Sch+tm3TSd031OLoQXs=	7xr2zMH+P/Ti4naLAmUtpQ==	\N	3.9625
-e53f038f-af0e-4113-83c7-c105f12829fb	Admin	Admin	Admin	admin@gmail.com	Muv7WMj++seJbxzhwSHGlzHVbe5M6cvnJkOP2KmXBa0=	GYkTqJVopUA5mAHr1lC7+Q==	https://raimhalazurestorage.blob.core.windows.net/iskills-images/e53f038f-af0e-4113-83c7-c105f12829fb.jpg	4.854166666666667
 4a312d2f-a82d-484a-93ab-514c36d458f5	string	string	string	stepan@gmail.com	Ur+k/GhTLAWLEsXZlK/K92jvLHv4lYTX9s0jyqOdBPo=	60MS1SPYj7auoYUUH63WfA==	\N	0
 \.
 

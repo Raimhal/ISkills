@@ -34,12 +34,6 @@
     height: 160px;
 }
 
-.course__form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
 .courses {
     padding: 15px;
     display: flex;

@@ -27,7 +27,6 @@ const MyEditor = ({defaultValue = '', onChange = null, readonly = false,  ...pro
 
 
     return (
-        <div>
             <Editor
                 {...props}
                 editorState={editorState}
@@ -37,7 +36,6 @@ const MyEditor = ({defaultValue = '', onChange = null, readonly = false,  ...pro
                 readOnly={readonly}
                 toolbarClassName={readonly && classes.toolbar__none}
             />
-        </div>
     );
 };
 

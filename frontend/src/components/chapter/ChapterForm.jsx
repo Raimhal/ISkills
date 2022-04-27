@@ -12,6 +12,7 @@ import ChapterService from "../../API/ChapterService";
 import ThemeService from "../../API/ThemeService";
 import {setCategories} from "../../store/CategoryReducer";
 import {setThemes} from "../../store/ThemeReducer";
+import {setCourse} from "../../store/CourseReducer";
 
 const ChapterForm = ({action, title, ...props}) => {
     const chapter = useSelector(state => state.chapter.chapter)
@@ -24,8 +25,16 @@ const ChapterForm = ({action, title, ...props}) => {
     }
 
     return (
-        <form className="chapter__form">
-            <MyButton onClick={chapterAction}>{title}</MyButton>
+        <form className="form" onSubmit={chapterAction}>
+            <div className="block">
+                Title :
+                <MyInput type="text" defaultValue={chapter.title} onChange={e => dispatch(setChapter({...chapter, title: e.target.value}))}/>
+            </div>
+            <div className="block">
+                Description :
+                <MyEditor defaultValue={chapter.description} onChange={value => dispatch(setChapter({...chapter, description: value}))}/>
+            </div>
+            <MyButton>{title}</MyButton>
         </form>
     );
 };
