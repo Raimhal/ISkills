@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     word-break: break-word;
-    font-family: "Times New Roman";
+    font-family: "Times New Roman" !important;
 }
 
 #root{
@@ -95,5 +95,9 @@
 
 .login input, .register input {
     color: rgba(255, 255, 255, 0.8);
+}
+
+input[type='radio']:checked:after {
+    background-color: #975ad4 !important;
 }
 

@@ -21,10 +21,10 @@ const defaultState = {
         reverse: false
     },
     sortList: [
-        {name: 'By price', value: 'price'},
-        {name: 'By language', value: 'language'},
-        {name: 'By date', value: 'dateCreated'},
-        {name: 'By rating', value: 'rating'},
+        {name: 'Price', value: 'price'},
+        {name: 'Language', value: 'language'},
+        {name: 'Date', value: 'dateCreated'},
+        {name: 'Rating', value: 'rating'},
     ],
     courses : [],
     totalCount: 0

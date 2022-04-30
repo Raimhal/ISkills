@@ -23,17 +23,16 @@ namespace BLL.Services
         private readonly IUserDbContext _userContext;
         private readonly IRoleDbContext _roleContext;
         private readonly ICourseDbContext _courseDbContext;
-        private readonly IBlobService _blobService;
-        private readonly IImageService _imageService;
         private readonly IFileService _fileService;
+        private readonly ICloudinaryService _cloudinaryService;
         private readonly IMapper _mapper;
         private readonly int saltSize = 16;
 
         public UserService(IUserDbContext userContext, IRoleDbContext roleContext,
-            ICourseDbContext courseContext, IBlobService blobService, IImageService imageService,
-            IFileService fileService, IMapper mapper) 
-            => (_userContext, _roleContext, _courseDbContext, _blobService, _imageService, _fileService, _mapper)
-            = (userContext, roleContext, courseContext, blobService, imageService, fileService,  mapper);
+            ICourseDbContext courseContext, IFileService fileService,
+            ICloudinaryService cloudinaryService, IMapper mapper) 
+            => (_userContext, _roleContext, _courseDbContext, _fileService, _cloudinaryService, _mapper)
+            = (userContext, roleContext, courseContext, fileService, cloudinaryService ,mapper);
 
         private readonly List<Expression<Func<User, dynamic>>> includes = new ()
         {
@@ -162,17 +161,8 @@ namespace BLL.Services
             if (!file.ContentType.Contains("image"))
                 throw new ConflictException("Not supported image format");
 
-            if (!await _fileService.IsValidFile(file))
-                throw new FormatException("Too large file");
-
-            var imageStream = await _imageService.ResizeImage(file, width, height);
-            await using var stream = new MemoryStream(imageStream.ToArray());
-
-            if (string.IsNullOrEmpty(user.ImageUrl))
-                user.ImageUrl = await _blobService.CreateBlob(stream,
-                    file.ContentType, user.Id.ToString(), file.FileName.Split(".")[^1]);
-            else
-                await _blobService.UpdateBlob(stream, user.ImageUrl, file.ContentType);
+            user.ImageUrl = await _cloudinaryService
+                .UploadImageAsync(file, user.Id.ToString(), width, height);
 
             _userContext.Users.Update(user);
             await _userContext.SaveChangesAsync(cancellationToken);
@@ -182,9 +172,12 @@ namespace BLL.Services
         {
             var user = await _userContext.Users.GetAsync(_mapper,
                 u => u.Id == id, new() { }, cancellationToken);
+
             var courses = await _courseDbContext.Courses
                 .Where(c => c.CreatorId == id)
                 .ToListAsync(cancellationToken);
+
+            await _cloudinaryService.DeleteAsync(user.ImageUrl);
 
             _courseDbContext.Courses.RemoveRange(courses);
             _userContext.Users.Remove(user);

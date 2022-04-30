@@ -15,10 +15,10 @@ const SortAndSearch = ({sortList, params, action, onParamsChange}) => {
             <MySelect
                 value={params.sortOption || ""}
                 onChange={value => onParamsChange({...params, sortOption: value})}
-                defaultValue="Sorting"
+                defaultValue="Sort by"
                 options={sortList}
             />
-            <MyInput type="text" defaultValue={params.query} onChange={e => onParamsChange({...params, query: e.target.value})} placeholder="Search..."/>
+            <MyInput type="text" defaultValue={params.query} onChange={e => onParamsChange({...params, query: e.target.value})} label="Search"/>
             <MyButton>Search</MyButton>
         </form>
     );

@@ -1,20 +1,32 @@
 import React from 'react';
 import classes from './MySelect.module.css'
+import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {colorTheme} from "../themes";
+import {ThemeProvider} from "@emotion/react";
 
 const MySelect = ({options, defaultValue, value, onChange}) => {
     return (
-        <select
-            value={value}
-            onChange={e => onChange(e.target.value)}
-            className={classes.select}
-        >
-            <option value="" disabled>{defaultValue}</option>
-            {options.map(option =>
-                <option value={option.value} key={option.value}>
-                    {option.name}
-                </option>
-            )}
-        </select>
+        <ThemeProvider theme={colorTheme}>
+            <FormControl
+                variant="standard"
+                sx={{ mb: "1.2rem", minWidth: 120 }}
+            >
+                <InputLabel id="demo-simple-select-standard-label">{defaultValue}</InputLabel>
+                <Select
+                    labelId="demo-simple-select-standard-label"
+                    id="demo-simple-select-standard"
+                    value={value}
+                    onChange={e => onChange(e.target.value)}
+                    label={defaultValue}
+                >
+                    {options.map(option =>
+                        <MenuItem value={option.value} key={option.value}>
+                            {option.name}
+                        </MenuItem>
+                    )}
+                </Select>
+            </FormControl>
+        </ThemeProvider>
     );
 };
 

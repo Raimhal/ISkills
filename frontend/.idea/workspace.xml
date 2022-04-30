@@ -14,8 +14,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="JavaScript File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -41,7 +41,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../NodeJS/lab3" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/store" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -50,17 +50,17 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\store" />
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\components\video" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\components" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\API" />
-      <recent name="E:\it\Secound Course\ISkills\frontend\src\store" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\assets" />
-      <recent name="E:\it\Secound Course\ISkills\frontend\src\assets\images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\it\Secound Course\ISkills\frontend\src\components\UI" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\assets\images" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\pages" />
       <recent name="E:\it\Secound Course\ISkills\frontend\src\components\course" />
-      <recent name="E:\it\Secound Course\ISkills\frontend\src\components\UI" />
       <recent name="E:\it\Secound Course\ISkills\frontend\public" />
     </key>
   </component>
@@ -130,6 +130,8 @@
       <workItem from="1650978209362" duration="776000" />
       <workItem from="1651040052607" duration="17771000" />
       <workItem from="1651061875791" duration="7617000" />
+      <workItem from="1651134280541" duration="2039000" />
+      <workItem from="1651325330332" duration="8484000" />
     </task>
     <servers />
   </component>

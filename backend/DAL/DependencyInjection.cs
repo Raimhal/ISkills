@@ -13,7 +13,6 @@ namespace DAL
         public static IServiceCollection AddPersistence(this IServiceCollection services,
             IConfiguration configuration)
         {
-
             services.AddDbContext<IskillsContext>(options =>
                 options.UseNpgsql(IskillsContext.GetConnectionString(configuration)));
 

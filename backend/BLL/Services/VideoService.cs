@@ -19,15 +19,15 @@ namespace BLL.Services
     {
         private readonly IVideoDbContext _videoDbContext;
         private readonly IChapterDbContext _chapterDbContext;
-        private readonly IBlobService _blobService;
         private readonly IFileService _fileService;
         public readonly IAntivirusService _antivirusService;
+        public readonly ICloudinaryService _cloudinaryService;
         private readonly IMapper _mapper;
 
         public VideoService(IVideoDbContext videoDbContext, IChapterDbContext chapterDbContext,
-            IBlobService blobService, IFileService fileService, IAntivirusService antivirusService, IMapper mapper)
-            => (_videoDbContext, _chapterDbContext, _blobService, _fileService, _antivirusService, _mapper)
-            = (videoDbContext, chapterDbContext, blobService, fileService, antivirusService, mapper);
+            IFileService fileService, IAntivirusService antivirusService, IMapper mapper, ICloudinaryService cloudinaryService)
+            => (_videoDbContext, _chapterDbContext, _fileService, _antivirusService, _mapper, _cloudinaryService)
+            = (videoDbContext, chapterDbContext, fileService, antivirusService, mapper, cloudinaryService);
 
         private readonly List<Expression<Func<Video, dynamic>>> includes = new ()
         {
@@ -98,8 +98,9 @@ namespace BLL.Services
 
             video.Id = Guid.NewGuid();
 
-            //await _antivirusService.CheckFile(model.File);
-            video.Url = await _blobService.CreateBlob(model.File, video.Id.ToString());
+            // add antivirus
+            // await _antivirusService.CheckFile(model.File); 
+            video.Url = await _cloudinaryService.UploadVideoAsync(model.File, video.Id.ToString());
 
             await _videoDbContext.Videos.AddAsync(video, cancellationToken);
             await _videoDbContext.SaveChangesAsync(cancellationToken);
@@ -121,7 +122,8 @@ namespace BLL.Services
             video.Title = model.Title;
 
             //await _antivirusService.CheckFile(model.File);
-            await _blobService.UpdateBlob(model.File, video.Url);
+            video.Url = await _cloudinaryService
+                .UploadVideoAsync(model.File, video.Id.ToString());
 
 
             _videoDbContext.Videos.Update(video);
@@ -148,7 +150,7 @@ namespace BLL.Services
             var video = await _videoDbContext.Videos.GetAsync(
                 _mapper, v => v.Id == id, new() { }, cancellationToken);
 
-            await _blobService.DeleteBlob(video.Url);
+            await _cloudinaryService.DeleteAsync(video.Url);
             _videoDbContext.Videos.Remove(video);
 
             await _videoDbContext.SaveChangesAsync(cancellationToken);
