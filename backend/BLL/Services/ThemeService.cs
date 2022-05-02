@@ -30,29 +30,6 @@ namespace BLL.Services
             x => x.Courses
         };
 
-        public async Task<PaginationList<ThemeDto>> GetList(int skip, int take, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _themeDbContext.Themes.GetListAsync<Theme, ThemeDto>(
-                _mapper,
-                skip,
-                take,
-                c => c.Title.Contains(query.ToLower().Trim()), 
-                sortOption, 
-                reverse,
-                default,
-                cancellationToken);
-
-        public async Task<List<ThemeDto>> GetListAll(string query, string sortOption,
-            bool reverse, CancellationToken cancellationToken)
-            => await _themeDbContext.Themes.GetListAllAsync<Theme, ThemeDto>(
-                _mapper, 
-                c => c.Title.Contains(query.ToLower().Trim()), 
-                sortOption,
-                reverse,
-                default,
-                cancellationToken);
-        
-
         public async Task<Theme> GetByIdAsync(int id, CancellationToken cancellationToken)
             => await _themeDbContext.Themes.GetAsync(
                 _mapper,
@@ -60,27 +37,33 @@ namespace BLL.Services
                 includes, 
                 cancellationToken);
 
-        public async Task<PaginationList<ThemeDto>> GetParentItems(int categoryId, int skip, int take,
-            string query, string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _themeDbContext.Themes.GetListAsync<Theme, ThemeDto>(
+        public async Task<PaginationList<ThemeDto>> GetList(int skip, int take,
+            string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            int? categoryId = (int?)dynamics[0];
+            return await _themeDbContext.Themes.GetListAsync<Theme, ThemeDto>(
                 _mapper,
                 skip,
                 take,
-                t => t.Title.Contains(query.ToLower().Trim()) && t.CategoryId == categoryId,
+                t => t.Title.Contains(query.ToLower().Trim()) && (categoryId == null || t.CategoryId == categoryId),
                 sortOption,
                 reverse,
                 new() { },
                 cancellationToken);
+        }
 
-        public async Task<List<ThemeDto>> GetParentItemsAll(int categoryId, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _themeDbContext.Themes.GetListAllAsync<Theme, ThemeDto>(
+        public async Task<List<ThemeDto>> GetListAll(string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            int? categoryId = (int?)dynamics[0];
+            return await _themeDbContext.Themes.GetListAllAsync<Theme, ThemeDto>(
                 _mapper,
-                t => t.Title.Contains(query.ToLower().Trim()) && t.CategoryId == categoryId,
+                t => t.Title.Contains(query.ToLower().Trim()) && (categoryId == null || t.CategoryId == categoryId),
                 sortOption,
                 reverse,
                 new() { },
                 cancellationToken);
+        }
 
 
         public async Task<int> CreateAsync(CreateThemeDto model, CancellationToken cancellationToken)

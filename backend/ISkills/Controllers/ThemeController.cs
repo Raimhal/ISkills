@@ -22,33 +22,16 @@ namespace ISkills.Controllers
         [HttpGet]
         [Route("api/themes/all")]
         public async Task<ActionResult<List<ThemeDto>>> GetThemes(CancellationToken cancellationToken, 
-            string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _themeService.GetListAll(query, sortOption, reverse, cancellationToken));
+            string query = "", string sortOption = "title", bool reverse = false, int? categoryId = null)
+            => Ok(await _themeService.GetListAll(query, sortOption, reverse, cancellationToken, categoryId));
 
 
         [HttpGet]
         [Route("api/themes")]
         public async Task<ActionResult<List<ThemeDto>>> GetThemes(CancellationToken cancellationToken, 
-            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
+            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false, int? categoryId = null)
         {
-            var content = await _themeService.GetList(skip, take, query, sortOption, reverse, cancellationToken);
-            Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
-            return Ok(content.List);
-        }
-
-        [HttpGet]
-        [Route("api/categories/{id}/themes/all")]
-        public async Task<ActionResult<List<CourseDto>>> GetThemeCoursesAll(int id, CancellationToken cancellationToken,
-           string query = "", string sortOption = "title", bool reverse = false)
-           => Ok(await _themeService.GetParentItemsAll(id, query, sortOption, reverse, cancellationToken));
-
-
-        [HttpGet]
-        [Route("api/categories/{id}/themes")]
-        public async Task<ActionResult<List<CourseDto>>> GetThemeCourses(int id, CancellationToken cancellationToken,
-            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
-        {
-            var content = await _themeService.GetParentItems(id, skip, take, query, sortOption, reverse, cancellationToken);
+            var content = await _themeService.GetList(skip, take, query, sortOption, reverse, cancellationToken, categoryId);
             Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
             return Ok(content.List);
         }

@@ -26,17 +26,17 @@ namespace Iskills.Controllers
         [HttpGet]
         [Route("api/users/all")]
         public async Task<ActionResult<List<UserDto>>> GetUsersAll(CancellationToken cancellationToken, 
-            string query = "", string sortOption = "Email", bool reverse = false)
-            => Ok(await _userService.GetListAll(query, sortOption, reverse, cancellationToken));
+            string query = "", string sortOption = "Email", bool reverse = false, Guid? courseId = null)
+            => Ok(await _userService.GetListAll(query, sortOption, reverse, cancellationToken, courseId));
 
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("api/users")]
         public async Task<ActionResult<List<UserDto>>> GetUsers(CancellationToken cancellationToken, 
-            int skip = 0, int take = 10, string query="", string sortOption = "Email", bool reverse = false)
+            int skip = 0, int take = 10, string query="", string sortOption = "Email", bool reverse = false, Guid? courseId = null)
         {
-            var content = await _userService.GetList(skip, take, query, sortOption, reverse, cancellationToken);
+            var content = await _userService.GetList(skip, take, query, sortOption, reverse, cancellationToken, courseId);
             Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
             return Ok(content.List);
         }
@@ -51,23 +51,6 @@ namespace Iskills.Controllers
                 return Forbid();
 
             return Ok(await _userService.GetByIdAsync(id, cancellationToken));
-        }
-
-        [HttpGet]
-        [Route("api/courses/{id}/students/all")]
-        public async Task<ActionResult<List<CommentDto>>> GetCourseStudentsAll(Guid id, CancellationToken cancellationToken,
-            string query = "", string sortOption = "username", bool reverse = false)
-            => Ok(await _userService.GetParentItemsAll(id, query, sortOption, reverse, cancellationToken));
-
-
-        [HttpGet]
-        [Route("api/courses/{id}/students")]
-        public async Task<ActionResult<List<CommentDto>>> GetCourseStudents(Guid id, CancellationToken cancellationToken,
-            int skip = 0, int take = 10, string query = "", string sortOption = "username", bool reverse = false)
-        {
-            var content = await _userService.GetParentItems(id, skip, take, query, sortOption, reverse, cancellationToken);
-            Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
-            return Ok(content.List);
         }
 
 

@@ -34,7 +34,7 @@ namespace BLL.Services
                 cancellationToken);
 
         public async Task<PaginationList<AllowedFileTypeDto>> GetList(int skip, int take,
-            string query, string sortOption, bool reverse, CancellationToken cancellationToken)
+            string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
             => await _fileTypesContext.AllowedFileTypes.GetListAsync<AllowedFileType, AllowedFileTypeDto>(
                 _mapper,
                 skip,
@@ -46,7 +46,7 @@ namespace BLL.Services
                 cancellationToken);
 
         public async Task<List<AllowedFileTypeDto>> GetListAll(string query, string sortOption,
-            bool reverse, CancellationToken cancellationToken)
+            bool reverse, CancellationToken cancellationToken, params object[] dynamics)
             => await _fileTypesContext.AllowedFileTypes.GetListAllAsync<AllowedFileType, AllowedFileTypeDto>(
                 _mapper,
                 c => c.FileType.Contains(query.ToLower().Trim()),
@@ -106,8 +106,6 @@ namespace BLL.Services
 
             return (file.Length / Math.Pow(10, 6)) <= type.FileSize;
         }
-
-
     }
 }
 

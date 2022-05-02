@@ -29,7 +29,7 @@ namespace BLL.Services
         };
 
         public async Task<PaginationList<CategoryDto>> GetList(int skip, int take, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
+            string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
             => await _categoryDbContext.Categories.GetListAsync<Category, CategoryDto>(
                 _mapper,
                 skip,
@@ -41,7 +41,7 @@ namespace BLL.Services
                 cancellationToken);
 
         public async Task<List<CategoryDto>> GetListAll(string query, string sortOption,
-            bool reverse, CancellationToken cancellationToken)
+            bool reverse, CancellationToken cancellationToken, params object[] dynamics)
             => await _categoryDbContext.Categories.GetListAllAsync<Category, CategoryDto>(
                 _mapper,
                 c => c.Title.Contains(query.ToLower().Trim()),
@@ -89,7 +89,5 @@ namespace BLL.Services
             await _categoryDbContext.Categories.DeleteByAsync(_mapper, c => c.Id == id, cancellationToken);
             await _categoryDbContext.SaveChangesAsync(cancellationToken);
         }
-
-
     }
 }

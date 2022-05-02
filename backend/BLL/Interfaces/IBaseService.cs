@@ -9,8 +9,8 @@ namespace BLL.Interfaces
 {
     public interface IBaseService<IdType, TModel, TFModelDto, TModelDto>
     {
-        Task<PaginationList<TModelDto>> GetList(int skip, int take, string query, string sortOption, bool reverse, CancellationToken cancellationToken);
-        Task<List<TModelDto>> GetListAll(string query, string sortOption, bool reverse, CancellationToken cancellationToken);
+        Task<PaginationList<TModelDto>> GetList(int skip, int take, string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics);
+        Task<List<TModelDto>> GetListAll(string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics);
         Task<TModel> GetByIdAsync(IdType id, CancellationToken cancellationToken);
         Task<IdType> CreateAsync(TFModelDto model, CancellationToken cancellationToken);
         Task UpdateAsync(IdType id, TFModelDto model, CancellationToken cancellationToken);

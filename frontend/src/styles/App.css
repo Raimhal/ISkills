@@ -58,7 +58,6 @@
     flex-direction: column;
     gap: 0.5rem;
     min-width: 350px;
-    min-height: 300px;
     justify-content: space-evenly;
     align-items: center;
     padding: 15px;
@@ -95,9 +94,5 @@
 
 .login input, .register input {
     color: rgba(255, 255, 255, 0.8);
-}
-
-input[type='radio']:checked:after {
-    background-color: #975ad4 !important;
 }
 

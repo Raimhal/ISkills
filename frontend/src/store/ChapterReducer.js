@@ -5,7 +5,8 @@ const defaultState = {
         id: '',
         title: '',
         description: '',
-        courseId: ''
+        courseId: '',
+        videos: []
     },
     chapters : []
 }

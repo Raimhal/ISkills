@@ -9,7 +9,7 @@ const MySelect = ({options, defaultValue, value, onChange}) => {
         <ThemeProvider theme={colorTheme}>
             <FormControl
                 variant="standard"
-                sx={{ mb: "1.2rem", minWidth: 120 }}
+                sx={{ alignItems: "bottom", minWidth: 120 }}
             >
                 <InputLabel id="demo-simple-select-standard-label">{defaultValue}</InputLabel>
                 <Select

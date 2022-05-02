@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IVideoService : IBaseService<Guid, Video, CreateVideoDto, VideoDto>, IParentService<Guid, VideoDto>
+    public interface IVideoService : IBaseService<Guid, Video, CreateVideoDto, VideoDto>
     {
         Task PatchAsync(Guid id, UpdateVideoDto model, CancellationToken cancellationToken);
     }

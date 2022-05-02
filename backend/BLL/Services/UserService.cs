@@ -39,50 +39,33 @@ namespace BLL.Services
             x => x.Courses
         };
 
-        public async Task<PaginationList<UserDto>> GetList(int skip, int take, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _userContext.Users.GetListAsync<User, UserDto>(
-                _mapper,
-                skip,
-                take,
-                u => u.Email.Contains(query.ToLower().Trim()),
-                sortOption,
-                reverse,
-                new() { },
-                cancellationToken);
-
-
-        public async Task<List<UserDto>> GetListAll(string query, string sortOption,
-            bool reverse, CancellationToken cancellationToken)
-            => await _userContext.Users.GetListAllAsync<User, UserDto>(
-                _mapper,
-                u => u.Email.Contains(query.ToLower().Trim()),
-                sortOption,
-                reverse,
-                new() { },
-                cancellationToken);
-
-        public async Task<PaginationList<UserDto>> GetParentItems(Guid courseId, int skip, int take,
-           string query, string sortOption, bool reverse, CancellationToken cancellationToken)
-           => await _userContext.Users.GetListAsync<User, UserDto>(
+        public async Task<PaginationList<UserDto>> GetList(int skip, int take,
+           string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            Guid? courseId = (Guid?)dynamics[0];
+            return await _userContext.Users.GetListAsync<User, UserDto>(
                _mapper,
                skip,
                take,
-               u => u.Email.Contains(query.ToLower().Trim()) && u.Courses.Any(c => c.Id == courseId),
+               u => u.Email.Contains(query.ToLower().Trim()) && (courseId == null || u.Courses.Any(c => c.Id == courseId)),
                sortOption,
                reverse,
                new() { },
                cancellationToken);
+        }
 
-        public async Task<List<UserDto>> GetParentItemsAll(Guid courseId, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _userContext.Users.GetListAllAsync<User, UserDto>(
-                _mapper,
-                u => u.Email.Contains(query.ToLower().Trim()) && u.Courses.Any(c => c.Id == courseId),
-                sortOption,
-                reverse,
-                new() { },
-                cancellationToken);
+        public async Task<List<UserDto>> GetListAll(string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            Guid? courseId = (Guid?)dynamics[0];
+            return await _userContext.Users.GetListAllAsync<User, UserDto>(
+                  _mapper,
+                  u => u.Email.Contains(query.ToLower().Trim()) && (courseId == null || u.Courses.Any(c => c.Id == courseId)),
+                  sortOption,
+                  reverse,
+                  new() { },
+                  cancellationToken);
+        }
 
         public async Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => await _userContext.Users.GetAsync(_mapper,

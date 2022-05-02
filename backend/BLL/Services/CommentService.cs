@@ -34,49 +34,33 @@ namespace BLL.Services
             x => x.Creator
         };
 
-        public async Task<PaginationList<CommentDto>> GetList(int skip, int take, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _commentDbContext.Comments.GetListAsync<Comment, CommentDto>(
+        public async Task<PaginationList<CommentDto>> GetList(int skip, int take,
+            string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            var courseId = (Guid?)dynamics[0];
+            return await _commentDbContext.Comments.GetListAsync<Comment, CommentDto>(
                 _mapper,
                 skip,
                 take,
-                c => c.Content.Contains(query.ToLower().Trim()),
+                c => c.Content.Contains(query.ToLower().Trim()) && (courseId == null || c.CourseId == courseId),
                 sortOption,
                 reverse,
-                new() { },
+                new() { x => x.Creator },
                 cancellationToken);
+        }
 
-        public async Task<List<CommentDto>> GetListAll(string query, string sortOption,
-            bool reverse, CancellationToken cancellationToken)
-            => await _commentDbContext.Comments.GetListAllAsync<Comment, CommentDto>(
+        public async Task<List<CommentDto>> GetListAll(string query,
+            string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            var courseId = (Guid?)dynamics[0];
+            return await _commentDbContext.Comments.GetListAllAsync<Comment, CommentDto>(
                 _mapper,
-                c => c.Content.Contains(query.ToLower().Trim()),
+                c => c.Content.Contains(query.ToLower().Trim()) && (courseId == null || c.CourseId == courseId),
                 sortOption,
                 reverse,
-                new() { },
+                new() { x => x.Creator },
                 cancellationToken);
-
-        public async Task<PaginationList<CommentDto>> GetParentItems(Guid courseId, int skip, int take,
-            string query, string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _commentDbContext.Comments.GetListAsync<Comment, CommentDto>(
-                _mapper,
-                skip,
-                take,
-                c => c.Content.Contains(query.ToLower().Trim()) && c.CourseId == courseId,
-                sortOption,
-                reverse,
-                new () { x => x.Creator},
-                cancellationToken);
-
-        public async Task<List<CommentDto>> GetParentItemsAll(Guid courseId, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _commentDbContext.Comments.GetListAllAsync<Comment, CommentDto>(
-                _mapper,
-                c => c.Content.Contains(query.ToLower().Trim()) && c.CourseId == courseId,
-                sortOption,
-                reverse,
-                new() { x => x.Creator},
-                cancellationToken);
+        }
 
         public async Task<Comment> GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => await _commentDbContext.Comments.GetAsync(

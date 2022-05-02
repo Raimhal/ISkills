@@ -23,34 +23,16 @@ namespace ISkills.Controllers
         [HttpGet]
         [Route("api/comments/all")]
         public async Task<ActionResult<List<CommentDto>>> GetCommentsAll(CancellationToken cancellationToken, string query = "",
-            string sortOption = "date", bool reverse = false)
-            => Ok(await _commentService.GetListAll(query, sortOption, reverse, cancellationToken));
+            string sortOption = "date", bool reverse = false, Guid? courseId = null)
+            => Ok(await _commentService.GetListAll(query, sortOption, reverse, cancellationToken, courseId));
 
 
         [HttpGet]
         [Route("api/comments")]
         public async Task<ActionResult<List<CommentDto>>> GetComments(CancellationToken cancellationToken,
-            int skip = 0, int take = 10, string query = "", string sortOption = "date", bool reverse = false)
+            int skip = 0, int take = 10, string query = "", string sortOption = "date", bool reverse = false, Guid? courseId = null)
         {
-            var content = await _commentService.GetList(skip, take, query, sortOption, reverse, cancellationToken);
-            Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
-            return Ok(content.List);
-        }
-
-
-        [HttpGet]
-        [Route("api/courses/{id}/comments/all")]
-        public async Task<ActionResult<List<CommentDto>>> GetCourseCommentsAll(Guid id, CancellationToken cancellationToken,
-            string query = "", string sortOption = "date", bool reverse = false)
-            => Ok(await _commentService.GetParentItemsAll(id, query, sortOption, reverse, cancellationToken));
-
-
-        [HttpGet]
-        [Route("api/courses/{id}/comments")]
-        public async Task<ActionResult<List<CommentDto>>> GetCourseComments(Guid id, CancellationToken cancellationToken,
-            int skip = 0, int take = 10, string query = "", string sortOption = "date", bool reverse = false)
-        {
-            var content = await _commentService.GetParentItems(id, skip, take, query, sortOption, reverse, cancellationToken);
+            var content = await _commentService.GetList(skip, take, query, sortOption, reverse, cancellationToken, courseId);
             Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
             return Ok(content.List);
         }

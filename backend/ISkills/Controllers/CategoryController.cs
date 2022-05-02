@@ -20,7 +20,7 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/categories/all")]
-        public async Task<ActionResult<List<CategoryDto>>> GetCategories(CancellationToken cancellationToken,
+        public async Task<ActionResult<List<CategoryDto>>> GetCategoriesAll(CancellationToken cancellationToken,
             string query = "", string sortOption = "title", bool reverse = false)
             => Ok(await _categoryService.GetListAll(query, sortOption, reverse, cancellationToken));
         

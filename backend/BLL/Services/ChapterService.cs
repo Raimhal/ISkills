@@ -31,48 +31,32 @@ namespace BLL.Services
         };
 
         public async Task<PaginationList<ChapterDto>> GetList(int skip, int take, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _chapterDbContext.Chapters.GetListAsync<Chapter, ChapterDto>(
+            string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            var courseId = (Guid?)dynamics[0];
+            return await _chapterDbContext.Chapters.GetListAsync<Chapter, ChapterDto>(
                 _mapper,
                 skip,
                 take,
-                c => c.Title.Contains(query.ToLower().Trim()), 
+                c => c.Title.Contains(query.ToLower().Trim()) && (courseId == null || c.CourseId == courseId),
                 sortOption,
                 reverse,
                 new() { },
                 cancellationToken);
+        }
 
         public async Task<List<ChapterDto>> GetListAll(string query, string sortOption,
-            bool reverse, CancellationToken cancellationToken)
-            => await _chapterDbContext.Chapters.GetListAllAsync<Chapter, ChapterDto>(
+            bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            var courseId = (Guid?)dynamics[0];
+            return await _chapterDbContext.Chapters.GetListAllAsync<Chapter, ChapterDto>(
                 _mapper,
-                c => c.Title.Contains(query.ToLower().Trim()),
+                c => c.Title.Contains(query.ToLower().Trim()) && (courseId == null || c.CourseId == courseId),
                 sortOption,
                 reverse,
                 new() { },
                 cancellationToken);
-
-        public async Task<PaginationList<ChapterDto>> GetParentItems(Guid courseId, int skip, int take,
-            string query, string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _chapterDbContext.Chapters.GetListAsync<Chapter, ChapterDto>(
-                _mapper,
-                skip,
-                take,
-                c => c.Title.Contains(query.ToLower().Trim()) && c.CourseId == courseId,
-                sortOption,
-                reverse,
-                new() { },
-                cancellationToken);
-
-        public async Task<List<ChapterDto>> GetParentItemsAll(Guid courseId, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _chapterDbContext.Chapters.GetListAllAsync<Chapter, ChapterDto>(
-                _mapper,
-                c => c.Title.Contains(query.ToLower().Trim()) && c.CourseId == courseId,
-                sortOption,
-                reverse,
-                new() { },
-                cancellationToken);
+        }
 
         public async Task<Chapter> GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => await _chapterDbContext.Chapters.GetAsync(

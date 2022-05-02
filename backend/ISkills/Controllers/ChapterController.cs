@@ -28,34 +28,16 @@ namespace ISkills.Controllers
         [HttpGet]
         [Route("api/chapters/all")]
         public async Task<ActionResult<List<ChapterDto>>> GetChaptersAll(CancellationToken cancellationToken,
-            string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _chapterService.GetListAll(query, sortOption, reverse, cancellationToken));
+            string query = "", string sortOption = "title", bool reverse = false, Guid? courseId = null)
+            => Ok(await _chapterService.GetListAll(query, sortOption, reverse, cancellationToken, courseId));
 
 
         [HttpGet]
         [Route("api/chapters")]
         public async Task<ActionResult<List<ChapterDto>>> GetChapters(CancellationToken cancellationToken, 
-            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
+            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false, Guid? courseId = null)
         {
-            var content = await _chapterService.GetList(skip, take, query, sortOption, reverse, cancellationToken);
-            Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
-            return Ok(content.List);
-        }
-
-
-        [HttpGet]
-        [Route("api/courses/{id}/chapters/all")]
-        public async Task<ActionResult<List<ChapterDto>>> GetCourseChaptersAll(Guid id, CancellationToken cancellationToken, 
-            string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _chapterService.GetParentItemsAll(id, query, sortOption, reverse, cancellationToken));
-
-
-        [HttpGet]
-        [Route("api/courses/{id}/chapters")]
-        public async Task<ActionResult<List<ChapterDto>>> GetCourseChapters(Guid id, CancellationToken cancellationToken, 
-            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
-        {
-            var content = await _chapterService.GetParentItems(id, skip, take, query, sortOption, reverse, cancellationToken);
+            var content = await _chapterService.GetList(skip, take, query, sortOption, reverse, cancellationToken, courseId);
             Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
             return Ok(content.List);
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IChapterService : IBaseService<Guid, Chapter, CreateChapterDto, ChapterDto>, IParentService<Guid, ChapterDto>
+    public interface IChapterService : IBaseService<Guid, Chapter, CreateChapterDto, ChapterDto>
     {
     }
 }

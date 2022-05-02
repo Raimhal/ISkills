@@ -28,34 +28,16 @@ namespace ISkills.Controllers
         [HttpGet]
         [Route("api/videos/all")]
         public async Task<ActionResult<List<ChapterDto>>> GetVideosAll(CancellationToken cancellationToken, 
-            string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _videoService.GetListAll(query, sortOption, reverse, cancellationToken));
+            string query = "", string sortOption = "title", bool reverse = false, Guid? chapterId = null)
+            => Ok(await _videoService.GetListAll(query, sortOption, reverse, cancellationToken, chapterId));
 
 
         [HttpGet]
         [Route("api/videos")]
         public async Task<ActionResult<List<ChapterDto>>> GetVideos(CancellationToken cancellationToken, 
-            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
+            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false, Guid? chapterId = null)
         {
-            var content = await _videoService.GetList(skip, take, query, sortOption, reverse, cancellationToken);
-            Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
-            return Ok(content.List);
-        }
-
-
-        [HttpGet]
-        [Route("api/chapters/{id}/videos/all")]
-        public async Task<ActionResult<List<ChapterDto>>> GetChaptersVideosAll(Guid id, CancellationToken cancellationToken,
-            string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _videoService.GetParentItemsAll(id, query, sortOption, reverse, cancellationToken));
-
-
-        [HttpGet]
-        [Route("api/chapters/{id}/videos")]
-        public async Task<ActionResult<List<ChapterDto>>> GetChaptersVideos(Guid id, CancellationToken cancellationToken,
-            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
-        {
-            var content = await _videoService.GetParentItems(id, skip, take, query, sortOption, reverse, cancellationToken);
+            var content = await _videoService.GetList(skip, take, query, sortOption, reverse, cancellationToken, chapterId);
             Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
             return Ok(content.List);
         }

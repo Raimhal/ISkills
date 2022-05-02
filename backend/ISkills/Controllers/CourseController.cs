@@ -23,16 +23,16 @@ namespace ISkills.Controllers
         [HttpGet]
         [Route("api/courses/all")]
         public async Task<ActionResult<List<CourseDto>>> GetCoursesAll(CancellationToken cancellationToken,
-            string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _courseService.GetListAll(query, sortOption, reverse, cancellationToken));
+            string query = "", string sortOption = "title", bool reverse = false, int? themeId = null, Guid? creatorId = null)
+            => Ok(await _courseService.GetListAll(query, sortOption, reverse, cancellationToken, themeId, creatorId));
 
 
         [HttpGet]
         [Route("api/courses")]
         public async Task<ActionResult<List<CourseDto>>> GetCourses(CancellationToken cancellationToken,
-            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
+            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false, int? themeId = null, Guid? creatorId = null)
         {
-            var content = await _courseService.GetList(skip, take, query, sortOption, reverse, cancellationToken);
+            var content = await _courseService.GetList(skip, take, query, sortOption, reverse, cancellationToken, themeId, creatorId);
             Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
             return Ok(content.List);
         }
@@ -42,36 +42,18 @@ namespace ISkills.Controllers
         [HttpGet]
         [Route("api/courses/my-all")]
         public async Task<ActionResult<List<CourseDto>>> GetMyCoursesAll(CancellationToken cancellationToken,
-            string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _courseService.GetParentItemsAll(UserId, query, sortOption, reverse, cancellationToken));
+            string query = "", string sortOption = "title", bool reverse = false, int? themeId = null)
+            => Ok(await _courseService.GetParentItemsAll(query, sortOption, reverse, cancellationToken, themeId, UserId));
 
 
         [Authorize]
         [HttpGet]
         [Route("api/courses/my")]
         public async Task<ActionResult<List<CourseDto>>> GetMyCourses(CancellationToken cancellationToken,
-            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
+            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false, int? themeId = null)
         {
-            var content = await _courseService.GetParentItems(UserId, skip, take, query, sortOption, reverse, cancellationToken);
+            var content = await _courseService.GetParentItems(skip, take, query, sortOption, reverse, cancellationToken, themeId, UserId);
             Response.Headers.Add("x-total-count", content.TotalCount.ToString());
-            return Ok(content.List);
-        }
-
-
-        [HttpGet]
-        [Route("api/themes/{id}/courses/all")]
-        public async Task<ActionResult<List<CourseDto>>> GetThemeCoursesAll(int id, CancellationToken cancellationToken,
-            string query = "", string sortOption = "title", bool reverse = false)
-            => Ok(await _courseService.GetParentItemsAll(id, query, sortOption, reverse, cancellationToken));
-
-
-        [HttpGet]
-        [Route("api/themes/{id}/courses")]
-        public async Task<ActionResult<List<CourseDto>>> GetThemeCourses(int id, CancellationToken cancellationToken,
-            int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
-        {
-            var content = await _courseService.GetParentItems(id, skip, take, query, sortOption, reverse, cancellationToken);
-            Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
             return Ok(content.List);
         }
 

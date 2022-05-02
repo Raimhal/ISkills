@@ -26,10 +26,12 @@ import {clearUsers, setUser, setUsers} from "../store/UserReducer";
 import ReactHtmlParser from "react-html-parser";
 import MyTextarea from "../components/UI/textarea/MyTextarea";
 import ChapterService from "../API/ChapterService";
-import {setChapters} from "../store/ChapterReducer";
+import {setChapter, setChapters} from "../store/ChapterReducer";
 import ChapterList from "../components/chapter/ChapterList";
 import ChapterForm from "../components/chapter/ChapterForm";
 import '../styles/Chapter.css'
+import VideoForm from "../components/video/VideoForm";
+import VideoService from "../API/VideoService";
 
 const CoursePage = () => {
     const dispatch = useDispatch()
@@ -63,6 +65,7 @@ const CoursePage = () => {
     const [modalComment, setCommentModal] = useState(false)
     const [modalChapter, setChapterModal] = useState(false)
     const [modalChapterUpdate, setChapterUpdateModal] = useState(false)
+    const [videoModal, setVideoModal] = useState(false)
 
     const [getCourse, isCourseLoading, courseError] = useFetching(async (id) =>{
         const _course = await CourseService.GetCourse(id)
@@ -172,6 +175,12 @@ const CoursePage = () => {
     const removeChapter = async (id) => {
         await ChapterService.Delete(id)
         dispatch(setChapters(chapters.filter(c => c.id !== id)))
+    }
+
+    const createVideo = async (video) => {
+        const videoId = await VideoService.Create(video)
+        const newVideo = await VideoService.GetVideo(videoId)
+        console.log(newVideo)
     }
 
     useEffect(() => {
@@ -286,8 +295,20 @@ const CoursePage = () => {
                                         setChapterModal(false)
                                     }} title="Create"/>
                                 </MyModal>}
+                                <MyButton onClick={() => setVideoModal(true)}>+V</MyButton>
+                                {videoModal && <MyModal visible={videoModal} setVisible={setVideoModal}>
+                                    <VideoForm action={(value) => {
+                                        console.log('request')
+                                        createVideo(value)
+                                        setVideoModal(false)
+                                    }} title="Add video"
+                                               submitTitle="Add"
+                                    />
+                                </MyModal>
+                                }
                                 {modalChapterUpdate && <MyModal visible={modalChapterUpdate} setVisible={setChapterUpdateModal}>
                                     <ChapterForm action={value => {
+                                        console.log(value)
                                         updateChapter(value)
                                         setChapterUpdateModal(false)
                                     }} title="Save"/>

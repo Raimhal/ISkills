@@ -17,7 +17,7 @@ import VideoForm from "../video/VideoForm";
 
 const ChapterItem = ({chapter, remove, update, userId, isAdmin}) => {
     const dispatch = useDispatch()
-    const [videos, setVideos] = useState([])
+    const chapters = useSelector(state => state.chapter.chapters)
     const [modal, setModal] = useState(false)
 
     const removeHandleClick = (e) => {
@@ -29,19 +29,17 @@ const ChapterItem = ({chapter, remove, update, userId, isAdmin}) => {
         e.stopPropagation()
         dispatch(setChapter(chapter))
         update()
-    }
 
-    const createVideo = async (video) => {
-        const videoId = await VideoService.Create({...video, chapterId: chapter.id})
-        const newVideo = await VideoService.GetVideo(videoId)
-        setVideos([...videos, newVideo])
     }
-
 
 
     const [getVideos, isVideosLoading, videosError] = useFetching( async (chapterId) => {
         const [count, videos] = await VideoService.GetChapterVideos(chapterId)
-        setVideos(videos)
+        dispatch(setChapters(chapters.map(c => {
+            if(c.id === chapterId)
+                return {...c, videos: videos}
+            return c
+        })))
     })
 
     useEffect(() => {
@@ -57,22 +55,12 @@ const ChapterItem = ({chapter, remove, update, userId, isAdmin}) => {
                     <div className="chapter__btns">
                         <MyButton onClick={handleUpdateClick}>U</MyButton>
                         <MyButton onClick={removeHandleClick}>X</MyButton>
-                        <MyButton onClick={() => setModal(true)}>+</MyButton>
-                        {modal && <MyModal visible={modal} setVisible={setModal}>
-                            <VideoForm action={value => {
-                                createVideo(value)
-                                setModal(false)
-                            }} title="Add video"
-                            submitTitle="Add"
-                            />
-                        </MyModal>
-                        }
                     </div>
                     }
                     <MyTextarea value={chapter.description}/>
-                    {videos.length > 0 &&
+                    {chapter.videos?.length > 0 &&
                     <div>
-                        {videos.map(video =>
+                        {chapter.videos.map(video =>
                             <div key={video.id} className="block">
                                 <p>{video.title}</p>
                                 <video preload="true" className="video" controlsList="nodownload" controls >

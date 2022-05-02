@@ -10,6 +10,7 @@ import CourseService from "../../../API/CourseService";
 import {setCourses, setTotalCount} from "../../../store/CourseReducer";
 const Navbar = () => {
     const isAuth = useSelector(state => state.user.isAuth)
+    const isAdmin = useSelector(state => state.user.isAdmin)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
@@ -41,6 +42,9 @@ const Navbar = () => {
             <div>
                 {isAuth
                     ? <div className={classes.navbar__links}>
+                        {isAdmin &&
+                            <Link to="admin/courses" className={classes.navbar__link}>Admin</Link>
+                        }
                         <Link to="/courses" className={classes.navbar__link}>Courses</Link>
                         <Link to="/account" className={classes.navbar__link}>Account</Link>
                         <Link to="/login" className={classes.navbar__link} onClick={() => {

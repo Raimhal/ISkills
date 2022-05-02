@@ -14,13 +14,12 @@ const UserForm = ({action, title, submitTitle, defaultState = {}, ...props}) => 
 
     return (
         <form className="form" onSubmit={userAction} {...props}>
-            <p>{title}</p>
-            <MyInput type="text" value={currentUser.userName} onChange={e => setCurrentUser({...currentUser, userName: e.target.value})} placeholder="Username"/>
-            <MyInput type="text" value={currentUser.email} onChange={e => setCurrentUser({...currentUser, email: e.target.value})} placeholder="Email"/>
-            <MyInput type="text" value={currentUser.firstName} onChange={e => setCurrentUser({...currentUser, firstName: e.target.value})} placeholder="Firstname"/>
-            <MyInput type="text" value={currentUser.lastName} onChange={e => setCurrentUser({...currentUser, lastName: e.target.value})} placeholder="Lastname"/>
-            <MyInput type="text" onChange={e => setCurrentUser({...currentUser, password: e.target.value})} placeholder="Password"/>
-            <MyInput type="text" onChange={e => setCurrentUser({...currentUser, confirmPassword: e.target.value})} placeholder="Confirm password"/>
+            <MyInput type="text" value={currentUser.userName} onChange={e => setCurrentUser({...currentUser, userName: e.target.value})} label="Username"/>
+            <MyInput type="text" value={currentUser.email} onChange={e => setCurrentUser({...currentUser, email: e.target.value})} label="Email"/>
+            <MyInput type="text" value={currentUser.firstName} onChange={e => setCurrentUser({...currentUser, firstName: e.target.value})} label="Firstname"/>
+            <MyInput type="text" value={currentUser.lastName} onChange={e => setCurrentUser({...currentUser, lastName: e.target.value})} label="Lastname"/>
+            <MyInput type="text" value={currentUser.password} onChange={e => setCurrentUser({...currentUser, password: e.target.value})} label="Password"/>
+            <MyInput type="text" onChange={e => setCurrentUser({...currentUser, confirmPassword: e.target.value})} label="Confirm password"/>
             <MyButton>{submitTitle}</MyButton>
         </form>
     );

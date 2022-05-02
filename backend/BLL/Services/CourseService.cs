@@ -14,6 +14,7 @@ using Domain.Interfaces;
 using Domain.Models;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace BLL.Services
 {
@@ -38,71 +39,76 @@ namespace BLL.Services
         };
 
         public async Task<PaginationList<CourseDto>> GetList(int skip, int take, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _courseDbContext.Courses.GetListAsync<Course, CourseDto>(
-                  _mapper,
-                  skip,
-                  take,
-                  c => c.Title.Contains(query.ToLower().Trim()),
-                  sortOption,
-                  reverse,
-                  new() { },
-                  cancellationToken);
+            string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            int? themeId = (int?) dynamics[0];
+            Guid? creatorId = (Guid?) dynamics[1];
 
-        public async Task<List<CourseDto>> GetListAll(string query, string sortOption,
-            bool reverse, CancellationToken cancellationToken)
-            => await _courseDbContext.Courses.GetListAllAsync<Course, CourseDto>(
-                _mapper,
-                c => c.Title.Contains(query.ToLower().Trim()),
-                sortOption,
-                reverse,
-                new() { },
-                cancellationToken);
-
-        public async Task<PaginationList<CourseDto>> GetParentItems(Guid userId, int skip, int take,
-            string query, string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _courseDbContext.Courses.GetListAsync<Course, CourseDto>(
+            return await _courseDbContext.Courses.GetListAsync<Course, CourseDto>(
                 _mapper,
                 skip,
                 take,
-                c => c.Title.Contains(query.ToLower().Trim()) && c.CreatorId == userId,
+                c => c.Title.Contains(query.ToLower().Trim())
+                && (themeId == null || c.ThemeId == themeId)
+                && (creatorId == null || c.CreatorId == creatorId),
                 sortOption,
                 reverse,
                 new() { },
                 cancellationToken);
+        }
 
-        public async Task<List<CourseDto>> GetParentItemsAll(Guid userId, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _courseDbContext.Courses.GetListAllAsync<Course, CourseDto>(
+        public async Task<List<CourseDto>> GetListAll(string query, string sortOption, bool reverse,
+            CancellationToken cancellationToken, params object[] dynamics)
+        {
+            int? themeId = (int?)dynamics[0];
+            Guid? creatorId = (Guid?)dynamics[1];
+
+            return await _courseDbContext.Courses.GetListAllAsync<Course, CourseDto>(
                 _mapper,
-                c => c.Title.Contains(query.ToLower().Trim()) && c.CreatorId == userId,
+                c => c.Title.Contains(query.ToLower().Trim())
+                && (themeId == null || c.ThemeId == themeId)
+                && (creatorId == null || c.CreatorId == creatorId),
                 sortOption,
                 reverse,
-                new() { },
+                new () { },
                 cancellationToken);
-        
+        }
 
-        public async Task<PaginationList<CourseDto>> GetParentItems(int themeId, int skip, int take,
-            string query, string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _courseDbContext.Courses.GetListAsync<Course, CourseDto>(
+        public async Task<PaginationList<CourseDto>> GetParentItems(int skip, int take,
+           string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            int? themeId = (int?)dynamics[0];
+            Guid? studentId = (Guid?)dynamics[1];
+
+            return await _courseDbContext.Courses.GetListAsync<Course, CourseDto>(
                 _mapper,
                 skip,
                 take,
-                c => c.Title.Contains(query.ToLower().Trim()) && c.ThemeId == themeId,
+                c => c.Title.Contains(query.ToLower().Trim())
+                && (themeId == null || c.ThemeId == themeId)
+                && (studentId == null || c.Students.Any(x => x.Id == studentId)),
                 sortOption,
                 reverse,
                 new() { },
                 cancellationToken);
+        }
 
-        public async Task<List<CourseDto>> GetParentItemsAll(int themeId, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _courseDbContext.Courses.GetListAllAsync<Course, CourseDto>(
+        public async Task<List<CourseDto>> GetParentItemsAll(string query, string sortOption,
+            bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            int? themeId = (int?)dynamics[0];
+            Guid? studentId = (Guid?)dynamics[1];
+
+            return await _courseDbContext.Courses.GetListAllAsync<Course, CourseDto>(
                 _mapper,
-                c => c.Title.Contains(query.ToLower().Trim()) && c.ThemeId == themeId,
+                c => c.Title.Contains(query.ToLower().Trim())
+                && (themeId == null || c.ThemeId == themeId)
+                && (studentId == null || c.Students.Any(x => x.Id == studentId)),
                 sortOption,
                 reverse,
                 new() { },
                 cancellationToken);
+        }
 
         public async Task<Course> GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => await _courseDbContext.Courses.GetAsync(
@@ -207,6 +213,11 @@ namespace BLL.Services
 
             _courseDbContext.Courses.Update(course);
             await _courseDbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public Task<List<CourseDto>> GetListAll(string query, string sortOption, bool reverse, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
     }
 }

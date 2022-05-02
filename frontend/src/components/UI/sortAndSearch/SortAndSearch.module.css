@@ -2,7 +2,7 @@
 .div {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
     gap: 0.3rem;
     margin: 1rem 0;
 }

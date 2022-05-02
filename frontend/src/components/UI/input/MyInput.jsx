@@ -12,7 +12,6 @@ const MyInput = ({children, label, ...props}) => {
                 label={label}
                 variant="standard"
                 color='primary'
-                sx={{ mb: "1.2rem"}}
                 className={classes.myInput}
                 InputLabelProps={{style: {fontFamily: "Times New Roman"}}}
             >

@@ -1,25 +1,33 @@
 import React, {useState} from 'react';
 import MyInput from "../UI/input/MyInput";
-import MyButton from "../UI/button/MyButton";
-import defaultUserImage from "../../assets/images/defaultUserImage.png";
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
-import {setVideo} from "../../store/VideoReducer";
-import {setCourse} from "../../store/CourseReducer";
+import {clearVideo, setVideo} from "../../store/VideoReducer";
+import MyButton from "../UI/button/MyButton";
+import MySelect from "../UI/select/MySelect";
 
 const VideoForm = ({action, title, submitTitle, ...props}) => {
-    const video = useSelector(state => state.video.video)
     const dispatch = useDispatch()
+    const video = useSelector(state => state.video.video)
+    const chapters = useSelector(state => state.chapter.chapters)
+
     const videoAction = (e) => {
         e.preventDefault()
         action(video)
+        console.log('done')
+        dispatch(clearVideo())
     }
 
     return (
-        <form className="form" onSubmit={videoAction} {...props}>
-            <p>{title}</p>
-            <MyInput type="text" defaultValue={video.title} label="Title" onChange={e => dispatch(setVideo({...video, title: e.target.value}))}/>
-            <MyInput type="text" defaultValue={video.title} onChange={e => dispatch(setVideo({...video, title: e.target.value}))} label="Title"/>
-            <MyInput type="file" defaultValue={video.file} onChange={e => dispatch(setVideo({...video, file: e.target.files[0]}))} label="file"/>
+        <form className="form" onSubmit={videoAction}>
+            <MyInput defaultValue={video.title} onChange={e => dispatch(setVideo({...video, title: e.target.value}))} label="title"/>
+            <MySelect
+                value={video.chapterId || ""}
+                onChange={value => dispatch(setVideo({...video, chapterId: value}))}
+                defaultValue="Chapter"
+                options={chapters.map(c => ({name: c.title, value: c.id}))}
+            />
+            <input type="file" onChange={e => dispatch(setVideo({...video, file: e.target.files[0]}))}/>
             <MyButton>{submitTitle}</MyButton>
         </form>
     );

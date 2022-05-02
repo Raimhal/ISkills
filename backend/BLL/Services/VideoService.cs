@@ -29,54 +29,39 @@ namespace BLL.Services
             => (_videoDbContext, _chapterDbContext, _fileService, _antivirusService, _mapper, _cloudinaryService)
             = (videoDbContext, chapterDbContext, fileService, antivirusService, mapper, cloudinaryService);
 
-        private readonly List<Expression<Func<Video, dynamic>>> includes = new ()
+        private readonly List<Expression<Func<Video, dynamic>>> includes = new()
         {
             x => x.Chapter
         };
 
-        public async Task<PaginationList<VideoDto>> GetList(int skip, int take, string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken)
-            => await _videoDbContext.Videos.GetListAsync<Video, VideoDto>(
+
+        public async Task<PaginationList<VideoDto>> GetList(int skip, int take,
+            string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            Guid? chapterId = (Guid?)dynamics[0];
+            return await _videoDbContext.Videos.GetListAsync<Video, VideoDto>(
                 _mapper,
                 skip,
                 take,
-                c => c.Title.Contains(query.ToLower().Trim()),
+                c => c.Title.Contains(query.ToLower().Trim()) && (chapterId == null || c.ChapterId == chapterId),
                 sortOption,
                 reverse,
                 new() { },
                 cancellationToken);
+        }
 
         public async Task<List<VideoDto>> GetListAll(string query, string sortOption,
-            bool reverse, CancellationToken cancellationToken)
-            => await _videoDbContext.Videos.GetListAllAsync<Video, VideoDto>(
+            bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            Guid? chapterId = (Guid?)dynamics[0];
+            return await _videoDbContext.Videos.GetListAllAsync<Video, VideoDto>(
                 _mapper,
-                c => c.Title.Contains(query.ToLower().Trim()),
+                c => c.Title.Contains(query.ToLower().Trim()) && (chapterId == null || c.ChapterId == chapterId),
                 sortOption,
                 reverse,
                 new() { },
                 cancellationToken);
-
-        public async Task<PaginationList<VideoDto>> GetParentItems(Guid chapterId, int skip, int take,
-            string query, string sortOption, bool reverse, CancellationToken cancellationToken)
-           => await _videoDbContext.Videos.GetListAsync<Video, VideoDto>(
-               _mapper,
-               skip,
-               take,
-               c => c.Title.Contains(query.ToLower().Trim()) && c.ChapterId == chapterId,
-               sortOption,
-               reverse,
-               new() { },
-               cancellationToken);
-
-        public async Task<List<VideoDto>> GetParentItemsAll(Guid chapterId, string query, string sortOption,
-            bool reverse, CancellationToken cancellationToken)
-            => await _videoDbContext.Videos.GetListAllAsync<Video, VideoDto>(
-                _mapper,
-                c => c.Title.Contains(query.ToLower().Trim()) && c.ChapterId == chapterId,
-                sortOption,
-                reverse,
-                new() { },
-                cancellationToken);
+        }
 
         public async Task<Video> GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => await _videoDbContext.Videos.GetAsync(
