@@ -9,13 +9,6 @@ export  default class UserService {
         return [totalCount, users]
     }
 
-    static async getCourseStudents(courseId, config = {}) {
-        const path = `/courses/${courseId}/students`
-        const response = await EntityService.Get(path, config)
-        const students = response.data
-        return [response.headers['x-total-count'], students]
-    }
-
     static async Login(data) {
         const response = await EntityService.Create('/account/authenticate', data)
         return response.data

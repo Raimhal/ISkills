@@ -21,14 +21,14 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/themes/all")]
-        public async Task<ActionResult<List<ThemeDto>>> GetThemes(CancellationToken cancellationToken, 
+        public async Task<ActionResult<List<ThemeDto>>> GetThemesAll(CancellationToken cancellationToken,
             string query = "", string sortOption = "title", bool reverse = false, int? categoryId = null)
             => Ok(await _themeService.GetListAll(query, sortOption, reverse, cancellationToken, categoryId));
 
 
         [HttpGet]
         [Route("api/themes")]
-        public async Task<ActionResult<List<ThemeDto>>> GetThemes(CancellationToken cancellationToken, 
+        public async Task<ActionResult<PaginationList<ThemeDto>>> GetThemes(CancellationToken cancellationToken, 
             int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false, int? categoryId = null)
         {
             var content = await _themeService.GetList(skip, take, query, sortOption, reverse, cancellationToken, categoryId);

@@ -2,20 +2,24 @@ import React, {useEffect, useState} from 'react'
 import "../styles/App.css"
 import "../styles/Course.css"
 import CourseList from "../components/course/CourseList";
-import MyButton from "../components/UI/button/MyButton";
-import CourseForm from "../components/course/CourseForm";
-import MyModal from "../components/UI/MyModal/MyModal";
 import CourseService from "../API/CourseService";
 import {useFetching} from "../hooks/useFetching";
 import MyPagination from "../components/UI/pagination/MyPagination";
-import MySelect from "../components/UI/select/MySelect";
-import {setCourse, setCourses, setParams, setTotalCount} from "../store/CourseReducer";
-import MyInput from "../components/UI/input/MyInput";
+import {setCourses, setParams, setTotalCount} from "../store/CourseReducer";
 import {useDispatch, useSelector} from "react-redux";
 import SortAndSearch from "../components/UI/sortAndSearch/SortAndSearch";
+import ThemeService from "../API/ThemeService";
+import CategoryService from "../API/CategoryService";
+import {setCategories} from "../store/CategoryReducer";
+import {Menu, MenuItem, Typography} from "@material-ui/core";
+
+import NestedMenuItem from "material-ui-nested-menu-item";
+import MySelect from "../components/UI/select/MySelect";
+import NestedMenu from "../components/UI/NestedMenu/NestedMenu";
 
 
 const Courses = () => {
+    const categories = useSelector(state => state.category.categories)
 
     const dispatch = useDispatch()
     const courses = useSelector(state => state.course.courses)
@@ -47,10 +51,11 @@ const Courses = () => {
     }
 
 
-
     useEffect( () => {
         getCourses();
-    }, [params.page, params.sortOption])
+    }, [params.page, params.sortOption, params.themeId])
+
+
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -58,12 +63,14 @@ const Courses = () => {
 
     return (
         <div className="wide main">
+            <div>
             <SortAndSearch
                 params={params}
                 onParamsChange={value => dispatch(setParams(value))}
                 action={getCourses}
                 sortList={sortList}
             />
+            </div>
             {!isCoursesLoading
                 ?   <div>
                         <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}

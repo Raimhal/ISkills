@@ -7,7 +7,12 @@ import MyButton from "../button/MyButton";
 import MyModal from "../MyModal/MyModal";
 import CourseForm from "../../course/CourseForm";
 import CourseService from "../../../API/CourseService";
-import {setCourses, setTotalCount} from "../../../store/CourseReducer";
+import {clearParams, setCourses, setTotalCount} from "../../../store/CourseReducer";
+import NestedMenu from "../NestedMenu/NestedMenu";
+import {Fab} from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import {colorTheme} from "../themes";
+import {ThemeProvider} from "@emotion/react";
 const Navbar = () => {
     const isAuth = useSelector(state => state.user.isAuth)
     const isAdmin = useSelector(state => state.user.isAdmin)
@@ -32,12 +37,19 @@ const Navbar = () => {
     return (
         <div className={classes.navbar}>
             <div>
-                <Link to="/courses" className={classes.navbar__link}>ISkills</Link>
-                {isAuth && !isCreateCourse && <p onClick={() => setModal(true)} className={classes.navbar__link}>+</p>}
+                <Link to="/courses" onClick={() => dispatch(clearParams())} className={classes.navbar__link}>ISkills</Link>
+                {isAuth && !isCreateCourse && <ThemeProvider theme={colorTheme}>
+                    <Fab color="primary" aria-label="add" size="small" onClick={() => setModal(true)}
+                         className={classes.navbar__link}>
+                        <AddIcon/>
+                    </Fab>
+                </ThemeProvider>
+                }
                 {modal && <MyModal visible={modal} setVisible={setModal}>
                     <CourseForm action={createCourse} title="Create"/>
                 </MyModal>
                 }
+                <NestedMenu label="Categories" className={classes.navbar__link}/>
             </div>
             <div>
                 {isAuth

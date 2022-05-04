@@ -35,7 +35,7 @@ const CourseItem = ({course, remove, userId, isAdmin}) => {
                         <button className="cancelButton" onClick={removeHandleClick}>X</button>
                     </div>
                 }
-                <div>
+                <div style={{whiteSpace: "nowrap"}}>
                     {course.price !== 0
                         ? <div>{course.price} $</div>
                         : <div>For free</div>

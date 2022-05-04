@@ -5,6 +5,7 @@ import {instance} from "../router/instance";
 export  default class VideoService {
     static async GetVideos(config = {}) {
         const response = await EntityService.Get('/videos', config)
+        console.log(response.data)
         const videos = response.data
         const totalCount = response.headers['x-total-count']
         return [totalCount, videos]
@@ -15,15 +16,12 @@ export  default class VideoService {
         return (await EntityService.Get(path, config)).data
     }
 
-    static async GetChapterVideos(chapterId, config = {}) {
-        const path = `/chapters/${chapterId}/videos`
-        const response = await EntityService.Get(path, config)
-        const totalCount = response.headers['x-total-count']
-        return [totalCount, response.data]
-    }
-
-    static async Create(data, config = {}){
-        const response = await EntityService.Create('/videos', data, config)
+    static async Create(video, config = {}){
+        const formData = new FormData()
+        formData.append("file", video.file, video.file.name)
+        formData.append("title", video.title)
+        formData.append("chapterId", video.chapterId)
+        const response = await EntityService.Create('/videos', formData, config)
         return response.data
     }
 

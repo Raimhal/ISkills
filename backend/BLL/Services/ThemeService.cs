@@ -52,8 +52,8 @@ namespace BLL.Services
                 cancellationToken);
         }
 
-        public async Task<List<ThemeDto>> GetListAll(string query,
-            string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        public async Task<List<ThemeDto>> GetListAll(string query, string sortOption, bool reverse,
+            CancellationToken cancellationToken, params object[] dynamics)
         {
             int? categoryId = (int?)dynamics[0];
             return await _themeDbContext.Themes.GetListAllAsync<Theme, ThemeDto>(

@@ -40,7 +40,7 @@ h1 {
 }
 .tab-content {
     max-height: 0;
-    overflow: hidden;
+    overflow: scroll;
     -webkit-transition: max-height .35s;
     -o-transition: max-height .35s;
     transition: max-height .35s;

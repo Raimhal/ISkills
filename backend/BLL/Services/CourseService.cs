@@ -92,7 +92,7 @@ namespace BLL.Services
                 new() { },
                 cancellationToken);
         }
-
+        
         public async Task<List<CourseDto>> GetParentItemsAll(string query, string sortOption,
             bool reverse, CancellationToken cancellationToken, params object[] dynamics)
         {

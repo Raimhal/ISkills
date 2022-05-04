@@ -34,7 +34,11 @@ const ChapterItem = ({chapter, remove, update, userId, isAdmin}) => {
 
 
     const [getVideos, isVideosLoading, videosError] = useFetching( async (chapterId) => {
-        const [count, videos] = await VideoService.GetChapterVideos(chapterId)
+        const [count, videos] = await VideoService.GetVideos({
+            params: {
+                chapterId: chapterId
+            }
+        })
         dispatch(setChapters(chapters.map(c => {
             if(c.id === chapterId)
                 return {...c, videos: videos}

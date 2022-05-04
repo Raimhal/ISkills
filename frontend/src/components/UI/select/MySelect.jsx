@@ -4,20 +4,23 @@ import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {colorTheme} from "../themes";
 import {ThemeProvider} from "@emotion/react";
 
-const MySelect = ({options, defaultValue, value, onChange}) => {
+const MySelect = ({options, defaultValue, value, onChange, ...props}) => {
     return (
         <ThemeProvider theme={colorTheme}>
             <FormControl
                 variant="standard"
-                sx={{ alignItems: "bottom", minWidth: 120 }}
+                sx={{ alignItems: "bottom", minWidth: 120}}
+                style={{fontSize: "inherit", fontFamily: "inherit"}}
+                {...props}
             >
-                <InputLabel id="demo-simple-select-standard-label">{defaultValue}</InputLabel>
+                <InputLabel id="demo-simple-select-standard-label" sx={{fontSize: "inherit", fontFamily: "inherit", color: "inherit"}}>{defaultValue}</InputLabel>
                 <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
                     value={value}
                     onChange={e => onChange(e.target.value)}
                     label={defaultValue}
+                    sx={{fontSize: "inherit"}}
                 >
                     {options.map(option =>
                         <MenuItem value={option.value} key={option.value}>

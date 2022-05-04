@@ -97,7 +97,7 @@ namespace BLL.Services
 
         public async Task<bool> IsValidFile(IFormFile file)
         {
-            if (file?.Length <= 0)
+            if (file?.Length <= 0 || file == null)
                 return false;
 
             var extension = Path.GetExtension(file.FileName).Replace(".", "");

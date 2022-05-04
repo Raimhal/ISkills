@@ -12,10 +12,12 @@
     margin: 0;
     background-color: rgba(0, 0, 0, 0.8);
     z-index: 10;
+    font-size: 1.15em;
 }
 .navbar > div {
     display: flex;
     gap: 1rem;
+    align-items: center;
 }
 
 .navbar__links {
@@ -27,6 +29,6 @@
 .navbar__link {
     text-decoration: none;
     color: rgba(255, 255, 255, 0.8);
-    font-style: italic;
     cursor: pointer;
+
 }

@@ -100,7 +100,7 @@ namespace Iskills.Controllers
         [HttpPatch]
         [Route("api/users/{id}")]
         public async Task<IActionResult> UpdateUserImage(Guid id, [FromForm] IFormFile file,
-            CancellationToken cancellationToken, int width = 128, int height = 128)
+            CancellationToken cancellationToken, int width = 256, int height = 256)
         {
             if (!await _accessService.HasAccessToUser(UserId, id, cancellationToken))
                 return Forbid();

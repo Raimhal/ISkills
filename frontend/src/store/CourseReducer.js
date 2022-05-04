@@ -18,7 +18,9 @@ const defaultState = {
         page: 1,
         skip: 0,
         take: 10,
-        reverse: false
+        reverse: false,
+        themeId: null,
+        creatorId: null
     },
     sortList: [
         {name: 'Price', value: 'price'},

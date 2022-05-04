@@ -32,7 +32,11 @@ const CourseForm = ({action, title, ...props}) => {
     }
 
     const [getThemes, isThemesLoading, themesError] = useFetching(async (id) =>{
-        const themes = await ThemeService.GetCategoryAllThemes(id)
+        const themes = await ThemeService.GetThemesAll({
+            params: {
+                categoryId: id
+            }
+        })
         dispatch(setThemes(themes))
     })
 
@@ -56,7 +60,7 @@ const CourseForm = ({action, title, ...props}) => {
                 <MyInput type="text" defaultValue={course.title} label="Title" onChange={e => dispatch(setCourse({...course, title: e.target.value}))}/>
             </div>
             <div className="block">
-                <MyEditor defaultValue={course.shortInfo} onChange={value => dispatch(setCourse({...course, shortInfo: value}))} placeholder="Short information"/>
+                <MyEditor defaultValue={course.shortInfo} onChange={value => dispatch(setCourse({...course, shortInfo: value}))} label="Short information"/>
             </div>
             <div className="block">
                 <MyEditor defaultValue={course.description} onChange={value => dispatch(setCourse({...course, description: value}))} placeholder="Description"/>

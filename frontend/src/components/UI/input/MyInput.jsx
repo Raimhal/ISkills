@@ -13,7 +13,9 @@ const MyInput = ({children, label, ...props}) => {
                 variant="standard"
                 color='primary'
                 className={classes.myInput}
-                InputLabelProps={{style: {fontFamily: "Times New Roman"}}}
+                InputLabelProps={{style: {fontFamily: "inherit", color: "inherit", fontSize: "inherit"}}}
+                InputProps={{style: {fontSize: "inherit"}}}
+                autoComplete="off"
             >
                 {children}
             </TextField>

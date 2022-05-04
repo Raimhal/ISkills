@@ -63,6 +63,7 @@ namespace BLL.Services
                 throw new AlreadyExistsException(nameof(Category), nameof(model.Title), model.Title);
 
             var category = _mapper.Map<Category>(model);
+            category.Themes = new List<Theme>();
 
             await _categoryDbContext.Categories.AddAsync(category, cancellationToken);
             await _categoryDbContext.SaveChangesAsync(cancellationToken);

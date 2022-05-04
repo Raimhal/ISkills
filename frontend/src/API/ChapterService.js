@@ -15,13 +15,6 @@ export  default class ChapterService {
         return (await EntityService.Get(path, config)).data
     }
 
-    static async GetCourseChapters(courseId, config = {}) {
-        const path = `/courses/${courseId}/chapters`
-        const response = await EntityService.Get(path, config)
-        const totalCount = response.headers['x-total-count']
-        return [totalCount, response.data]
-    }
-
     static async Create(data, config = {}){
         const response = await EntityService.Create('/chapters', data, config)
         return response.data

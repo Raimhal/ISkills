@@ -11,7 +11,6 @@ import MyPagination from "../components/UI/pagination/MyPagination";
 import defaultCourseImage from '../assets/images/defaultCourseImage.png'
 import defaultUserImage from '../assets/images/defaultUserImage.png'
 import languageImage from '../assets/images/language.png'
-import MyEditor from "../components/UI/editor/MyEditor";
 import CommentForm from "../components/comment/CommentForm";
 
 import CommentList from "../components/comment/CommentList";
@@ -20,13 +19,12 @@ import MyModal from "../components/UI/MyModal/MyModal";
 import CourseForm from "../components/course/CourseForm";
 import {useDispatch, useSelector} from "react-redux";
 import {clearCourse, setCourse} from "../store/CourseReducer";
-import {clearComment, clearComments, setComments} from "../store/CommentReducer";
+import {clearComments, setComments} from "../store/CommentReducer";
 import UserService from "../API/UserService";
 import {clearUsers, setUser, setUsers} from "../store/UserReducer";
-import ReactHtmlParser from "react-html-parser";
 import MyTextarea from "../components/UI/textarea/MyTextarea";
 import ChapterService from "../API/ChapterService";
-import {setChapter, setChapters} from "../store/ChapterReducer";
+import {clearChapter, clearChapters, setChapters} from "../store/ChapterReducer";
 import ChapterList from "../components/chapter/ChapterList";
 import ChapterForm from "../components/chapter/ChapterForm";
 import '../styles/Chapter.css'
@@ -36,14 +34,16 @@ import VideoService from "../API/VideoService";
 const CoursePage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const course = useSelector((state) => state.course.course)
-    const comments = useSelector((state) => state.comment.comments)
-    const students = useSelector((state) => state.user.users)
-    const chapters = useSelector((state) => state.chapter.chapters)
+    const course = useSelector(state => state.course.course)
+    const comments = useSelector(state => state.comment.comments)
+    const students = useSelector(state => state.user.users)
+    const chapters = useSelector(state => state.chapter.chapters)
     const currentUser = useSelector(state => state.user.user)
     const isAdmin = useSelector(state => state.user.isAdmin)
+    const isAuth = useSelector(state => state.user.isAuth)
 
-    const hasAccess = (course.creatorId === currentUser.id || isAdmin || currentUser.courses?.some(x => x.id === course.id))
+    const hasAccess = course.creatorId === currentUser.id || isAdmin
+    const hasUserAccess = ( hasAccess || currentUser.courses?.some(x => x.id === course.id)) && isAuth
 
     const {id} = useParams()
     const initialParamsState = {
@@ -103,12 +103,13 @@ const CoursePage = () => {
     })
 
     const [getChapters, isChaptersLoading, chaptersError] = useFetching( async (courseId) => {
-        const [count, newChapters] = await ChapterService.GetCourseChapters(courseId, {
+        const [count, newChapters] = await ChapterService.GetChapters({
             params: {
                 ...params,
                 reverse: false,
-                sortOption: 'title',
+                sortOption: "title",
                 skip: (chapterPage - 1) * params.take,
+                courseId: courseId
             }
         })
         dispatch(setChapters([...newChapters]))
@@ -120,6 +121,11 @@ const CoursePage = () => {
     }
 
     const assignUser = async (id) => {
+        if(!isAuth){
+            navigate('/login')
+            return
+        }
+
         await CourseService.ToggleAssignment(id)
         dispatch(setUsers([...students, currentUser]))
         dispatch(setUser({...currentUser, courses: [...currentUser.courses, course]}))
@@ -178,7 +184,12 @@ const CoursePage = () => {
     }
 
     const createVideo = async (video) => {
-        const videoId = await VideoService.Create(video)
+        video.file = document.querySelector("#file").files[0]
+        const videoId = await VideoService.Create(video, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
         const newVideo = await VideoService.GetVideo(videoId)
         console.log(newVideo)
     }
@@ -190,6 +201,7 @@ const CoursePage = () => {
             dispatch(clearCourse())
             dispatch(clearComments())
             dispatch(clearUsers())
+            dispatch(clearChapters())
         }
     }, [])
 
@@ -215,35 +227,38 @@ const CoursePage = () => {
             {!isCourseLoading
                 ? <div className="course__page">
                     <div className="card">
-                        <div className="head">
+                        <div className="head block">
                             <h3>{course.title}</h3>
-                            <MyTextarea value={course.shortInfo}/>
-                            <div className="language">
-                                <img src={languageImage} alt="language : " style={{width: 16}}/>
-                                <span>{course.language}</span>
-                            </div>
-                            <div>Created: {new Date(course.dateCreated).toLocaleDateString()}</div>
-                            {course.dateUpdated <= course.dateCreated &&
-                                <div>Last updated : {new Date(course.dateUpdated).toDateString()}</div>
-                            }
-                            <MyRating value={course.rating} readonly/>
-                            <div>{course.theme.title}</div>
-                        </div>
-                        <div className="body">
-                            <img src={course.imageUrl || defaultCourseImage} alt="course image" className="course__image"/>
-                            {!hasAccess &&
-                                <div>
-                                {course.price === 0
-                                    ? <div className="free">
-                                    <MyButton onClick={() => assignUser(course.id)}>Get for free</MyButton>
-                                    </div>
-                                    : <div className="buy">
-                                    <div>{course.price} $</div>
-                                    <MyButton onClick={() => assignUser(course.id)}>Buy now</MyButton>
-                                    </div>
-                                }
+                            <MyTextarea value={course.shortInfo}>
+
+                            </MyTextarea>
+                            <div className="block absolute__form" style={{width: "fit-content", float: "right", margin: "1rem", position: "absolute"}}>
+                                <img src={course.imageUrl || defaultCourseImage} alt="course image" className="course__image"/>
+                                <div className="language">
+                                    <img src={languageImage} alt="language : " style={{width: 16}}/>
+                                    <span>{course.language}</span>
                                 </div>
-                            }
+                                <div>Created: {new Date(course.dateCreated).toLocaleDateString()}</div>
+                                {course.dateUpdated <= course.dateCreated &&
+                                <div>Last updated : {new Date(course.dateUpdated).toDateString()}</div>
+                                }
+                                <MyRating value={course.rating} readonly/>
+                                <div>{course.theme.title}</div>
+                                {!hasUserAccess &&
+                                <div>
+                                    {course.price === 0
+                                        ? <div className="price">
+                                            <div> Free </div>
+                                            <MyButton onClick={() => assignUser(course.id)}>Get</MyButton>
+                                        </div>
+                                        : <div className="price">
+                                            <div>{course.price} $</div>
+                                            <MyButton onClick={() => assignUser(course.id)}>Buy now</MyButton>
+                                        </div>
+                                    }
+                                </div>
+                                }
+                            </div>
                         </div>
                     </div>
                     { !isStudentsLoading && students.length > 0 &&
@@ -282,7 +297,7 @@ const CoursePage = () => {
                             }
                         </div>
                     }
-                    {chapters.length > 0 &&
+                    {(chapters.length > 0 || hasAccess)&&
                     <div className="block">
                         <div className="chapter__title">
                             <h4>{totalChapterCount} chapters :</h4>
@@ -335,7 +350,7 @@ const CoursePage = () => {
                         }
                     </div>
                     }
-                    { hasAccess &&
+                    { hasUserAccess &&
                         <CommentForm action={createComment} title="Create" className='block'/>
                     }
                     {comments.length > 0 &&

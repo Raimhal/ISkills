@@ -71,6 +71,7 @@ namespace BLL.Services
                     context.AsQueryable<T>(),
                     (current, include) => current.Include(include)
                 )
+                .Where(expression)
                 .OrderBy(sortOption, reverse)
                 .ProjectTo<TDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking()

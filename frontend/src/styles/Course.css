@@ -3,8 +3,9 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border-bottom: 1px solid rgba(156, 156, 156, 0.7);
     padding: 5px 8px;
+    max-height: 256px;
+    overflow: hidden;
 }
 
 .course {
@@ -17,21 +18,19 @@
     padding: 5px;
     margin: 0 5px;
 }
-
-.course__content > h3{
-    color: #975ad4;
-}
-
 .course__btns {
     display: flex;
     justify-content: end;
 }
 
 .course__image{
+    display: inline;
     border: 1px solid rgba(120, 108, 108, 0.20);
-    min-width: 224px;
-    width: 224px;
-    height: 160px;
+    min-width: 256px;
+    width: auto;
+    height: auto;
+    max-height: 256px;
+    float: right;
 }
 
 .courses {
@@ -67,13 +66,21 @@
 
 .course__page > div.card {
     margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
 }
 
 .course__page > div.card > div.head {
     padding: 15px;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+
+}
+
+.course__page > div.card > div.body {
+    width: fit-content;
+
 }
 
 .language {
@@ -90,7 +97,7 @@
     gap: 0.5rem;
 }
 
-.buy {
+.price {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -98,12 +105,15 @@
     font-weight: bold;
 }
 
-.free {
-    display: flex;
-    justify-self: flex-end;
-}
 
 .field {
     padding: 0 15px;
+}
+
+.absolute__form {
+    top: 0;
+    right: -0.5rem;
+    transform: translateX(100%);
+    margin: 0 !important;
 }
 

@@ -14,5 +14,5 @@
 }
 
 .div > button {
-    min-width: fit-content;
+    white-space: nowrap;
 }

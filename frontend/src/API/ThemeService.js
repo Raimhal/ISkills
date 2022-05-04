@@ -10,12 +10,7 @@ export  default class ThemeService {
     }
 
     static async GetThemesAll(config = {}) {
-        const response = await EntityService.Get('/themes', config)
-        return response.data
-    }
-
-    static async GetCategoryAllThemes(categoryId, config = {}) {
-        const path = `/categories/${categoryId}/themes`
+        const path = `/themes/all`
         const response = await EntityService.Get(path, config)
         return response.data
     }

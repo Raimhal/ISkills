@@ -8,7 +8,7 @@ namespace BLL.DtoModels
     public class CreateThemeDto : IMapWith<Theme>
     {  
         public string Title { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
         public virtual void Mapping(Profile profile)
         {

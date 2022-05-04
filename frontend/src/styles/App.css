@@ -3,7 +3,8 @@
     padding: 0;
     box-sizing: border-box;
     word-break: break-word;
-    font-family: "Times New Roman" !important;
+    font-family: 'Radio Canada', sans-serif !important;
+    font-weight: 300 !important;
 }
 
 #root{
@@ -17,12 +18,13 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    height: max-content;
 }
 
 .main {
     margin: 50px auto;
     width: 50%;
+    font-size: 1.1em;
 }
 
 .main.wide {
@@ -30,6 +32,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+
 }
 
 ::-webkit-scrollbar-track
@@ -75,24 +78,36 @@
 }
 
 .login, .register {
+    padding: 25px;
     text-align: center;
     border-radius: 3px;
     background-color: rgba(0, 0, 0, 0.8);
     color: rgba(255, 255, 255, 0.8);
-    font-size: 21px
+    font-size: 1.2em;
+    gap: 1rem;
+
 }
 
-.register {
-    max-width: 500px;
-}
 
 .login button, .register button {
     background-color: transparent;
     border: 1px solid  rgba(169, 169, 169, 0.4);
-    font-size: 16px;
 }
 
 .login input, .register input {
     color: rgba(255, 255, 255, 0.8);
 }
+
+.paraSelect {
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+    cursor: pointer;
+}
+
+button {
+    font-size: 0.8em !important;
+}
+
+
 
