@@ -1,0 +1,116 @@
+
+h1 {
+    text-align: center;
+}
+
+.chapter {
+    border: solid 1px rgba(169, 169, 169, 0.4);
+    display: flex;
+    gap: 0.2rem;
+    border-radius: 3px;
+}
+
+.chapter__btns {
+    display: flex;
+    justify-content: end;
+    gap: 0.2rem;
+}
+
+
+.tab {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 2px;
+}
+.tab input {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+}
+.tab label {
+    position: relative;
+    display: block;
+    padding: 0 0 0 1em;
+    font-weight: bold;
+    line-height: 3;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.015);
+}
+.blue label {
+    background: #2980b9;
+}
+.tab-content {
+    max-height: 0;
+    overflow: scroll;
+    -webkit-transition: max-height .35s;
+    -o-transition: max-height .35s;
+    transition: max-height .35s;
+}
+
+.tab-content > div:first-child {
+    margin: 1rem;
+}
+
+.tab-content div.title {
+    margin: 1em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tab-content > p {
+    margin: 1em;
+}
+
+.blue .tab-content {
+    background: #3498db;
+}
+
+.tab input:checked ~ .tab-content {
+    max-height: 100vh;
+}
+
+.tab label::after {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: block;
+    width: 3em;
+    height: 3em;
+    line-height: 3;
+    text-align: center;
+    -webkit-transition: all .35s;
+    -o-transition: all .35s;
+    transition: all .35s;
+}
+.tab input[type=checkbox] + label::after {
+    content: "+";
+}
+.tab input[type=radio] + label::after {
+    content: "\25BC";
+}
+.tab input[type=checkbox]:checked + label::after {
+    transform: rotate(315deg);
+}
+.tab input[type=radio]:checked + label::after {
+    transform: rotateX(180deg);
+}
+
+.video{
+    width: 100%;
+    height: auto;
+    padding: 10px;
+}
+
+.chapter__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chapters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}

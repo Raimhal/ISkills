@@ -1,0 +1,132 @@
+
+.course__item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 5px 8px;
+    cursor: pointer;
+}
+
+.course {
+    display: flex;
+    flex: 1;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.course__content {
+    padding: 5px;
+    margin: 0 5px;
+    max-height: 256px;
+}
+.course__btns {
+    display: flex;
+    justify-content: end;
+}
+
+.course__image{
+    display: inline;
+    border: 1px solid rgba(120, 108, 108, 0.20);
+    min-width: 256px;
+    width: auto;
+    height: auto;
+    max-height: 256px;
+    float: right;
+    border-radius: 3px;
+}
+
+.courses {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.course-enter {
+    opacity: 0;
+}
+
+.course-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.course-exit {
+    opacity: 1;
+}
+
+.course-exit-active {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+}
+
+.course__page {
+    display: flex;
+    flex-direction: column;
+    gap:  0.5rem;
+}
+
+.course__page > div.card {
+    margin-top: 10px;
+}
+
+.course__page > div.card > div.head {
+    padding: 15px;
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+
+}
+
+.course__page > div.card > div.body {
+    width: fit-content;
+
+}
+
+.language {
+    display: flex;
+    align-items: baseline;
+    text-align: center;
+    gap: 0.2rem;
+    vertical-align: center;
+}
+
+.shortInfo {
+    max-height: 180px;
+    overflow-y: scroll;
+    text-align: justify;
+    padding-right: 3px;
+}
+
+
+.block {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    border: solid 1px rgba(169, 169, 169, 0.4);
+    gap: 0.5rem;
+    border-radius: 3px;
+}
+
+.price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    font-weight: bold;
+}
+
+
+.field {
+    padding: 0 15px;
+}
+
+.absolute__form {
+    top: 0;
+    right: -0.5rem;
+    transform: translateX(100%);
+    margin: 0 !important;
+}
+
