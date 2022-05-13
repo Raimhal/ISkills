@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const instance = axios.create({
-    baseURL: "./api",
+    baseURL: `https://localhost:${process.env.PORT}/api`,
 });
 
 instance.interceptors.request.use((config) => {
