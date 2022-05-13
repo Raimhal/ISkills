@@ -1,29 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom'
 import '../../styles/Chapter.css'
 import '../../styles/Button.css'
 import MyTextarea from "../UI/textarea/MyTextarea";
 import {useFetching} from "../../hooks/useFetching";
 import VideoService from "../../API/VideoService";
-import MyButton from "../UI/button/MyButton";
-import {setComment} from "../../store/CommentReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {setChapter, setChapters} from "../../store/ChapterReducer";
-import ChapterService from "../../API/ChapterService";
 import MyModal from "../UI/MyModal/MyModal";
-import CourseForm from "../course/CourseForm";
-import VideoForm from "../video/VideoForm";
-import ThemeService from "../../API/ThemeService";
-import MyPagination from "../UI/pagination/MyPagination";
 import {IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import {Tooltip} from '@material-ui/core';
 import {setVideo} from "../../store/VideoReducer";
-import 'mui-player/dist/mui-player.min.css'
-import MuiPlayer from 'mui-player'
 import MyPlayer from "../video/MyPlayer";
-import { AudioCard, VideoCard } from 'material-ui-player'
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 
 

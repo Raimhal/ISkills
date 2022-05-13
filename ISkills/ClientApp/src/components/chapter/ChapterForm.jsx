@@ -1,21 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import MyInput from "../UI/input/MyInput";
 import MyButton from "../UI/button/MyButton";
-import MySelect from "../UI/select/MySelect";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import MyEditor from "../UI/editor/MyEditor";
 import {useDispatch, useSelector} from "react-redux";
-import {clearChapter, setChapter} from "../../store/ChapterReducer";
-import CategoryService from "../../API/CategoryService";
+import {setChapter} from "../../store/ChapterReducer";
 import {useFetching} from "../../hooks/useFetching";
-import ChapterService from "../../API/ChapterService";
-import ThemeService from "../../API/ThemeService";
-import {setCategories} from "../../store/CategoryReducer";
-import {setThemes} from "../../store/ThemeReducer";
-import {setCourse} from "../../store/CourseReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import {setUser} from "../../store/UserReducer";
+
 import MyAlert from "../UI/alert/MyAlert";
 
 const ChapterForm = ({action, title, ...props}) => {

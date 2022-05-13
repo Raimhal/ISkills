@@ -1,5 +1,4 @@
 import React from 'react';
-import 'mui-player/dist/mui-player.min.css'
 import ReactPlayer from 'react-player'
 
 
