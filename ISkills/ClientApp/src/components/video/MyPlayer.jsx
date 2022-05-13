@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import 'mui-player/dist/mui-player.min.css'
-import MuiPlayer from 'mui-player'
 import ReactPlayer from 'react-player'
 
 
