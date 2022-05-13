@@ -209,7 +209,7 @@ const CoursePage = () => {
         })
         const newVideo = await VideoService.GetVideo(videoId)
         setVideoModal(false)
-        courses[index].videos.push(newVideo)
+        chapters[index].videos.push(newVideo)
         dispatch(setChapters([...chapters]))
     }
 
