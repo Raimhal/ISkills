@@ -18,8 +18,14 @@ import MyButton from "../components/UI/button/MyButton";
 import MyModal from "../components/UI/MyModal/MyModal";
 import CourseForm from "../components/course/CourseForm";
 import {useDispatch, useSelector} from "react-redux";
-import {clearCourse, setCourse, updateCourse, updateImage} from "../store/CourseReducer";
-import {clearComments, setComments} from "../store/CommentReducer";
+import {clearCourse, getCourse, setCourse, updateCourse, updateImage} from "../store/CourseReducer";
+import {
+    clearComments,
+    getComments,
+    setComments,
+    setParams as setCommentsParams,
+    setTotalCount
+} from "../store/CommentReducer";
 import UserService from "../API/UserService";
 import {clearUsers, setUser, setUsers} from "../store/UserReducer";
 import MyTextarea from "../components/UI/textarea/MyTextarea";
@@ -52,6 +58,7 @@ const CoursePage = () => {
     const currentUser = useSelector(state => state.user.user)
     const isAdmin = useSelector(state => state.user.isAdmin)
     const isAuth = useSelector(state => state.user.isAuth)
+    const isCourseLoading = useSelector(state => state.course.isLoading)
 
     const hasAccess = course.creatorId === currentUser.id || isAdmin
     const hasUserAccess = ( hasAccess || currentUser.courses?.some(x => x.id === course.id)) && isAuth
@@ -66,10 +73,10 @@ const CoursePage = () => {
 
     const [params, setParams] = useState(initialParamsState)
 
-    const [page, setPage] = useState(1)
+    const commentsParams = useSelector(state => state.comment.params)
     const [userPage, setUserPage] = useState(1)
     const [chapterPage, setChapterPage] = useState(1)
-    const [totalCount, setTotalCount] = useState(0)
+    const commentsTotalCount = useSelector(state => state.comment.totalCount)
     const [totalUserCount, setUserTotalCount] = useState(0)
     const [totalChapterCount, setChapterTotalCount] = useState(0)
     const [modal, setModal] = useState(false)
@@ -80,27 +87,9 @@ const CoursePage = () => {
     const [videoUpdateModal, setVideoUpdateModal] = useState(false)
     const [imageModal, setImageModal] = useState(false)
 
-    const [getCourse, isCourseLoading, courseError] = useFetching(async (id) =>{
-        const _course = await CourseService.GetCourse(id)
-
-        dispatch(setCourse({...course, ..._course}))
-    })
-
     const [getCurrentUser, isUserLoading, userError] = useFetching(async () =>{
         const user = await UserService.getCurrentUser()
         dispatch(setUser(user))
-    })
-
-    const [getComments, isCommentsLoading, commentsError] = useFetching( async (courseId) => {
-        const [count, newComments] = await CommentService.GetComments({
-            params: {
-                ...params,
-                skip: (page - 1) * params.take,
-                courseId: courseId
-            }
-        })
-        dispatch(setComments(newComments))
-        setTotalCount(count)
     })
 
     const [getStudents, isStudentsLoading, studentsError] = useFetching( async (courseId) => {
@@ -151,9 +140,8 @@ const CoursePage = () => {
         const date = new Date()
         const newComment = {...comment, id: commentId, creator: currentUser, date: date, dateUpdated: date}
         dispatch(setComments([newComment, ...comments]))
-        const newRating = ((course.rating * +totalCount + comment.rating) / (+totalCount + 1))
+        const newRating = ((course.rating * +commentsTotalCount + comment.rating) / (+commentsTotalCount + 1))
         dispatch(setCourse({...course, rating: newRating }))
-        setTotalCount(+totalCount + 1)
     }
 
     const createChapter = async (chapter) => {
@@ -166,10 +154,8 @@ const CoursePage = () => {
     const updateComment = async (comment) => {
         await CommentService.Update(comment.id, comment)
         dispatch(setComments([...comments.map(c => {
-            if(c.id === comment.id) {
-                console.log(comment)
+            if(c.id === comment.id)
                 return comment
-            }
             return c
         })]))
         setCommentModal(false)
@@ -177,10 +163,11 @@ const CoursePage = () => {
 
     const removeComment = async (id) => {
         const comment = comments.find(c => c.id === id)
-        const newRating = ((course.rating * +totalCount - comment.rating) / (+totalCount - 1))
+        const newRating = ((course.rating * +commentsTotalCount - comment.rating) / (+commentsTotalCount - 1))
         dispatch(setCourse({...course, rating: newRating }))
         await CommentService.Delete(id)
         dispatch(setComments(comments.filter(c => c.id !== id)))
+        dispatch(setTotalCount(commentsTotalCount - 1))
     }
 
     const updateChapter = async (chapter) => {
@@ -239,7 +226,7 @@ const CoursePage = () => {
     }
 
     useEffect(() => {
-        getCourse(id)
+        dispatch(getCourse(id))
         getCurrentUser()
         return () => {
             dispatch(clearCourse())
@@ -250,8 +237,8 @@ const CoursePage = () => {
     }, [])
 
     useEffect(() => {
-        getComments(id)
-    }, [page])
+        dispatch(getComments(id))
+    }, [commentsParams.page])
 
     useEffect( () => {
         getStudents(id)
@@ -262,12 +249,12 @@ const CoursePage = () => {
     }, [chapterPage])
 
     const changePage = (page) => {
-        setPage(page)
+        dispatch(setCommentsParams({...params, page: page}))
     }
 
     return (
         <div className="main">
-            {courseError && navigate('/404')}
+            {/*{courseError && navigate('/404')}*/}
             {!isCourseLoading
                 ? <div className="course__page">
                     <div className="card">
@@ -442,10 +429,10 @@ const CoursePage = () => {
                     }
                     {comments.length > 0 &&
                         <div>
-                            <h4>{totalCount} comments :</h4>
+                            <h4>{commentsTotalCount} comments :</h4>
                             {comments.length > 0 &&
                                 <div>
-                                    <MyPagination page={page} pageSize={params.take} pageCount={comments.length} totalCount={totalCount}
+                                    <MyPagination page={commentsParams.page} pageSize={commentsParams.take} pageCount={comments.length} totalCount={commentsTotalCount}
                                                   changePage={changePage}/>
                                     <CommentList
                                         comments={comments}
@@ -454,7 +441,7 @@ const CoursePage = () => {
                                         userId={currentUser.id}
                                         isAdmin={isAdmin}
                                     />
-                                    <MyPagination page={page} pageSize={params.take} pageCount={comments.length} totalCount={totalCount}
+                                    <MyPagination page={commentsParams.page} pageSize={commentsParams.take} pageCount={comments.length} totalCount={commentsTotalCount}
                                                   changePage={changePage}/>
                                 </div>
                             }

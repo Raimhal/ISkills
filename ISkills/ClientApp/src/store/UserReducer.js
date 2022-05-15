@@ -1,6 +1,8 @@
 import defaultUserImage from "../assets/images/defaultUserImage.png";
 import UserService from "../API/UserService";
 import {responseHandler} from "./ResponseHandler";
+import {useFetching} from "../hooks/useFetching";
+import jwt_decode from "jwt-decode";
 
 
 const defaultState = {
@@ -23,6 +25,7 @@ const defaultState = {
         skip: 0,
         take: 10,
         reverse: false,
+        courseId: null
     },
     sortList: [
         {name: 'Email', value: 'email'},
@@ -32,7 +35,7 @@ const defaultState = {
         {name: 'Rating', value: 'rating'},
     ],
     isLoading: false,
-    error: ''
+    error: null
 }
 
 const SET_TOKENS = "LOGIN_USER"
@@ -107,6 +110,24 @@ export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
 
 
+export const login = (navigate) => async (dispatch, getState) => {
+    const state = getState().user
+    const user = state.user
+
+    await responseHandler(dispatch, async () => {
+        const data = await UserService.Login(user)
+        const decode = jwt_decode(data.jwtToken)
+        const isAdmin = decode["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "Admin"
+        localStorage.setItem('currentUser', JSON.stringify(data))
+        localStorage.setItem('isAuth', true)
+        localStorage.setItem('isAdmin', isAdmin)
+        dispatch(setIsAuth(true))
+        dispatch(setUser(data))
+        dispatch(setIsAdmin(isAdmin))
+        navigate('/courses')
+    }, setError, setLoading)
+}
+
 export const getCurrentUser = () => async (dispatch) => {
     await responseHandler(dispatch, async () => {
         const currentUser = await UserService.getCurrentUser()
@@ -132,6 +153,17 @@ export const getUsers = () => async (dispatch, getState) => {
         dispatch(setTotalCount(+totalCount))
     }, setError, setLoading)
 };
+
+export const createUser = (navigate = null) => async (dispatch, getState) => {
+    const state = getState().user
+    const user = state.user
+
+    await responseHandler(dispatch, async () => {
+        const userId = await UserService.Create(user)
+        dispatch(setUser({...user, id: userId}))
+        navigate('/login')
+    }, setError, setLoading)
+}
 
 export const removeUser = id => async (dispatch, getState) => {
     const state = getState().user
@@ -174,6 +206,5 @@ export const updateImage = () => async (dispatch, getState) => {
         users[index] = {...users[index], imageUrl: url}
         dispatch(setUsers(users))
     }, setError, setLoading)
-
 }
 

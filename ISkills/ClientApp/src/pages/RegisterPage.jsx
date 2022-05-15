@@ -2,22 +2,13 @@ import React from 'react';
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import UserService from "../API/UserService";
-import {setUser} from "../store/UserReducer";
+import {createUser, setUser} from "../store/UserReducer";
 import RegistrationForm from "../components/user/RegistrationForm";
 
 const RegisterPage = () => {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-
-    const createUser = async (user) => {
-        const userId = await UserService.Create(user)
-        dispatch(setUser({...user, id: userId}))
-        navigate('/login')
-    }
-
     return (
         <div className="center">
-            <RegistrationForm action={createUser}  submitTitle="Sign up" title="Registration" className="form register"/>
+            <RegistrationForm action={createUser} submitTitle="Sign up" title="Registration" className="form register"/>
         </div>
     );
 };

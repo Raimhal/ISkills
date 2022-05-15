@@ -9,14 +9,17 @@ import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "../../store/UserReducer";
 import MyAlert from "../UI/alert/MyAlert";
+import {useNavigate} from "react-router-dom";
 
 const RegistrationForm = ({action, title = null, submitTitle, ...props}) => {
     const dispatch = useDispatch()
     const currentUser = useSelector(state => state.user.user)
+    const error = useSelector(state => state.user.error)
+    const navigate = useNavigate()
 
-    const [userAction, isLoading, error] = useFetching( async () => {
-        await action(currentUser)
-    })
+    const userAction = () => {
+        dispatch(action(navigate))
+    }
 
     const schema = yup.object({
         userName: yup

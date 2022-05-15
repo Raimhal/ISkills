@@ -29,4 +29,9 @@ export  default class ThemeService {
         const path = `/themes/${id}`
         await EntityService.Update(path, data, config)
     }
+
+    static async Delete(id) {
+        const path = `/themes/${id}`
+        await EntityService.Delete(path)
+    }
 }

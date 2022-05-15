@@ -7,10 +7,6 @@
     font-weight: 300 !important;
 }
 
-html {
-    overflow-y: scroll;
-}
-
 #root{
     display: flex;
     flex-direction: column;
@@ -116,10 +112,15 @@ html {
     cursor: pointer;
     color: inherit;
     font-size: inherit !important;
+    line-height: 1 !important;
 }
 
 button {
     font-size: 0.8em !important;
+}
+
+.title {
+    margin-top: 1rem;
 }
 
 

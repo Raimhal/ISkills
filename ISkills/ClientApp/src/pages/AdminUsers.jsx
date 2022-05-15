@@ -23,6 +23,7 @@ const AdminUsers = () => {
     const dispatch = useDispatch()
     const [modal, setModal] = useState(false)
     const [imageModal, setImageModal] = useState(false)
+    const error = useSelector(state => state.user.error)
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -37,7 +38,7 @@ const AdminUsers = () => {
             <AdminNavbar/>
             {/*{!isLoading &&*/}
                 <div className="wide main">
-                    <h2>Users</h2>
+                    <h2 className="title">Users</h2>
                     <SortAndSearch
                         params={params}
                         onParamsChange={value => dispatch(setParams(value))}

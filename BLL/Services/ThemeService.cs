@@ -19,15 +19,18 @@ namespace BLL.Services
     {
         private readonly IThemeDbContext _themeDbContext;
         private readonly ICategoryDbContext _categoryDbContext;
+        private readonly ICourseDbContext _courseDbContext;
         private readonly IMapper _mapper;
+        private readonly int defaultThemeId = 1;
 
-        public ThemeService(IThemeDbContext themeDbContext, ICategoryDbContext categoryContext, IMapper mapper) =>
-            (_themeDbContext, _categoryDbContext, _mapper) = (themeDbContext, categoryContext, mapper);
+        public ThemeService(IThemeDbContext themeDbContext, ICategoryDbContext categoryContext,
+            ICourseDbContext courseDbContext, IMapper mapper) =>
+            (_themeDbContext, _categoryDbContext, _courseDbContext,_mapper) 
+            = (themeDbContext, categoryContext, courseDbContext, mapper);
 
         private readonly List<Expression<Func<Theme, dynamic>>> includes = new ()
         {
             x => x.Category,
-            x => x.Courses
         };
 
         public async Task<Theme> GetByIdAsync(int id, CancellationToken cancellationToken)
@@ -99,7 +102,17 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(int id, CancellationToken cancellationToken)
         {
-            await _themeDbContext.Themes.DeleteByAsync(_mapper, u => u.Id == id, cancellationToken);
+            if (id == defaultThemeId)
+                return;
+            var theme = await _themeDbContext.Themes.GetAsync(_mapper, u => u.Id == id, new() { x => x.Courses},cancellationToken);
+
+            foreach (var course in theme.Courses)
+                course.ThemeId = defaultThemeId;
+
+            await _courseDbContext.SaveChangesAsync(cancellationToken);
+
+            _themeDbContext.Themes.Remove(theme);
+
             await _themeDbContext.SaveChangesAsync(cancellationToken);
         }
 

@@ -22,6 +22,7 @@ export  default class ChapterService {
 
     static async Update(id, data, config = {}) {
         const path = `/chapters/${id}`
+        console.log(data)
         await EntityService.Update(path, data, config)
     }
 

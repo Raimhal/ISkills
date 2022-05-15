@@ -1,8 +1,8 @@
 import defaultCourseImage from '../assets/images/defaultCourseImage.png'
-import {useDispatch, useSelector} from "react-redux";
-import {useFetching} from "../hooks/useFetching";
 import CourseService from "../API/CourseService";
 import {responseHandler} from "./ResponseHandler";
+import UserService from "../API/UserService";
+import {setUser} from "./UserReducer";
 
 const defaultState = {
     course : {
@@ -97,6 +97,13 @@ export const clearLoading = () => ({type: CLEAR_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
 
+export const getCourse = (id) => async (dispatch) => {
+    await responseHandler(dispatch, async () => {
+        const course = await CourseService.GetCourse(id)
+        dispatch(setCourse(course))
+    }, setError, setLoading)
+};
+
 export const getCourses = () => async (dispatch, getState) => {
     const params = getState().course.params
 
@@ -107,6 +114,13 @@ export const getCourses = () => async (dispatch, getState) => {
             ...params,
             skip: (params.page - 1) * params.take,
         }
+
+        if(newParams.creatorId == null)
+            delete newParams.creatorId
+
+        if(newParams.themeId == null)
+            delete newParams.themeId
+
         const [totalCount, newCourses] = await CourseService.GetCourses({
             params: newParams
         })

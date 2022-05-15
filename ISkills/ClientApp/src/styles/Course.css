@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 5px 8px;
+    /*padding: 5px 8px;*/
     cursor: pointer;
 }
 
@@ -36,7 +36,6 @@
 }
 
 .courses {
-    padding: 15px;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -82,7 +81,6 @@
 
 .course__page > div.card > div.body {
     width: fit-content;
-
 }
 
 .language {

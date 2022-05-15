@@ -13,10 +13,9 @@ import MyAlert from "../UI/alert/MyAlert";
 const UserForm = ({action, title = null, submitTitle, ...props}) => {
     const dispatch = useDispatch()
     const currentUser = useSelector(state => state.user.user)
+    const error = useSelector(state => state.user.error)
 
-    const [userAction, isLoading, error] = useFetching( async () => {
-        await action(currentUser)
-    })
+    const userAction = async () => await action()
 
     const schema = yup.object({
         userName: yup

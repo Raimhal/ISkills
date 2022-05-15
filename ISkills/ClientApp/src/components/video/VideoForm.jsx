@@ -16,7 +16,7 @@ import MyAlert from "../UI/alert/MyAlert";
 import MyFormikAlert from "../UI/alert/MyFormikAlert";
 import MyUpload from "../UI/Upload/MyUpload";
 
-const VideoForm = ({action, title, submitTitle, setVisible, ...props}) => {
+const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, ...props}) => {
     const dispatch = useDispatch()
     const video = useSelector(state => state.video.video)
     const chapters = useSelector(state => state.chapter.chapters)
@@ -55,19 +55,24 @@ const VideoForm = ({action, title, submitTitle, setVisible, ...props}) => {
                 error={formik.touched.title && Boolean(formik.errors.title)}
                 helperText={formik.touched.title && formik.errors.title}
             />
-            <MySelect
-                name="chapterId"
-                value={formik.values.chapterId}
-                onChange={value => {
-                    formik.setFieldValue("chapterId", value)
-                    dispatch(setVideo({...video, chapterId: value}))
-                }}
-                onBlur={() => formik.setTouched({...formik.touched, chapterId: true})}
-                defaultValue="Chapter"
-                options={chapters.map(c => ({name: c.title, value: c.id}))}
-                error={formik.touched.chapterId && Boolean(formik.errors.chapterId)}
-            />
-            <MyFormikAlert condition={formik.touched.chapterId && Boolean(formik.errors.chapterId)} item={formik.errors.chapterId}/>
+            {!isModified &&
+            <>
+                <MySelect
+                    name="chapterId"
+                    value={formik.values.chapterId}
+                    onChange={value => {
+                        formik.setFieldValue("chapterId", value)
+                        dispatch(setVideo({...video, chapterId: value}))
+                    }}
+                    onBlur={() => formik.setTouched({...formik.touched, chapterId: true})}
+                    defaultValue="Chapter"
+                    options={chapters.map(c => ({name: c.title, value: c.id}))}
+                    error={formik.touched.chapterId && Boolean(formik.errors.chapterId)}
+                />
+                <MyFormikAlert condition={formik.touched.chapterId && Boolean(formik.errors.chapterId)}
+                               item={formik.errors.chapterId}/>
+            </>
+            }
             <input
                 type="file"
                 name="file"

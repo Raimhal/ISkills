@@ -28,4 +28,9 @@ export  default class CategoryService {
         const path = `/categories/${id}`
         await EntityService.Update(path, data, config)
     }
+
+    static async Delete(id) {
+        const path = `/categories/${id}`
+        await EntityService.Delete(path)
+    }
 }

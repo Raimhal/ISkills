@@ -43,22 +43,6 @@ const AccountPage = () => {
                                 onClick={() => setModal(true)}
                             />
                             </Tooltip>
-                            {/*<Tooltip title="Update image" placement="bottom">*/}
-                            {/*    <IconButton*/}
-                            {/*        aria-label="update image"*/}
-                            {/*        onClick={() => setModal(true)}*/}
-                            {/*        sx={{*/}
-                            {/*            position: "absolute",*/}
-                            {/*            bottom: "2%",*/}
-                            {/*            right: "50%",*/}
-                            {/*            transform: "translateX(50%)",*/}
-                            {/*            zIndex: 10,*/}
-                            {/*            backgroundColor: "revert",*/}
-                            {/*        }}*/}
-                            {/*    >*/}
-                            {/*        <CameraAltOutlinedIcon />*/}
-                            {/*    </IconButton>*/}
-                            {/*</Tooltip>*/}
                         </div>
                         {modal && <MyModal visible={modal} setVisible={setModal}>
                             <ImageUpload
@@ -77,8 +61,7 @@ const AccountPage = () => {
                     <div>
                         <UserForm action={() => {
                             dispatch(updateUser())
-                            setModal(false)
-                        }} title="Update" submitTitle="Save"/>
+                        }} submitTitle="Save"/>
                     </div>
                 </div>
             }

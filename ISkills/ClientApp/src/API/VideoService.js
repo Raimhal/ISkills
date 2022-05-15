@@ -27,10 +27,12 @@ export  default class VideoService {
     static async Update(video, config = {}) {
         const path = `/videos/${video.id}`
         const formData = new FormData()
+        console.log(video)
         formData.append("file", video.file, video.file.name)
         formData.append("title", video.title)
         formData.append("chapterId", video.chapterId)
         await EntityService.Update(path, formData, config)
+        console.log('response')
     }
 
     static async Delete(id) {

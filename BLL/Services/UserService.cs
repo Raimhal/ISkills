@@ -90,9 +90,10 @@ namespace BLL.Services
         {
             if (await _userContext.Users.SingleOrDefaultAsync(u =>
                  u.Email == model.Email, cancellationToken) != null)
-                throw new InvalidCastException($"User with this email ({model.Email}) already exists");
+                throw new ConflictException($"User with this email ({model.Email}) already exists");
 
             var user = _mapper.Map<User>(model);
+
             user.Id = Guid.NewGuid();
 
             var role = await _roleContext.Roles

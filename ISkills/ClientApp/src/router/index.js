@@ -28,12 +28,12 @@ const privateRoutes = [
 ]
 
 const adminRoutes = [
-    {path: '/admin/courses', component: <AdminCourses />, title: 'Courses'},
     {path: '/admin/users', component: <AdminUsers />, title: 'Users'},
-    {path: '/admin/file-types', component: <AdminFileTypes />, title: 'FileTypes'},
     {path: '/admin/comments', component: <AdminComments />, title: 'Comments'},
+    {path: '/admin/courses', component: <AdminCourses />, title: 'Courses'},
     {path: '/admin/chapters', component: <AdminChapters />, title: 'Chapters'},
     {path: '/admin/videos', component: <AdminVideos />, title: 'Videos'},
+    {path: '/admin/file-types', component: <AdminFileTypes />, title: 'FileTypes'},
     {path: '/admin/themes', component: <AdminThemes />, title: 'Themes'},
     {path: '/admin/categories', component: <AdminCategories />, title: 'Categories'},
 ]

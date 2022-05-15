@@ -4,8 +4,8 @@ import UserService from "../API/UserService";
 import MyInput from "../components/UI/input/MyInput";
 import MyButton from "../components/UI/button/MyButton";
 import {useDispatch, useSelector} from "react-redux";
-import {loginAction, setIsAdmin, setIsAuth, setUser} from "../store/UserReducer";
-import {useNavigate} from "react-router-dom";
+import {login, loginAction, setIsAdmin, setIsAuth, setUser} from "../store/UserReducer";
+import {useLocation, useNavigate} from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import {useFormik} from "formik";
 import * as yup from 'yup';
@@ -17,23 +17,13 @@ import MyAlert from "../components/UI/alert/MyAlert";
 
 const LoginPage = () => {
     const navigate = useNavigate()
+    console.log(history)
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.user)
+    const error = useSelector(state => state.user.error)
 
-    const [login, isLoginLoading, error] = useFetching(async () => {
+    const loginAction = async () => await dispatch(login(navigate))
 
-        const data = await UserService.Login(user)
-        const decode = jwt_decode(data.jwtToken)
-        const isAdmin = decode["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "Admin"
-        console.log(isAdmin)
-        localStorage.setItem('currentUser', JSON.stringify(data))
-        localStorage.setItem('isAuth', true)
-        localStorage.setItem('isAdmin', isAdmin)
-        dispatch(setIsAuth(true))
-        dispatch(setUser(data))
-        dispatch(setIsAdmin(isAdmin))
-        navigate('/courses')
-    })
 
     const schema = yup.object({
         email: yup
@@ -50,7 +40,7 @@ const LoginPage = () => {
     const formik = useFormik({
         initialValues: user,
         validationSchema: schema,
-        onSubmit: login
+        onSubmit: loginAction
     })
 
     return (

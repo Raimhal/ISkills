@@ -1,11 +1,15 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import MyTable from "../components/UI/table/MyTable";
 import MyPagination from "../components/UI/pagination/MyPagination";
 import SortAndSearch from "../components/UI/sortAndSearch/SortAndSearch";
-import {setParams} from "../store/ThemeReducer";
-import {GetThemes} from "../functions/Theme";
+import {createTheme, getThemes, removeTheme, setParams, setTheme, updateTheme} from "../store/ThemeReducer";
 import AdminNavbar from "../components/UI/navbar/AdminNavbar";
+import MyModal from "../components/UI/MyModal/MyModal";
+import ThemeForm from "../components/theme/ThemeForm";
+import {Tooltip} from "@material-ui/core";
+import {IconButton} from "@mui/material";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 const AdminThemes = () => {
     const themes = useSelector(state => state.theme.themes)
@@ -13,34 +17,64 @@ const AdminThemes = () => {
     const sortList = useSelector(state => state.theme.sortList)
     const totalCount = useSelector(state => state.theme.totalCount)
     const dispatch = useDispatch()
+    const [createModal, setCreateModal] = useState(false)
+    const [updateModal, setUpdateModal] = useState(false)
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
     }
 
-    const [getThemes, isLoading, error] = GetThemes();
-
     useEffect( () =>{
-        getThemes()
+        dispatch(getThemes())
     }, [params.page, params.sortOption, params.reverse])
 
     return (
         <div>
             <AdminNavbar/>
-            {!isLoading &&
+            {/*{!isLoading &&*/}
                 <div className="wide main">
-                    <h2>Themes</h2>
+                    <div style={{display: "flex", justifyContent: "space-between"}} className="title">
+                        <h2>Themes</h2>
+                        <Tooltip title="Add file type" placement="bottom">
+                            <IconButton aria-label="add file type" onClick={() => setCreateModal(true)}>
+                                <AddBoxIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </div>
                     <SortAndSearch
                         params={params}
                         onParamsChange={value => dispatch(setParams(value))}
                         action={getThemes}
                         sortList={sortList}
                     />
-                    <MyTable items={themes}/>
+                    <MyTable
+                        items={themes}
+                        remove={removeTheme}
+                        updateClick={(theme) => {
+                            dispatch(setTheme(theme))
+                            setUpdateModal(true)
+                        }}
+                    />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={themes.length}
                     totalCount={totalCount} changePage={changePage}/>
+                    {createModal &&
+                    <MyModal visible={createModal} setVisible={setCreateModal}>
+                        <ThemeForm action={() => {
+                            dispatch(createTheme())
+                            setCreateModal(false)
+                        }} title="Add"/>
+                    </MyModal>
+                    }
+                    {updateModal &&
+                    <MyModal visible={updateModal} setVisible={setUpdateModal}>
+                        <ThemeForm action={() => {
+                            dispatch(updateTheme())
+                            setUpdateModal(false)
+                        }} title="Save"/>
+                    </MyModal>
+                    }
                 </div>
-            }
+            {/*}*/}
         </div>
     );
 };
