@@ -3,9 +3,12 @@ import EntityService from "./EntityService";
 
 export  default class UserService {
     static async GetUsers(config = {}) {
+        console.log('request')
+        console.log(config)
         const response = await EntityService.Get('/users', config)
         const users = response.data
         const totalCount = response.headers['x-total-count']
+        console.log(users)
         return [totalCount, users]
     }
 

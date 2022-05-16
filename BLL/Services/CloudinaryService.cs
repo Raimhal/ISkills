@@ -1,4 +1,5 @@
 ﻿using BLL.Interfaces;
+using BLL.Validation.Exceptions;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Http;
@@ -64,7 +65,7 @@ namespace BLL.Services
             where T : RawUploadParams
         {
             if (!await _fileService.IsValidFile(file))
-                throw new FormatException("Too large file");
+                throw new ConflictException("Too large file");
 
             var stream = file.OpenReadStream();
             var uploadParams = (T)Activator.CreateInstance(typeof(T));

@@ -19,21 +19,21 @@ const defaultState = {
         {name: 'Size', value: 'fileSize'},
     ],
     isLoading: false,
-    error: ''
+    error: null
 }
 
 const SET_TYPES = "SET_TYPES"
 const CLEAR_TYPES = "CLEAR_TYPES"
 const SET_TYPE = "SET_TYPE"
 const CLEAR_TYPE = "CLEAR_TYPE"
-const SET_PARAMS = "SET_PARAMS"
-const CLEAR_PARAMS = "CLEAR_PARAMS"
-const SET_TOTAL_COUNT = "SET_TOTAL_COUNT"
-const CLEAR_TOTAL_COUNT = "CLEAR_TOTAL_COUNT"
-const SET_LOADING = "SET_LOADING"
-const CLEAR_LOADING = "CLEAR_LOADING"
-const SET_ERROR = "SET_ERROR"
-const CLEAR_ERROR = "CLEAR_ERROR"
+const SET_PARAMS = "SET_TYPE_PARAMS"
+const CLEAR_PARAMS = "CLEAR_TYPE_PARAMS"
+const SET_TOTAL_COUNT = "SET_TYPE_TOTAL_COUNT"
+const CLEAR_TOTAL_COUNT = "CLEAR_TYPE_TOTAL_COUNT"
+const SET_LOADING = "SET_TYPE_LOADING"
+const CLEAR_LOADING = "CLEAR_TYPE_LOADING"
+const SET_ERROR = "SET_TYPE_ERROR"
+const CLEAR_ERROR = "CLEAR_TYPE_ERROR"
 
 
 export const FileReducer = (state = defaultState, action) => {
@@ -100,13 +100,14 @@ export const getFileTypes = () => async (dispatch, getState) => {
     }, setError, setLoading)
 };
 
-export const createType = () => async (dispatch, getState) => {
+export const createType = (setModal = null) => async (dispatch, getState) => {
     const state = getState().file
     const type = state.type
 
     await responseHandler(dispatch, async () => {
         const typeId = await FileService.Create(type)
         dispatch(setFileType({...type, id: typeId}))
+        setModal && setModal(false)
     }, setError, setLoading)
 }
 
@@ -123,7 +124,7 @@ export const removeType = id => async (dispatch, getState) => {
 
 }
 
-export const updateType = () => async (dispatch, getState)  => {
+export const updateType = (setModal = null) => async (dispatch, getState)  => {
     const state = getState().file
     const type = state.type
     const types = state.types
@@ -132,5 +133,6 @@ export const updateType = () => async (dispatch, getState)  => {
         await FileService.Update(type.id, type)
         types[index] = type
         dispatch(setFileTypes([...types]))
+        setModal && setModal(false)
     }, setError, setLoading)
 }

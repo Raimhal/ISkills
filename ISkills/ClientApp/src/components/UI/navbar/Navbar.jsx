@@ -3,11 +3,9 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import classes from "./Navbar.module.css"
 import {useDispatch, useSelector} from "react-redux";
 import {logoutUser} from "../../../store/UserReducer";
-import MyButton from "../button/MyButton";
 import MyModal from "../MyModal/MyModal";
 import CourseForm from "../../course/CourseForm";
-import CourseService from "../../../API/CourseService";
-import {clearParams, getCourses, setCourses, setTotalCount} from "../../../store/CourseReducer";
+import {clearParams, createCourse, getCourses} from "../../../store/CourseReducer";
 import NestedMenu from "../NestedMenu/NestedMenu";
 import {Fab} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
@@ -15,6 +13,7 @@ import {colorTheme} from "../themes";
 import {ThemeProvider} from "@emotion/react";
 import {Tooltip} from "@material-ui/core";
 import AdminMenu from "../NestedMenu/AdminMenu";
+
 const Navbar = () => {
     const isAuth = useSelector(state => state.user.isAuth)
     const isAdmin = useSelector(state => state.user.isAdmin)
@@ -23,17 +22,6 @@ const Navbar = () => {
     const location = useLocation()
 
     const isCreateCourse = new RegExp(/^\/courses\/([\w\d-]+)/).test(location.pathname)
-    // const userId = useState(state => state.user?.user?.userId)
-    const courses = useSelector(state => state.course.courses)
-    const totalCount = useSelector(state => state.course.totalCount)
-
-    const createCourse = async (course) => {
-        const courseId = await CourseService.Create(course)
-        dispatch(setCourses([...courses, {...course, id: courseId, rating: 0}]))
-        setModal(false)
-        dispatch(setTotalCount(+totalCount + 1))
-        navigate(`/courses/${courseId}`)
-    }
 
     const [modal, setModal] = useState(false)
     return (
@@ -53,7 +41,9 @@ const Navbar = () => {
                 </ThemeProvider>
                 }
                 {modal && <MyModal visible={modal} setVisible={setModal}>
-                    <CourseForm action={createCourse} title="Create"/>
+                    <CourseForm action={async () => {
+                        await dispatch(createCourse(setModal, navigate))
+                    }} title="Create"/>
                 </MyModal>
                 }
                 <NestedMenu label="Categories" className={classes.navbar__link}/>

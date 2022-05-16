@@ -36,7 +36,6 @@ namespace BLL.Services
 
         private readonly List<Expression<Func<User, dynamic>>> includes = new ()
         {
-            x => x.Courses
         };
 
         public async Task<PaginationList<UserDto>> GetList(int skip, int take,

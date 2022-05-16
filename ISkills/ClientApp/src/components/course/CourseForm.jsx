@@ -10,17 +10,20 @@ import CategoryService from "../../API/CategoryService";
 import {useFetching} from "../../hooks/useFetching";
 import CourseService from "../../API/CourseService";
 import ThemeService from "../../API/ThemeService";
-import {setCategories} from "../../store/CategoryReducer";
-import {setThemes} from "../../store/ThemeReducer";
+import {getAllCategories, setCategories} from "../../store/CategoryReducer";
+import {getAllThemes, getThemes, setThemes} from "../../store/ThemeReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
 import {setVideo} from "../../store/VideoReducer";
 import MyFormikAlert from "../UI/alert/MyFormikAlert";
 import {setChapter} from "../../store/ChapterReducer";
+import MyAlert from "../UI/alert/MyAlert";
 
 const CourseForm = ({action, title, ...props}) => {
     const course = useSelector(state => state.course.course)
     const dispatch = useDispatch()
+    const error = useSelector(state => state.course.error)
+
     const languages = [
         {name: "English", value: "english"},
         {name: "Russian", value: "russian"},
@@ -30,30 +33,15 @@ const CourseForm = ({action, title, ...props}) => {
     const themes = useSelector(state => state.theme.themes)
     const categories = useSelector(state => state.category.categories)
 
-    const [courseAction, isLoading, error] = useFetching( async () => {
-        await action(course)
-    })
-
-    const [getThemes, isThemesLoading, themesError] = useFetching(async (id) =>{
-        const themes = await ThemeService.GetThemesAll({
-            params: {
-                categoryId: id
-            }
-        })
-        dispatch(setThemes(themes))
-    })
-
-    const [getCategories, isCategoriesLoading, categoriesError] = useFetching(async () =>{
-        const categories = await CategoryService.GetCategoriesAll()
-        dispatch(setCategories(categories))
-    })
+    const courseAction = async () => await action(course)
 
     useEffect(() => {
-        getCategories()
+        dispatch(getAllCategories())
     }, [])
 
     useEffect(() => {
-        getThemes(course.categoryId)
+        console.log('get themes')
+        dispatch(getAllThemes(course.categoryId))
     }, [course.categoryId])
 
     const schema = yup.object({
@@ -183,8 +171,7 @@ const CourseForm = ({action, title, ...props}) => {
                     error={formik.touched.categoryId && Boolean(formik.errors.categoryId)}
                 />
                 <MyFormikAlert condition={formik.touched.categoryId && Boolean(formik.errors.categoryId)} item={formik.errors.categoryId}/>
-
-                {course.categoryId !== '' && <div style={{display: "flex", flexDirection: "column"}}>
+                {course.categoryId !== undefined && course.categoryId !== null && <div style={{display: "flex", flexDirection: "column"}}>
                     <MySelect
                         name="themeId"
                         value={formik.values.themeId}
@@ -219,10 +206,8 @@ const CourseForm = ({action, title, ...props}) => {
                 />
                 }
             </div>
+            <MyAlert item={error}/>
             <MyButton type="submit" onClick={() => {
-                // console.log(formik)
-                // console.log(Object.keys(formik.errors).length === 0)
-                // console.log(formik.dirty)
             }}>{title}</MyButton>
         </form>
     );

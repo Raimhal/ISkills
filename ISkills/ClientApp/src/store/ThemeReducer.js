@@ -1,6 +1,6 @@
 import {responseHandler} from "./ResponseHandler";
 import ThemeService from "../API/ThemeService";
-
+import {setCategories} from "./CategoryReducer";
 
 
 const defaultState = {
@@ -23,21 +23,21 @@ const defaultState = {
     ],
     themes : [],
     isLoading: false,
-    error: ''
+    error: null
 }
 
 const SET_THEME = "SET_THEME"
 const CLEAR_THEME = "CLEAR_THEME"
 const SET_THEMES = "SET_THEMES"
 const CLEAR_THEMES = "CLEAR_THEMES"
-const SET_PARAMS = "SET_PARAMS"
-const CLEAR_PARAMS = "CLEAR_PARAMS"
-const SET_TOTAL_COUNT = "SET_TOTAL_COUNT"
-const CLEAR_TOTAL_COUNT = "CLEAR_TOTAL_COUNT"
-const SET_LOADING = "SET_LOADING"
-const CLEAR_LOADING = "CLEAR_LOADING"
-const SET_ERROR = "SET_ERROR"
-const CLEAR_ERROR = "CLEAR_ERROR"
+const SET_PARAMS = "SET_THEME_PARAMS"
+const CLEAR_PARAMS = "CLEAR_THEME_PARAMS"
+const SET_TOTAL_COUNT = "SET_THEME_TOTAL_COUNT"
+const CLEAR_TOTAL_COUNT = "CLEAR_THEME_TOTAL_COUNT"
+const SET_LOADING = "SET_THEME_LOADING"
+const CLEAR_LOADING = "CLEAR_THEME_LOADING"
+const SET_ERROR = "SET_THEME_ERROR"
+const CLEAR_ERROR = "CLEAR_THEME_ERROR"
 
 export const ThemeReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -83,16 +83,29 @@ export const clearLoading = () => ({type: CLEAR_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
 
-export const getAllThemes = () => async (dispatch, getState) => {
-    const params = getState().category.params
-    const newParams = {...params}
+export const getAllThemes = (categoryId = null) => async (dispatch, getState) => {
+    const params = getState().theme.params
+    const categories = getState().category.categories
 
-    delete newParams.skip
-    delete newParams.take
+    await responseHandler(dispatch, async () => {
+        if (params.query === '')
+            delete params.query
+        const newParams = {
+            ...params,
+            categoryId: categoryId
+        }
 
-    dispatch(setParams(newParams))
+        const index = categories.findIndex(x => x.id === categoryId)
 
-    await getThemes()
+        const themes = await ThemeService.GetThemesAll({
+            params: newParams
+        })
+
+        dispatch(setParams(newParams))
+        dispatch(setThemes(themes))
+        categories[index].themes = [...themes]
+        dispatch(setCategories([...categories]))
+    }, setError, setLoading)
 };
 
 export const getThemes = (categoryId = null) => async (dispatch, getState) => {
@@ -110,13 +123,14 @@ export const getThemes = (categoryId = null) => async (dispatch, getState) => {
         const [totalCount, newThemes] = await ThemeService.GetThemes({
             params: newParams
         })
+        console.log(newThemes)
         dispatch(setParams(newParams))
         dispatch(setThemes(newThemes))
         dispatch(setTotalCount(+totalCount))
     }, setError, setLoading)
 };
 
-export const createTheme = () => async (dispatch, getState) => {
+export const createTheme = (setModal = null) => async (dispatch, getState) => {
     const state = getState().theme
     const theme = state.theme
     const themes= state.themes
@@ -125,6 +139,7 @@ export const createTheme = () => async (dispatch, getState) => {
         const themeId = await ThemeService.Create(theme)
         dispatch(setTheme({...theme, id: themeId}))
         dispatch(setThemes([...themes, theme]))
+        setModal && setModal(false)
     }, setError, setLoading)
 }
 
@@ -141,7 +156,7 @@ export const removeTheme = id => async (dispatch, getState) => {
 
 }
 
-export const updateTheme = () => async (dispatch, getState)  => {
+export const updateTheme = (setModal = null) => async (dispatch, getState)  => {
     const state = getState().theme
     const theme = state.theme
     const themes = state.themes
@@ -151,5 +166,6 @@ export const updateTheme = () => async (dispatch, getState)  => {
         await ThemeService.Update(theme.id, theme)
         themes[index] = theme
         dispatch(setThemes([...themes]))
+        setModal && setModal(false)
     }, setError, setLoading)
 }

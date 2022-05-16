@@ -33,11 +33,6 @@ namespace BLL.Services
             => (_courseDbContext, _userContext, _themeContext, _fileService, _cloudinaryService, _mapper)
             = (courseDbContext, userContext, themeContext, fileService, cloudinaryService, mapper);
 
-        private readonly List<Expression<Func<Course, dynamic>>> includes = new()
-        {
-            x => x.Theme
-        };
-
         public async Task<PaginationList<CourseDto>> GetList(int skip, int take, string query,
             string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
         {
@@ -114,7 +109,7 @@ namespace BLL.Services
             => await _courseDbContext.Courses.GetAsync(
                 _mapper,
                 x => x.Id == id,
-                includes,
+                new() { x => x.Theme, x => x.Students },
                 cancellationToken);
 
         public async Task<Guid> CreateAsync(CreateCourseDto model, CancellationToken cancellationToken)
@@ -214,11 +209,6 @@ namespace BLL.Services
 
             _courseDbContext.Courses.Update(course);
             await _courseDbContext.SaveChangesAsync(cancellationToken);
-        }
-
-        public Task<List<CourseDto>> GetListAll(string query, string sortOption, bool reverse, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
         }
     }
 }

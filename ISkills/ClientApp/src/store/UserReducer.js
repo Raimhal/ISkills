@@ -1,8 +1,8 @@
 import defaultUserImage from "../assets/images/defaultUserImage.png";
 import UserService from "../API/UserService";
 import {responseHandler} from "./ResponseHandler";
-import {useFetching} from "../hooks/useFetching";
 import jwt_decode from "jwt-decode";
+import CourseService from "../API/CourseService";
 
 
 const defaultState = {
@@ -46,14 +46,14 @@ const SET_USER = "SET_USER"
 const CLEAR_USER = "CLEAR_USER"
 const SET_IS_ADMIN  = "SET_IS_ADMIN"
 const LOGOUT = "LOGOUT"
-const SET_PARAMS = "SET_PARAMS"
-const CLEAR_PARAMS = "CLEAR_PARAMS"
-const SET_TOTAL_COUNT = "SET_TOTAL_COUNT"
-const CLEAR_TOTAL_COUNT = "CLEAR_TOTAL_COUNT"
-const SET_LOADING = "SET_LOADING"
-const CLEAR_LOADING = "CLEAR_LOADING"
-const SET_ERROR = "SET_ERROR"
-const CLEAR_ERROR = "CLEAR_ERROR"
+const SET_PARAMS = "SET_USER_PARAMS"
+const CLEAR_PARAMS = "CLEAR_USER_PARAMS"
+const SET_TOTAL_COUNT = "SET_USER_TOTAL_COUNT"
+const CLEAR_TOTAL_COUNT = "CLEAR_USER_TOTAL_COUNT"
+const SET_LOADING = "SET_USER_LOADING"
+const CLEAR_LOADING = "CLEAR_USER_LOADING"
+const SET_ERROR = "SET_USER_ERROR"
+const CLEAR_ERROR = "CLEAR_USER_ERROR"
 
 export const UserReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -128,6 +128,26 @@ export const login = (navigate) => async (dispatch, getState) => {
     }, setError, setLoading)
 }
 
+export const assignUser = (navigate = null) => async (dispatch, getState) => {
+    const students = getState().user.users
+    const currentUser = getState().user.user
+    const course = getState().course.course
+    const isAuth = getState().user.isAuth
+
+    if(!isAuth){
+        navigate('/login')
+        return
+    }
+
+
+    await responseHandler(dispatch, async () => {
+        await CourseService.ToggleAssignment(course.id)
+        console.log(currentUser)
+        dispatch(setUsers([...students, currentUser]))
+        dispatch(setUser({...currentUser, courses: [...currentUser.courses, course]}))
+    }, setError, setLoading)
+}
+
 export const getCurrentUser = () => async (dispatch) => {
     await responseHandler(dispatch, async () => {
         const currentUser = await UserService.getCurrentUser()
@@ -135,7 +155,7 @@ export const getCurrentUser = () => async (dispatch) => {
     }, setError, setLoading)
 };
 
-export const getUsers = () => async (dispatch, getState) => {
+export const getUsers = (courseId = null) => async (dispatch, getState) => {
     const params = getState().user.params
 
     await responseHandler(dispatch, async () => {
@@ -144,10 +164,13 @@ export const getUsers = () => async (dispatch, getState) => {
         const newParams = {
             ...params,
             skip: (params.page - 1) * params.take,
+            courseId: courseId
         }
+        console.log(newParams)
         const [totalCount, newUsers] = await UserService.GetUsers({
             params: newParams
         })
+        console.log(newUsers)
         dispatch(setParams(newParams))
         dispatch(setUsers(newUsers))
         dispatch(setTotalCount(+totalCount))
@@ -178,7 +201,7 @@ export const removeUser = id => async (dispatch, getState) => {
 
 }
 
-export const updateUser = () => async (dispatch, getState)  => {
+export const updateUser = (setModal = null) => async (dispatch, getState)  => {
     const state = getState().user
     const user = state.user
     const users = state.users
@@ -187,10 +210,11 @@ export const updateUser = () => async (dispatch, getState)  => {
         await UserService.Update(user.id, user)
         users[index] = user
         dispatch(setUsers([...users]))
+        setModal && setModal(false)
     }, setError, setLoading)
 }
 
-export const updateImage = () => async (dispatch, getState) => {
+export const updateImage = (setModal = null) => async (dispatch, getState) => {
     const state = getState().user
     const user = state.user
     const users = state.users
@@ -205,6 +229,7 @@ export const updateImage = () => async (dispatch, getState) => {
         dispatch(setUser({...user, imageUrl: url}))
         users[index] = {...users[index], imageUrl: url}
         dispatch(setUsers(users))
+        setModal && setModal(false)
     }, setError, setLoading)
 }
 

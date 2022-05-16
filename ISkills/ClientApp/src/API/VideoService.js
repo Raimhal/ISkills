@@ -1,5 +1,4 @@
 import EntityService from "./EntityService";
-import {instance} from "../router/instance";
 
 
 export  default class VideoService {
@@ -12,16 +11,18 @@ export  default class VideoService {
 
     static async GetVideo(id, config ={}) {
         const path = `/videos/${id}`
-        return (await EntityService.Get(path, config)).data
+        return await EntityService.Get(path, config)
     }
 
     static async Create(video, config = {}){
         const formData = new FormData()
+        console.log('request')
         formData.append("file", video.file, video.file.name)
         formData.append("title", video.title)
         formData.append("chapterId", video.chapterId)
-        const response = await EntityService.Create('/videos', formData, config)
-        return response.data
+        console.log(formData)
+        const response =  await EntityService.Create('/videos', formData, config)
+        return response
     }
 
     static async Update(video, config = {}) {

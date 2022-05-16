@@ -1,8 +1,5 @@
 import React from 'react';
-import {useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import UserService from "../API/UserService";
-import {createUser, setUser} from "../store/UserReducer";
+import {createUser} from "../store/UserReducer";
 import RegistrationForm from "../components/user/RegistrationForm";
 
 const RegisterPage = () => {

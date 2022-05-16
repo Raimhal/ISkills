@@ -22,6 +22,8 @@ const AdminFileTypes = () => {
     const dispatch = useDispatch()
     const [createModal, setCreateModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
+    const error = useSelector(state => state.file.error)
+
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -65,21 +67,19 @@ const AdminFileTypes = () => {
                     {createModal &&
                     <MyModal visible={createModal} setVisible={setCreateModal}>
                         <FileTypeForm action={() => {
-                            dispatch(createType())
-                            setCreateModal(false)
+                            dispatch(createType(setCreateModal))
                         }} title="Add"/>
                     </MyModal>
                     }
                     {updateModal &&
                     <MyModal visible={updateModal} setVisible={setUpdateModal}>
                         <FileTypeForm action={() => {
-                            dispatch(updateType())
-                            setUpdateModal(false)
+                            dispatch(updateType(setUpdateModal))
                         }} title="Save"/>
                     </MyModal>
                     }
                 </div>
-            // }
+            {/*}*/}
         </div>
     );
 };

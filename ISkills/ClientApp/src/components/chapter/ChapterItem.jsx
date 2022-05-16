@@ -11,7 +11,7 @@ import {IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import {Tooltip} from '@material-ui/core';
-import {setVideo} from "../../store/VideoReducer";
+import {getVideos, setVideo} from "../../store/VideoReducer";
 import MyPlayer from "../video/MyPlayer";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 
@@ -26,19 +26,18 @@ const ChapterItem = ({chapter, remove, update, userId, isAdmin, updateVideo, rem
 
     const removeHandleClick = (e) => {
         e.stopPropagation()
-        remove(chapter.id)
+        dispatch(remove(chapter.id))
     }
 
     const handleUpdateClick = (e) => {
         e.stopPropagation()
         dispatch(setChapter(chapter))
         update()
-
     }
 
     const removeVideoHandleClick = (e, video)=> {
         e.stopPropagation()
-        removeVideo(video)
+        dispatch(removeVideo(video.id))
     }
 
     const handleVideoUpdateClick = (e, video)=> {
@@ -47,24 +46,10 @@ const ChapterItem = ({chapter, remove, update, userId, isAdmin, updateVideo, rem
         updateVideo()
     }
 
-
-    const [getVideos, isVideosLoading, videosError] = useFetching( async (chapterId) => {
-        const index = chapters.findIndex(x => x.id === chapterId)
-        console.log(chapterId)
-        const [count, videos] = await VideoService.GetVideos({
-            params: {
-                chapterId: chapterId
-            }
-        })
-
-        chapters[index].videosCount = count
-        chapters[index].videos = videos
-        dispatch(setChapters([...chapters]))
-    })
-
     useEffect(() => {
-        getVideos(chapter.id)
+        dispatch(getVideos(chapter.id))
     }, [])
+
     return (
         <div className="chapter">
             <div className="tab">
@@ -74,7 +59,7 @@ const ChapterItem = ({chapter, remove, update, userId, isAdmin, updateVideo, rem
                     <MyTextarea value={chapter.description}/>
                     {chapter.videosCount > 0 &&
                     <div>
-                        {chapter.videos?.map(video =>
+                        {chapter?.videos?.map(video =>
                             <div
                                 key={video.id}
                                 className="block"
@@ -109,9 +94,10 @@ const ChapterItem = ({chapter, remove, update, userId, isAdmin, updateVideo, rem
                                 }
                             </div>
                         )}
-                        {viewModal && <MyModal visible={viewModal} setVisible={setViewModal}>
-                            <MyPlayer video={storageVideo}/>
-                        </MyModal>
+                        {viewModal &&
+                            <MyModal visible={viewModal} setVisible={setViewModal}>
+                                <MyPlayer video={storageVideo}/>
+                            </MyModal>
                         }
                     </div>
                     }

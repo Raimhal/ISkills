@@ -18,10 +18,13 @@ import {setVideo} from "../../store/VideoReducer";
 import MyFormikAlert from "../UI/alert/MyFormikAlert";
 import {setChapter} from "../../store/ChapterReducer";
 import {setFileType} from "../../store/FileReducer";
+import MyAlert from "../UI/alert/MyAlert";
 
 const FileTypeForm = ({action, title, ...props}) => {
     const type = useSelector(state => state.file.type)
     const dispatch = useDispatch()
+    const error = useSelector(state => state.file.error)
+
 
     const fileAction =  async () => await action()
 
@@ -73,6 +76,7 @@ const FileTypeForm = ({action, title, ...props}) => {
                 error={formik.touched.fileSize && Boolean(formik.errors.fileSize)}
                 helperText={formik.touched.fileSize && formik.errors.fileSize}
             />
+            <MyAlert item={error}/>
             <MyButton type="submit">{title}</MyButton>
         </form>
     );

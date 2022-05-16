@@ -6,10 +6,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {setCategory} from "../../store/CategoryReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
+import MyAlert from "../UI/alert/MyAlert";
 
 const CategoryForm = ({action, title, ...props}) => {
     const category = useSelector(state => state.category.category)
     const dispatch = useDispatch()
+    const error = useSelector(state => state.category.error)
 
     const categoryAction =  async () => await action()
 
@@ -41,6 +43,7 @@ const CategoryForm = ({action, title, ...props}) => {
                 error={formik.touched.title && Boolean(formik.errors.title)}
                 helperText={formik.touched.title && formik.errors.title}
             />
+            <MyAlert item={error}/>
             <MyButton type="submit">{title}</MyButton>
         </form>
     );

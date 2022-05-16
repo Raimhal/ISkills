@@ -18,11 +18,14 @@ import {setVideo} from "../../store/VideoReducer";
 import MyFormikAlert from "../UI/alert/MyFormikAlert";
 import {setChapter} from "../../store/ChapterReducer";
 import {setFileType} from "../../store/FileReducer";
+import MyAlert from "../UI/alert/MyAlert";
 
 const ThemeForm = ({action, title, ...props}) => {
     const theme = useSelector(state => state.theme.theme)
     const categories = useSelector(state => state.category.categories)
     const dispatch = useDispatch()
+    const error = useSelector(state => state.theme.error)
+
 
     const themeAction =  async () => await action()
 
@@ -75,6 +78,7 @@ const ThemeForm = ({action, title, ...props}) => {
                 error={formik.touched.categoryId && Boolean(formik.errors.categoryId)}
             />
             <MyFormikAlert condition={formik.touched.categoryId && Boolean(formik.errors.categoryId)} item={formik.errors.categoryId}/>
+            <MyAlert item={error}/>
             <MyButton type="submit">{title}</MyButton>
         </form>
     );

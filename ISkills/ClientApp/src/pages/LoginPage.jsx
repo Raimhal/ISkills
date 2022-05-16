@@ -1,18 +1,12 @@
-import React, {useState} from 'react';
+import React from 'react';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import UserService from "../API/UserService";
 import MyInput from "../components/UI/input/MyInput";
 import MyButton from "../components/UI/button/MyButton";
 import {useDispatch, useSelector} from "react-redux";
-import {login, loginAction, setIsAdmin, setIsAuth, setUser} from "../store/UserReducer";
-import {useLocation, useNavigate} from "react-router-dom";
-import jwt_decode from "jwt-decode";
+import {login, setUser} from "../store/UserReducer";
+import {useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import * as yup from 'yup';
-import {useFetching} from "../hooks/useFetching";
-import ChapterService from "../API/ChapterService";
-import {setChapters} from "../store/ChapterReducer";
-import Alert from '@mui/material/Alert';
 import MyAlert from "../components/UI/alert/MyAlert";
 
 const LoginPage = () => {

@@ -23,6 +23,8 @@ const AdminVideos = () => {
     const [modal, setModal] = useState(false)
     const [viewModal, setViewModal] = useState(false)
     const isLoading = useSelector(state => state.video.isLoading)
+    const error = useSelector(state => state.video.error)
+
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -69,8 +71,7 @@ const AdminVideos = () => {
                     {modal && <MyModal visible={modal} setVisible={setModal}>
                         <VideoForm
                             action={() => {
-                                dispatch(updateVideo())
-                                setModal(false)
+                                dispatch(updateVideo(setModal))
                             }}
                             title="Update video"
                             submitTitle="Save"

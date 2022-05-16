@@ -16,6 +16,7 @@ const AdminComments = () => {
     const totalCount = useSelector(state => state.comment.totalCount)
     const dispatch = useDispatch()
     const [modal, setModal] = useState(false)
+    const error = useSelector(state => state.comment.error)
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -50,8 +51,7 @@ const AdminComments = () => {
                     {modal &&
                         <MyModal visible={modal} setVisible={setModal}>
                             <CommentForm action={() => {
-                                dispatch(updateComment())
-                                setModal(false)
+                                dispatch(updateComment(setModal))
                             }} title="Save"/>
                         </MyModal>
                     }

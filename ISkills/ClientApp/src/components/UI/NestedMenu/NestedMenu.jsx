@@ -1,16 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {Menu, MenuItem, Typography} from "@material-ui/core";
 import NestedMenuItem from "material-ui-nested-menu-item";
-import MySelect from "../select/MySelect";
-import arrow from '../../../assets/images/downward-arrow.png'
-import {useFetching} from "../../../hooks/useFetching";
-import ThemeService from "../../../API/ThemeService";
-import {setCategories, setCategory} from "../../../store/CategoryReducer";
-import CategoryService from "../../../API/CategoryService";
+import {getCategories, setCategories, setCategory} from "../../../store/CategoryReducer";
 import {setParams} from "../../../store/CourseReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {setTheme} from "../../../store/ThemeReducer";
+import {getAllThemes, setTheme} from "../../../store/ThemeReducer";
 
 const NestedMenu = ({label, ...props}) => {
     const navigate = useNavigate()
@@ -19,26 +14,17 @@ const NestedMenu = ({label, ...props}) => {
     const categories = useSelector(state => state.category.categories)
     const category = useSelector(state => state.category.category)
     const params = useSelector(state => state.course.params)
+    const themes = useSelector(state => state.theme.themes)
+    const isThemesLoading = useSelector(state => state.theme.isLoading)
 
-    const [getThemes, isThemesLoading, themesError] = useFetching(async (id) =>{
-        const index = categories.findIndex(x => x.id === id)
-        categories[index].themes = await ThemeService.GetThemesAll({
-            params: {
-                categoryId: id
-            }
-        })
-        dispatch(setCategories([...categories]))
-    })
-
-    const [getCategories, isCategoriesLoading, categoriesError] = useFetching(async () =>{
-        const categories = await CategoryService.GetCategoriesAll()
-        dispatch(setCategories(categories))
-    })
+    const getThemes = async (id) => {
+        await dispatch(getAllThemes(id))
+    }
 
     const onHoverItem = async (category) => {
-        if(!(category.themes?.length > 0)){
-            getThemes(category.id)
-        }
+        if(!(category.themes?.length > 0))
+            await getThemes(category.id)
+
         dispatch(setCategory(category))
     }
 
@@ -64,7 +50,7 @@ const NestedMenu = ({label, ...props}) => {
     }
 
     useEffect(() => {
-        getCategories()
+        dispatch(getCategories())
     }, [])
 
     return (

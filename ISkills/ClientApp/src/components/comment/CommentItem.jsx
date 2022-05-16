@@ -15,18 +15,18 @@ import {IconButton} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from "@mui/icons-material/Delete";
 import {Tooltip} from "@material-ui/core";
+import {setCourse} from "../../store/CourseReducer";
 
 
 const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
     const dispatch = useDispatch()
     const removeHandleClick = (e) => {
         e.stopPropagation()
-        remove(comment.id)
+       dispatch(remove(comment.id))
     }
 
     const handleUpdateClick = (e) => {
         e.stopPropagation()
-        console.log(comment)
         dispatch(setComment(comment))
         update()
     }

@@ -22,21 +22,21 @@ const defaultState = {
         {name: 'Course', value: 'courseId'},
     ],
     isLoading: false,
-    error: ''
+    error: null
 }
 
 const SET_CHAPTER = "SET_CHAPTER"
 const CLEAR_CHAPTER = "CLEAR_CHAPTER"
 const SET_CHAPTERS = "SET_CHAPTERS"
 const CLEAR_CHAPTERS = "CLEAR_CHAPTERS"
-const SET_PARAMS = "SET_PARAMS"
-const CLEAR_PARAMS = "CLEAR_PARAMS"
-const SET_TOTAL_COUNT = "SET_TOTAL_COUNT"
-const CLEAR_TOTAL_COUNT = "CLEAR_TOTAL_COUNT"
-const SET_LOADING = "SET_LOADING"
-const CLEAR_LOADING = "CLEAR_LOADING"
-const SET_ERROR = "SET_ERROR"
-const CLEAR_ERROR = "CLEAR_ERROR"
+const SET_PARAMS = "SET_CHAPTER_PARAMS"
+const CLEAR_PARAMS = "CLEAR_CHAPTER_PARAMS"
+const SET_TOTAL_COUNT = "SET_CHAPTER_CHAPTER_TOTAL_COUNT"
+const CLEAR_TOTAL_COUNT = "CLEAR_CHAPTER_TOTAL_COUNT"
+const SET_LOADING = "SET_CHAPTER_LOADING"
+const CLEAR_LOADING = "CLEAR_CHAPTER_LOADING"
+const SET_ERROR = "SET_CHAPTER_ERROR"
+const CLEAR_ERROR = "CLEAR_CHAPTER_ERROR"
 
 export const ChapterReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -83,7 +83,7 @@ export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
 
 
-export const getChapters = () => async (dispatch, getState) => {
+export const getChapters = (courseId = null) => async (dispatch, getState) => {
     const params = getState().chapter.params
 
     await responseHandler(dispatch, async () => {
@@ -92,6 +92,7 @@ export const getChapters = () => async (dispatch, getState) => {
         const newParams = {
             ...params,
             skip: (params.page - 1) * params.take,
+            courseId: courseId
         }
         
         const [totalCount, newChapters] = await ChapterService.GetChapters({
@@ -113,10 +114,24 @@ export const removeChapter = id => async (dispatch, getState) => {
         dispatch(setChapters(chapters.filter(c => c.id !== id)))
         dispatch(setTotalCount(+totalCount - 1))
     }, setError, setLoading)
-
 }
 
-export const updateChapter = () => async (dispatch, getState)  => {
+export const createChapter = (setModal = null) => async(dispatch, getState) => {
+    const course = getState().course.course
+    const chapter = getState().chapter.chapter
+    const chapters = getState().chapter.chapters
+    const totalCount = getState().chapter.totalCount
+    const user = getState().user.user
+
+    await responseHandler(dispatch, async () => {
+        const chapterId = await ChapterService.Create({...chapter, courseId: course.id})
+        dispatch(setChapters([...chapters, {...chapter, id: chapterId, creatorId: user.id}]))
+        dispatch(setTotalCount(+totalCount + 1))
+        setModal(false)
+    }, setError, setLoading)
+}
+
+export const updateChapter = (setModal = null) => async (dispatch, getState)  => {
     const state = getState().chapter
     const chapter = state.chapter
     const chapters = state.chapters
@@ -125,5 +140,6 @@ export const updateChapter = () => async (dispatch, getState)  => {
         await ChapterService.Update(chapter.id, chapter)
         chapters[index] = chapter
         dispatch(setChapters([...chapters]))
+        setModal && setModal(false)
     }, setError, setLoading)
 }

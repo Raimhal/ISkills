@@ -45,9 +45,6 @@ namespace ISkills.Middleware
                 case ConflictException:
                     code = HttpStatusCode.Conflict;
                     break;
-                case FormatException:
-                    code = HttpStatusCode.RequestEntityTooLarge;
-                    break;
             }
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;

@@ -1,8 +1,6 @@
 import defaultCourseImage from '../assets/images/defaultCourseImage.png'
 import CourseService from "../API/CourseService";
 import {responseHandler} from "./ResponseHandler";
-import UserService from "../API/UserService";
-import {setUser} from "./UserReducer";
 
 const defaultState = {
     course : {
@@ -17,6 +15,7 @@ const defaultState = {
         categoryId: '',
         themeId: '',
         theme: {},
+        students: [],
     },
     params: {
         page: 1,
@@ -37,21 +36,21 @@ const defaultState = {
     courses : [],
     totalCount: 0,
     isLoading: false,
-    error: ''
+    error: null
 }
 
 const SET_COURSE = "SET_COURSE"
 const CLEAR_COURSE = "CLEAR_COURSE"
 const SET_COURSES = "SET_COURSES"
 const CLEAR_COURSES = "CLEAR_COURSES"
-const SET_PARAMS = "SET_PARAMS"
-const CLEAR_PARAMS = "CLEAR_PARAMS"
-const SET_TOTAL_COUNT = "SET_TOTAL_COUNT"
-const CLEAR_TOTAL_COUNT = "CLEAR_TOTAL_COUNT"
-const SET_LOADING = "SET_LOADING"
-const CLEAR_LOADING = "CLEAR_LOADING"
-const SET_ERROR = "SET_ERROR"
-const CLEAR_ERROR = "CLEAR_ERROR"
+const SET_PARAMS = "SET_COURSE_PARAMS"
+const CLEAR_PARAMS = "CLEAR_COURSE_PARAMS"
+const SET_TOTAL_COUNT = "SET_COURSE_TOTAL_COUNT"
+const CLEAR_TOTAL_COUNT = "CLEAR_COURSE_TOTAL_COUNT"
+const SET_LOADING = "SET_COURSE_LOADING"
+const CLEAR_LOADING = "CLEAR_COURSE_LOADING"
+const SET_ERROR = "SET_COURSE_ERROR"
+const CLEAR_ERROR = "CLEAR_COURSE_ERROR"
 
 export const CourseReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -97,11 +96,15 @@ export const clearLoading = () => ({type: CLEAR_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
 
-export const getCourse = (id) => async (dispatch) => {
+export const getCourse = (id, navigate = null) => async (dispatch, getState) => {
+    const error = getState().course.error
+
     await responseHandler(dispatch, async () => {
         const course = await CourseService.GetCourse(id)
-        dispatch(setCourse(course))
+        dispatch(setCourse({...course, categoryId: ''}))
     }, setError, setLoading)
+    navigate && error && navigate('/404')
+
 };
 
 export const getCourses = () => async (dispatch, getState) => {
@@ -130,6 +133,21 @@ export const getCourses = () => async (dispatch, getState) => {
     }, setError, setLoading)
 };
 
+export const createCourse = (setModal = null, navigate = null) => async (dispatch, getState) => {
+    const course = getState().course.course
+
+    await responseHandler(dispatch, async () => {
+        const courseId = await CourseService.Create(course)
+        dispatch(setCourses([...courses, {...course, id: courseId, rating: 0}]))
+        setModal(false)
+        dispatch(setTotalCount(+totalCount + 1))
+        setModal && setModal(false)
+        navigate && navigate(`/courses/${courseId}`)
+    }, setError, setLoading)
+
+
+}
+
 export const removeCourse = id => async (dispatch, getState) => {
     const state = getState().course
     const courses = state.courses
@@ -143,7 +161,7 @@ export const removeCourse = id => async (dispatch, getState) => {
 
 }
 
-export const updateCourse = () => async (dispatch, getState)  => {
+export const updateCourse = (setModal = null) => async (dispatch, getState)  => {
     const state = getState().course
     const course = state.course
     const courses = state.courses
@@ -152,10 +170,11 @@ export const updateCourse = () => async (dispatch, getState)  => {
         await CourseService.Update(course.id, course)
         courses[index] = course
         dispatch(setCourses([...courses]))
+        setModal && setModal(false)
     }, setError, setLoading)
 }
 
-export const updateImage = () => async (dispatch, getState) => {
+export const updateImage = (setModal = null) => async (dispatch, getState) => {
     const state = getState().course
     const course = state.course
     const courses = state.courses
@@ -170,6 +189,7 @@ export const updateImage = () => async (dispatch, getState) => {
         dispatch(setCourse({...course, imageUrl: url}))
         courses[index] = {...courses[index], imageUrl: url}
         dispatch(setCourses(courses))
+        setModal && setModal(false)
     }, setError, setLoading)
 
 }

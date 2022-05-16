@@ -20,10 +20,11 @@ const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, 
     const dispatch = useDispatch()
     const video = useSelector(state => state.video.video)
     const chapters = useSelector(state => state.chapter.chapters)
+    const error = useSelector(state => state.video.error)
+    const isLoading = useSelector(state => state.video.isLoading)
 
-    const [videoAction, isLoading, error] = useFetching( async () => {
-        await action(video)
-    })
+
+    const videoAction = async () => await action(video)
 
     const schema = yup.object({
         title: yup
@@ -81,7 +82,7 @@ const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, 
                 required
             />
             <MyAlert item={error}/>
-            <MyButton type="submit" onClick={() => console.log(formik.errors)}>{submitTitle}</MyButton>
+            <MyButton type="submit" onClick={() => console.log(formik)}>{!isLoading ? submitTitle: "Loading..."}</MyButton>
         </form>
     );
 };

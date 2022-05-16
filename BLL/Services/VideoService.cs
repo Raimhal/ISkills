@@ -99,7 +99,7 @@ namespace BLL.Services
                 v => v.Id == id, new () { }, cancellationToken);
 
             if (!await _fileService.IsValidFile(model.File))
-                throw new FormatException("Too large file");
+                throw new ConflictException("Too large file");
 
             if (await _chapterDbContext.Chapters.AnyAsync(x => x.Id == model.ChapterId, cancellationToken))
                 video.ChapterId = model.ChapterId;

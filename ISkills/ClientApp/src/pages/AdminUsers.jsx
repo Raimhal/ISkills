@@ -70,16 +70,14 @@ const AdminUsers = () => {
                     {modal &&
                     <MyModal visible={modal} setVisible={setModal}>
                         <UserForm action={() => {
-                            dispatch(updateUser())
-                            setModal(false)
+                            dispatch(updateUser(setModal))
                         }} title="Update" submitTitle="Save"/>
                     </MyModal>
                     }
                     {imageModal && <MyModal visible={imageModal} setVisible={setImageModal}>
                         <ImageUpload
                             action={() => {
-                                dispatch(updateImage())
-                                setImageModal(false)
+                                dispatch(updateImage(setImageModal))
                             }}
                             title="Update image"
                             submitTitle="Save"

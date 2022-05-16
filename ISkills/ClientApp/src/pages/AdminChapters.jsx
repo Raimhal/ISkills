@@ -15,6 +15,7 @@ const AdminChapters = () => {
     const totalCount = useSelector(state => state.chapter.totalCount)
     const dispatch = useDispatch()
     const [modal, setModal] = useState(false)
+    const error = useSelector(state => state.chapter.error)
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -49,8 +50,7 @@ const AdminChapters = () => {
                     {modal &&
                     <MyModal visible={modal} setVisible={setModal}>
                         <ChapterForm action={() => {
-                            dispatch(updateChapter())
-                            setModal(false)
+                            dispatch(updateChapter(setModal))
                         }} title="Save"/>
                     </MyModal>
                     }

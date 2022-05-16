@@ -1,5 +1,6 @@
 import {responseHandler} from "./ResponseHandler";
 import VideoService from "../API/VideoService";
+import {setChapters} from "./ChapterReducer";
 
 
 const defaultState = {
@@ -22,21 +23,21 @@ const defaultState = {
         {name: 'Chapter', value: 'chapterId'},
     ],
     isLoading: false,
-    error: ''
+    error: null
 }
 
 const SET_VIDEO = "SET_VIDEO"
 const CLEAR_VIDEO = "CLEAR_VIDEO"
 const SET_VIDEOS = "SET_VIDEOS"
 const CLEAR_VIDEOS = "CLEAR_VIDEOS"
-const SET_PARAMS = "SET_PARAMS"
-const CLEAR_PARAMS = "CLEAR_PARAMS"
-const SET_TOTAL_COUNT = "SET_TOTAL_COUNT"
-const CLEAR_TOTAL_COUNT = "CLEAR_TOTAL_COUNT"
-const SET_LOADING = "SET_LOADING"
-const CLEAR_LOADING = "CLEAR_LOADING"
-const SET_ERROR = "SET_ERROR"
-const CLEAR_ERROR = "CLEAR_ERROR"
+const SET_PARAMS = "SET_VIDEO_VIDEO_PARAMS"
+const CLEAR_PARAMS = "CLEAR_VIDEO_PARAMS"
+const SET_TOTAL_COUNT = "SET_VIDEO_TOTAL_COUNT"
+const CLEAR_TOTAL_COUNT = "CLEAR_VIDEO_TOTAL_COUNT"
+const SET_LOADING = "SET_VIDEO_LOADING"
+const CLEAR_LOADING = "CLEAR_VIDEO_LOADING"
+const SET_ERROR = "SET_VIDEO_ERROR"
+const CLEAR_ERROR = "CLEAR_VIDEO_ERROR"
 
 export const VideoReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -84,6 +85,7 @@ export const clearError = () => ({type: CLEAR_ERROR})
 
 export const getVideos = (chapterId = null) => async (dispatch, getState) => {
     const params = getState().video.params
+    const chapters = getState().chapter.chapters
 
     await responseHandler(dispatch, async () => {
         if (params.query === '')
@@ -91,41 +93,84 @@ export const getVideos = (chapterId = null) => async (dispatch, getState) => {
         const newParams = {
             ...params,
             skip: (params.page - 1) * params.take,
+            chapterId: chapterId
         }
+
+        console.log(newParams)
+
         if(chapterId === null)
             delete newParams.chapterId
 
         const [totalCount, newVideos] = await VideoService.GetVideos({
             params: newParams
         })
+
+        if(chapterId !== null) {
+            const index = chapters.findIndex(x => x.id === chapterId)
+            chapters[index].videos = newVideos
+            chapters[index].videosCount = totalCount
+        }
+
+        console.log(newVideos)
         dispatch(setParams(newParams))
         dispatch(setVideos(newVideos))
         dispatch(setTotalCount(+totalCount))
+        dispatch(setChapters([...chapters]))
     }, setError, setLoading)
 };
 
+export const createVideo = (setModal = null) => async (dispatch, getState) => {
+    const state = getState().video
+    const video = state.video
+    const chapters = getState().chapter.chapters
+
+
+    await responseHandler(dispatch, async () => {
+        const index = chapters.findIndex(x => x.id === video.chapterId)
+        const response = await VideoService.Create({...video, file: document.querySelector("#file").files[0]})
+        console.log(response)
+        const videoResponse = await VideoService.GetVideo(response.data)
+        chapters[index].videos.push(videoResponse.data)
+        console.log(chapters[index].videos)
+        dispatch(setChapters([...chapters]))
+        setModal && setModal(false)
+    }, setError, setLoading)
+
+
+}
+
 export const removeVideo = id => async (dispatch, getState) => {
     const state = getState().video
-    const videos = state.videos
+    const chapters = getState().chapter.chapters
     const totalCount = state.totalCount
 
     await responseHandler(dispatch, async () => {
+        const chapterIndex = chapters.findIndex(x =>
+            x.id === chapters.find(x =>
+                x.videos.some(x => x.id === id)).id)
+
         await VideoService.Delete(id)
-        dispatch(setVideos(videos.filter(c => c.id !== id)))
+
+        chapters[chapterIndex].videos = [...chapters[chapterIndex].videos.filter(x => x.id !== id)]
+        chapters[chapterIndex].videosCount -= 1
+
+        dispatch(setChapters([...chapters]))
         dispatch(setTotalCount(+totalCount - 1))
     }, setError, setLoading)
 
 }
 
-export const updateVideo = () => async (dispatch, getState)  => {
+export const updateVideo = (setModal = null) => async (dispatch, getState)  => {
     const state = getState().video
     const video = state.video
-    const videos = state.videos
+    const chapters = getState().chapter.chapters
 
     await responseHandler(dispatch, async () => {
-        const index = videos.findIndex(x => x.id === video.id)
+        const chapterIndex = chapters.findIndex(x => x.id === video.chapterId)
+        const index = chapters[chapterIndex].videos.findIndex(x => x.id === video.id)
         await VideoService.Update({...video, file: document.querySelector("#file").files[0]})
-        videos[index] = video
-        dispatch(setVideos([...videos]))
+        chpaters[chapterIndex].videos[index] = video
+        dispatch(setChapters([...chapters]))
+        setModal && setModal(false)
     }, setError, setLoading)
 }

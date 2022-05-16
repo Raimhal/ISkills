@@ -19,6 +19,8 @@ const AdminThemes = () => {
     const dispatch = useDispatch()
     const [createModal, setCreateModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
+    const error = useSelector(state => state.theme.error)
+
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -60,16 +62,14 @@ const AdminThemes = () => {
                     {createModal &&
                     <MyModal visible={createModal} setVisible={setCreateModal}>
                         <ThemeForm action={() => {
-                            dispatch(createTheme())
-                            setCreateModal(false)
+                            dispatch(createTheme(setCreateModal))
                         }} title="Add"/>
                     </MyModal>
                     }
                     {updateModal &&
                     <MyModal visible={updateModal} setVisible={setUpdateModal}>
                         <ThemeForm action={() => {
-                            dispatch(updateTheme())
-                            setUpdateModal(false)
+                            dispatch(updateTheme(setUpdateModal))
                         }} title="Save"/>
                     </MyModal>
                     }

@@ -6,7 +6,7 @@ import {setCourse} from "./CourseReducer";
 const defaultState = {
     comment: {
         content: '',
-        commentId: '',
+        courseId: '',
         rating: 5
     },
     comments: [],
@@ -15,29 +15,31 @@ const defaultState = {
         page: 1,
         skip: 0,
         take: 10,
-        reverse: false,
+        reverse: true,
+        sortOption: 'date'
     },
     sortList: [
         {name: 'Rating', value: 'rating'},
         {name: 'Course', value: 'courseId'},
         {name: 'Creator', value: 'creatorId'},
+        {name: 'Date', value: 'date'},
     ],
     isLoading: false,
-    error: ''
+    error: null
 }
 
 const SET_COMMENT = "SET_COMMENT"
 const CLEAR_COMMENT = "CLEAR_COMMENT"
 const SET_COMMENTS = "SET_COMMENTS"
 const CLEAR_COMMENTS = "CLEAR_COMMENTS"
-const SET_PARAMS = "SET_PARAMS"
-const CLEAR_PARAMS = "CLEAR_PARAMS"
-const SET_TOTAL_COUNT = "SET_TOTAL_COUNT"
-const CLEAR_TOTAL_COUNT = "CLEAR_TOTAL_COUNT"
-const SET_LOADING = "SET_LOADING"
-const CLEAR_LOADING = "CLEAR_LOADING"
-const SET_ERROR = "SET_ERROR"
-const CLEAR_ERROR = "CLEAR_ERROR"
+const SET_PARAMS = "SET_COMMENT_PARAMS"
+const CLEAR_PARAMS = "CLEAR_COMMENT_PARAMS"
+const SET_TOTAL_COUNT = "SET_COMMENT_TOTAL_COUNT"
+const CLEAR_TOTAL_COUNT = "CLEAR_COMMENT_TOTAL_COUNT"
+const SET_LOADING = "SET_COMMENT_LOADING"
+const CLEAR_LOADING = "CLEAR_COMMENT_LOADING"
+const SET_ERROR = "SET_COMMENT_ERROR"
+const CLEAR_ERROR = "CLEAR_COMMENT_ERROR"
 
 export const CommentReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -83,6 +85,25 @@ export const clearLoading = () => ({type: CLEAR_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
 
+export const createComment = (setModal = null) => async(dispatch, getState) => {
+    const comment = getState().comment.comment
+    const course = getState().course.course
+    const comments = getState().comment.comments
+    const totalCount = getState().comment.totalCount
+    const currentUser = getState().user.user
+
+    await responseHandler(dispatch, async () => {
+        const commentId = await CommentService.Create({...comment, courseId: course.id})
+        const date = new Date()
+        const newComment = {...comment, id: commentId, creator: currentUser, date: date, dateUpdated: date}
+        dispatch(setComments([newComment, ...comments]))
+        const newRating = ((course.rating * +totalCount + comment.rating) / (+totalCount + 1))
+        dispatch(setCourse({...course, rating: newRating }))
+        dispatch(setTotalCount(+totalCount + 1))
+        setModal && setModal(false)
+    }, setError, setLoading)
+}
+
 export const getComments = (courseId = null) => async (dispatch, getState) => {
     const params = getState().comment.params
 
@@ -108,8 +129,12 @@ export const removeComment = id => async (dispatch, getState) => {
     const state = getState().comment
     const comments = state.comments
     const totalCount = state.totalCount
+    const course = getState().course.course
 
     await responseHandler(dispatch, async () => {
+        const comment = comments.find(c => c.id === id)
+        const newRating = ((course.rating * +totalCount - comment.rating) / (+totalCount - 1))
+        dispatch(setCourse({...course, rating: newRating }))
         await CommentService.Delete(id)
         dispatch(setComments(comments.filter(c => c.id !== id)))
         dispatch(setTotalCount(+totalCount - 1))
@@ -117,14 +142,17 @@ export const removeComment = id => async (dispatch, getState) => {
 
 }
 
-export const updateComment = () => async (dispatch, getState)  => {
+export const updateComment = (setModal = null) => async (dispatch, getState)  => {
     const state = getState().comment
     const comment = state.comment
     const comments = state.comments
+    console.log(comment)
+
     await responseHandler(dispatch, async () => {
         const index = comments.findIndex(x => x.id === comment.id)
         await CommentService.Update(comment.id, comment)
         comments[index] = comment
         dispatch(setComments([...comments]))
+        setModal && setModal(false)
     }, setError, setLoading)
 }

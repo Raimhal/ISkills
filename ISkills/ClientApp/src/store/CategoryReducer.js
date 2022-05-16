@@ -1,6 +1,5 @@
 import {responseHandler} from "./ResponseHandler";
 import CategoryService from "../API/CategoryService";
-import UserService from "../API/UserService";
 
 
 const defaultState = {
@@ -22,21 +21,21 @@ const defaultState = {
         {name: 'Title', value: 'title'},
     ],
     isLoading: false,
-    error: ''
+    error: null
 }
 
 const SET_CATEGORY = "SET_CATEGORY"
 const CLEAR_CATEGORY = "CLEAR_CATEGORY"
 const SET_CATEGORIES = "SET_CATEGORIES"
 const CLEAR_CATEGORIES = "CLEAR_CATEGORIES"
-const SET_PARAMS = "SET_PARAMS"
-const CLEAR_PARAMS = "CLEAR_PARAMS"
-const SET_TOTAL_COUNT = "SET_TOTAL_COUNT"
-const CLEAR_TOTAL_COUNT = "CLEAR_TOTAL_COUNT"
-const SET_LOADING = "SET_LOADING"
-const CLEAR_LOADING = "CLEAR_LOADING"
-const SET_ERROR = "SET_ERROR"
-const CLEAR_ERROR = "CLEAR_ERROR"
+const SET_PARAMS = "SET_CATEGORY_PARAMS"
+const CLEAR_PARAMS = "CLEAR_CATEGORY_PARAMS"
+const SET_TOTAL_COUNT = "SET_CATEGORY_TOTAL_COUNT"
+const CLEAR_TOTAL_COUNT = "CLEAR_CATEGORY_TOTAL_COUNT"
+const SET_LOADING = "SET_CATEGORY_LOADING"
+const CLEAR_LOADING = "CLEAR_CATEGORY_LOADING"
+const SET_ERROR = "SET_CATEGORY_ERROR"
+const CLEAR_ERROR = "CLEAR_CATEGORY_ERROR"
 
 export const CategoryReducer = (state = defaultState, action) => {
     switch (action.type) {
@@ -85,14 +84,16 @@ export const clearError = () => ({type: CLEAR_ERROR})
 
 export const getAllCategories = () => async (dispatch, getState) => {
     const params = getState().category.params
-    const newParams = {...params}
 
-    delete newParams.skip
-    delete newParams.take
+    await responseHandler(dispatch, async () => {
+        if (params.query === '')
+            delete params.query
 
-    dispatch(setParams(newParams))
-
-    await getCategories()
+        const categories = await CategoryService.GetCategoriesAll({
+            params: params
+        })
+        dispatch(setCategories(categories))
+    }, setError, setLoading)
 };
 
 export const getCategories = () => async (dispatch, getState) => {
@@ -115,7 +116,7 @@ export const getCategories = () => async (dispatch, getState) => {
     }, setError, setLoading)
 };
 
-export const createCategory = () => async (dispatch, getState) => {
+export const createCategory = (setModal = null) => async (dispatch, getState) => {
     const state = getState().category
     const category = state.category
     const categories= state.categories
@@ -124,6 +125,7 @@ export const createCategory = () => async (dispatch, getState) => {
         const categoryId = await CategoryService.Create(category)
         dispatch(setCategory({...category, id: categoryId}))
         dispatch(setCategories([...categories, category]))
+        setModal && setModal(false)
     }, setError, setLoading)
 }
 
@@ -140,7 +142,7 @@ export const removeCategory = id => async (dispatch, getState) => {
 
 }
 
-export const updateCategory = () => async (dispatch, getState)  => {
+export const updateCategory = (setModal = null) => async (dispatch, getState)  => {
     const state = getState().category
     const category = state.category
     const categories = state.categories
@@ -150,5 +152,6 @@ export const updateCategory = () => async (dispatch, getState)  => {
         await CategoryService.Update(category.id, category)
         categories[index] = category
         dispatch(setCategories([...categories]))
+        setModal && setModal(false)
     }, setError, setLoading)
 }

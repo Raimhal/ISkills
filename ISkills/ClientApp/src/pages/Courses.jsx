@@ -2,9 +2,8 @@ import React, {useEffect} from 'react'
 import "../styles/App.css"
 import "../styles/Course.css"
 import CourseList from "../components/course/CourseList";
-import CourseService from "../API/CourseService";
 import MyPagination from "../components/UI/pagination/MyPagination";
-import {getCourses, removeCourse, setCourses, setParams, setTotalCount} from "../store/CourseReducer";
+import {getCourses, removeCourse, setParams} from "../store/CourseReducer";
 import {useDispatch, useSelector} from "react-redux";
 import SortAndSearch from "../components/UI/sortAndSearch/SortAndSearch";
 

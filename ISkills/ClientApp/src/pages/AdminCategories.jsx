@@ -11,11 +11,8 @@ import {
     setParams,
     updateCategory
 } from "../store/CategoryReducer";
-import {GetCategories} from "../functions/Category";
 import AdminNavbar from "../components/UI/navbar/AdminNavbar";
-import {createTheme, removeTheme, setTheme, updateTheme} from "../store/ThemeReducer";
 import MyModal from "../components/UI/MyModal/MyModal";
-import ThemeForm from "../components/theme/ThemeForm";
 import CategoryForm from "../components/category/CategoryForm";
 import {Tooltip} from "@material-ui/core";
 import {IconButton} from "@mui/material";
@@ -29,6 +26,7 @@ const AdminCategories = () => {
     const dispatch = useDispatch()
     const [createModal, setCreateModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
+    const error = useSelector(state => state.category.error)
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -69,17 +67,15 @@ const AdminCategories = () => {
                     totalCount={totalCount} changePage={changePage}/>
                     {createModal &&
                     <MyModal visible={createModal} setVisible={setCreateModal}>
-                        <CategoryForm action={() => {
-                            dispatch(createCategory())
-                            setCreateModal(false)
+                        <CategoryForm action={async () => {
+                            await dispatch(createCategory(setCreateModal))
                         }} title="Add"/>
                     </MyModal>
                     }
                     {updateModal &&
                     <MyModal visible={updateModal} setVisible={setUpdateModal}>
-                        <CategoryForm action={() => {
-                            dispatch(updateCategory())
-                            setUpdateModal(false)
+                        <CategoryForm action={async () => {
+                            await dispatch(updateCategory(setUpdateModal))
                         }} title="Save"/>
                     </MyModal>
                     }

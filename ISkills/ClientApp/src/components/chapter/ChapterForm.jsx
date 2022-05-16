@@ -14,10 +14,9 @@ import MyAlert from "../UI/alert/MyAlert";
 const ChapterForm = ({action, title, ...props}) => {
     const chapter = useSelector(state => state.chapter.chapter)
     const dispatch = useDispatch()
+    const error = useSelector(state => state.chapter.error)
 
-    const [chapterAction, isLoading, error] = useFetching( async () => {
-        action(chapter)
-    })
+    const chapterAction = async () => await action()
 
     const schema = yup.object({
         title: yup
