@@ -168,7 +168,7 @@ export const updateVideo = (setModal = null) => async (dispatch, getState)  => {
         const chapterIndex = chapters.findIndex(x => x.id === video.chapterId)
         const index = chapters[chapterIndex].videos.findIndex(x => x.id === video.id)
         await VideoService.Update({...video, file: document.querySelector("#file").files[0]})
-        chpaters[chapterIndex].videos[index] = video
+        chapters[chapterIndex].videos[index] = video
         dispatch(setChapters([...chapters]))
         setModal && setModal(false)
     }, setError, setLoading)

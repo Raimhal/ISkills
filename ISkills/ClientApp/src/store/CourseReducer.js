@@ -139,7 +139,7 @@ export const createCourse = (setModal = null, navigate = null) => async (dispatc
     const totalCount = getState().course.courses
 
     await responseHandler(dispatch, async () => {
-        const courseId = await CourseSwervice.Create(course)
+        const courseId = await CourseService.Create(course)
         dispatch(setCourses([...courses, {...course, id: courseId, rating: 0}]))
         setModal(false)
         dispatch(setTotalCount(+totalCount + 1))
