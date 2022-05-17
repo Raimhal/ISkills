@@ -11,7 +11,6 @@ import MyAlert from "../components/UI/alert/MyAlert";
 
 const LoginPage = () => {
     const navigate = useNavigate()
-    console.log(history)
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.user)
     const error = useSelector(state => state.user.error)

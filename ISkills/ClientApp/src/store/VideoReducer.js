@@ -161,8 +161,7 @@ export const removeVideo = id => async (dispatch, getState) => {
 }
 
 export const updateVideo = (setModal = null) => async (dispatch, getState)  => {
-    const state = getState().video
-    const video = state.video
+    const video = getState().video.video
     const chapters = getState().chapter.chapters
 
     await responseHandler(dispatch, async () => {
