@@ -1,20 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import MyInput from "../UI/input/MyInput";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
-import {clearVideo, setVideo} from "../../store/VideoReducer";
+import {setVideo} from "../../store/VideoReducer";
 import MyButton from "../UI/button/MyButton";
 import MySelect from "../UI/select/MySelect";
-import Alert from "@mui/material/Alert";
-import {ErrorMessage, useFormik} from "formik";
+import {useFormik} from "formik";
 import * as yup from "yup";
-import {useFetching} from "../../hooks/useFetching";
-import UserService from "../../API/UserService";
-import jwt_decode from "jwt-decode";
-import {setIsAdmin, setIsAuth, setUser} from "../../store/UserReducer";
 import MyAlert from "../UI/alert/MyAlert";
 import MyFormikAlert from "../UI/alert/MyFormikAlert";
-import MyUpload from "../UI/Upload/MyUpload";
 
 const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, ...props}) => {
     const dispatch = useDispatch()
@@ -82,7 +76,7 @@ const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, 
                 required
             />
             <MyAlert item={error}/>
-            <MyButton type="submit" onClick={() => console.log(formik)}>{!isLoading ? submitTitle: "Loading..."}</MyButton>
+            <MyButton type="submit">{!isLoading ? submitTitle: "Loading..."}</MyButton>
         </form>
     );
 };

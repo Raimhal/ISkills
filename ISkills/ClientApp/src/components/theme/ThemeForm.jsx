@@ -1,23 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import MyInput from "../UI/input/MyInput";
 import MyButton from "../UI/button/MyButton";
 import MySelect from "../UI/select/MySelect";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import MyEditor from "../UI/editor/MyEditor";
 import {useDispatch, useSelector} from "react-redux";
-import {clearCourse, setCourse} from "../../store/CourseReducer";
-import CategoryService from "../../API/CategoryService";
-import {useFetching} from "../../hooks/useFetching";
-import CourseService from "../../API/CourseService";
-import ThemeService from "../../API/ThemeService";
-import {getAllCategories, setCategories} from "../../store/CategoryReducer";
-import {setTheme, setThemes} from "../../store/ThemeReducer";
+import {getAllCategories} from "../../store/CategoryReducer";
+import {setTheme} from "../../store/ThemeReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import {setVideo} from "../../store/VideoReducer";
 import MyFormikAlert from "../UI/alert/MyFormikAlert";
-import {setChapter} from "../../store/ChapterReducer";
-import {setFileType} from "../../store/FileReducer";
 import MyAlert from "../UI/alert/MyAlert";
 
 const ThemeForm = ({action, title, ...props}) => {

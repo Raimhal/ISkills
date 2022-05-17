@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Menu, MenuItem, Typography} from "@material-ui/core";
 import NestedMenuItem from "material-ui-nested-menu-item";
-import {getCategories, setCategories, setCategory} from "../../../store/CategoryReducer";
+import {getAllCategories, getCategories, setCategories, setCategory} from "../../../store/CategoryReducer";
 import {setParams} from "../../../store/CourseReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -50,7 +50,7 @@ const NestedMenu = ({label, ...props}) => {
     }
 
     useEffect(() => {
-        dispatch(getCategories())
+        dispatch(getAllCategories())
     }, [])
 
     return (

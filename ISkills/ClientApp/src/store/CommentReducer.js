@@ -146,7 +146,6 @@ export const updateComment = (setModal = null) => async (dispatch, getState)  =>
     const state = getState().comment
     const comment = state.comment
     const comments = state.comments
-    console.log(comment)
 
     await responseHandler(dispatch, async () => {
         const index = comments.findIndex(x => x.id === comment.id)

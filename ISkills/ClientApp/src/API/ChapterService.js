@@ -1,5 +1,4 @@
 import EntityService from "./EntityService";
-import {instance} from "../router/instance";
 
 
 export  default class ChapterService {
@@ -22,7 +21,6 @@ export  default class ChapterService {
 
     static async Update(id, data, config = {}) {
         const path = `/chapters/${id}`
-        console.log(data)
         await EntityService.Update(path, data, config)
     }
 

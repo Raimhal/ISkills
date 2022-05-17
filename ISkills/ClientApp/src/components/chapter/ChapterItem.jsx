@@ -2,10 +2,8 @@ import React, {useEffect, useState} from 'react';
 import '../../styles/Chapter.css'
 import '../../styles/Button.css'
 import MyTextarea from "../UI/textarea/MyTextarea";
-import {useFetching} from "../../hooks/useFetching";
-import VideoService from "../../API/VideoService";
 import {useDispatch, useSelector} from "react-redux";
-import {setChapter, setChapters} from "../../store/ChapterReducer";
+import {setChapter} from "../../store/ChapterReducer";
 import MyModal from "../UI/MyModal/MyModal";
 import {IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -19,9 +17,10 @@ import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 const ChapterItem = ({chapter, remove, update, userId, isAdmin, updateVideo, removeVideo}) => {
     const dispatch = useDispatch()
     const chapters = useSelector(state => state.chapter.chapters)
+    const course = useSelector(state => state.course.course)
     const storageVideo = useSelector(state => state.video.video)
     const isAuth = useSelector(state => state.user.isAuth)
-    const hasAccess = (userId === chapter.creatorId || isAdmin) && isAuth
+    const hasAccess = (userId === course.creatorId || isAdmin) && isAuth
     const [viewModal, setViewModal] = useState(false)
 
     const removeHandleClick = (e) => {

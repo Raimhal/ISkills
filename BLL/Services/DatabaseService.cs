@@ -19,26 +19,22 @@ namespace BLL.Services
 
     public class DatabaseService : IDatabaseService
     {
-        public void BackupDatabase(string postgresqlPath, string outputDirectoryPath, string databaseName, string username, string password, string host, string port)
+        public void BackupDatabase(string databaseString, string postgresqlPath, string outputDirectoryPath)
         {
             if (!Directory.Exists(outputDirectoryPath))
                 Directory.CreateDirectory(outputDirectoryPath);
+            var date = DateTime.UtcNow;
 
-            var databaseString = GetDatabaseString(databaseName, username, password, host, port);
-            var outputFileFullPath = Path.Combine(outputDirectoryPath, $"{databaseName}_backup.sql");
-            var command = $@"pg_dump {databaseString} > ""{outputFileFullPath}""";
+            var outputFileFullPath = Path.Combine(outputDirectoryPath, $"Backup_{date}.bak");
+            var command = $@"pg_dump -d {databaseString} > ""{outputFileFullPath}""";
             DatabaseAction(postgresqlPath, command);
         }
 
-        public void RestoreDatabase(string postgresqlPath, string inputFilePath, string databaseName, string username, string password, string host, string port)
+        public void RestoreDatabase(string databaseString, string postgresqlPath, string inputFilePath)
         {
-            var databaseString = GetDatabaseString(databaseName, username, password, host, port);
-            var command = $@"psql {databaseString} < ""{inputFilePath}""";
+            var command = $@"psql -d {databaseString} < ""{inputFilePath}""";
             DatabaseAction(postgresqlPath, command);
         }
-
-        private string GetDatabaseString(string databaseName, string username, string password, string host, string port)
-            => $"-d postgresql://{username}:{password}@{host}:{port}/{databaseName}";
 
         private void DatabaseAction(string postgresqlPath, string command)
         {

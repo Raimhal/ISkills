@@ -16,7 +16,6 @@ const SortAndSearch = ({sortList, params, action, onParamsChange}) => {
     return (
         <form onSubmit={(e) => {
             e.preventDefault()
-            console.log(params)
             dispatch(action())
         }} className={classes.div}
         >

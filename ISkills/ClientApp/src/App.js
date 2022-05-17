@@ -11,7 +11,6 @@ const App = () => {
     const dispatch = useDispatch()
     useEffect( () => {
         const localStorageUser = localStorage.getItem('currentUser')
-        console.log(localStorageUser)
         if(localStorageUser) {
             const currentUser = JSON.parse(localStorageUser)
             const isAuth = JSON.parse(localStorage.getItem('isAuth'))

@@ -15,7 +15,7 @@ import MyButton from "../components/UI/button/MyButton";
 import MyModal from "../components/UI/MyModal/MyModal";
 import CourseForm from "../components/course/CourseForm";
 import {useDispatch, useSelector} from "react-redux";
-import {clearCourse, getCourse, updateCourse, updateImage} from "../store/CourseReducer";
+import {clearCourse, getCourse, setCourse, updateCourse, updateImage} from "../store/CourseReducer";
 import {
     clearComments,
     createComment,
@@ -51,6 +51,7 @@ import {createVideo, removeVideo, updateVideo} from "../store/VideoReducer";
 const CoursePage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const categories = useSelector(state => state.category.categories)
     const course = useSelector(state => state.course.course)
     const comments = useSelector(state => state.comment.comments)
     const students = useSelector(state => state.user.users)
@@ -60,9 +61,8 @@ const CoursePage = () => {
     const isAuth = useSelector(state => state.user.isAuth)
     const isCourseLoading = useSelector(state => state.course.isLoading)
 
-    const hasAccess = course.creatorId === currentUser.id || isAdmin
-    const hasUserAccess = ( hasAccess || course.students?.some(x => x.id === currentUser.id)) && isAuth
-
+    const hasAccess = (course.creatorId === currentUser.id) || isAdmin
+    const hasUserAccess = hasAccess || course.students?.some(x => x.id === currentUser.id)
     const {id} = useParams()
 
     const commentsParams = useSelector(state => state.comment.params)
@@ -155,13 +155,13 @@ const CoursePage = () => {
                                     {course.price === 0
                                         ? <div className="price">
                                             <div> Free </div>
-                                            <MyButton onClick={() => assignUser(navigate)}>Get</MyButton>
+                                            <MyButton onClick={() => dispatch(assignUser(navigate))}>Get</MyButton>
                                         </div>
                                         : <div className="price">
                                             <div>{course.price} $</div>
-                                            <MyButton onClick={async () =>
+                                            <MyButton onClick={ () =>
                                                 // redirect to payment page
-                                                await dispatch(assignUser(navigate))
+                                                dispatch(assignUser(navigate))
                                             }>Buy now</MyButton>
                                         </div>
                                     }
@@ -170,7 +170,11 @@ const CoursePage = () => {
                                 { hasAccess &&
                                 <div>
                                     <Tooltip title="Edit" placement="bottom">
-                                        <IconButton aria-label="edit" onClick={() => setModal(true)}>
+                                        <IconButton aria-label="edit" onClick={() => {
+                                            const category = categories.find(x => x.id === course.theme?.categoryId)
+                                            dispatch(setCourse({...course, categoryId: category.id}))
+                                            setModal(true)
+                                        }}>
                                             <EditIcon />
                                         </IconButton>
                                     </Tooltip>

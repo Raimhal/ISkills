@@ -1,15 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Menu, MenuItem, Typography} from "@material-ui/core";
-import NestedMenuItem from "material-ui-nested-menu-item";
-import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {useFetching} from "../../../hooks/useFetching";
-import ThemeService from "../../../API/ThemeService";
-import {setCategories} from "../../../store/CategoryReducer";
-import CategoryService from "../../../API/CategoryService";
-import {setParams} from "../../../store/CourseReducer";
+import {useNavigate} from "react-router-dom";
 import {adminRoutes} from "../../../router";
-import classes from "../navbar/Navbar.module.css";
 
 const AdminMenu = ({label, className, props}) => {
     const [menuPosition, setMenuPosition] = useState(null);

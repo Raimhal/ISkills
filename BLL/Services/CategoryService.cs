@@ -25,7 +25,7 @@ namespace BLL.Services
 
         private readonly List<Expression<Func<Category, dynamic>>> includes = new () 
         {
-            x => x.Themes
+
         };
 
         public async Task<PaginationList<CategoryDto>> GetList(int skip, int take, string query,
@@ -42,13 +42,16 @@ namespace BLL.Services
 
         public async Task<List<CategoryDto>> GetListAll(string query, string sortOption,
             bool reverse, CancellationToken cancellationToken, params object[] dynamics)
-            => await _categoryDbContext.Categories.GetListAllAsync<Category, CategoryDto>(
-                _mapper,
-                c => c.Title.Contains(query.ToLower().Trim()),
-                sortOption,
-                reverse,
-                new() { },
-                cancellationToken);
+        {
+            var list = await _categoryDbContext.Categories.GetListAllAsync<Category, CategoryDto>(
+                  _mapper,
+                  c => c.Title.Contains(query.ToLower().Trim()),
+                  sortOption,
+                  reverse,
+                  new() {  },
+                  cancellationToken);
+            return list;
+        }
 
         public async Task<Category> GetByIdAsync(int id, CancellationToken cancellationToken) 
             => await _categoryDbContext.Categories.GetAsync(

@@ -1,6 +1,8 @@
 import {responseHandler} from "./ResponseHandler";
 import ThemeService from "../API/ThemeService";
 import {setCategories} from "./CategoryReducer";
+import CourseService from "../API/CourseService";
+import {setCourse} from "./CourseReducer";
 
 
 const defaultState = {
@@ -108,6 +110,13 @@ export const getAllThemes = (categoryId = null) => async (dispatch, getState) =>
     }, setError, setLoading)
 };
 
+export const getTheme = (id) => async (dispatch) => {
+    await responseHandler(dispatch, async () => {
+        const theme = await ThemeService.GetTheme(id)
+        dispatch(setTheme(theme))
+    }, setError, setLoading)
+};
+
 export const getThemes = (categoryId = null) => async (dispatch, getState) => {
     const params = getState().theme.params
 
@@ -123,7 +132,7 @@ export const getThemes = (categoryId = null) => async (dispatch, getState) => {
         const [totalCount, newThemes] = await ThemeService.GetThemes({
             params: newParams
         })
-        console.log(newThemes)
+
         dispatch(setParams(newParams))
         dispatch(setThemes(newThemes))
         dispatch(setTotalCount(+totalCount))

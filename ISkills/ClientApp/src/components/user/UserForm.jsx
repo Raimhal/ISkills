@@ -1,9 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import MyInput from "../UI/input/MyInput";
 import MyButton from "../UI/button/MyButton";
-import defaultUserImage from "../../assets/images/defaultUserImage.png";
-import {useFetching} from "../../hooks/useFetching";
-import {clearVideo, setVideo} from "../../store/VideoReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
@@ -100,7 +97,7 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
                 helperText={formik.touched.lastName && formik.errors.lastName}
             />
             <MyAlert type="error" item={error}/>
-            <MyButton type="submit" onClick={() => console.log(formik.errors)}>{submitTitle}</MyButton>
+            <MyButton type="submit">{submitTitle}</MyButton>
         </form>
     );
 };

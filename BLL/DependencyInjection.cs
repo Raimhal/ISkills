@@ -29,11 +29,11 @@ namespace BLL
             services.AddScoped<IDatabaseService, DatabaseService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
 
-            if (isDevelopment)
-            {
-                services.AddSingleton<AutoBackupService>();
-                services.AddHostedService<AutoBackupService>();
-            }
+            //if (isDevelopment)
+            //{
+            //    services.AddSingleton<AutoBackupService>();
+            //    services.AddHostedService<AutoBackupService>();
+            //}
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

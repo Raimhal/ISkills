@@ -15,7 +15,7 @@ const LoginPage = () => {
     const user = useSelector(state => state.user.user)
     const error = useSelector(state => state.user.error)
 
-    const loginAction = async () => await dispatch(login(navigate))
+    const loginAction = () => dispatch(login(navigate))
 
 
     const schema = yup.object({

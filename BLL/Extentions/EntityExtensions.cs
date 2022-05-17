@@ -43,16 +43,16 @@ namespace BLL.Services
             where T : class where TDto : class
             => new()
             {
-                TotalCount = await includes
-                .Aggregate(
-                    context.AsQueryable<T>(),
-                    (current, include) => current.Include(include)
-                )
+                TotalCount = await context 
                 .Where(expression)
                 .AsNoTracking()
                 .CountAsync(cancellationToken),
 
-                List = _mapper.Map<List<TDto>>(await context
+                List = _mapper.Map<List<TDto>>(await includes
+                .Aggregate(
+                    context.AsQueryable(),
+                    (current, include) => current.Include(include)
+                )
                 .Where(expression)
                 .OrderBy(sortOption, reverse)
                 .Skip(skip)
@@ -68,7 +68,7 @@ namespace BLL.Services
             where T : class where TDto : class 
             => _mapper.Map<List<TDto>>(await includes
                 .Aggregate(
-                    context.AsQueryable<T>(),
+                    context.AsQueryable(),
                     (current, include) => current.Include(include)
                 )
                 .Where(expression)

@@ -3,6 +3,7 @@ import UserService from "../API/UserService";
 import {responseHandler} from "./ResponseHandler";
 import jwt_decode from "jwt-decode";
 import CourseService from "../API/CourseService";
+import {setCourse} from "./CourseReducer";
 
 
 const defaultState = {
@@ -142,8 +143,7 @@ export const assignUser = (navigate = null) => async (dispatch, getState) => {
 
     await responseHandler(dispatch, async () => {
         await CourseService.ToggleAssignment(course.id)
-        console.log(currentUser)
-        dispatch(setUsers([...students, currentUser]))
+        dispatch(setCourse({...course, students: [...course.students, currentUser]}))
         dispatch(setUser({...currentUser, courses: [...currentUser.courses, course]}))
     }, setError, setLoading)
 }
@@ -166,11 +166,11 @@ export const getUsers = (courseId = null) => async (dispatch, getState) => {
             skip: (params.page - 1) * params.take,
             courseId: courseId
         }
-        console.log(newParams)
+
         const [totalCount, newUsers] = await UserService.GetUsers({
             params: newParams
         })
-        console.log(newUsers)
+
         dispatch(setParams(newParams))
         dispatch(setUsers(newUsers))
         dispatch(setTotalCount(+totalCount))

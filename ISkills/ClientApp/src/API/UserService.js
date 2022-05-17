@@ -3,12 +3,9 @@ import EntityService from "./EntityService";
 
 export  default class UserService {
     static async GetUsers(config = {}) {
-        console.log('request')
-        console.log(config)
         const response = await EntityService.Get('/users', config)
         const users = response.data
         const totalCount = response.headers['x-total-count']
-        console.log(users)
         return [totalCount, users]
     }
 
@@ -19,9 +16,7 @@ export  default class UserService {
 
     static async getCurrentUser(config = {}) {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-        console.log(currentUser)
         const response = await EntityService.Get(`/users/${currentUser.userId}/short-information`, config)
-        console.log(response.data)
         return response.data
     }
 

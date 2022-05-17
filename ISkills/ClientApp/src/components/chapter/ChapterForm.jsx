@@ -5,7 +5,6 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import MyEditor from "../UI/editor/MyEditor";
 import {useDispatch, useSelector} from "react-redux";
 import {setChapter} from "../../store/ChapterReducer";
-import {useFetching} from "../../hooks/useFetching";
 import * as yup from "yup";
 import {useFormik} from "formik";
 

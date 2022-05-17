@@ -101,6 +101,7 @@ export const getCourse = (id, navigate = null) => async (dispatch, getState) => 
 
     await responseHandler(dispatch, async () => {
         const course = await CourseService.GetCourse(id)
+
         dispatch(setCourse({...course, categoryId: ''}))
     }, setError, setLoading)
     navigate && error && navigate('/404')
@@ -141,7 +142,6 @@ export const createCourse = (setModal = null, navigate = null) => async (dispatc
     await responseHandler(dispatch, async () => {
         const courseId = await CourseService.Create(course)
         dispatch(setCourses([...courses, {...course, id: courseId, rating: 0}]))
-        setModal(false)
         dispatch(setTotalCount(+totalCount + 1))
         setModal && setModal(false)
         navigate && navigate(`/courses/${courseId}`)
@@ -167,6 +167,7 @@ export const updateCourse = (setModal = null) => async (dispatch, getState)  => 
     const state = getState().course
     const course = state.course
     const courses = state.courses
+
     await responseHandler(dispatch, async () => {
         const index = courses.findIndex(x => x.id === course.id)
         await CourseService.Update(course.id, course)

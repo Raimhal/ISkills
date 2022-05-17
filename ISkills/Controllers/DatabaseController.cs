@@ -24,32 +24,22 @@ namespace Iskills.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("api/database/backup")]
-        public void BackupDatabase(
-            string postgresqlPath = @"E:\Postgesql\bin",
-            string databaseName = "ISkillsDB",
-            string outputDirectoryPath = @"E:\it\Secound Course\ISkills\backend",
-            string username = "postgres",
-            string password = "Epidemic2021",
-            string host = "127.0.0.1",
-            string port = "5432")
+        public void BackupDatabase(string outputDirectoryPath = @"E:\it\Secound Course\ISkills\backend")
         {
-            _databaseService.BackupDatabase(postgresqlPath, outputDirectoryPath, databaseName, username, password, host, port);
+            string postgresPath = Environment.GetEnvironmentVariable("PG_PATH") ?? @"E:\Postgesql\bin";
+            string database = Environment.GetEnvironmentVariable("DATABASE_URL");
+            _databaseService.BackupDatabase(outputDirectoryPath, postgresPath, database);
             NoContent();
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("api/database/restore")]
-        public void RestoreDatabase(
-            string postgresqlPath = @"E:\Postgesql\bin",
-            string databaseName = "DumpDatabase",
-            string inputFilePath = @"E:\it\Secound Course\ISkills\backend\ISkillsDb_backup.sql",
-            string username = "postgres",
-            string password = "Epidemic2021",
-            string host = "127.0.0.1",
-            string port = "5432")
+        public void RestoreDatabase(string inputFilePath)
         {
-            _databaseService.RestoreDatabase(postgresqlPath, inputFilePath, databaseName, username, password, host, port);
+            string postgresPath = Environment.GetEnvironmentVariable("PG_PATH");
+            string database = Environment.GetEnvironmentVariable("DATABASE_URL");
+            _databaseService.RestoreDatabase(inputFilePath, postgresPath, database);
             NoContent();
         }
 

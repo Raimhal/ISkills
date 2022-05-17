@@ -40,14 +40,12 @@ namespace BLL.Tasks
         {
             using var scope = _services.CreateScope();
             var databaseService = scope.ServiceProvider.GetRequiredService<IDatabaseService>();
-            string postgresqlPath = @"E:\Postgesql\bin";
-            string databaseName = "ISkillsDB";
-            string outputDirectoryPath = @"./";
-            string username = "postgres";
-            string password = "Epidemic2021";
-            string host = "127.0.0.1";
-            string port = "5432";
-            databaseService.BackupDatabase(postgresqlPath, outputDirectoryPath, databaseName, username, password, host, port);
+
+            string outputDirectoryPath = Environment.GetEnvironmentVariable("BACKUP_OUTPATH");
+            string postgresPath = Environment.GetEnvironmentVariable("PG_PATH");
+            string database = Environment.GetEnvironmentVariable("DATABASE_URL");
+
+            databaseService.BackupDatabase(database, postgresPath, outputDirectoryPath);
 
         }
     }

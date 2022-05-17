@@ -1,33 +1,29 @@
 import React, {useEffect, useState} from 'react';
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton} from '@mui/material'
+import {IconButton} from '@mui/material'
 import {useDispatch, useSelector} from "react-redux";
-import {useFetching} from "../hooks/useFetching";
-import CourseService from "../API/CourseService";
 
 import {
+    getCourse,
     getCourses,
     removeCourse,
     setCourse,
-    setCourses,
     setParams,
-    setTotalCount,
-    updateCourse, updateImage
+    updateCourse,
+    updateImage
 } from "../store/CourseReducer";
 
 import MyTable from "../components/UI/table/MyTable";
 import MyPagination from "../components/UI/pagination/MyPagination";
 import SortAndSearch from "../components/UI/sortAndSearch/SortAndSearch";
-import {Link} from "react-router-dom";
-import {adminRoutes} from "../router";
 import AdminNavbar from "../components/UI/navbar/AdminNavbar";
 import MyModal from "../components/UI/MyModal/MyModal";
 import CourseForm from "../components/course/CourseForm";
 import ImageUpload from "../components/UI/Upload/ImageUpload";
-import MyButton from "../components/UI/button/MyButton";
 import {Tooltip} from "@material-ui/core";
-import EditIcon from "@mui/icons-material/Edit";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import defaultCourseImage from '../assets/images/defaultCourseImage.png'
+import {getTheme} from "../store/ThemeReducer";
+import {getAllCategories, getCategories} from "../store/CategoryReducer";
 
 const AdminCourses = () => {
     const courses = useSelector(state => state.course.courses)
@@ -36,7 +32,11 @@ const AdminCourses = () => {
     const totalCount = useSelector(state => state.course.totalCount)
     const isLoading = useSelector(state => state.course.isLoading)
     const error = useSelector(state => state.course.error)
+    const categories = useSelector(state => state.category.categories)
+    const theme = useSelector(state => state.theme.theme)
+
     const dispatch = useDispatch()
+
     const [modal, setModal] = useState(false)
     const [imageModal, setImageModal] = useState(false)
 
