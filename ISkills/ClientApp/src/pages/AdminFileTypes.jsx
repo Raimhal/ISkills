@@ -29,10 +29,8 @@ const AdminFileTypes = () => {
         dispatch(setParams({...params, page: page}))
     }
 
-    const getTypes = async () => await dispatch(getFileTypes());
-
     useEffect( () =>{
-        getTypes()
+        dispatch(getFileTypes())
     }, [params.page, params.sortOption, params.reverse])
 
     return (

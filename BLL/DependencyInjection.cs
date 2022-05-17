@@ -29,7 +29,7 @@ namespace BLL
             services.AddScoped<IDatabaseService, DatabaseService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
 
-            if (!isDevelopment)
+            if (isDevelopment)
             {
                 services.AddSingleton<AutoBackupService>();
                 services.AddHostedService<AutoBackupService>();

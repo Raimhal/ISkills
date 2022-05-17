@@ -42,7 +42,7 @@ namespace BLL.Tasks
             var databaseService = scope.ServiceProvider.GetRequiredService<IDatabaseService>();
             string postgresqlPath = @"E:\Postgesql\bin";
             string databaseName = "ISkillsDB";
-            string outputDirectoryPath = @"E:\it\Secound Course\ISkills\backend";
+            string outputDirectoryPath = @"./";
             string username = "postgres";
             string password = "Epidemic2021";
             string host = "127.0.0.1";
