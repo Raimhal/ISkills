@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "DAL": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DATABASE_URL": "postgres://thzsqpdztcytns:cc877de685e16e774d9d92fc8f8b2fa0cf3c6eff6fb75fe47a20ec1019d0638a@ec2-99-81-137-11.eu-west-1.compute.amazonaws.com:5432/d9adol3momb8ei"
+      }
+    }
+  }
+}

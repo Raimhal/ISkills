@@ -24,6 +24,7 @@ import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import defaultCourseImage from '../assets/images/defaultCourseImage.png'
 import {getTheme} from "../store/ThemeReducer";
 import {getAllCategories, getCategories} from "../store/CategoryReducer";
+import ThemeService from "../API/ThemeService";
 
 const AdminCourses = () => {
     const courses = useSelector(state => state.course.courses)
@@ -62,8 +63,10 @@ const AdminCourses = () => {
                     <MyTable
                         items={courses}
                         remove={removeCourse}
-                        updateClick={(course) => {
-                            dispatch(setCourse(course))
+                        updateClick={async (course) => {
+                            const courseTheme = await ThemeService.GetTheme(course.themeId)
+                            const category = categories.find(x => x.id === courseTheme.categoryId)
+                            dispatch(setCourse({...course, categoryId: category.id}))
                             setModal(true)
                         }}
                         iconChildren={ (url, course) =>
