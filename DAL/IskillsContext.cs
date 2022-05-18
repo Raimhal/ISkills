@@ -48,8 +48,13 @@ namespace DAL
 
         public static string GetConnectionString(IConfiguration configuration)
         {
+            var host = Environment.GetEnvironmentVariable("HOST");
+            var port = Environment.GetEnvironmentVariable("PG_PORT");
+            var database = Environment.GetEnvironmentVariable("PG_DATABASE");
+            var username = Environment.GetEnvironmentVariable("PG_USER");
+            var password = Environment.GetEnvironmentVariable("PG_PASSWORD");
+            var connectionString = $"host={host};port={port};database={database};username={username};password={password};";
 
-            string connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
             if (string.IsNullOrEmpty(connectionString))
                 connectionString = configuration.GetConnectionString("DbConnection");
 
