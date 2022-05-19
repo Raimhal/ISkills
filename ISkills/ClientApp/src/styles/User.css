@@ -33,4 +33,6 @@
     display: flex;
     flex-flow: wrap;
     gap: 0.5rem;
+    justify-content: center;
+    max-width: 300px;
 }

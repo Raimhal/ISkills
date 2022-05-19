@@ -2,10 +2,10 @@ import React, {useEffect} from 'react'
 import "../styles/App.css"
 import "../styles/Course.css"
 import CourseList from "../components/course/CourseList";
-import MyPagination from "../components/UI/pagination/MyPagination";
-import {getCourses, removeCourse, setParams} from "../store/CourseReducer";
+import MyPagination from "../components/UI/Pagination/MyPagination";
+import {clearCourse, clearCourses, getCourses, removeCourse, setParams} from "../store/CourseReducer";
 import {useDispatch, useSelector} from "react-redux";
-import SortAndSearch from "../components/UI/sortAndSearch/SortAndSearch";
+import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 
 
 const Courses = () => {
@@ -25,6 +25,10 @@ const Courses = () => {
 
     useEffect( () => {
         dispatch(getCourses());
+
+        return () => {
+            dispatch(clearCourses())
+        }
     }, [params.page, params.sortOption, params.themeId, params.reverse])
 
 

@@ -2,18 +2,18 @@ import React from 'react';
 import {useNavigate} from 'react-router-dom'
 import '../../styles/Course.css'
 import '../../styles/Button.css'
-import MyRating from "../UI/rating/MyRating";
+import MyRating from "../UI/Rating/MyRating";
 import defaultCourseImage from '../../assets/images/defaultCourseImage.png'
 import ReactHtmlParser from "react-html-parser";
-import MyEditor from "../UI/editor/MyEditor";
-import MyTextarea from "../UI/textarea/MyTextarea";
+import MyEditor from "../UI/Editor/MyEditor";
+import MyTextarea from "../UI/Textarea/MyTextarea";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import {IconButton} from '@mui/material';
 import {Tooltip} from "@material-ui/core";
 import {useDispatch} from "react-redux";
 import languageImage from "../../assets/images/language.png";
-import MyInput from "../UI/input/MyInput";
+import MyInput from "../UI/Input/MyInput";
 
 
 const CourseItem = ({course, remove, userId, isAdmin}) => {

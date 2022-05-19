@@ -1,21 +1,23 @@
 import React, {useEffect} from 'react';
-import MyInput from "../UI/input/MyInput";
-import MyButton from "../UI/button/MyButton";
-import MySelect from "../UI/select/MySelect";
+import MyInput from "../UI/Input/MyInput";
+import MyButton from "../UI/Button/MyButton";
+import MySelect from "../UI/Select/MySelect";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
 import {getAllCategories} from "../../store/CategoryReducer";
 import {setTheme} from "../../store/ThemeReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import MyFormikAlert from "../UI/alert/MyFormikAlert";
-import MyAlert from "../UI/alert/MyAlert";
+import MyFormikAlert from "../UI/Alert/MyFormikAlert";
+import MyAlert from "../UI/Alert/MyAlert";
+import Loading from "../UI/Loading/Loading";
 
 const ThemeForm = ({action, title, ...props}) => {
     const theme = useSelector(state => state.theme.theme)
     const categories = useSelector(state => state.category.categories)
     const dispatch = useDispatch()
     const error = useSelector(state => state.theme.error)
+    const isLoading = useSelector(state => state.theme.isLoading)
 
 
     const themeAction =  async () => await action()
@@ -70,7 +72,7 @@ const ThemeForm = ({action, title, ...props}) => {
             />
             <MyFormikAlert condition={formik.touched.categoryId && Boolean(formik.errors.categoryId)} item={formik.errors.categoryId}/>
             <MyAlert item={error}/>
-            <MyButton type="submit">{title}</MyButton>
+            <MyButton type="submit">{!isLoading ? title : <Loading/>}</MyButton>
         </form>
     );
 };

@@ -51,5 +51,27 @@ namespace BLL.Services
             process.WaitForExit();
             process.Close();
         }
+
+
+        public string GetConnectionString(IConfiguration configuration)
+        {
+            string connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+            if (string.IsNullOrEmpty(connectionString))
+                connectionString = configuration.GetConnectionString("DbConnection");
+            else
+            {
+                connectionString = connectionString.Split("//")[1];
+                string user = connectionString.Split(':')[0];
+                connectionString = connectionString.Replace(user, "").Substring(1);
+                string password = connectionString.Split('@')[0];
+                connectionString = connectionString.Replace(password, "").Substring(1);
+                string server = connectionString.Split(':')[0];
+                connectionString = connectionString.Replace(server, "").Substring(1);
+                string port = connectionString.Split('/')[0];
+                string database = connectionString.Split('/')[1];
+                connectionString = $"Host={server};Port={port};Database={database};Username={user};Password={password}";
+            }
+            return connectionString;
+        }
     }
 }

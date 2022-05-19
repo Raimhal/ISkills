@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import '../../styles/Chapter.css'
 import '../../styles/Button.css'
-import MyTextarea from "../UI/textarea/MyTextarea";
+import MyTextarea from "../UI/Textarea/MyTextarea";
 import {useDispatch, useSelector} from "react-redux";
 import {setChapter} from "../../store/ChapterReducer";
 import MyModal from "../UI/MyModal/MyModal";

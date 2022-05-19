@@ -10,6 +10,13 @@ export  default class CourseService {
         return [totalCount, courses]
     }
 
+    static async GetMyCourses(config = {}) {
+        const response = await EntityService.Get('/courses/my', config)
+        const courses = response.data
+        const totalCount = response.headers['x-total-count']
+        return [totalCount, courses]
+    }
+
     static async GetCourse(id, config ={}) {
         const path = `/courses/${id}`
         return (await EntityService.Get(path, config)).data

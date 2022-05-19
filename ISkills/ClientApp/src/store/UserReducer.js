@@ -148,7 +148,7 @@ export const assignUser = (navigate = null) => async (dispatch, getState) => {
     }, setError, setLoading)
 }
 
-export const getCurrentUser = () => async (dispatch) => {
+export const getCurrentUser = () => async (dispatch, getState) => {
     await responseHandler(dispatch, async () => {
         const currentUser = await UserService.getCurrentUser()
         dispatch(setUser(currentUser))

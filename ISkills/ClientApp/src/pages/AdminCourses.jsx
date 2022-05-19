@@ -12,10 +12,10 @@ import {
     updateImage
 } from "../store/CourseReducer";
 
-import MyTable from "../components/UI/table/MyTable";
-import MyPagination from "../components/UI/pagination/MyPagination";
-import SortAndSearch from "../components/UI/sortAndSearch/SortAndSearch";
-import AdminNavbar from "../components/UI/navbar/AdminNavbar";
+import MyTable from "../components/UI/Table/MyTable";
+import MyPagination from "../components/UI/Pagination/MyPagination";
+import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
+import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
 import MyModal from "../components/UI/MyModal/MyModal";
 import CourseForm from "../components/course/CourseForm";
 import ImageUpload from "../components/UI/Upload/ImageUpload";
@@ -99,6 +99,8 @@ const AdminCourses = () => {
                             title="Update image"
                             submitTitle="Save"
                             setVisible={setImageModal}
+                            isLoading={isLoading}
+                            error={error}
                         />
                     </MyModal>
                     }

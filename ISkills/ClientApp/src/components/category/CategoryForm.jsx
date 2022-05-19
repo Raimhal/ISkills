@@ -1,17 +1,19 @@
 import React from 'react';
-import MyInput from "../UI/input/MyInput";
-import MyButton from "../UI/button/MyButton";
+import MyInput from "../UI/Input/MyInput";
+import MyButton from "../UI/Button/MyButton";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
 import {setCategory} from "../../store/CategoryReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import MyAlert from "../UI/alert/MyAlert";
+import MyAlert from "../UI/Alert/MyAlert";
+import Loading from "../UI/Loading/Loading";
 
 const CategoryForm = ({action, title, ...props}) => {
     const category = useSelector(state => state.category.category)
     const dispatch = useDispatch()
     const error = useSelector(state => state.category.error)
+    const isLoading = useSelector(state => state.category.isLoading)
 
     const categoryAction =  async () => await action()
 
@@ -44,7 +46,7 @@ const CategoryForm = ({action, title, ...props}) => {
                 helperText={formik.touched.title && formik.errors.title}
             />
             <MyAlert item={error}/>
-            <MyButton type="submit">{title}</MyButton>
+            <MyButton type="submit">{!isLoading ? title : <Loading/>}</MyButton>
         </form>
     );
 };

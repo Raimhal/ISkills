@@ -2,7 +2,7 @@ import React from 'react';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import {TextField} from "@mui/material";
 import classes from './MyInput.module.css'
-import {colorTheme} from "../themes";
+import {colorTheme} from "../Themes";
 
 const MyInput = ({children, label, ...props}) => {
     return (

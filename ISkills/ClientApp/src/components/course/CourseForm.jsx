@@ -1,22 +1,24 @@
 import React, {useEffect} from 'react';
-import MyInput from "../UI/input/MyInput";
-import MyButton from "../UI/button/MyButton";
-import MySelect from "../UI/select/MySelect";
+import MyInput from "../UI/Input/MyInput";
+import MyButton from "../UI/Button/MyButton";
+import MySelect from "../UI/Select/MySelect";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import MyEditor from "../UI/editor/MyEditor";
+import MyEditor from "../UI/Editor/MyEditor";
 import {useDispatch, useSelector} from "react-redux";
 import {setCourse} from "../../store/CourseReducer";
 import {getAllCategories} from "../../store/CategoryReducer";
 import {getAllThemes} from "../../store/ThemeReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import MyFormikAlert from "../UI/alert/MyFormikAlert";
-import MyAlert from "../UI/alert/MyAlert";
+import MyFormikAlert from "../UI/Alert/MyFormikAlert";
+import MyAlert from "../UI/Alert/MyAlert";
+import Loading from "../UI/Loading/Loading";
 
 const CourseForm = ({action, title, ...props}) => {
     const course = useSelector(state => state.course.course)
     const dispatch = useDispatch()
     const error = useSelector(state => state.course.error)
+    const isLoading = useSelector(state => state.course.isLoading)
 
     const languages = [
         {name: "English", value: "english"},
@@ -200,8 +202,7 @@ const CourseForm = ({action, title, ...props}) => {
                 }
             </div>
             <MyAlert item={error}/>
-            <MyButton type="submit" onClick={() => {
-            }}>{title}</MyButton>
+            <MyButton type="submit">{!isLoading ? title : <Loading/>}</MyButton>
         </form>
     );
 };

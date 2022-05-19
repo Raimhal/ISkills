@@ -1,19 +1,21 @@
 import React from 'react';
-import MyInput from "../UI/input/MyInput";
-import MyButton from "../UI/button/MyButton";
+import MyInput from "../UI/Input/MyInput";
+import MyButton from "../UI/Button/MyButton";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import MyEditor from "../UI/editor/MyEditor";
+import MyEditor from "../UI/Editor/MyEditor";
 import {useDispatch, useSelector} from "react-redux";
 import {setChapter} from "../../store/ChapterReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
 
-import MyAlert from "../UI/alert/MyAlert";
+import MyAlert from "../UI/Alert/MyAlert";
+import Loading from "../UI/Loading/Loading";
 
 const ChapterForm = ({action, title, ...props}) => {
     const chapter = useSelector(state => state.chapter.chapter)
     const dispatch = useDispatch()
     const error = useSelector(state => state.chapter.error)
+    const isLoading = useSelector(state => state.chapter.isLoading)
 
     const chapterAction = async () => await action()
 
@@ -65,7 +67,7 @@ const ChapterForm = ({action, title, ...props}) => {
                 />
             </div>
             <MyAlert type="error" item={error}/>
-            <MyButton type="submit">{title}</MyButton>
+            <MyButton type="submit">{!isLoading ? title : <Loading/>}</MyButton>
         </form>
     );
 };

@@ -1,11 +1,11 @@
 import React from 'react';
-import MyInput from "../UI/input/MyInput";
-import MyButton from "../UI/button/MyButton";
+import MyInput from "../UI/Input/MyInput";
+import MyButton from "../UI/Button/MyButton";
 import * as yup from "yup";
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "../../store/UserReducer";
-import MyAlert from "../UI/alert/MyAlert";
+import MyAlert from "../UI/Alert/MyAlert";
 import {useNavigate} from "react-router-dom";
 
 const RegistrationForm = ({action, title = null, submitTitle, ...props}) => {

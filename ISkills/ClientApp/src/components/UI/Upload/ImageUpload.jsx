@@ -1,7 +1,8 @@
 import React from 'react';
-import MyButton from "../button/MyButton";
+import MyButton from "../Button/MyButton";
+import Loading from "../Loading/Loading";
 
-const ImageUpload = ({action, submitTitle}) => {
+const ImageUpload = ({action, error, isLoading, submitTitle}) => {
     const imageAction = (e) => {
         e.preventDefault()
         action()
@@ -16,8 +17,8 @@ const ImageUpload = ({action, submitTitle}) => {
                 accept="image/*"
                 required
             />
-            {/*<MyAlert item={error}/>*/}
-            <MyButton type="submit">{submitTitle}</MyButton>
+            <MyAlert item={error}/>
+            <MyButton type="submit">{!isLoading ? submitTitle : <Loading/>}</MyButton>
         </form>
     )
 };

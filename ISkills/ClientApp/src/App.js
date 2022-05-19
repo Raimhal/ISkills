@@ -2,13 +2,14 @@ import React, {useEffect} from 'react'
 import "./styles/App.css"
 import "./styles/Course.css"
 import {BrowserRouter} from "react-router-dom";
-import Navbar from "./components/UI/navbar/Navbar";
+import Navbar from "./components/UI/Navbar/Navbar";
 import AppRouter from "./components/AppRouter";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setIsAdmin, setIsAuth, setUser} from "./store/UserReducer";
 
 const App = () => {
     const dispatch = useDispatch()
+    const user = useSelector(state => state.user.user)
     useEffect( () => {
         const localStorageUser = localStorage.getItem('currentUser')
         if(localStorageUser) {
@@ -17,7 +18,7 @@ const App = () => {
             const isAdmin = JSON.parse(localStorage.getItem('isAdmin'))
             dispatch(setIsAuth(isAuth))
             dispatch(setIsAdmin(isAdmin))
-            dispatch(setUser(currentUser))
+            dispatch(setUser({...user, ...currentUser}))
         }
     }, [])
 

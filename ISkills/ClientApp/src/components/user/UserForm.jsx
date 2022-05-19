@@ -1,16 +1,19 @@
-import React from 'react';
-import MyInput from "../UI/input/MyInput";
-import MyButton from "../UI/button/MyButton";
+import React, {useEffect} from 'react';
+import MyInput from "../UI/Input/MyInput";
+import MyButton from "../UI/Button/MyButton";
 import * as yup from "yup";
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "../../store/UserReducer";
-import MyAlert from "../UI/alert/MyAlert";
+import MyAlert from "../UI/Alert/MyAlert";
+import Loading from "../UI/Loading/Loading";
 
 const UserForm = ({action, title = null, submitTitle, ...props}) => {
     const dispatch = useDispatch()
-    const currentUser = useSelector(state => state.user.user)
+    const user = useSelector(state => state.user.user)
     const error = useSelector(state => state.user.error)
+    const isLoading = useSelector(state => state.user.isLoading)
+
 
     const userAction = async () => await action()
 
@@ -35,10 +38,12 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
     });
 
     const formik = useFormik({
-        initialValues: currentUser,
+        initialValues: user,
         validationSchema: schema,
         onSubmit: userAction
     })
+
+    console.log(user)
 
 
     return (
@@ -50,7 +55,7 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
                 defaultValue={formik.values.userName}
                 onChange={e => {
                     formik.handleChange(e)
-                    dispatch(setUser({...currentUser, userName: e.target.value}))
+                    dispatch(setUser({...user, userName: e.target.value}))
                 }}
                 onBlur={formik.handleBlur}
                 label="Username"
@@ -63,7 +68,7 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
                 defaultValue={formik.values.email}
                 onChange={e => {
                     formik.handleChange(e)
-                    dispatch(setUser({...currentUser, email: e.target.value}))
+                    dispatch(setUser({...user, email: e.target.value}))
                 }}
                 onBlur={formik.handleBlur}
                 label="Email"
@@ -76,7 +81,7 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
                 defaultValue={formik.values.firstName}
                 onChange={e => {
                     formik.handleChange(e)
-                    dispatch(setUser({...currentUser, firstName: e.target.value}))
+                    dispatch(setUser({...user, firstName: e.target.value}))
                 }}
                 onBlur={formik.handleBlur}
                 label="Firstname"
@@ -89,7 +94,7 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
                 defaultValue={formik.values.lastName}
                 onChange={e => {
                     formik.handleChange(e)
-                    dispatch(setUser({...currentUser, lastName: e.target.value}))
+                    dispatch(setUser({...user, lastName: e.target.value}))
                 }}
                 onBlur={formik.handleBlur}
                 label="Lastname"
@@ -97,7 +102,7 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
                 helperText={formik.touched.lastName && formik.errors.lastName}
             />
             <MyAlert type="error" item={error}/>
-            <MyButton type="submit">{submitTitle}</MyButton>
+            <MyButton type="submit">{!isLoading ? submitTitle : <Loading/>}</MyButton>
         </form>
     );
 };

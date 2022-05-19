@@ -1,13 +1,13 @@
 import React from 'react';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import MyInput from "../components/UI/input/MyInput";
-import MyButton from "../components/UI/button/MyButton";
+import MyInput from "../components/UI/Input/MyInput";
+import MyButton from "../components/UI/Button/MyButton";
 import {useDispatch, useSelector} from "react-redux";
 import {login, setUser} from "../store/UserReducer";
 import {useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import * as yup from 'yup';
-import MyAlert from "../components/UI/alert/MyAlert";
+import MyAlert from "../components/UI/Alert/MyAlert";
 
 const LoginPage = () => {
     const navigate = useNavigate()

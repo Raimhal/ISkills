@@ -46,17 +46,6 @@ namespace DAL
             services.AddScoped<IRefreshTokenDbContext>(provider =>
                 provider.GetService<IskillsContext>());
 
-            //var blobStorageConnectionString = $"DefaultEndpointsProtocol=https;" +
-            //    $"AccountName={Environment.GetEnvironmentVariable("AZURE_BLOB_ACCOUNT_NAME")};" +
-            //    $"AccountKey={Environment.GetEnvironmentVariable("AZURE_BLOB_ACCOUNT_KEY")};" +
-            //    $"EndpointSuffix=core.windows.net";
-
-            services.AddSingleton(x => new BlobServiceClient
-            (
-                //blobStorageConnectionString
-                configuration.GetConnectionString("BlobServiceConnection")
-            ));
-
             return services;
         }
     }

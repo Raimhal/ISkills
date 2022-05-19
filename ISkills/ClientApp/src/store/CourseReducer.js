@@ -108,7 +108,29 @@ export const getCourse = (id, navigate = null) => async (dispatch, getState) => 
 
 };
 
-export const getCourses = () => async (dispatch, getState) => {
+export const getCourses = (creatorId = null) => async (dispatch, getState) => {
+    const params = getState().course.params
+
+    await responseHandler(dispatch, async () => {
+        if (params.query === '')
+            delete params.query
+        const newParams = {
+            ...params,
+            skip: (params.page - 1) * params.take,
+            creatorId: creatorId
+        }
+
+        const [totalCount, newCourses] = await CourseService.GetCourses({
+            params: newParams
+        })
+        dispatch(clearCourses())
+        dispatch(setParams(newParams))
+        dispatch(setCourses(newCourses))
+        dispatch(setTotalCount(+totalCount))
+    }, setError, setLoading)
+};
+
+export const getMemberCourses = () => async (dispatch, getState) => {
     const params = getState().course.params
 
     await responseHandler(dispatch, async () => {
@@ -119,21 +141,15 @@ export const getCourses = () => async (dispatch, getState) => {
             skip: (params.page - 1) * params.take,
         }
 
-        if(newParams.creatorId == null)
-            delete newParams.creatorId
-
-        if(newParams.themeId == null)
-            delete newParams.themeId
-
-        const [totalCount, newCourses] = await CourseService.GetCourses({
+        const [totalCount, newCourses] = await CourseService.GetMyCourses({
             params: newParams
         })
+        dispatch(clearCourses())
         dispatch(setParams(newParams))
         dispatch(setCourses(newCourses))
         dispatch(setTotalCount(+totalCount))
     }, setError, setLoading)
 };
-
 export const createCourse = (setModal = null, navigate = null) => async (dispatch, getState) => {
     const course = getState().course.course
     const courses = getState().course.courses

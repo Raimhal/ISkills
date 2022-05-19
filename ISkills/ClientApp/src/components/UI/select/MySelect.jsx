@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './MySelect.module.css'
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
-import {colorTheme} from "../themes";
+import {colorTheme} from "../Themes";
 import {ThemeProvider} from "@emotion/react";
 
 const MySelect = ({options, defaultValue, value, onChange, ...props}) => {

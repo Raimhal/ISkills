@@ -1,14 +1,15 @@
 import React from 'react';
-import MyInput from "../UI/input/MyInput";
+import MyInput from "../UI/Input/MyInput";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
 import {setVideo} from "../../store/VideoReducer";
-import MyButton from "../UI/button/MyButton";
-import MySelect from "../UI/select/MySelect";
+import MyButton from "../UI/Button/MyButton";
+import MySelect from "../UI/Select/MySelect";
 import {useFormik} from "formik";
 import * as yup from "yup";
-import MyAlert from "../UI/alert/MyAlert";
-import MyFormikAlert from "../UI/alert/MyFormikAlert";
+import MyAlert from "../UI/Alert/MyAlert";
+import MyFormikAlert from "../UI/Alert/MyFormikAlert";
+import Loading from "../UI/Loading/Loading";
 
 const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, ...props}) => {
     const dispatch = useDispatch()
@@ -76,7 +77,7 @@ const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, 
                 required
             />
             <MyAlert item={error}/>
-            <MyButton type="submit">{!isLoading ? submitTitle: "Loading..."}</MyButton>
+        <MyButton type="submit">{!isLoading ? title : <Loading/>}</MyButton>
         </form>
     );
 };

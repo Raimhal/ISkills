@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import MyRating from "../components/UI/rating/MyRating";
+import MyRating from "../components/UI/Rating/MyRating";
 import "../styles/App.css"
 import "../styles/Course.css"
 import "../styles/User.css"
-import MyPagination from "../components/UI/pagination/MyPagination";
+import MyPagination from "../components/UI/Pagination/MyPagination";
 import defaultCourseImage from '../assets/images/defaultCourseImage.png'
 import defaultUserImage from '../assets/images/defaultUserImage.png'
 import languageImage from '../assets/images/language.png'
 import CommentForm from "../components/comment/CommentForm";
 
 import CommentList from "../components/comment/CommentList";
-import MyButton from "../components/UI/button/MyButton";
+import MyButton from "../components/UI/Button/MyButton";
 import MyModal from "../components/UI/MyModal/MyModal";
 import CourseForm from "../components/course/CourseForm";
 import {useDispatch, useSelector} from "react-redux";
@@ -25,7 +25,7 @@ import {
     updateComment
 } from "../store/CommentReducer";
 import {assignUser, clearUsers, getCurrentUser, getUsers, setParams as setUsersParams} from "../store/UserReducer";
-import MyTextarea from "../components/UI/textarea/MyTextarea";
+import MyTextarea from "../components/UI/Textarea/MyTextarea";
 import {
     clearChapters,
     createChapter,
@@ -68,6 +68,8 @@ const CoursePage = () => {
     const commentsParams = useSelector(state => state.comment.params)
     const usersParams = useSelector(state => state.user.params)
     const chaptersParams = useSelector(state => state.chapter.params)
+
+    const error = useSelector(state => state.course.error)
 
     const totalCommentCount = useSelector(state => state.comment.totalCount)
     const totalStudentCount = useSelector(state => state.user.totalCount)
@@ -122,92 +124,93 @@ const CoursePage = () => {
 
     return (
         <div className="main">
-            {!isCourseLoading
-                ? <div className="course__page">
+            <div className="course__page">
                     <div className="card">
                         <div className="head block">
                             <h3>{course.title}</h3>
                             <div>
                                 {course.shortInfo}
                             </div>
-                            <div className="block absolute__form" style={{width: "fit-content", float: "right", margin: "1rem", position: "absolute"}}>
-                                <img
-                                    src={course.imageUrl || defaultCourseImage}
-                                    alt="course image"
-                                    className="course__image"
-                                    onClick={() => hasAccess && setImageModal(true)}
-                                    style={{cursor: hasAccess && "pointer" }}
-                                />
-                                <div className="language">
-                                    <img src={languageImage} alt="language : " style={{width: 16}}/>
-                                    <div>{course.language}</div>
-                                </div>
-                                <div>Created: {new Date(course.dateCreated).toLocaleDateString()}</div>
-                                {course.dateUpdated <= course.dateCreated &&
-                                <div>Last updated : {new Date(course.dateUpdated).toDateString()}</div>
-                                }
-                                <MyRating value={course.rating} readonly/>
-                                <div>{course.theme?.title}</div>
-                                {totalChapterCount > 0 && <div>{totalChapterCount} chapters</div>}
-                                {course.students.length > 0 && <div>{course.students.length} students</div>}
-                                {!hasUserAccess &&
-                                <div>
-                                    {course.price === 0
-                                        ? <div className="price">
-                                            <div> Free </div>
-                                            <MyButton onClick={() => dispatch(assignUser(navigate))}>Get</MyButton>
-                                        </div>
-                                        : <div className="price">
-                                            <div>{course.price} $</div>
-                                            <MyButton onClick={ () =>
-                                                // redirect to payment page
-                                                dispatch(assignUser(navigate))
-                                            }>Buy now</MyButton>
-                                        </div>
+                            <div className="absolute__form" style={{width: "fit-content", float: "right", margin: "1rem", position: "absolute", display: "flex", flexDirection: "column", gap: "0.5rem"}}>
+                                <div className="block">
+                                    <img
+                                        src={course.imageUrl || defaultCourseImage}
+                                        alt="course image"
+                                        className="course__image"
+                                        onClick={() => hasAccess && setImageModal(true)}
+                                        style={{cursor: hasAccess && "pointer" }}
+                                    />
+                                    <div className="language">
+                                        <img src={languageImage} alt="language : " style={{width: 16}}/>
+                                        <div>{course.language}</div>
+                                    </div>
+                                    <div>Created: {new Date(course.dateCreated).toLocaleDateString()}</div>
+                                    {course.dateUpdated <= course.dateCreated &&
+                                    <div>Last updated : {new Date(course.dateUpdated).toDateString()}</div>
+                                    }
+                                    <MyRating value={course.rating} readonly/>
+                                    <div>{course.theme?.title}</div>
+                                    {totalChapterCount > 0 && <div>{totalChapterCount} chapters</div>}
+                                    {course.students.length > 0 && <div>{course.students.length} students</div>}
+                                    {!hasUserAccess &&
+                                    <div>
+                                        {course.price === 0
+                                            ? <div className="price">
+                                                <div> Free </div>
+                                                <MyButton onClick={() => dispatch(assignUser(navigate))}>Get</MyButton>
+                                            </div>
+                                            : <div className="price">
+                                                <div>{course.price} $</div>
+                                                <MyButton onClick={ () =>
+                                                    // redirect to payment page
+                                                    dispatch(assignUser(navigate))
+                                                }>Buy now</MyButton>
+                                            </div>
+                                        }
+                                    </div>
+                                    }
+                                    { hasAccess &&
+                                    <div>
+                                        <Tooltip title="Edit" placement="bottom">
+                                            <IconButton aria-label="edit" onClick={() => {
+                                                const category = categories.find(x => x.id === course.theme?.categoryId)
+                                                dispatch(setCourse({...course, categoryId: category.id}))
+                                                setModal(true)
+                                            }}>
+                                                <EditIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Tooltip title="Update image" placement="bottom">
+                                            <IconButton aria-label="update image" onClick={() => setImageModal(true)}>
+                                                <CameraAltOutlinedIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </div>
                                     }
                                 </div>
-                                }
-                                { hasAccess &&
-                                <div>
-                                    <Tooltip title="Edit" placement="bottom">
-                                        <IconButton aria-label="edit" onClick={() => {
-                                            const category = categories.find(x => x.id === course.theme?.categoryId)
-                                            dispatch(setCourse({...course, categoryId: category.id}))
-                                            setModal(true)
-                                        }}>
-                                            <EditIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                    <Tooltip title="Update image" placement="bottom">
-                                        <IconButton aria-label="update image" onClick={() => setImageModal(true)}>
-                                            <CameraAltOutlinedIcon />
-                                        </IconButton>
-                                    </Tooltip>
-                                </div>
+                                { course.students.length > 0 &&
+                                    <div className="block">
+                                        <h4>Students : </h4>
+                                        <div className="user__list">
+                                            {course.students?.map(student =>
+                                                <Tooltip
+                                                    title={student.userName}
+                                                    placement="bottom"
+                                                    key={student.id}
+                                                >
+                                                    <img
+                                                        src={student.imageUrl || defaultUserImage}
+                                                        alt="student"
+                                                        className="user__image"
+                                                    />
+                                                </Tooltip>
+                                            )}
+                                        </div>
+                                    </div>
                                 }
                             </div>
                         </div>
                     </div>
-                    { course.students.length > 0 &&
-                        <div className="block">
-                            <h4>Students : </h4>
-                            <div className="user__list">
-                                {course.students?.map(student =>
-                                    <Tooltip
-                                        title={student.userName}
-                                        placement="bottom"
-                                        key={student.id}
-                                    >
-                                        <img
-                                            src={student.imageUrl || defaultUserImage}
-                                            alt="student"
-                                            className="user__image"
-                                        />
-                                    </Tooltip>
-                                )}
-                            </div>
-                        </div>
-                    }
                     {course.description && course.description.trim() !== '<p></p>' &&
                     <div className="block">
                         <h4>Description :</h4>
@@ -240,6 +243,8 @@ const CoursePage = () => {
                                         title="Update image"
                                         submitTitle="Save"
                                         setVisible={setImageModal}
+                                        isLoading={isCourseLoading}
+                                        error={error}
                                     />
                                 </MyModal>
                             }
@@ -378,8 +383,7 @@ const CoursePage = () => {
                         </div>
                     }
                 </div>
-                : <Loading />
-            }
+
         </div>
     );
 };
