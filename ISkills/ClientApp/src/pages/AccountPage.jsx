@@ -37,6 +37,9 @@ const AccountPage = () => {
 
     useEffect(() => {
         dispatch(getCurrentUser())
+        if(isAdmin){
+            setValue("my")
+        }
 
         return () => {
             dispatch(clearCourses())
@@ -61,7 +64,7 @@ const AccountPage = () => {
         return () => {
             dispatch(clearCourses())
         }
-    }, [params.page, params.sortOption, params.themeId, params.reverse])
+    }, [params.page, params.sortOption, params.themeId, params.reverse, value])
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -119,12 +122,8 @@ const AccountPage = () => {
                     indicatorColor="primary"
                     aria-label="primary course tabs"
                 >
-                    <Tab value="member" label="Member courses" onClick={
-                        () => dispatch(getMemberCourses())
-                    }/>
-                    <Tab value="my" label="My courses" onClick={
-                        () => dispatch(getCourses(user.id))
-                    }/>
+                    {!isAdmin && <Tab value="member" label="Member courses"/>}
+                    <Tab value="my" label="My courses" />
                 </Tabs>
             </ThemeProvider>
             <div>

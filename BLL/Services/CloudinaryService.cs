@@ -65,7 +65,7 @@ namespace BLL.Services
             where T : RawUploadParams
         {
             if (!await _fileService.IsValidFile(file))
-                throw new ConflictException("Too large file");
+                throw new ConflictException("File is too large");
 
             var stream = file.OpenReadStream();
             var uploadParams = (T)Activator.CreateInstance(typeof(T));
