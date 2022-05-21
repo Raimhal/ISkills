@@ -24,7 +24,7 @@ namespace BLL.Tasks
                 new TimerCallback(AutoDatabaseAction),
                  null,
                  TimeSpan.Zero,
-                 TimeSpan.FromDays(7)
+                 TimeSpan.FromMinutes(1)
                  );
             return Task.CompletedTask;
         }
@@ -41,11 +41,10 @@ namespace BLL.Tasks
             using var scope = _services.CreateScope();
             var databaseService = scope.ServiceProvider.GetRequiredService<IDatabaseService>();
 
-            string outputDirectoryPath = Environment.GetEnvironmentVariable("BACKUP_OUTPATH");
             string postgresPath = Environment.GetEnvironmentVariable("PG_PATH");
             string database = Environment.GetEnvironmentVariable("DATABASE_URL");
 
-            databaseService.BackupDatabase(database, postgresPath, outputDirectoryPath);
+            databaseService.BackupDatabase(database, postgresPath);
 
         }
     }

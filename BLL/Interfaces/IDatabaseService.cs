@@ -8,8 +8,8 @@ namespace BLL.Interfaces
 {
     public interface IDatabaseService
     {
-        public void BackupDatabase(string databaseString, string postgresPath, string outputDirectoryPath);
-        public void RestoreDatabase(string databaseString, string postgresPath, string inputFilePath);
+        public Task<string> BackupDatabase(string databaseString, string postgresPath);
+        public void RestoreDatabase(string databaseString, string postgresPath, string backupUrl);
 
     }
 }

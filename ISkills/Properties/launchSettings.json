@@ -21,7 +21,8 @@
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "PG_PATH": "E:/Postgesql/bin",
-        "DATABASE_URL": "postgres://thzsqpdztcytns:cc877de685e16e774d9d92fc8f8b2fa0cf3c6eff6fb75fe47a20ec1019d0638a@ec2-99-81-137-11.eu-west-1.compute.amazonaws.com:5432/d9adol3momb8ei",
+        //"DATABASE_URL": "postgres://eqfpycfcyalyfj:46c5224abdaa00736a93241d2b7cafb3e413c17275e5f66da4f724f4da8f6736@ec2-52-18-116-67.eu-west-1.compute.amazonaws.com:5432/d5fgcori44bqph",
+        "DATABASE_URL": "postgres://postgres:Epidemic2021@localhost:5432/ISkillsDB",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }

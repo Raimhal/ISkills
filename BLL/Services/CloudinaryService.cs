@@ -26,7 +26,7 @@ namespace BLL.Services
 
         public async Task<string> UploadFileAsync(IFormFile file, string fileName)
         {
-            var uploadParams = await CreateUploadParams<ImageUploadParams>(file, $"{nameof(file)}s/{fileName}");
+            var uploadParams = await CreateUploadParams<RawUploadParams>(file, $"{nameof(file)}s/{fileName}");
             return await UploadAsync(uploadParams);
         }
 

@@ -24,23 +24,22 @@ namespace Iskills.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("api/database/backup")]
-        public void BackupDatabase(string outputDirectoryPath = @"E:\it\Secound Course\ISkills\backend")
+        public async Task<ActionResult<string>> BackupDatabase()
         {
-            string postgresPath = Environment.GetEnvironmentVariable("PG_PATH") ?? @"E:\Postgesql\bin";
+            string postgresPath = Environment.GetEnvironmentVariable("PG_PATH");
             string database = Environment.GetEnvironmentVariable("DATABASE_URL");
-            _databaseService.BackupDatabase(outputDirectoryPath, postgresPath, database);
-            NoContent();
+            return Ok(await _databaseService.BackupDatabase(database, postgresPath));
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("api/database/restore")]
-        public void RestoreDatabase(string inputFilePath)
+        public IActionResult RestoreDatabase(string backupUrl)
         {
             string postgresPath = Environment.GetEnvironmentVariable("PG_PATH");
             string database = Environment.GetEnvironmentVariable("DATABASE_URL");
-            _databaseService.RestoreDatabase(inputFilePath, postgresPath, database);
-            NoContent();
+            _databaseService.RestoreDatabase(database, postgresPath, backupUrl);
+            return NoContent();
         }
 
     }
