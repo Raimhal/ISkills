@@ -4,7 +4,7 @@ using BLL.DtoModels;
 
 namespace BLL.Interfaces
 {
-    public interface IAccountService
+    public interface IAccountRepository
     {
         Task<AuthenticateResponse> Authenticate(AuthenticateRequest model, string ip, CancellationToken cancellationToken);
         Task<AuthenticateResponse> RefreshToken(string token, string ip, CancellationToken cancellationToken);

@@ -17,7 +17,7 @@ const ThemeForm = ({action, title, ...props}) => {
     const categories = useSelector(state => state.category.categories)
     const dispatch = useDispatch()
     const error = useSelector(state => state.theme.error)
-    const isLoading = useSelector(state => state.theme.isLoading)
+    const isLoading = useSelector(state => state.theme.isActionLoading)
 
 
     const themeAction =  async () => await action()

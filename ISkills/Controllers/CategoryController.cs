@@ -12,9 +12,9 @@ namespace ISkills.Controllers
     [ApiController]
     public class CategoryController : BaseController
     {
-        private readonly ICategoryService _categoryService;
+        private readonly ICategoryRepository _categoryService;
 
-        public CategoryController(ICategoryService categoryService) =>
+        public CategoryController(ICategoryRepository categoryService) =>
             (_categoryService) = ( categoryService);
 
 

@@ -12,7 +12,7 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.user)
     const error = useSelector(state => state.user.error)
-    const isLoading = useSelector(state => state.user.isLoading)
+    const isLoading = useSelector(state => state.user.isActionLoading)
 
 
     const userAction = async () => await action()

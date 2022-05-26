@@ -12,10 +12,10 @@ namespace ISkills.Controllers
     [ApiController]
     public class VideoController : BaseController
     {
-        private readonly IVideoService _videoService;
-        private readonly IAccessService _accessService;
+        private readonly IVideoRepository _videoService;
+        private readonly IAccessRepository _accessService;
 
-        public VideoController(IVideoService videoService, IAccessService accessService)
+        public VideoController(IVideoRepository videoService, IAccessRepository accessService)
             => (_videoService, _accessService) = (videoService, accessService);
 
 

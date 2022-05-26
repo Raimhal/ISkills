@@ -15,16 +15,16 @@ namespace BLL
         {
             services.AddValidatorsFromAssemblies(new[] { Assembly.GetExecutingAssembly() });
 
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IFileService, FileService>();
-            services.AddScoped<IAccessService, AccessService>();
-            services.AddScoped<ICourseService, CourseService>();
-            services.AddScoped<IThemeService, ThemeService>();
-            services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<IChapterService, ChapterService>();
-            services.AddScoped<IVideoService, VideoService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IFileRepository, FileRepository>();
+            services.AddScoped<IAccessRepository, AccessRepository>();
+            services.AddScoped<ICourseService, CourseRepository>();
+            services.AddScoped<IThemeRepository, ThemeRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
+            services.AddScoped<IChapterRepository, ChapterRepository>();
+            services.AddScoped<IVideoRepository, VideoRepository>();
             services.AddScoped<IAntivirusService, AntivirusService>();
             services.AddScoped<IDatabaseService, DatabaseService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();

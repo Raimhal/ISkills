@@ -15,7 +15,7 @@ const ChapterForm = ({action, title, ...props}) => {
     const chapter = useSelector(state => state.chapter.chapter)
     const dispatch = useDispatch()
     const error = useSelector(state => state.chapter.error)
-    const isLoading = useSelector(state => state.chapter.isLoading)
+    const isLoading = useSelector(state => state.chapter.isActionLoading)
 
     const chapterAction = async () => await action()
 

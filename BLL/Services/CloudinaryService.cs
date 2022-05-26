@@ -16,11 +16,11 @@ namespace BLL.Services
     public class CloudinaryService : ICloudinaryService
     {
         private readonly Cloudinary _cloudinary;
-        private readonly IFileService _fileService;
+        private readonly IFileRepository _fileService;
 
-        public CloudinaryService(IConfiguration configuration, IFileService fileService)
+        public CloudinaryService(IConfiguration configuration, IFileRepository fileService)
         {
-            _cloudinary = new Cloudinary(configuration.GetConnectionString("CloudinaryConnection"));
+            _cloudinary = new Cloudinary(Environment.GetEnvironmentVariable("CLOUDINARY_URL"));
             _fileService = fileService;
         }
 

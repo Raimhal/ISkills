@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IBaseService<IdType, TModel, TFModelDto, TModelDto>
+    public interface IBaseRepository<IdType, TModel, TFModelDto, TModelDto>
     {
         Task<PaginationList<TModelDto>> GetList(int skip, int take, string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics);
         Task<List<TModelDto>> GetListAll(string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics);

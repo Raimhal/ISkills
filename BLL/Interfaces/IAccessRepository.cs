@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IAccessService
+    public interface IAccessRepository
     {
         Task<bool> HasAccessToCourse(Guid userId, Guid id, CancellationToken cancellationToken);
         Task<bool> HasAccessToComment(Guid userId, Guid id, CancellationToken cancellationToken);

@@ -18,18 +18,18 @@ using System.Linq;
 
 namespace BLL.Services
 {
-    class CourseService : ICourseService
+    class CourseRepository : ICourseService
     {
         private readonly ICourseDbContext _courseDbContext;
         private readonly IUserDbContext _userContext;
         private readonly IThemeDbContext _themeContext;
-        private readonly IFileService _fileService;
+        private readonly IFileRepository _fileService;
         private readonly IMapper _mapper;
         private readonly ICloudinaryService _cloudinaryService;
 
 
-        public CourseService(ICourseDbContext courseDbContext, IUserDbContext userContext,
-            IThemeDbContext themeContext, IFileService fileService, ICloudinaryService cloudinaryService, IMapper mapper)
+        public CourseRepository(ICourseDbContext courseDbContext, IUserDbContext userContext,
+            IThemeDbContext themeContext, IFileRepository fileService, ICloudinaryService cloudinaryService, IMapper mapper)
             => (_courseDbContext, _userContext, _themeContext, _fileService, _cloudinaryService, _mapper)
             = (courseDbContext, userContext, themeContext, fileService, cloudinaryService, mapper);
 

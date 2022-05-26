@@ -18,25 +18,22 @@ using System.IO;
 
 namespace BLL.Services
 {
-    class UserService : IUserService
+    class UserRepository : IUserRepository
     {
         private readonly IUserDbContext _userContext;
         private readonly IRoleDbContext _roleContext;
         private readonly ICourseDbContext _courseDbContext;
-        private readonly IFileService _fileService;
+        private readonly IFileRepository _fileService;
         private readonly ICloudinaryService _cloudinaryService;
         private readonly IMapper _mapper;
         private readonly int saltSize = 16;
 
-        public UserService(IUserDbContext userContext, IRoleDbContext roleContext,
-            ICourseDbContext courseContext, IFileService fileService,
+        public UserRepository(IUserDbContext userContext, IRoleDbContext roleContext,
+            ICourseDbContext courseContext, IFileRepository fileService,
             ICloudinaryService cloudinaryService, IMapper mapper) 
             => (_userContext, _roleContext, _courseDbContext, _fileService, _cloudinaryService, _mapper)
             = (userContext, roleContext, courseContext, fileService, cloudinaryService ,mapper);
 
-        private readonly List<Expression<Func<User, dynamic>>> includes = new ()
-        {
-        };
 
         public async Task<PaginationList<UserDto>> GetList(int skip, int take,
            string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
@@ -68,14 +65,14 @@ namespace BLL.Services
 
         public async Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => await _userContext.Users.GetAsync(_mapper,
-                x => x.Id == id, includes, cancellationToken);
+                x => x.Id == id, new() { x => x.Roles }, cancellationToken);
 
         public async Task<UserDetailsDto> GetShortInfoByIdAsync(Guid id, CancellationToken cancellationToken)
             => _mapper.Map<UserDetailsDto>(await GetByIdAsync(id, cancellationToken));
 
         public async Task<User> GetByEmailAsync(string email, CancellationToken cancellationToken)
             => await _userContext.Users.GetAsync(_mapper,
-                x => x.Email == email, includes, cancellationToken);
+                x => x.Email == email, new() { x => x.Roles }, cancellationToken);
 
         public async Task<Guid> GetIdFromEmail(string email, CancellationToken cancellationToken)
             => (await GetUserDtoByEmail(email, cancellationToken)).Id;

@@ -12,10 +12,10 @@ namespace ISkills.Controllers
     [ApiController]
     public class ChapterController : BaseController
     {
-        private readonly IChapterService _chapterService;
-        private readonly IAccessService _accessService;
+        private readonly IChapterRepository _chapterService;
+        private readonly IAccessRepository _accessService;
 
-        public ChapterController(IChapterService chapterService, IAccessService accessService) => 
+        public ChapterController(IChapterRepository chapterService, IAccessRepository accessService) => 
             (_chapterService, _accessService) = (chapterService, accessService);
 
 

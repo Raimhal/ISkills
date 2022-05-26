@@ -18,12 +18,12 @@ using System.IO;
 
 namespace BLL.Services
 {
-    public class FileService : IFileService
+    public class FileRepository : IFileRepository
     {
         private readonly IAllowedFileTypeDbContext _fileTypesContext;
         private readonly IMapper _mapper;
 
-        public FileService(IAllowedFileTypeDbContext fileTypesContext, IMapper mapper) =>
+        public FileRepository(IAllowedFileTypeDbContext fileTypesContext, IMapper mapper) =>
             (_fileTypesContext, _mapper) = (fileTypesContext, mapper);
 
         public async Task<AllowedFileType> GetByIdAsync(int id, CancellationToken cancellationToken)

@@ -13,7 +13,7 @@ const FileTypeForm = ({action, title, ...props}) => {
     const type = useSelector(state => state.file.type)
     const dispatch = useDispatch()
     const error = useSelector(state => state.file.error)
-    const isLoading = useSelector(state => state.file.isLoading)
+    const isLoading = useSelector(state => state.file.isActionLoading)
 
 
     const fileAction =  async () => await action()

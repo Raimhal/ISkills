@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IThemeService : IBaseService<int, Theme, CreateThemeDto, ThemeDto>
+    public interface ICommentRepository : IBaseRepository<Guid, Comment, CreateCommentDto, CommentDto>
     {
     }
 }

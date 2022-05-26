@@ -13,9 +13,9 @@ namespace ISkills.Controllers
     [ApiController]
     public class ThemeController : BaseController
     {
-        private readonly IThemeService _themeService;
+        private readonly IThemeRepository _themeService;
 
-        public ThemeController(IThemeService themeService) =>
+        public ThemeController(IThemeRepository themeService) =>
             (_themeService) = (themeService);
 
 

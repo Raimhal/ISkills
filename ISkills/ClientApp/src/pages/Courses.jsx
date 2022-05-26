@@ -6,6 +6,7 @@ import MyPagination from "../components/UI/Pagination/MyPagination";
 import {clearCourse, clearCourses, getCourses, removeCourse, setParams} from "../store/CourseReducer";
 import {useDispatch, useSelector} from "react-redux";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
+import Loading from "../components/UI/Loading/Loading";
 
 
 const Courses = () => {
@@ -38,29 +39,35 @@ const Courses = () => {
     }
 
     return (
-        <div className="wide main">
-            <div style={{display: "flex", flexDirection: "column"}} >
-                <SortAndSearch
-                    params={params}
-                    onParamsChange={value => dispatch(setParams(value))}
-                    action={getCourses}
-                    sortList={sortList}
-                />
-                {params.themeId
-                && <div>
-                    Theme: {theme?.title}
+            <>
+            {!isCoursesLoading ?
+                <div className="wide main">
+                    <div style={{display: "flex", flexDirection: "column"}}>
+                        <SortAndSearch
+                            params={params}
+                            onParamsChange={value => dispatch(setParams(value))}
+                            action={getCourses}
+                            sortList={sortList}
+                        />
+                        {params.themeId
+                        && <div>
+                            Theme: {theme?.title}
+                        </div>
+                        }
+                    </div>
+                    {courses.length > 0 &&
+                        <div>
+                            <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
+                                          totalCount={totalCount} changePage={changePage}/>
+                            <CourseList remove={removeCourse} courses={courses} userId={userId} isAdmin={isAdmin}/>
+                            <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
+                                          totalCount={totalCount} changePage={changePage}/>
+                        </div>
+                    }
                 </div>
-                }
-            </div>
-            <div>
-                <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
-                              totalCount={totalCount} changePage={changePage}/>
-                <CourseList remove={removeCourse} courses={courses} userId={userId} isAdmin={isAdmin}/>
-                {coursesError && <div>{coursesError}</div>}
-                <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
-                                  totalCount={totalCount} changePage={changePage}/>
-            </div>
-        </div>
+                : <Loading/>
+            }
+            </>
     );
 };
 

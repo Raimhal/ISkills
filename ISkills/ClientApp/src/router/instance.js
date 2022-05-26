@@ -1,13 +1,13 @@
 import axios from "axios";
 
 export const instance = axios.create({
-    baseURL: `https://localhost:44343/api`,
+    baseURL: `https://localhost:5001/api`,
 });
 
 instance.interceptors.request.use((config) => {
-    if((JSON.parse(localStorage.getItem('isAuth')))) {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-        const token = `Bearer ${currentUser.jwtToken}`;
+    const token = localStorage.getItem('accessToken')
+    if(token) {
+        const token = `Bearer ${localStorage.getItem('accessToken')}`;
         if (config && config.headers)
             config.headers.Authorization = token ? token : '';
     }

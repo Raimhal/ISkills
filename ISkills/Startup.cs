@@ -36,7 +36,7 @@ namespace ISkills
         {
             services.AddAutoMapper(config =>
             {
-                config.AddProfile(new AssemblyMappingProfile(typeof(IUserService).Assembly));
+                config.AddProfile(new AssemblyMappingProfile(typeof(IUserRepository).Assembly));
 
             });
 

@@ -14,9 +14,9 @@ namespace ISkills.Controllers
     public class CourseController : BaseController
     {
         private readonly ICourseService _courseService;
-        private readonly IAccessService _accessService;
+        private readonly IAccessRepository _accessService;
 
-        public CourseController(ICourseService courseService, IAccessService accessService) => 
+        public CourseController(ICourseService courseService, IAccessRepository accessService) => 
             (_courseService, _accessService) = (courseService, accessService);
 
 
@@ -105,7 +105,7 @@ namespace ISkills.Controllers
         public async Task<ActionResult<string>> UpdateImage(Guid id, [FromForm] IFormFile file,
             CancellationToken cancellationToken, int width = 256, int height = 256)
         {
-            if (!await _accessService.HasAccessToUser(UserId, id, cancellationToken))
+            if (!await _accessService.HasAccessToCourse(UserId, id, cancellationToken))
                 return Forbid();
 
             return Ok(await _courseService.UpdateImageAsync(id, file, width, height, cancellationToken));

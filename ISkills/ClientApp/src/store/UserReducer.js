@@ -36,6 +36,9 @@ const defaultState = {
         {name: 'Rating', value: 'rating'},
     ],
     isLoading: false,
+    isActionLoading: false,
+    isDeleteLoading: false,
+    isImageLoading: false,
     error: null
 }
 
@@ -54,6 +57,12 @@ const CLEAR_TOTAL_COUNT = "CLEAR_USER_TOTAL_COUNT"
 const SET_LOADING = "SET_USER_LOADING"
 const CLEAR_LOADING = "CLEAR_USER_LOADING"
 const SET_ERROR = "SET_USER_ERROR"
+const SET_ACTION_LOADING = "SET_USER_ACTION_LOADING"
+const CLEAR_ACTION_LOADING = "CLEAR_USER_ACTION_LOADING"
+const SET_DELETE_LOADING = "SET_USER_DELETE_LOADING"
+const CLEAR_DELETE_LOADING = "CLEAR_USER_DELETE_LOADING"
+const SET_IMAGE_LOADING = "SET_USER_IMAGE_LOADING"
+const CLEAR_IMAGE_LOADING = "CLEAR_USER_IMAGE_LOADING"
 const CLEAR_ERROR = "CLEAR_USER_ERROR"
 
 export const UserReducer = (state = defaultState, action) => {
@@ -88,6 +97,18 @@ export const UserReducer = (state = defaultState, action) => {
             return {...state, error: action.payload}
         case CLEAR_ERROR:
             return {...state, error: defaultState.error}
+        case SET_ACTION_LOADING:
+            return {...state, isActionLoading: action.payload}
+        case CLEAR_ACTION_LOADING:
+            return {...state, isActionLoading: defaultState.isLoading}
+        case SET_DELETE_LOADING:
+            return {...state, isDeleteLoading: action.payload}
+        case CLEAR_DELETE_LOADING:
+            return {...state, isDeleteLoading: defaultState.isLoading}
+        case SET_IMAGE_LOADING:
+            return {...state, isImageLoading: action.payload}
+        case CLEAR_IMAGE_LOADING:
+            return {...state, isImageLoading: defaultState.isLoading}
         default:
             return state
     }
@@ -109,6 +130,12 @@ export const setLoading = (payload) => ({type: SET_LOADING, payload: payload})
 export const clearLoading = () => ({type: CLEAR_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
+export const setActionLoading = (payload) => ({type: SET_ACTION_LOADING, payload: payload})
+export const clearActionLoading = () => ({type: CLEAR_ACTION_LOADING})
+export const setDeleteLoading = (payload) => ({type: SET_DELETE_LOADING, payload: payload})
+export const clearDeleteLoading = () => ({type: CLEAR_DELETE_LOADING})
+export const setImageLoading = (payload) => ({type: SET_IMAGE_LOADING, payload: payload})
+export const clearImageLoading = () => ({type: CLEAR_IMAGE_LOADING})
 
 
 export const login = (navigate) => async (dispatch, getState) => {
@@ -117,16 +144,10 @@ export const login = (navigate) => async (dispatch, getState) => {
 
     await responseHandler(dispatch, async () => {
         const data = await UserService.Login(user)
-        const decode = jwt_decode(data.jwtToken)
-        const isAdmin = decode["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "Admin"
-        localStorage.setItem('currentUser', JSON.stringify(data))
-        localStorage.setItem('isAuth', true)
-        localStorage.setItem('isAdmin', isAdmin)
-        dispatch(setIsAuth(true))
-        dispatch(setUser(data))
-        dispatch(setIsAdmin(isAdmin))
+        localStorage.setItem('accessToken', data.jwtToken)
+        dispatch(getCurrentUser())
         navigate('/courses')
-    }, setError, setLoading)
+    }, setError, setActionLoading)
 }
 
 export const assignUser = (navigate = null) => async (dispatch, getState) => {
@@ -145,13 +166,15 @@ export const assignUser = (navigate = null) => async (dispatch, getState) => {
         await CourseService.ToggleAssignment(course.id)
         dispatch(setCourse({...course, students: [...course.students, currentUser]}))
         dispatch(setUser({...currentUser, courses: [...currentUser.courses, course]}))
-    }, setError, setLoading)
+    }, setError, setActionLoading)
 }
 
 export const getCurrentUser = () => async (dispatch, getState) => {
     await responseHandler(dispatch, async () => {
         const currentUser = await UserService.getCurrentUser()
         dispatch(setUser(currentUser))
+        dispatch(setIsAuth(true))
+        dispatch(setIsAdmin(!!currentUser.roles?.some(x => x.name === "Admin")))
     }, setError, setLoading)
 };
 
@@ -185,7 +208,7 @@ export const createUser = (navigate = null) => async (dispatch, getState) => {
         const userId = await UserService.Create(user)
         dispatch(setUser({...user, id: userId}))
         navigate('/login')
-    }, setError, setLoading)
+    }, setError, setActionLoading)
 }
 
 export const removeUser = id => async (dispatch, getState) => {
@@ -197,7 +220,7 @@ export const removeUser = id => async (dispatch, getState) => {
         await UserService.Delete(id)
         dispatch(setUsers(users.filter(c => c.id !== id)))
         dispatch(setTotalCount(+totalCount - 1))
-    }, setError, setLoading)
+    }, setError, setDeleteLoading)
 
 }
 
@@ -211,7 +234,7 @@ export const updateUser = (setModal = null) => async (dispatch, getState)  => {
         users[index] = user
         dispatch(setUsers([...users]))
         setModal && setModal(false)
-    }, setError, setLoading)
+    }, setError, setActionLoading)
 }
 
 export const updateImage = (setModal = null) => async (dispatch, getState) => {
@@ -230,6 +253,6 @@ export const updateImage = (setModal = null) => async (dispatch, getState) => {
         users[index] = {...users[index], imageUrl: url}
         dispatch(setUsers(users))
         setModal && setModal(false)
-    }, setError, setLoading)
+    }, setError, setImageLoading)
 }
 

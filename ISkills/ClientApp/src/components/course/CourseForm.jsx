@@ -18,7 +18,7 @@ const CourseForm = ({action, title, ...props}) => {
     const course = useSelector(state => state.course.course)
     const dispatch = useDispatch()
     const error = useSelector(state => state.course.error)
-    const isLoading = useSelector(state => state.course.isLoading)
+    const isLoading = useSelector(state => state.course.isActionLoading)
 
     const languages = [
         {name: "English", value: "english"},

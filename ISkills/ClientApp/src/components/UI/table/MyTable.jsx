@@ -13,7 +13,6 @@ const MyTable = ({items, remove = null, updateClick = null, iconChildren = null}
     return (
         <TableContainer component={Paper} id="tableContainer">
             <Table sx={{minWidth: 650, whiteSpace: "nowrap"}} aria-label="simple table" onWheel={(e) => {
-                e.preventDefault()
                 const el = document.querySelector('#tableContainer')
                 const scrollPosition = el.scrollLeft
                 el.scrollTo({

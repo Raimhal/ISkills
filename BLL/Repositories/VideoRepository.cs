@@ -15,17 +15,17 @@ using Domain.Models;
 
 namespace BLL.Services
 {
-    class VideoService : IVideoService
+    class VideoRepository : IVideoRepository
     {
         private readonly IVideoDbContext _videoDbContext;
         private readonly IChapterDbContext _chapterDbContext;
-        private readonly IFileService _fileService;
+        private readonly IFileRepository _fileService;
         public readonly IAntivirusService _antivirusService;
         public readonly ICloudinaryService _cloudinaryService;
         private readonly IMapper _mapper;
 
-        public VideoService(IVideoDbContext videoDbContext, IChapterDbContext chapterDbContext,
-            IFileService fileService, IAntivirusService antivirusService, IMapper mapper, ICloudinaryService cloudinaryService)
+        public VideoRepository(IVideoDbContext videoDbContext, IChapterDbContext chapterDbContext,
+            IFileRepository fileService, IAntivirusService antivirusService, IMapper mapper, ICloudinaryService cloudinaryService)
             => (_videoDbContext, _chapterDbContext, _fileService, _antivirusService, _mapper, _cloudinaryService)
             = (videoDbContext, chapterDbContext, fileService, antivirusService, mapper, cloudinaryService);
 

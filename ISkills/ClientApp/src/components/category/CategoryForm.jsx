@@ -13,7 +13,7 @@ const CategoryForm = ({action, title, ...props}) => {
     const category = useSelector(state => state.category.category)
     const dispatch = useDispatch()
     const error = useSelector(state => state.category.error)
-    const isLoading = useSelector(state => state.category.isLoading)
+    const isLoading = useSelector(state => state.category.isActionLoading)
 
     const categoryAction =  async () => await action()
 

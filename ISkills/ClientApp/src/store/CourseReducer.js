@@ -36,6 +36,9 @@ const defaultState = {
     courses : [],
     totalCount: 0,
     isLoading: false,
+    isActionLoading: false,
+    isDeleteLoading: false,
+    isImageLoading: false,
     error: null
 }
 
@@ -49,6 +52,12 @@ const SET_TOTAL_COUNT = "SET_COURSE_TOTAL_COUNT"
 const CLEAR_TOTAL_COUNT = "CLEAR_COURSE_TOTAL_COUNT"
 const SET_LOADING = "SET_COURSE_LOADING"
 const CLEAR_LOADING = "CLEAR_COURSE_LOADING"
+const SET_ACTION_LOADING = "SET_COURSE_ACTION_LOADING"
+const CLEAR_ACTION_LOADING = "CLEAR_COURSE_ACTION_LOADING"
+const SET_DELETE_LOADING = "SET_COURSE_DELETE_LOADING"
+const CLEAR_DELETE_LOADING = "CLEAR_COURSE_DELETE_LOADING"
+const SET_IMAGE_LOADING = "SET_COURSE_IMAGE_LOADING"
+const CLEAR_IMAGE_LOADING = "CLEAR_COURSE_IMAGE_LOADING"
 const SET_ERROR = "SET_COURSE_ERROR"
 const CLEAR_ERROR = "CLEAR_COURSE_ERROR"
 
@@ -78,6 +87,18 @@ export const CourseReducer = (state = defaultState, action) => {
             return {...state, error: action.payload}
         case CLEAR_ERROR:
             return {...state, error: defaultState.error}
+        case SET_ACTION_LOADING:
+            return {...state, isActionLoading: action.payload}
+        case CLEAR_ACTION_LOADING:
+            return {...state, isActionLoading: defaultState.isLoading}
+        case SET_DELETE_LOADING:
+            return {...state, isDeleteLoading: action.payload}
+        case CLEAR_DELETE_LOADING:
+            return {...state, isDeleteLoading: defaultState.isLoading}
+        case SET_IMAGE_LOADING:
+            return {...state, isImageLoading: action.payload}
+        case CLEAR_IMAGE_LOADING:
+            return {...state, isImageLoading: defaultState.isLoading}
         default:
             return state
     }
@@ -95,6 +116,12 @@ export const setLoading = (payload) => ({type: SET_LOADING, payload: payload})
 export const clearLoading = () => ({type: CLEAR_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
+export const setActionLoading = (payload) => ({type: SET_ACTION_LOADING, payload: payload})
+export const clearActionLoading = () => ({type: CLEAR_ACTION_LOADING})
+export const setDeleteLoading = (payload) => ({type: SET_DELETE_LOADING, payload: payload})
+export const clearDeleteLoading = () => ({type: CLEAR_DELETE_LOADING})
+export const setImageLoading = (payload) => ({type: SET_IMAGE_LOADING, payload: payload})
+export const clearImageLoading = () => ({type: CLEAR_IMAGE_LOADING})
 
 export const getCourse = (id, navigate = null) => async (dispatch, getState) => {
     const error = getState().course.error
@@ -161,7 +188,7 @@ export const createCourse = (setModal = null, navigate = null) => async (dispatc
         dispatch(setTotalCount(+totalCount + 1))
         setModal && setModal(false)
         navigate && navigate(`/courses/${courseId}`)
-    }, setError, setLoading)
+    }, setError, setActionLoading)
 
 
 }
@@ -175,7 +202,7 @@ export const removeCourse = id => async (dispatch, getState) => {
         await CourseService.Delete(id)
         dispatch(setCourses(courses.filter(c => c.id !== id)))
         dispatch(setTotalCount(+totalCount - 1))
-    }, setError, setLoading)
+    }, setError, setDeleteLoading)
 
 }
 
@@ -190,7 +217,7 @@ export const updateCourse = (setModal = null) => async (dispatch, getState)  => 
         courses[index] = course
         dispatch(setCourses([...courses]))
         setModal && setModal(false)
-    }, setError, setLoading)
+    }, setError, setActionLoading)
 }
 
 export const updateImage = (setModal = null) => async (dispatch, getState) => {
@@ -209,7 +236,7 @@ export const updateImage = (setModal = null) => async (dispatch, getState) => {
         courses[index] = {...courses[index], imageUrl: url}
         dispatch(setCourses(courses))
         setModal && setModal(false)
-    }, setError, setLoading)
+    }, setError, setImageLoading)
 
 }
 

@@ -15,13 +15,13 @@ using Domain.Models;
 
 namespace BLL.Services
 {
-    class ChapterService : IChapterService
+    class ChapterRepository : IChapterRepository
     {
         private readonly IChapterDbContext _chapterDbContext;
         private readonly ICourseDbContext _courseDbContext;
         private readonly IMapper _mapper;
 
-        public ChapterService(ICourseDbContext courseDbContext, IChapterDbContext chapterContext, IMapper mapper) 
+        public ChapterRepository(ICourseDbContext courseDbContext, IChapterDbContext chapterContext, IMapper mapper) 
             => (_courseDbContext, _chapterDbContext, _mapper) 
             = (courseDbContext, chapterContext, mapper);
 

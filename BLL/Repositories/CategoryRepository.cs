@@ -15,12 +15,12 @@ using Domain.Models;
 
 namespace BLL.Services
 {
-    class CategoryService : ICategoryService
+    class CategoryRepository : ICategoryRepository
     {
         private readonly ICategoryDbContext _categoryDbContext;
         private readonly IMapper _mapper;
 
-        public CategoryService(ICategoryDbContext categoryDbContext, IMapper mapper) =>
+        public CategoryRepository(ICategoryDbContext categoryDbContext, IMapper mapper) =>
             (_categoryDbContext, _mapper) = (categoryDbContext, mapper);
 
         private readonly List<Expression<Func<Category, dynamic>>> includes = new () 

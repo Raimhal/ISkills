@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 using BLL.Interfaces;
 using Domain.Interfaces;
 using System.Threading;
+using Microsoft.AspNetCore.Http;
 
 namespace BLL.Services
 {
 
-    public class AccessService : IAccessService
+    public class AccessRepository : IAccessRepository
     {
         private readonly IUserDbContext _userContext;
         private readonly ICourseDbContext _courseContext;
@@ -19,7 +20,7 @@ namespace BLL.Services
         private readonly IChapterDbContext _chapterContext;
         private readonly string AdminRoleName = "Admin";
 
-        public AccessService(IUserDbContext userContext, ICourseDbContext courseContext,
+        public AccessRepository(IUserDbContext userContext, ICourseDbContext courseContext,
             ICommentDbContext commentContext, IVideoDbContext videoContext, IChapterDbContext chapterContext) 
             => (_userContext, _courseContext, _commentContext, _videoContext, _chapterContext) 
             = (userContext, courseContext, commentContext, videoContext, chapterContext);
@@ -56,8 +57,11 @@ namespace BLL.Services
         private async Task<bool> HasAccessToEntity<T>(Guid userId, DbSet<T> context,
             Expression<Func<T, bool>> expression, CancellationToken cancellationToken)
             where T : class
-            => await IsAdmin(userId, cancellationToken) 
-            || await context.AnyAsync(expression, cancellationToken);
+        {
+            var isAdmin = await IsAdmin(userId, cancellationToken);
+            var accessor = await context.AnyAsync(expression, cancellationToken);
+            return isAdmin || accessor;
+        }
 
     }
 }

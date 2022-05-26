@@ -15,8 +15,7 @@ export  default class UserService {
     }
 
     static async getCurrentUser(config = {}) {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'))
-        const response = await EntityService.Get(`/users/${currentUser.userId}/short-information`, config)
+        const response = await EntityService.Get(`/users/current`, config)
         return response.data
     }
 

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IParentService<IdType, TDto>
+    public interface IParentRepository<IdType, TDto>
     { 
         Task<PaginationList<TDto>> GetParentItems(int skip, int take, string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics);
         Task<List<TDto>> GetParentItemsAll(string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics);

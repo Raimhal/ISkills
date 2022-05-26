@@ -22,6 +22,8 @@ const defaultState = {
         {name: 'Course', value: 'courseId'},
     ],
     isLoading: false,
+    isActionLoading: false,
+    isDeleteLoading: false,
     error: null
 }
 
@@ -35,6 +37,10 @@ const SET_TOTAL_COUNT = "SET_CHAPTER_CHAPTER_TOTAL_COUNT"
 const CLEAR_TOTAL_COUNT = "CLEAR_CHAPTER_TOTAL_COUNT"
 const SET_LOADING = "SET_CHAPTER_LOADING"
 const CLEAR_LOADING = "CLEAR_CHAPTER_LOADING"
+const SET_ACTION_LOADING = "SET_CHAPTER_ACTION_LOADING"
+const CLEAR_ACTION_LOADING = "CLEAR_CHAPTER_ACTION_LOADING"
+const SET_DELETE_LOADING = "SET_CHAPTER_DELETE_LOADING"
+const CLEAR_DELETE_LOADING = "CLEAR_CHAPTER_DELETE_LOADING"
 const SET_ERROR = "SET_CHAPTER_ERROR"
 const CLEAR_ERROR = "CLEAR_CHAPTER_ERROR"
 
@@ -60,6 +66,14 @@ export const ChapterReducer = (state = defaultState, action) => {
             return {...state, isLoading: action.payload}
         case CLEAR_LOADING:
             return {...state, isLoading: defaultState.isLoading}
+        case SET_ACTION_LOADING:
+            return {...state, isActionLoading: action.payload}
+        case CLEAR_ACTION_LOADING:
+            return {...state, isActionLoading: defaultState.isLoading}
+        case SET_DELETE_LOADING:
+            return {...state, isDeleteLoading: action.payload}
+        case CLEAR_DELETE_LOADING:
+            return {...state, isDeleteLoading: defaultState.isLoading}
         case SET_ERROR:
             return {...state, error: action.payload}
         case CLEAR_ERROR:
@@ -79,6 +93,10 @@ export const setTotalCount = (payload) => ({type: SET_TOTAL_COUNT, payload: payl
 export const clearTotalCount = () => ({type: CLEAR_TOTAL_COUNT})
 export const setLoading = (payload) => ({type: SET_LOADING, payload: payload})
 export const clearLoading = () => ({type: CLEAR_LOADING})
+export const setActionLoading = (payload) => ({type: SET_ACTION_LOADING, payload: payload})
+export const clearActionLoading = () => ({type: CLEAR_ACTION_LOADING})
+export const setDeleteLoading = (payload) => ({type: SET_DELETE_LOADING, payload: payload})
+export const clearDeleteLoading = () => ({type: CLEAR_DELETE_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
 
@@ -113,7 +131,7 @@ export const removeChapter = id => async (dispatch, getState) => {
         await ChapterService.Delete(id)
         dispatch(setChapters(chapters.filter(c => c.id !== id)))
         dispatch(setTotalCount(+totalCount - 1))
-    }, setError, setLoading)
+    }, setError, setDeleteLoading)
 }
 
 export const createChapter = (setModal = null) => async(dispatch, getState) => {
@@ -128,7 +146,7 @@ export const createChapter = (setModal = null) => async(dispatch, getState) => {
         dispatch(setChapters([...chapters, {...chapter, id: chapterId, creatorId: user.id}]))
         dispatch(setTotalCount(+totalCount + 1))
         setModal(false)
-    }, setError, setLoading)
+    }, setError, setActionLoading)
 }
 
 export const updateChapter = (setModal = null) => async (dispatch, getState)  => {
@@ -141,5 +159,5 @@ export const updateChapter = (setModal = null) => async (dispatch, getState)  =>
         chapters[index] = chapter
         dispatch(setChapters([...chapters]))
         setModal && setModal(false)
-    }, setError, setLoading)
+    }, setError, setActionLoading)
 }

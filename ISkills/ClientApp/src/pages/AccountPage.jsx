@@ -21,11 +21,13 @@ import {
 } from "../store/CourseReducer";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import CourseList from "../components/course/CourseList";
+import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 
 const AccountPage = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.user)
     const isLoading = useSelector(state => state.user.isLoading)
+    const isImageLoading = useSelector(state => state.user.isImageLoading)
     const error = useSelector(state => state.user.error)
     const [modal, setModal] = useState(false)
     const [value, setValue] = useState("member")
@@ -77,12 +79,12 @@ const AccountPage = () => {
                     <div className="look-up">
                         <div style={{position: "relative"}}>
                             <Tooltip title="Update image" placement="bottom">
-                            <img
-                                src={ user.imageUrl || defaultUserImage}
-                                alt="current user image"
-                                className='user__image'
-                                onClick={() => setModal(true)}
-                            />
+                                    <img
+                                        src={ user.imageUrl || defaultUserImage}
+                                        alt="current user image"
+                                        className='user__image'
+                                        onClick={() => setModal(true)}
+                                    />
                             </Tooltip>
                         </div>
                         {modal && <MyModal visible={modal} setVisible={setModal}>
@@ -94,7 +96,7 @@ const AccountPage = () => {
                                 title="Update image"
                                 submitTitle="Save"
                                 setVisible={setModal}
-                                isLoading={isLoading}
+                                isLoading={isImageLoading}
                                 error={error}
                             />
                         </MyModal>
@@ -108,12 +110,6 @@ const AccountPage = () => {
                     </div>
                 </div>
             }
-            <SortAndSearch
-                params={params}
-                onParamsChange={value => dispatch(setParams(value))}
-                action={getCourses}
-                sortList={sortList}
-            />
             <ThemeProvider theme={colorTheme}>
                 <Tabs
                     value={value}
@@ -126,11 +122,16 @@ const AccountPage = () => {
                     <Tab value="my" label="My courses" />
                 </Tabs>
             </ThemeProvider>
+            <SortAndSearch
+                params={params}
+                onParamsChange={value => dispatch(setParams(value))}
+                action={getCourses}
+                sortList={sortList}
+            />
             <div>
                 <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                               totalCount={totalCount} changePage={changePage}/>
                 <CourseList remove={removeCourse} courses={courses} userId={user.id} isAdmin={isAdmin}/>
-                {/*{coursesError && <div>{coursesError}</div>}*/}
                 <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                               totalCount={totalCount} changePage={changePage}/>
             </div>

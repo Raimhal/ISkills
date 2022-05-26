@@ -12,9 +12,9 @@ namespace ISkills.Controllers
     [Authorize]
     public class AccountController : BaseController
     {
-        private readonly IAccountService _accountService;
+        private readonly IAccountRepository _accountService;
 
-        public AccountController(IAccountService accountService) =>
+        public AccountController(IAccountRepository accountService) =>
             _accountService = accountService;
 
 

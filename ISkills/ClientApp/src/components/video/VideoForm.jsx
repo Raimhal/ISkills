@@ -16,7 +16,7 @@ const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, 
     const video = useSelector(state => state.video.video)
     const chapters = useSelector(state => state.chapter.chapters)
     const error = useSelector(state => state.video.error)
-    const isLoading = useSelector(state => state.video.isLoading)
+    const isLoading = useSelector(state => state.video.isActionLoading)
 
 
     const videoAction = async () => await action(video)

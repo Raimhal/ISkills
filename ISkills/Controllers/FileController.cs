@@ -12,9 +12,9 @@ namespace ISkills.Controllers
 
     public class FileController : BaseController
     {
-        private readonly IFileService _fileService;
+        private readonly IFileRepository _fileService;
 
-        public FileController(IFileService fileService) =>
+        public FileController(IFileRepository fileService) =>
             _fileService = fileService;
 
 

@@ -25,6 +25,8 @@ const defaultState = {
         {name: 'Date', value: 'date'},
     ],
     isLoading: false,
+    isActionLoading: false,
+    isDeleteLoading: false,
     error: null
 }
 
@@ -38,6 +40,10 @@ const SET_TOTAL_COUNT = "SET_COMMENT_TOTAL_COUNT"
 const CLEAR_TOTAL_COUNT = "CLEAR_COMMENT_TOTAL_COUNT"
 const SET_LOADING = "SET_COMMENT_LOADING"
 const CLEAR_LOADING = "CLEAR_COMMENT_LOADING"
+const SET_ACTION_LOADING = "SET_COMMENT_ACTION_LOADING"
+const CLEAR_ACTION_LOADING = "CLEAR_COMMENT_ACTION_LOADING"
+const SET_DELETE_LOADING = "SET_COMMENT_DELETE_LOADING"
+const CLEAR_DELETE_LOADING = "CLEAR_COMMENT_DELETE_LOADING"
 const SET_ERROR = "SET_COMMENT_ERROR"
 const CLEAR_ERROR = "CLEAR_COMMENT_ERROR"
 
@@ -63,6 +69,14 @@ export const CommentReducer = (state = defaultState, action) => {
             return {...state, isLoading: action.payload}
         case CLEAR_LOADING:
             return {...state, isLoading: defaultState.isLoading}
+        case SET_ACTION_LOADING:
+            return {...state, isActionLoading: action.payload}
+        case CLEAR_ACTION_LOADING:
+            return {...state, isActionLoading: defaultState.isLoading}
+        case SET_DELETE_LOADING:
+            return {...state, isDeleteLoading: action.payload}
+        case CLEAR_DELETE_LOADING:
+            return {...state, isDeleteLoading: defaultState.isLoading}
         case SET_ERROR:
             return {...state, error: action.payload}
         case CLEAR_ERROR:
@@ -82,6 +96,10 @@ export const setTotalCount = (payload) => ({type: SET_TOTAL_COUNT, payload: payl
 export const clearTotalCount = () => ({type: CLEAR_TOTAL_COUNT})
 export const setLoading = (payload) => ({type: SET_LOADING, payload: payload})
 export const clearLoading = () => ({type: CLEAR_LOADING})
+export const setActionLoading = (payload) => ({type: SET_ACTION_LOADING, payload: payload})
+export const clearActionLoading = () => ({type: CLEAR_ACTION_LOADING})
+export const setDeleteLoading = (payload) => ({type: SET_DELETE_LOADING, payload: payload})
+export const clearDeleteLoading = () => ({type: CLEAR_DELETE_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
 
@@ -103,7 +121,7 @@ export const createComment = (setModal = null) => async(dispatch, getState) => {
         dispatch(setCourse({...course, rating: newRating }))
         dispatch(setTotalCount(+totalCount + 1))
         setModal && setModal(false)
-    }, setError, setLoading)
+    }, setError, setActionLoading)
 }
 
 export const getComments = (courseId = null) => async (dispatch, getState) => {
@@ -135,12 +153,12 @@ export const removeComment = id => async (dispatch, getState) => {
 
     await responseHandler(dispatch, async () => {
         const comment = comments.find(c => c.id === id)
-        const newRating = ((course.rating * +totalCount - comment.rating) / (+totalCount - 1))
+        const newRating = (((course.rating * +totalCount - comment.rating) / (+totalCount - 1))) | 0
         dispatch(setCourse({...course, rating: newRating }))
         await CommentService.Delete(id)
         dispatch(setComments(comments.filter(c => c.id !== id)))
         dispatch(setTotalCount(+totalCount - 1))
-    }, setError, setLoading)
+    }, setError, setDeleteLoading)
 
 }
 
@@ -156,5 +174,5 @@ export const updateComment = (setModal = null) => async (dispatch, getState)  =>
         comments[index] = comment
         dispatch(setComments([...comments]))
         setModal && setModal(false)
-    }, setError, setLoading)
+    }, setError, setActionLoading)
 }

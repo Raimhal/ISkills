@@ -15,7 +15,7 @@ using Domain.Models;
 
 namespace BLL.Services
 {
-    class ThemeService : IThemeService
+    class ThemeRepository : IThemeRepository
     {
         private readonly IThemeDbContext _themeDbContext;
         private readonly ICategoryDbContext _categoryDbContext;
@@ -23,7 +23,7 @@ namespace BLL.Services
         private readonly IMapper _mapper;
         private readonly int defaultThemeId = 1;
 
-        public ThemeService(IThemeDbContext themeDbContext, ICategoryDbContext categoryContext,
+        public ThemeRepository(IThemeDbContext themeDbContext, ICategoryDbContext categoryContext,
             ICourseDbContext courseDbContext, IMapper mapper) =>
             (_themeDbContext, _categoryDbContext, _courseDbContext,_mapper) 
             = (themeDbContext, categoryContext, courseDbContext, mapper);

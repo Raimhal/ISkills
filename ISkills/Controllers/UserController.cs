@@ -15,10 +15,10 @@ namespace Iskills.Controllers
     [ApiController]
     public class UserController : BaseController
     {
-        private readonly IUserService _userService;
-        private readonly IAccessService _accessService;
+        private readonly IUserRepository _userService;
+        private readonly IAccessRepository _accessService;
 
-        public UserController(IUserService userService, IAccessService accessService) =>
+        public UserController(IUserRepository userService, IAccessRepository accessService) =>
             (_userService, _accessService) = (userService, accessService);
 
 

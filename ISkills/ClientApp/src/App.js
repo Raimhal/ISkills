@@ -5,21 +5,16 @@ import {BrowserRouter} from "react-router-dom";
 import Navbar from "./components/UI/Navbar/Navbar";
 import AppRouter from "./components/AppRouter";
 import {useDispatch, useSelector} from "react-redux";
-import {setIsAdmin, setIsAuth, setUser} from "./store/UserReducer";
+import {getCurrentUser, setIsAdmin, setIsAuth, setUser} from "./store/UserReducer";
 
 const App = () => {
     const dispatch = useDispatch()
-    const user = useSelector(state => state.user.user)
+
     useEffect( () => {
-        const localStorageUser = localStorage.getItem('currentUser')
-        if(localStorageUser) {
-            const currentUser = JSON.parse(localStorageUser)
-            const isAuth = JSON.parse(localStorage.getItem('isAuth'))
-            const isAdmin = JSON.parse(localStorage.getItem('isAdmin'))
-            dispatch(setIsAuth(isAuth))
-            dispatch(setIsAdmin(isAdmin))
-            dispatch(setUser({...user, ...currentUser}))
-        }
+        const token = localStorage.getItem('accessToken')
+        if(token)
+            dispatch(getCurrentUser())
+
     }, [])
 
    return (

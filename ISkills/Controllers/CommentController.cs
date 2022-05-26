@@ -13,10 +13,10 @@ namespace ISkills.Controllers
     [ApiController]
     public class CommentController : BaseController
     {
-        private readonly ICommentService _commentService;
-        private readonly IAccessService _accessService;
+        private readonly ICommentRepository _commentService;
+        private readonly IAccessRepository _accessService;
 
-        public CommentController(ICommentService commentService, IAccessService accessService) => 
+        public CommentController(ICommentRepository commentService, IAccessRepository accessService) => 
             (_commentService, _accessService) = (commentService, accessService);
 
 

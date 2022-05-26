@@ -14,7 +14,7 @@ const CommentForm = ({action, title, ...props}) => {
     const dispatch = useDispatch()
     const comment = useSelector(state => state.comment.comment)
     const error = useSelector(state => state.comment.error)
-    const isLoading = useSelector(state => state.comment.isLoading)
+    const isLoading = useSelector(state => state.comment.isActionLoading)
 
     const commentAction = (e) => {
         e.preventDefault()

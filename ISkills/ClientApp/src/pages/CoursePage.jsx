@@ -59,6 +59,7 @@ const CoursePage = () => {
     const currentUser = useSelector(state => state.user.user)
     const isAdmin = useSelector(state => state.user.isAdmin)
     const isAuth = useSelector(state => state.user.isAuth)
+    const isImageLoading = useSelector(state => state.course.isImageLoading)
     const isCourseLoading = useSelector(state => state.course.isLoading)
 
     const hasAccess = (course.creatorId === currentUser.id) || isAdmin
@@ -124,93 +125,77 @@ const CoursePage = () => {
 
     return (
         <div className="main">
+            { !isCourseLoading ?
+                <>
+            <div className="block">
+                <div style={{display: "flex", gap: "0.5rem"}}>
+                    <img
+                        src={course.imageUrl || defaultCourseImage}
+                        alt="course image"
+                        className="course__image"
+                        onClick={() => hasAccess && setImageModal(true)}
+                        style={{cursor: hasAccess && "pointer" }}
+                    />
+                    <div style={{padding: "0.5rem"}}>
+                        <div className="language">
+                            <img src={languageImage} alt="language : " style={{width: 16}}/>
+                            <div>{course.language}</div>
+                        </div>
+                        <div>Created: {new Date(course.dateCreated).toLocaleDateString()}</div>
+                        {course.dateUpdated <= course.dateCreated &&
+                        <div>Last updated : {new Date(course.dateUpdated).toDateString()}</div>
+                        }
+                        <MyRating value={course.rating} readonly/>
+                        <div>{course.theme?.title}</div>
+                        {totalChapterCount > 0 && <div>{totalChapterCount} chapters</div>}
+                        {course.students.length > 0 && <div>{course.students.length} students</div>}
+                    </div>
+                </div>
+                {!hasUserAccess &&
+                <div>
+                    {course.price === 0
+                        ? <div className="price">
+                            <div> Free </div>
+                            <MyButton onClick={() => dispatch(assignUser(navigate))}>Get</MyButton>
+                        </div>
+                        : <div className="price">
+                            <div>{course.price} $</div>
+                            <MyButton onClick={ () =>
+                                // redirect to payment page
+                                dispatch(assignUser(navigate))
+                            }>Buy now</MyButton>
+                        </div>
+                    }
+                </div>
+                }
+                { hasAccess &&
+                <div>
+                    <Tooltip title="Edit" placement="bottom">
+                        <IconButton aria-label="edit" onClick={() => {
+                            const category = categories.find(x => x.id === course.theme?.categoryId)
+                            dispatch(setCourse({...course, categoryId: category.id}))
+                            setModal(true)
+                        }}>
+                            <EditIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Update image" placement="bottom">
+                        <IconButton aria-label="update image" onClick={() => setImageModal(true)}>
+                            <CameraAltOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                </div>
+                }
+            </div>
             <div className="course__page">
-                    <div className="card">
-                        <div className="head block">
-                            <h3>{course.title}</h3>
-                            <div>
-                                {course.shortInfo}
-                            </div>
-                            <div className="absolute__form" style={{width: "fit-content", float: "right", margin: "1rem", position: "absolute", display: "flex", flexDirection: "column", gap: "0.5rem"}}>
-                                <div className="block">
-                                    <img
-                                        src={course.imageUrl || defaultCourseImage}
-                                        alt="course image"
-                                        className="course__image"
-                                        onClick={() => hasAccess && setImageModal(true)}
-                                        style={{cursor: hasAccess && "pointer" }}
-                                    />
-                                    <div className="language">
-                                        <img src={languageImage} alt="language : " style={{width: 16}}/>
-                                        <div>{course.language}</div>
-                                    </div>
-                                    <div>Created: {new Date(course.dateCreated).toLocaleDateString()}</div>
-                                    {course.dateUpdated <= course.dateCreated &&
-                                    <div>Last updated : {new Date(course.dateUpdated).toDateString()}</div>
-                                    }
-                                    <MyRating value={course.rating} readonly/>
-                                    <div>{course.theme?.title}</div>
-                                    {totalChapterCount > 0 && <div>{totalChapterCount} chapters</div>}
-                                    {course.students.length > 0 && <div>{course.students.length} students</div>}
-                                    {!hasUserAccess &&
-                                    <div>
-                                        {course.price === 0
-                                            ? <div className="price">
-                                                <div> Free </div>
-                                                <MyButton onClick={() => dispatch(assignUser(navigate))}>Get</MyButton>
-                                            </div>
-                                            : <div className="price">
-                                                <div>{course.price} $</div>
-                                                <MyButton onClick={ () =>
-                                                    // redirect to payment page
-                                                    dispatch(assignUser(navigate))
-                                                }>Buy now</MyButton>
-                                            </div>
-                                        }
-                                    </div>
-                                    }
-                                    { hasAccess &&
-                                    <div>
-                                        <Tooltip title="Edit" placement="bottom">
-                                            <IconButton aria-label="edit" onClick={() => {
-                                                const category = categories.find(x => x.id === course.theme?.categoryId)
-                                                dispatch(setCourse({...course, categoryId: category.id}))
-                                                setModal(true)
-                                            }}>
-                                                <EditIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Tooltip title="Update image" placement="bottom">
-                                            <IconButton aria-label="update image" onClick={() => setImageModal(true)}>
-                                                <CameraAltOutlinedIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </div>
-                                    }
-                                </div>
-                                { course.students.length > 0 &&
-                                    <div className="block">
-                                        <h4>Students : </h4>
-                                        <div className="user__list">
-                                            {course.students?.map(student =>
-                                                <Tooltip
-                                                    title={student.userName}
-                                                    placement="bottom"
-                                                    key={student.id}
-                                                >
-                                                    <img
-                                                        src={student.imageUrl || defaultUserImage}
-                                                        alt="student"
-                                                        className="user__image"
-                                                    />
-                                                </Tooltip>
-                                            )}
-                                        </div>
-                                    </div>
-                                }
-                            </div>
+                <div className="card">
+                    <div className="head block">
+                        <h3>{course.title}</h3>
+                        <div>
+                            {course.shortInfo}
                         </div>
                     </div>
+                </div>
                     {course.description && course.description.trim() !== '<p></p>' &&
                     <div className="block">
                         <h4>Description :</h4>
@@ -243,14 +228,34 @@ const CoursePage = () => {
                                         title="Update image"
                                         submitTitle="Save"
                                         setVisible={setImageModal}
-                                        isLoading={isCourseLoading}
+                                        isLoading={isImageLoading}
                                         error={error}
                                     />
                                 </MyModal>
                             }
                         </div>
                     }
-                    {(chapters.length > 0 || hasAccess)&&
+                { course.students.length > 0 &&
+                <div className="block">
+                    <h4>Students : </h4>
+                    <div className="user__list">
+                        {course.students?.map(student =>
+                            <Tooltip
+                                title={student.userName}
+                                placement="bottom"
+                                key={student.id}
+                            >
+                                <img
+                                    src={student.imageUrl || defaultUserImage}
+                                    alt="student"
+                                    className="user__image"
+                                />
+                            </Tooltip>
+                        )}
+                    </div>
+                </div>
+                }
+                    {(hasAccess || (course.students?.some(x => x.id === currentUser.id) && chapters.length > 0))&&
                     <div className="block">
                         <div className="chapter__title">
                             <h4>{totalChapterCount} chapters :</h4>
@@ -383,7 +388,9 @@ const CoursePage = () => {
                         </div>
                     }
                 </div>
-
+            </>
+                : <Loading/>
+            }
         </div>
     );
 };

@@ -19,13 +19,13 @@ using Domain.Models;
 
 namespace BLL.Services
 {
-    public class AccountService : IAccountService
+    public class AccountRepository : IAccountRepository
     {
         private readonly IUserDbContext _userContext;
         private readonly IRefreshTokenDbContext _refreshTokenContext;
         private readonly IMapper _mapper;
 
-        public AccountService(IUserDbContext userContext, IRefreshTokenDbContext refreshTokenContext, IMapper mapper) =>
+        public AccountRepository(IUserDbContext userContext, IRefreshTokenDbContext refreshTokenContext, IMapper mapper) =>
             (_userContext, _refreshTokenContext, _mapper) = (userContext, refreshTokenContext, mapper);
 
         public async Task<AuthenticateResponse> Authenticate(AuthenticateRequest model, string ip, CancellationToken cancellationToken)

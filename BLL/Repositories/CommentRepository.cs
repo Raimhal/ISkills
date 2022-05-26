@@ -17,14 +17,14 @@ using System.Linq;
 
 namespace BLL.Services
 {
-    class CommentService : ICommentService
+    class CommentRepository : ICommentRepository
     {
         private readonly ICourseDbContext _courseDbContext;
         private readonly ICommentDbContext _commentDbContext;
         private readonly IUserDbContext _userDbContext;
         private readonly IMapper _mapper;
 
-        public CommentService(ICourseDbContext courseDbContext, ICommentDbContext commentDbContext,
+        public CommentRepository(ICourseDbContext courseDbContext, ICommentDbContext commentDbContext,
             IUserDbContext userDbContext, IMapper mapper) 
             => (_courseDbContext, _commentDbContext, _userDbContext, _mapper) 
             = (courseDbContext, commentDbContext, userDbContext, mapper);
@@ -144,18 +144,21 @@ namespace BLL.Services
             await _commentDbContext.Comments.DeleteByAsync(_mapper, c => c.Id == id, cancellationToken);
             await _commentDbContext.SaveChangesAsync(cancellationToken);
 
-            course.Rating = await _commentDbContext.Comments
-                .GetAvarage(x => x.CourseId == course.Id && x.Rating != default, x => x.Rating);
+            if (course.Comments.Count > 0)
+            {
+                course.Rating = await _commentDbContext.Comments
+                    .GetAvarage(x => x.CourseId == course.Id && x.Rating != default, x => x.Rating);
 
-            await _courseDbContext.SaveChangesAsync(cancellationToken);
+                await _courseDbContext.SaveChangesAsync(cancellationToken);
 
-            var user = await _userDbContext.Users
-                .GetAsync(_mapper, u => u.Id == course.CreatorId, new() { }, cancellationToken);
+                var user = await _userDbContext.Users
+                    .GetAsync(_mapper, u => u.Id == course.CreatorId, new() { }, cancellationToken);
 
-            user.Rating = await _courseDbContext.Courses
-                .GetAvarage(x => x.CreatorId == user.Id && x.Rating != default, c => c.Rating);
+                user.Rating = await _courseDbContext.Courses
+                    .GetAvarage(x => x.CreatorId == user.Id && x.Rating != default, c => c.Rating);
 
-            await _userDbContext.SaveChangesAsync(cancellationToken);
+                await _userDbContext.SaveChangesAsync(cancellationToken);
+            }
         }
     }
 }

@@ -19,6 +19,8 @@ const defaultState = {
         {name: 'Size', value: 'fileSize'},
     ],
     isLoading: false,
+    isActionLoading: false,
+    isDeleteLoading: false,
     error: null
 }
 
@@ -32,6 +34,10 @@ const SET_TOTAL_COUNT = "SET_TYPE_TOTAL_COUNT"
 const CLEAR_TOTAL_COUNT = "CLEAR_TYPE_TOTAL_COUNT"
 const SET_LOADING = "SET_TYPE_LOADING"
 const CLEAR_LOADING = "CLEAR_TYPE_LOADING"
+const SET_ACTION_LOADING = "SET_TYPE_ACTION_LOADING"
+const CLEAR_ACTION_LOADING = "CLEAR_TYPE_ACTION_LOADING"
+const SET_DELETE_LOADING = "SET_TYPE_DELETE_LOADING"
+const CLEAR_DELETE_LOADING = "CLEAR_TYPE_DELETE_LOADING"
 const SET_ERROR = "SET_TYPE_ERROR"
 const CLEAR_ERROR = "CLEAR_TYPE_ERROR"
 
@@ -77,6 +83,10 @@ export const setTotalCount = (payload) => ({type: SET_TOTAL_COUNT, payload: payl
 export const clearTotalCount = () => ({type: CLEAR_TOTAL_COUNT})
 export const setLoading = (payload) => ({type: SET_LOADING, payload: payload})
 export const clearLoading = () => ({type: CLEAR_LOADING})
+export const setActionLoading = (payload) => ({type: SET_ACTION_LOADING, payload: payload})
+export const clearActionLoading = () => ({type: CLEAR_ACTION_LOADING})
+export const setDeleteLoading = (payload) => ({type: SET_DELETE_LOADING, payload: payload})
+export const clearDeleteLoading = () => ({type: CLEAR_DELETE_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
 
@@ -103,12 +113,15 @@ export const getFileTypes = () => async (dispatch, getState) => {
 export const createType = (setModal = null) => async (dispatch, getState) => {
     const state = getState().file
     const type = state.type
+    const types = state.types
 
     await responseHandler(dispatch, async () => {
         const typeId = await FileService.Create(type)
-        dispatch(setFileType({...type, id: typeId}))
+        var newType = {...type, id: typeId}
+        dispatch(setFileType(newType))
+        dispatch(setFileTypes([...types, newType]))
         setModal && setModal(false)
-    }, setError, setLoading)
+    }, setError, setActionLoading)
 }
 
 export const removeType = id => async (dispatch, getState) => {
@@ -120,7 +133,7 @@ export const removeType = id => async (dispatch, getState) => {
         await FileService.Delete(id)
         dispatch(setFileTypes(types.filter(c => c.id !== id)))
         dispatch(setTotalCount(+totalCount - 1))
-    }, setError, setLoading)
+    }, setError, setDeleteLoading)
 
 }
 
@@ -134,5 +147,5 @@ export const updateType = (setModal = null) => async (dispatch, getState)  => {
         types[index] = type
         dispatch(setFileTypes([...types]))
         setModal && setModal(false)
-    }, setError, setLoading)
+    }, setError, setActionLoading)
 }
