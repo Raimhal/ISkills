@@ -19,33 +19,35 @@ const SortAndSearch = ({sortList, params, action, onParamsChange}) => {
             dispatch(action())
         }} className={classes.div}
         >
-            <div style={{display: "flex", alignItems: "end", gap: "inherit", padding: 0}}>
-            <MySelect
-                value={params.sortOption || ""}
-                onChange={value => onParamsChange({...params, sortOption: value})}
-                defaultValue="Sort by"
-                options={sortList}
-            />
-            <Tooltip title="Reverse">
-                <ToggleButton
-                    value="toggle"
-                    selected={params.reverse}
-                    onChange={() => onParamsChange({...params, reverse: !params.reverse})}
-                    sx={{border: "none", background: 'transparent !important', m: 0, p: 0}}
-                >
-                    {params.reverse
-                        ? <ArrowCircleUpOutlinedIcon />
-                        : <ArrowCircleDownOutlinedIcon />
-                    }
-                </ToggleButton>
-            </Tooltip>
+            <div style={{display: "flex", alignItems: "center", gap: "inherit", padding: 0}}>
+                <MySelect
+                    value={params.sortOption || ""}
+                    onChange={value => onParamsChange({...params, sortOption: value})}
+                    defaultValue="Sort by"
+                    options={sortList}
+                />
+                <Tooltip title="Reverse">
+                    <ToggleButton
+                        value="toggle"
+                        selected={params.reverse}
+                        onChange={() => onParamsChange({...params, reverse: !params.reverse})}
+                        sx={{border: "none", background: 'transparent !important', m: 0, p: 0}}
+                    >
+                        {params.reverse
+                            ? <ArrowCircleUpOutlinedIcon />
+                            : <ArrowCircleDownOutlinedIcon />
+                        }
+                    </ToggleButton>
+                </Tooltip>
             </div>
-            <MyInput type="text" value={params.query || ""} onChange={e => onParamsChange({...params, query: e.target.value})} label="Search"/>
-            <Tooltip title="Search">
-                <IconButton type="submit">
-                    <SearchIcon />
-                </IconButton>
-            </Tooltip>
+            <div style={{display: "flex", alignItems: "center", gap: "inherit", padding: 0}}>
+                <MyInput type="text" value={params.query || ""} onChange={e => onParamsChange({...params, query: e.target.value})} label="Search"/>
+                <Tooltip title="Search">
+                    <IconButton type="submit">
+                        <SearchIcon />
+                    </IconButton>
+                </Tooltip>
+            </div>
         </form>
     );
 };

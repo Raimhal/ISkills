@@ -52,7 +52,7 @@ namespace BLL.Services
                 refreshToken = user.RefreshTokens
                     .FirstOrDefault(t => t.IsActive);
 
-            return new AuthenticateResponse(user, jwtToken, refreshToken.Token);
+            return new AuthenticateResponse(jwtToken, refreshToken.Token);
         }
 
         public async Task<AuthenticateResponse> RefreshToken(string token , string ip, CancellationToken cancellationToken)
@@ -78,7 +78,7 @@ namespace BLL.Services
             
             await _userContext.SaveChangesAsync(cancellationToken);
 
-            return new AuthenticateResponse(user, jwtToken, refreshToken.Token);
+            return new AuthenticateResponse(jwtToken, refreshToken.Token);
 
         }
         public async Task<bool> RevokeToken(string token, string ip, CancellationToken cancellationToken)

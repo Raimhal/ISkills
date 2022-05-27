@@ -11,8 +11,16 @@
     padding: 8px;
     margin: 0;
     max-height: 40px;
+    width: 100%;
 }
 
 .div > button {
     white-space: nowrap;
+}
+
+@media screen and (max-width: 500px) {
+    .div {
+        flex-direction: column-reverse;
+        gap: 1.5rem;
+    }
 }

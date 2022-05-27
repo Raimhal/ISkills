@@ -10,7 +10,7 @@ const MyInput = ({children, label, ...props}) => {
             <TextField
                 {...props}
                 label={label}
-                variant="standard"
+                variant="outlined"
                 color='primary'
                 className={classes.myInput}
                 InputLabelProps={{style: {fontFamily: "inherit", color: "inherit", fontSize: "inherit"}}}

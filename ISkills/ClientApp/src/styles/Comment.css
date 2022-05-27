@@ -41,3 +41,8 @@ div.rb_div{
     justify-content: space-between;
 }
 
+.comments__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
