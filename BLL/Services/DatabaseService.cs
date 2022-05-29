@@ -35,7 +35,7 @@ namespace BLL.Services
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
 
-            var outputFileFullPath = Path.Combine(directory, $@"Backup_{date}.bak");
+            var outputFileFullPath = Path.Combine(directory, $@"Backup_{date}.sql");
 
             var command = $@"pg_dump -d {databaseString} > ""{outputFileFullPath}""";
             DatabaseAction(postgresqlPath, command);
