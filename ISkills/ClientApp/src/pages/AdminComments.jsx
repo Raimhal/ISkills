@@ -4,7 +4,7 @@ import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import {getComments, removeComment, setComment, setComments, setParams, updateComment} from "../store/CommentReducer";
-import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
+import AdminNavbar from "../components/UI/navbar/AdminNavbar";
 import MyModal from "../components/UI/MyModal/MyModal";
 import CommentForm from "../components/comment/CommentForm";
 

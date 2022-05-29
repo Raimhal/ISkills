@@ -47,7 +47,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import Loading from "../components/UI/Loading/Loading";
 import {createVideo, removeVideo, updateVideo} from "../store/VideoReducer";
-import classes from "../components/UI/Navbar/Navbar.module.css";
+import classes from "../components/UI/navbar/Navbar.module.css";
 import AddIcon from "@mui/icons-material/Add";
 import {colorTheme} from "../styleThemes";
 

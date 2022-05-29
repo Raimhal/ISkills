@@ -5,7 +5,7 @@ import {BrowserRouter} from "react-router-dom";
 import AppRouter from "./components/AppRouter";
 import {useDispatch} from "react-redux";
 import {getCurrentUser} from "./store/UserReducer";
-import Navbar from "../src/components/UI/Navbar/Navbar";
+import Navbar from "./components/UI/navbar/navbar";
 
 const App = () => {
     const dispatch = useDispatch()

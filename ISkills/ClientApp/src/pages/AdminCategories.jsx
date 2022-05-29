@@ -11,7 +11,7 @@ import {
     setParams,
     updateCategory
 } from "../store/CategoryReducer";
-import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
+import AdminNavbar from "../components/UI/navbar/AdminNavbar";
 import MyModal from "../components/UI/MyModal/MyModal";
 import CategoryForm from "../components/category/CategoryForm";
 import {Tooltip} from "@material-ui/core";
