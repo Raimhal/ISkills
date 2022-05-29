@@ -27,7 +27,7 @@ const Navbar = () => {
     return (
         <div className={classes.navbar}>
             <div>
-                <Link to="/courses" onClick={() => {
+                <Link to="/" onClick={() => {
                     dispatch(clearParams())
                     dispatch(getCourses())
                 }} className={classes.navbar__link}>ISkills</Link>
@@ -54,7 +54,7 @@ const Navbar = () => {
                         {isAdmin &&
                             <AdminMenu label='Admin' className={classes.navbar__link}/>
                         }
-                        <Link to="/courses" className={`${classes.navbar__link} ${location.pathname === "/courses" && classes.active}`}>Courses</Link>
+                        <Link to="/" className={`${classes.navbar__link} ${location.pathname === "/" && classes.active}`}>Courses</Link>
                         <Link to="/account" className={`${classes.navbar__link} ${location.pathname === "/account" && classes.active}`}>Account</Link>
                         <Link to="/login" className={`${classes.navbar__link} ${location.pathname === "/register" && classes.active}`} onClick={() => {
                             dispatch(logoutUser())
@@ -63,7 +63,7 @@ const Navbar = () => {
                         }>Log out</Link>
                     </div>
                     : <div className={classes.navbar__links}>
-                        <Link to="/courses" className={`${classes.navbar__link} ${location.pathname === "/courses" && classes.active}`}>Courses</Link>
+                        <Link to="/" className={`${classes.navbar__link} ${location.pathname === "/" && classes.active}`}>Courses</Link>
                         <Link to="/login" className={`${classes.navbar__link} ${location.pathname === "/login"&& classes.active}`}>Log in</Link>
                         <Link to="/register" className={`${classes.navbar__link} ${location.pathname === "/register" && classes.active}`}>Sing up</Link>
                     </div>

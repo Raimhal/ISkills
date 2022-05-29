@@ -8,7 +8,7 @@ const MySelect = ({options, defaultValue, value, onChange, ...props}) => {
     return (
         <ThemeProvider theme={colorTheme}>
             <FormControl
-                variant="standard"
+                variant="outlined"
                 sx={{ alignItems: "bottom", minWidth: 120}}
                 style={{fontSize: "inherit", fontFamily: "inherit"}}
                 {...props}

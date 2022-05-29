@@ -38,7 +38,7 @@ const CourseItem = ({course, remove, userId, isAdmin}) => {
                         <div>{course.language}</div>
                     </div>
                     <div className="shortInfo">
-                        {course.shortInfo.length > 515 ? `${course.shortInfo.slice(0, 512)}...` : course.shortInfo}
+                        {course.shortInfo.length > 131 ? `${course.shortInfo.slice(0, 128)}...` : course.shortInfo}
                     </div>
                 </div>
             </div>

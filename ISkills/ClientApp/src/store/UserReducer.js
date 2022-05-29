@@ -146,7 +146,7 @@ export const login = (navigate) => async (dispatch, getState) => {
         const data = await UserService.Login(user)
         localStorage.setItem('accessToken', data.jwtToken)
         dispatch(getCurrentUser())
-        navigate('/courses')
+        navigate('/')
     }, setError, setActionLoading)
 }
 

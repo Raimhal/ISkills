@@ -33,7 +33,7 @@ const NestedMenu = ({label, ...props}) => {
         dispatch(setParams({...params, themeId: themeId}))
         const theme = category.themes[category.themes.findIndex(x => x.id === themeId)]
         dispatch(setTheme(theme))
-        navigate('/courses')
+        navigate("/")
     };
 
 

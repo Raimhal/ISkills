@@ -15,7 +15,7 @@ import AdminFileTypes from "../pages/AdminFileTypes";
 
 
 const publicRoutes = [
-    {path: '/courses', component: <Courses />},
+    {path: '/', component: <Courses />},
     {path: '/courses/:id', component: <CoursePage />},
     {path: '/login', component: <LoginPage />},
     {path: '/register', component: <RegisterPage />},

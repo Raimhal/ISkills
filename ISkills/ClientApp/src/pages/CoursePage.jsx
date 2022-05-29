@@ -41,12 +41,15 @@ import VideoForm from "../components/video/VideoForm";
 import ImageUpload from "../components/UI/Upload/ImageUpload";
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import {Tooltip} from "@material-ui/core";
-import {IconButton} from "@mui/material";
+import {Fab, IconButton, ThemeProvider} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import Loading from "../components/UI/Loading/Loading";
 import {createVideo, removeVideo, updateVideo} from "../store/VideoReducer";
+import classes from "../components/UI/Navbar/Navbar.module.css";
+import AddIcon from "@mui/icons-material/Add";
+import {colorTheme} from "../components/UI/Themes";
 
 const CoursePage = () => {
     const dispatch = useDispatch()
@@ -83,6 +86,7 @@ const CoursePage = () => {
     const [modal, setModal] = useState(false)
 
     const [modalComment, setCommentModal] = useState(false)
+    const [commentUpdateModal, setCommentUpdateModal] = useState(false)
 
     const [modalChapter, setChapterModal] = useState(false)
     const [modalChapterUpdate, setChapterUpdateModal] = useState(false)
@@ -128,7 +132,7 @@ const CoursePage = () => {
             { !isCourseLoading ?
                 <>
             <div className="block">
-                <div style={{display: "flex", gap: "0.5rem"}}>
+                <div className="course__head">
                     <img
                         src={course.imageUrl || defaultCourseImage}
                         alt="course image"
@@ -137,16 +141,17 @@ const CoursePage = () => {
                         style={{cursor: hasAccess && "pointer" }}
                     />
                     <div style={{padding: "0.5rem"}}>
+                        <h3>{course.title}</h3>
                         <div className="language">
                             <img src={languageImage} alt="language : " style={{width: 16}}/>
                             <div>{course.language}</div>
                         </div>
                         <div>Created: {new Date(course.dateCreated).toLocaleDateString()}</div>
                         {course.dateUpdated <= course.dateCreated &&
-                        <div>Last updated : {new Date(course.dateUpdated).toDateString()}</div>
+                        <div>Last updated: {new Date(course.dateUpdated).toDateString()}</div>
                         }
                         <MyRating value={course.rating} readonly/>
-                        <div>{course.theme?.title}</div>
+                        <div>Theme: {course.theme?.title}</div>
                         {totalChapterCount > 0 && <div>{totalChapterCount} chapters</div>}
                         {course.students.length > 0 && <div>{course.students.length} students</div>}
                     </div>
@@ -169,7 +174,7 @@ const CoursePage = () => {
                 </div>
                 }
                 { hasAccess &&
-                <div>
+                <div style={{display: "flex", justifyContent: "flex-end"}}>
                     <Tooltip title="Edit" placement="bottom">
                         <IconButton aria-label="edit" onClick={() => {
                             const category = categories.find(x => x.id === course.theme?.categoryId)
@@ -188,14 +193,6 @@ const CoursePage = () => {
                 }
             </div>
             <div className="course__page">
-                <div className="card">
-                    <div className="head block">
-                        <h3>{course.title}</h3>
-                        <div>
-                            {course.shortInfo}
-                        </div>
-                    </div>
-                </div>
                     {course.description && course.description.trim() !== '<p></p>' &&
                     <div className="block">
                         <h4>Description :</h4>
@@ -345,15 +342,11 @@ const CoursePage = () => {
                         }
                     </div>
                     }
-                    { hasUserAccess &&
-                        <CommentForm action={async () => {
-                            await dispatch(createComment())
-                        }
-                        } title="Create" className='block'/>
-                    }
                     {comments.length > 0 &&
                         <div>
-                            <h4>{totalCommentCount} comments :</h4>
+                            <div className="comments__title">
+                                <h4>{totalCommentCount} comments :</h4>
+                            </div>
                             {comments.length > 0 &&
                                 <div>
                                     <MyPagination
@@ -388,11 +381,32 @@ const CoursePage = () => {
                         </div>
                     }
                 </div>
+                    {hasUserAccess &&
+                    <div style={{position: "fixed", bottom: 25, right: 25}}>
+                        <ThemeProvider theme={colorTheme}>
+                            <Tooltip title="Add comment" placement="left">
+                                    <Fab color="primary" aria-label="add" size="medium" onClick={() => setCommentUpdateModal(true)}
+                                         className={classes.navbar__link}>
+                                        <AddIcon/>
+                                    </Fab>
+                            </Tooltip>
+                        </ThemeProvider>
+                        {commentUpdateModal &&
+                        <MyModal visible={commentUpdateModal} setVisible={setCommentUpdateModal}>
+                            <CommentForm
+                                action={async () => {
+                                    await dispatch(createComment(setCommentUpdateModal))
+                                }}
+                                title="Save"
+                            />
+                        </MyModal>
+                        }
+                    </div>
+                    }
             </>
                 : <Loading/>
             }
         </div>
     );
 };
-
 export default CoursePage;

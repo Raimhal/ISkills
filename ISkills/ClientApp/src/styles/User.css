@@ -12,7 +12,6 @@
     align-items: center;
     gap: 1rem;
     justify-content: center;
-    margin-top: 1rem;
 }
 
 .account > div.top img.user__image {
@@ -36,4 +35,11 @@
     gap: 0.5rem;
     justify-content: center;
     width: 100%;
+}
+
+@media screen and (max-width: 1000px) {
+    .account > div.top {
+        flex-direction: column;
+        align-items: center;
+    }
 }
