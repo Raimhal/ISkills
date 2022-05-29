@@ -1,17 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import MyTable from "../components/UI/table/MyTable";
-import MyPagination from "../components/UI/pagination/MyPagination";
-import SortAndSearch from "../components/UI/sortAndSearch/SortAndSearch";
+import MyTable from "../components/UI/Table/MyTable";
+import MyPagination from "../components/UI/Pagination/MyPagination";
+import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import {getUsers, removeUser, setParams, setUser, updateImage, updateUser} from "../store/UserReducer";
-import AdminNavbar from "../components/UI/navbar/AdminNavbar";
+import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
 import {Tooltip} from "@material-ui/core";
 import defaultUserImage from "../assets/images/defaultUserImage.png";
 import {IconButton} from "@mui/material";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
-import MyModal from "../components/UI/myModal/MyModal";
+import MyModal from "../components/UI/MyModal/MyModal";
 import CourseForm from "../components/course/CourseForm";
-import ImageUpload from "../components/UI/upload/ImageUpload";
+import ImageUpload from "../components/UI/Upload/ImageUpload";
 import UserForm from "../components/user/UserForm";
 
 const AdminUsers = () => {

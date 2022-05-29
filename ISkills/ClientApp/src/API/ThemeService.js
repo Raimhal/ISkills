@@ -3,7 +3,7 @@ import EntityService from "./EntityService";
 
 export  default class ThemeService {
     static async GetThemes(config = {}) {
-        const response = await EntityService.Get('/themes', config)
+        const response = await EntityService.Get('/Themes', config)
         const themes = response.data
         const totalCount = response.headers['x-total-count']
         return [totalCount, themes]
@@ -21,7 +21,7 @@ export  default class ThemeService {
     }
 
     static async Create(data, config = {}){
-        const response = await EntityService.Create('/themes', data, config)
+        const response = await EntityService.Create('/Themes', data, config)
         return response.data
     }
 

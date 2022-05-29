@@ -19,7 +19,7 @@ const defaultState = {
         sortOption: 'date'
     },
     sortList: [
-        {name: 'rating', value: 'rating'},
+        {name: 'Rating', value: 'rating'},
         {name: 'Course', value: 'courseId'},
         {name: 'Creator', value: 'creatorId'},
         {name: 'Date', value: 'date'},

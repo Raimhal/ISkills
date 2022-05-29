@@ -1,7 +1,7 @@
 import React from 'react';
-import MyButton from "../button/MyButton";
-import Loading from "../loading/Loading";
-import MyAlert from "../alert/MyAlert";
+import MyButton from "../Button/MyButton";
+import Loading from "../Loading/Loading";
+import MyAlert from "../Alert/MyAlert";
 
 const ImageUpload = ({action, error, isLoading, submitTitle}) => {
     const imageAction = (e) => {

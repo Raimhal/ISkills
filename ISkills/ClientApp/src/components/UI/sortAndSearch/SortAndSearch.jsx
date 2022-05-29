@@ -1,7 +1,7 @@
 import React from 'react';
-import MySelect from "../select/MySelect";
-import MyInput from "../input/MyInput";
-import MyButton from "../button/MyButton";
+import MySelect from "../Select/MySelect";
+import MyInput from "../Input/MyInput";
+import MyButton from "../Button/MyButton";
 import classes from './SortAndSearch.module.css'
 import SearchIcon from '@mui/icons-material/Search';
 import {IconButton, ToggleButton} from "@mui/material";

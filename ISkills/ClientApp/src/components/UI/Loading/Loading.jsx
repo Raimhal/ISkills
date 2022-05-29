@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './Loading.module.css'
-import {colorTheme} from "../themes";
+import {colorTheme} from "../Themes";
 import {CircularProgress, ThemeProvider} from "@mui/material";
 
 const Loading = () => {

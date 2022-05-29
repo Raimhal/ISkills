@@ -1,8 +1,8 @@
 import React from 'react';
 import {Button, Input} from "@mui/material";
 import {ThemeProvider} from '@mui/material/styles'
-import {colorTheme} from "../themes";
-import Loading from "../loading/Loading";
+import {colorTheme} from "../Themes";
+import Loading from "../Loading/Loading";
 
 const MyUpload = ({accept, id, required, isLoading, title, ...props}) => {
     return (

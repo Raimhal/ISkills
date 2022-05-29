@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import MyTable from "../components/UI/table/MyTable";
-import MyPagination from "../components/UI/pagination/MyPagination";
-import SortAndSearch from "../components/UI/sortAndSearch/SortAndSearch";
+import MyTable from "../components/UI/Table/MyTable";
+import MyPagination from "../components/UI/Pagination/MyPagination";
+import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import {getChapters, removeChapter, setChapter, setParams, updateChapter} from "../store/ChapterReducer";
-import AdminNavbar from "../components/UI/navbar/AdminNavbar";
-import MyModal from "../components/UI/myModal/MyModal";
+import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
+import MyModal from "../components/UI/MyModal/MyModal";
 import ChapterForm from "../components/chapter/ChapterForm";
 
 const AdminChapters = () => {

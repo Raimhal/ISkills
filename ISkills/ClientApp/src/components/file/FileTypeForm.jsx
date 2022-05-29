@@ -1,13 +1,13 @@
 import React from 'react';
-import MyInput from "../UI/input/MyInput";
-import MyButton from "../UI/button/MyButton";
+import MyInput from "../UI/Input/MyInput";
+import MyButton from "../UI/Button/MyButton";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
 import * as yup from "yup";
 import {useFormik} from "formik";
 import {setFileType} from "../../store/FileReducer";
-import MyAlert from "../UI/alert/MyAlert";
-import Loading from "../UI/loading/Loading";
+import MyAlert from "../UI/Alert/MyAlert";
+import Loading from "../UI/Loading/Loading";
 
 const FileTypeForm = ({action, title, ...props}) => {
     const type = useSelector(state => state.file.type)

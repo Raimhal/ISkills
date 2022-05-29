@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import {useNavigate, useParams} from "react-router-dom";
-import MyRating from "../components/UI/rating/MyRating";
+import MyRating from "../components/UI/Rating/MyRating";
 import "../styles/App.css"
 import "../styles/Course.css"
 import "../styles/User.css"
-import MyPagination from "../components/UI/pagination/MyPagination";
+import MyPagination from "../components/UI/Pagination/MyPagination";
 import defaultCourseImage from '../assets/images/defaultCourseImage.png'
 import defaultUserImage from '../assets/images/defaultUserImage.png'
 import languageImage from '../assets/images/language.png'
 import CommentForm from "../components/comment/CommentForm";
 
 import CommentList from "../components/comment/CommentList";
-import MyButton from "../components/UI/button/MyButton";
-import MyModal from "../components/UI/myModal/MyModal";
+import MyButton from "../components/UI/Button/MyButton";
+import MyModal from "../components/UI/MyModal/MyModal";
 import CourseForm from "../components/course/CourseForm";
 import {useDispatch, useSelector} from "react-redux";
 import {clearCourse, getCourse, setCourse, updateCourse, updateImage} from "../store/CourseReducer";
@@ -25,7 +25,7 @@ import {
     updateComment
 } from "../store/CommentReducer";
 import {assignUser, clearUsers, getCurrentUser, getUsers, setParams as setUsersParams} from "../store/UserReducer";
-import MyTextarea from "../components/UI/textarea/MyTextarea";
+import MyTextarea from "../components/UI/Textarea/MyTextarea";
 import {
     clearChapters,
     createChapter,
@@ -38,18 +38,18 @@ import ChapterList from "../components/chapter/ChapterList";
 import ChapterForm from "../components/chapter/ChapterForm";
 import '../styles/Chapter.css'
 import VideoForm from "../components/video/VideoForm";
-import ImageUpload from "../components/UI/upload/ImageUpload";
+import ImageUpload from "../components/UI/Upload/ImageUpload";
 import CameraAltOutlinedIcon from '@mui/icons-material/CameraAltOutlined';
 import {Tooltip} from "@material-ui/core";
 import {Fab, IconButton, ThemeProvider} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
-import Loading from "../components/UI/loading/Loading";
+import Loading from "../components/UI/Loading/Loading";
 import {createVideo, removeVideo, updateVideo} from "../store/VideoReducer";
-import classes from "../components/UI/navbar/Navbar.module.css";
+import classes from "../components/UI/Navbar/Navbar.module.css";
 import AddIcon from "@mui/icons-material/Add";
-import {colorTheme} from "../components/UI/themes";
+import {colorTheme} from "../components/UI/Themes";
 
 const CoursePage = () => {
     const dispatch = useDispatch()

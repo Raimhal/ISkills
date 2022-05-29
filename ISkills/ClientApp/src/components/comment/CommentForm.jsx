@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import MyInput from "../UI/input/MyInput";
-import MyButton from "../UI/button/MyButton";
-import MySelect from "../UI/select/MySelect";
+import MyInput from "../UI/Input/MyInput";
+import MyButton from "../UI/Button/MyButton";
+import MySelect from "../UI/Select/MySelect";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import MyEditor from "../UI/editor/MyEditor";
-import MyRating from "../UI/rating/MyRating";
+import MyEditor from "../UI/Editor/MyEditor";
+import MyRating from "../UI/Rating/MyRating";
 import {useDispatch, useSelector} from "react-redux";
 import {clearComment, setComment} from "../../store/CommentReducer";
-import MyAlert from "../UI/alert/MyAlert";
-import Loading from "../UI/loading/Loading";
+import MyAlert from "../UI/Alert/MyAlert";
+import Loading from "../UI/Loading/Loading";
 
 const CommentForm = ({action, title, ...props}) => {
     const dispatch = useDispatch()

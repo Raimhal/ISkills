@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import defaultUserImage from '../assets/images/defaultUserImage.png'
 import UserForm from "../components/user/UserForm";
-import MyRating from "../components/UI/rating/MyRating";
+import MyRating from "../components/UI/Rating/MyRating";
 import {useDispatch, useSelector} from "react-redux";
 import {getCurrentUser, updateImage, updateUser} from "../store/UserReducer";
-import MyModal from "../components/UI/myModal/MyModal";
-import ImageUpload from "../components/UI/upload/ImageUpload";
+import MyModal from "../components/UI/MyModal/MyModal";
+import ImageUpload from "../components/UI/Upload/ImageUpload";
 import {Tooltip} from "@material-ui/core";
 import UserService from "../API/UserService";
-import {colorTheme} from "../components/UI/themes";
+import {colorTheme} from "../components/UI/Themes";
 import {Tab, Tabs, ThemeProvider} from "@mui/material";
-import SortAndSearch from "../components/UI/sortAndSearch/SortAndSearch";
+import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import {
     clearCourses,
     getCourses,
@@ -19,7 +19,7 @@ import {
     removeCourse,
     setParams
 } from "../store/CourseReducer";
-import MyPagination from "../components/UI/pagination/MyPagination";
+import MyPagination from "../components/UI/Pagination/MyPagination";
 import CourseList from "../components/course/CourseList";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 
