@@ -1,1 +1,1 @@
-web: cd $HOME/heroku_output && ./ISkills
+web:cd $HOME/heroku_output && ./ISkills
