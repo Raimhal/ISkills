@@ -33,8 +33,13 @@ const Navbar = () => {
                 }} className={classes.navbar__link}>ISkills</Link>
                 {isAuth && !isCreateCourse && <ThemeProvider theme={colorTheme}>
                     <Tooltip title="Create course">
-                        <Fab color="primary" aria-label="add" size="small" onClick={() => setModal(true)}
-                             className={classes.navbar__link}>
+                        <Fab
+                            color="primary"
+                            aria-label="add"
+                            size="small"
+                            onClick={() => setModal(true)}
+                            className={classes.navbar__link}
+                        >
                             <AddIcon/>
                         </Fab>
                     </Tooltip>

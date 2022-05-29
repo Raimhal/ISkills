@@ -20,8 +20,8 @@ const App = () => {
    return (
        <div className="App">
            <BrowserRouter>
-               <Navbar />
-               <AppRouter />
+               <Navbar/>
+               <AppRouter/>
            </BrowserRouter>
        </div>
    )
