@@ -8,7 +8,6 @@ import MyModal from "../components/UI/MyModal/MyModal";
 import ImageUpload from "../components/UI/Upload/ImageUpload";
 import {Tooltip} from "@material-ui/core";
 import UserService from "../API/UserService";
-import {colorTheme} from "../components/UI/Themes";
 import {Tab, Tabs, ThemeProvider} from "@mui/material";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import {
@@ -22,6 +21,7 @@ import {
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import CourseList from "../components/course/CourseList";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
+import {colorTheme} from "../styleThemes";
 
 const AccountPage = () => {
     const dispatch = useDispatch()

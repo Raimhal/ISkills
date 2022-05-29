@@ -9,10 +9,10 @@ import {clearParams, createCourse, getCourses} from "../../../store/CourseReduce
 import NestedMenu from "../NestedMenu/NestedMenu";
 import {Fab} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import {colorTheme} from "../Themes";
 import {ThemeProvider} from "@emotion/react";
 import {Tooltip} from "@material-ui/core";
 import AdminMenu from "../NestedMenu/AdminMenu";
+import {colorTheme} from "../../../styleThemes";
 
 const Navbar = () => {
     const isAuth = useSelector(state => state.user.isAuth)

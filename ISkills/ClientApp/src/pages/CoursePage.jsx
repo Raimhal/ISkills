@@ -49,7 +49,7 @@ import Loading from "../components/UI/Loading/Loading";
 import {createVideo, removeVideo, updateVideo} from "../store/VideoReducer";
 import classes from "../components/UI/Navbar/Navbar.module.css";
 import AddIcon from "@mui/icons-material/Add";
-import {colorTheme} from "../components/UI/Themes";
+import {colorTheme} from "../styleThemes";
 
 const CoursePage = () => {
     const dispatch = useDispatch()
