@@ -62,7 +62,7 @@ namespace DAL
                 connectionString = connectionString.Replace(server, "").Substring(1);
                 string port = connectionString.Split('/')[0];
                 string database = connectionString.Split('/')[1];
-                connectionString = $"Host={server};Port={port};Database={database};Username={user};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+                connectionString = $"Host={server};Port={port};Database={database};Username={user};Password={password}:";
             }
             return connectionString;
         }
