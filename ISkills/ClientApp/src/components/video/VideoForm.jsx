@@ -1,15 +1,15 @@
 import React from 'react';
-import MyInput from "../UI/Input/MyInput";
+import MyInput from "../UI/input/MyInput";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
 import {setVideo} from "../../store/VideoReducer";
-import MyButton from "../UI/Button/MyButton";
-import MySelect from "../UI/Select/MySelect";
+import MyButton from "../UI/button/MyButton";
+import MySelect from "../UI/select/MySelect";
 import {useFormik} from "formik";
 import * as yup from "yup";
-import MyAlert from "../UI/Alert/MyAlert";
-import MyFormikAlert from "../UI/Alert/MyFormikAlert";
-import Loading from "../UI/Loading/Loading";
+import MyAlert from "../UI/alert/MyAlert";
+import MyFormikAlert from "../UI/alert/MyFormikAlert";
+import Loading from "../UI/loading/Loading";
 
 const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, ...props}) => {
     const dispatch = useDispatch()

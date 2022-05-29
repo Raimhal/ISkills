@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
-import MyInput from "../UI/Input/MyInput";
-import MyButton from "../UI/Button/MyButton";
+import MyInput from "../UI/input/MyInput";
+import MyButton from "../UI/button/MyButton";
 import * as yup from "yup";
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "../../store/UserReducer";
-import MyAlert from "../UI/Alert/MyAlert";
-import Loading from "../UI/Loading/Loading";
+import MyAlert from "../UI/alert/MyAlert";
+import Loading from "../UI/loading/Loading";
 
 const UserForm = ({action, title = null, submitTitle, ...props}) => {
     const dispatch = useDispatch()

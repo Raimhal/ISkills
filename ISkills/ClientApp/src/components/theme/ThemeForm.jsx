@@ -1,16 +1,16 @@
 import React, {useEffect} from 'react';
-import MyInput from "../UI/Input/MyInput";
-import MyButton from "../UI/Button/MyButton";
-import MySelect from "../UI/Select/MySelect";
+import MyInput from "../UI/input/MyInput";
+import MyButton from "../UI/button/MyButton";
+import MySelect from "../UI/select/MySelect";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
 import {getAllCategories} from "../../store/CategoryReducer";
 import {setTheme} from "../../store/ThemeReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import MyFormikAlert from "../UI/Alert/MyFormikAlert";
-import MyAlert from "../UI/Alert/MyAlert";
-import Loading from "../UI/Loading/Loading";
+import MyFormikAlert from "../UI/alert/MyFormikAlert";
+import MyAlert from "../UI/alert/MyAlert";
+import Loading from "../UI/loading/Loading";
 
 const ThemeForm = ({action, title, ...props}) => {
     const theme = useSelector(state => state.theme.theme)

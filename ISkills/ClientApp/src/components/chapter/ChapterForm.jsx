@@ -1,15 +1,15 @@
 import React from 'react';
-import MyInput from "../UI/Input/MyInput";
-import MyButton from "../UI/Button/MyButton";
+import MyInput from "../UI/input/MyInput";
+import MyButton from "../UI/button/MyButton";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import MyEditor from "../UI/Editor/MyEditor";
+import MyEditor from "../UI/editor/MyEditor";
 import {useDispatch, useSelector} from "react-redux";
 import {setChapter} from "../../store/ChapterReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
 
-import MyAlert from "../UI/Alert/MyAlert";
-import Loading from "../UI/Loading/Loading";
+import MyAlert from "../UI/alert/MyAlert";
+import Loading from "../UI/loading/Loading";
 
 const ChapterForm = ({action, title, ...props}) => {
     const chapter = useSelector(state => state.chapter.chapter)

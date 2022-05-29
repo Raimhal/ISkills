@@ -3,16 +3,16 @@ import {Link, useLocation, useNavigate} from "react-router-dom";
 import classes from "./Navbar.module.css"
 import {useDispatch, useSelector} from "react-redux";
 import {logoutUser} from "../../../store/UserReducer";
-import MyModal from "../MyModal/MyModal";
+import MyModal from "../myModal/MyModal";
 import CourseForm from "../../course/CourseForm";
 import {clearParams, createCourse, getCourses} from "../../../store/CourseReducer";
-import NestedMenu from "../NestedMenu/NestedMenu";
+import NestedMenu from "../nestedMenu/NestedMenu";
 import {Fab} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import {colorTheme} from "../Themes";
+import {colorTheme} from "../themes";
 import {ThemeProvider} from "@emotion/react";
 import {Tooltip} from "@material-ui/core";
-import AdminMenu from "../NestedMenu/AdminMenu";
+import AdminMenu from "../nestedMenu/AdminMenu";
 
 const Navbar = () => {
     const isAuth = useSelector(state => state.user.isAuth)

@@ -1,13 +1,13 @@
 import React from 'react';
-import MyInput from "../UI/Input/MyInput";
-import MyButton from "../UI/Button/MyButton";
+import MyInput from "../UI/input/MyInput";
+import MyButton from "../UI/button/MyButton";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
 import {setCategory} from "../../store/CategoryReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import MyAlert from "../UI/Alert/MyAlert";
-import Loading from "../UI/Loading/Loading";
+import MyAlert from "../UI/alert/MyAlert";
+import Loading from "../UI/loading/Loading";
 
 const CategoryForm = ({action, title, ...props}) => {
     const category = useSelector(state => state.category.category)

@@ -2,15 +2,15 @@ import React from 'react';
 import {useNavigate} from 'react-router-dom'
 import '../../styles/Button.css'
 import '../../styles/Comment.css'
-import MyRating from "../UI/Rating/MyRating";
+import MyRating from "../UI/rating/MyRating";
 import defaultUserImage from "../../assets/images/defaultUserImage.png";
-import MyEditor from "../UI/Editor/MyEditor";
-import MyButton from "../UI/Button/MyButton";
+import MyEditor from "../UI/editor/MyEditor";
+import MyButton from "../UI/button/MyButton";
 import {useDispatch} from "react-redux";
 import {setComment} from "../../store/CommentReducer";
 import ReactHtmlParser from "react-html-parser";
 import Parse from "html-react-parser"
-import MyTextarea from "../UI/Textarea/MyTextarea";
+import MyTextarea from "../UI/textarea/MyTextarea";
 import {IconButton} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from "@mui/icons-material/Delete";

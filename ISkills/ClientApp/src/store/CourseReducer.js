@@ -31,7 +31,7 @@ const defaultState = {
         {name: 'Price', value: 'price'},
         {name: 'Language', value: 'language'},
         {name: 'Date', value: 'dateCreated'},
-        {name: 'Rating', value: 'rating'},
+        {name: 'rating', value: 'rating'},
     ],
     courses : [],
     totalCount: 0,

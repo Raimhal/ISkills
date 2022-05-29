@@ -33,7 +33,7 @@ const defaultState = {
         {name: 'Firstname', value: 'firstName'},
         {name: 'Lastname', value: 'lastName'},
         {name: 'Username', value: 'userName'},
-        {name: 'Rating', value: 'rating'},
+        {name: 'rating', value: 'rating'},
     ],
     isLoading: false,
     isActionLoading: false,

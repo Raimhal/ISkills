@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import '../../styles/Chapter.css'
 import '../../styles/Button.css'
-import MyTextarea from "../UI/Textarea/MyTextarea";
+import MyTextarea from "../UI/textarea/MyTextarea";
 import {useDispatch, useSelector} from "react-redux";
 import {setChapter} from "../../store/ChapterReducer";
-import MyModal from "../UI/MyModal/MyModal";
+import MyModal from "../UI/myModal/MyModal";
 import {IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
