@@ -41,7 +41,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../heroku/Psalterium/frontend" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -173,6 +173,7 @@
       <workItem from="1653568462414" duration="11725000" />
       <workItem from="1653586063089" duration="626000" />
       <workItem from="1653661845329" duration="7022000" />
+      <workItem from="1653681959831" duration="632000" />
     </task>
     <servers />
   </component>
