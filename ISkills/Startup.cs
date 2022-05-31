@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using System.IO;
 
 namespace ISkills
 {
@@ -105,7 +106,8 @@ namespace ISkills
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "wwwroot";
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+                spa.Options.SourcePath = path;
             });
         }
     }
