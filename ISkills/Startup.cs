@@ -110,7 +110,7 @@ namespace ISkills
             //});
 
 
-            app.UseSpa();
+            app.UseSpa( spa => { });
         }
     }
 }
