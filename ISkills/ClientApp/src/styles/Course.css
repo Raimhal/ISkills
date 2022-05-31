@@ -9,8 +9,8 @@
 
 .course {
     display: flex;
-    flex: 1;
     gap: 0.5rem;
+    flex: 256px 1;
     margin-bottom: 0.5rem;
 }
 
@@ -18,6 +18,9 @@
     padding: 5px;
     margin: 0 5px;
     max-height: 256px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 .course__btns {
     display: flex;
@@ -93,7 +96,7 @@
 
 .shortInfo {
     max-height: 180px;
-    overflow-y: scroll;
+    overflow-y: auto;
     text-align: justify;
     padding-right: 3px;
 }

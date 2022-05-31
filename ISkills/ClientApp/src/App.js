@@ -3,12 +3,14 @@ import "./styles/App.css"
 import "./styles/Course.css"
 import {BrowserRouter} from "react-router-dom";
 import AppRouter from "./components/AppRouter";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getCurrentUser} from "./store/UserReducer";
-import Navbar from "./components/UI/navbar/navbar";
+import Navbar from "./components/UI/Navbar/Navbar";
+import Loading from "./components/UI/Loading/Loading";
 
 const App = () => {
     const dispatch = useDispatch()
+    const isLoading = useSelector(state => state.user.isLoading)
 
     useEffect( () => {
         const token = localStorage.getItem('accessToken')
@@ -19,10 +21,12 @@ const App = () => {
 
    return (
        <div className="App">
-           <BrowserRouter>
-               <Navbar/>
-               <AppRouter/>
-           </BrowserRouter>
+           {!isLoading ?
+               <BrowserRouter>
+                   <Navbar/>
+                   <AppRouter/>
+               </BrowserRouter>
+           : <Loading/> }
        </div>
    )
 }

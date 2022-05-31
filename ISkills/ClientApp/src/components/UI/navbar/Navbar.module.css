@@ -12,9 +12,10 @@
     box-sizing: border-box;
     margin: 0;
     background-color: rgba(0, 0, 0, 0.8);
-    z-index: 10;
     font-size: 1.15em;
     align-items: center;
+    z-index: 10;
+
 }
 
 .adminNavbar__wrapper {

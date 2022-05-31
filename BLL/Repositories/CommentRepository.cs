@@ -131,7 +131,7 @@ namespace BLL.Services
             await _courseDbContext.SaveChangesAsync(cancellationToken);
 
             user.Rating = await _courseDbContext.Courses
-                .GetAvarage(x => x.CreatorId == user.Id && x.Rating != default, x => x.Rating);
+                .GetAvarage(x => x.CreatorId == course.CreatorId && x.Rating != default, x => x.Rating);
 
             await _userDbContext.SaveChangesAsync(cancellationToken);
         }

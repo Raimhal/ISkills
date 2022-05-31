@@ -5,8 +5,8 @@ import {colorTheme} from "../../../styleThemes";
 
 const Loading = () => {
     return (
-        <ThemeProvider theme={colorTheme}>
-            <CircularProgress color="primary" size={25} sx={{p: 0, m: 0}}/>
+        <ThemeProvider theme={colorTheme} className={classes.Loading__wrapper}>
+            <CircularProgress color="primary" size={25} sx={{p: 0, m: 0}} className={classes.Loading}/>
         </ThemeProvider>
     );
 };

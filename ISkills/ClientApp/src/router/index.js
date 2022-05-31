@@ -19,7 +19,6 @@ const publicRoutes = [
     {path: '/courses/:id', component: <CoursePage />},
     {path: '/login', component: <LoginPage />},
     {path: '/register', component: <RegisterPage />},
-    {path: '*', component: <NotFoundPage />},
     {path: '/404', component: <NotFoundPage />}
 ]
 
@@ -34,7 +33,7 @@ const adminRoutes = [
     {path: '/admin/chapters', component: <AdminChapters />, title: 'Chapters'},
     {path: '/admin/videos', component: <AdminVideos />, title: 'Videos'},
     {path: '/admin/file-types', component: <AdminFileTypes />, title: 'FileTypes'},
-    {path: '/admin/themes', component: <AdminThemes />, title: 'themes'},
+    {path: '/admin/themes', component: <AdminThemes />, title: 'Themes'},
     {path: '/admin/categories', component: <AdminCategories />, title: 'Categories'},
 ]
 

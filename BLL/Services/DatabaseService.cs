@@ -37,7 +37,7 @@ namespace BLL.Services
 
             var outputFileFullPath = Path.Combine(directory, $@"Backup_{date}.sql");
 
-            var command = $@"pg_dump -d {databaseString} > ""{outputFileFullPath}""";
+            var command = $@"pg_dump -c -d {databaseString} > ""{outputFileFullPath}""";
             DatabaseAction(postgresqlPath, command);
 
             using var stream = File.OpenRead(outputFileFullPath);

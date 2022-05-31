@@ -31,33 +31,35 @@ const CourseItem = ({course, remove, userId, isAdmin}) => {
             <div className="course">
                 <img src={course.imageUrl || defaultCourseImage} alt="course image" className="course__image"/>
                 <div className="course__content">
-                    <h3>{course.title}</h3>
-                    <MyRating value={course.rating} readonly/>
-                    <div className="language">
-                        <img src={languageImage} alt="language : " style={{width: 16}}/>
-                        <div>{course.language}</div>
+                    <div>
+                        <h3>{course.title}</h3>
+                        <MyRating value={course.rating} readonly/>
+                        <div className="language">
+                            <img src={languageImage} alt="language : " style={{width: 16}}/>
+                            <div>{course.language}</div>
+                        </div>
+                        <div className="shortInfo">
+                            {course.shortInfo.length > 131 ? `${course.shortInfo.slice(0, 128)}...` : course.shortInfo}
+                        </div>
                     </div>
-                    <div className="shortInfo">
-                        {course.shortInfo.length > 131 ? `${course.shortInfo.slice(0, 128)}...` : course.shortInfo}
+                    <div style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
+                        <div style={{whiteSpace: "nowrap"}}>
+                            {course.price !== 0
+                                ? <div>{course.price} $</div>
+                                : <div>For free</div>
+                            }
+                        </div>
+                        {hasAccess &&
+                        <div className="course__btns">
+                            <Tooltip title="Delete" placement="left">
+                                <IconButton aria-label="delete" onClick={removeHandleClick}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </Tooltip>
+                        </div>
+                        }
                     </div>
                 </div>
-            </div>
-            <div style={{display: "flex", flexDirection: "column", justifyContent: "space-between"}}>
-                <div style={{whiteSpace: "nowrap"}}>
-                    {course.price !== 0
-                        ? <div>{course.price} $</div>
-                        : <div>For free</div>
-                    }
-                </div>
-                {hasAccess &&
-                    <div className="course__btns">
-                        <Tooltip title="Delete" placement="left">
-                            <IconButton aria-label="delete" onClick={removeHandleClick}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                }
             </div>
         </div>
     );

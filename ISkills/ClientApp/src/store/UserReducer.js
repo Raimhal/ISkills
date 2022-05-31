@@ -151,7 +151,6 @@ export const login = (navigate) => async (dispatch, getState) => {
 }
 
 export const assignUser = (navigate = null) => async (dispatch, getState) => {
-    const students = getState().user.users
     const currentUser = getState().user.user
     const course = getState().course.course
     const isAuth = getState().user.isAuth
@@ -169,7 +168,7 @@ export const assignUser = (navigate = null) => async (dispatch, getState) => {
     }, setError, setActionLoading)
 }
 
-export const getCurrentUser = () => async (dispatch, getState) => {
+export const getCurrentUser = () => async (dispatch) => {
     await responseHandler(dispatch, async () => {
         const currentUser = await UserService.getCurrentUser()
         dispatch(setUser(currentUser))

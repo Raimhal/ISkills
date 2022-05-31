@@ -149,8 +149,9 @@ export const createVideo = (setModal = null) => async (dispatch, getState) => {
         const videoResponse = await VideoService.GetVideo(response.data)
 
         chapters[index].videos = [...chapters[index].videos, videoResponse.data]
+        chapters[index].videosCount = +chapters[index].videosCount + 1
 
-        dispatch(setChapters(chapters))
+        dispatch(setChapters([...chapters]))
         setModal && setModal(false)
     }, setError, setActionLoading)
 

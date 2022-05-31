@@ -4,7 +4,7 @@ import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import {getUsers, removeUser, setParams, setUser, updateImage, updateUser} from "../store/UserReducer";
-import AdminNavbar from "../components/UI/navbar/AdminNavbar";
+import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
 import {Tooltip} from "@material-ui/core";
 import defaultUserImage from "../assets/images/defaultUserImage.png";
 import {IconButton} from "@mui/material";

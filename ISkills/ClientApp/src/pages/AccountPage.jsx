@@ -22,6 +22,7 @@ import MyPagination from "../components/UI/Pagination/MyPagination";
 import CourseList from "../components/course/CourseList";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import {colorTheme} from "../styleThemes";
+import Loading from "../components/UI/Loading/Loading";
 
 const AccountPage = () => {
     const dispatch = useDispatch()
@@ -36,12 +37,12 @@ const AccountPage = () => {
     const courses = useSelector(state => state.course.courses)
     const totalCount = useSelector(state => state.course.totalCount)
     const isAdmin = useSelector(state => state.user.isAdmin)
+    const isCoursesLoading = useSelector(state => state.course.isLoading)
 
     useEffect(() => {
-        dispatch(getCurrentUser())
-        if(isAdmin){
+        if(isAdmin)
             setValue("my")
-        }
+
 
         return () => {
             dispatch(clearCourses())
@@ -73,69 +74,81 @@ const AccountPage = () => {
     }
 
     return (
-        <div className="wide main account">
-            {!isLoading &&
-                <div className="top">
-                    <div className="look-up">
-                        <div style={{position: "relative"}}>
-                            <Tooltip title="Update image" placement="bottom">
+                <div className="wide main account">
+                    {!isLoading &&
+                    <div className="top">
+                        <div className="look-up">
+                            <div style={{position: "relative"}}>
+                                <Tooltip title="Update image" placement="bottom">
                                     <img
-                                        src={ user.imageUrl || defaultUserImage}
+                                        src={user.imageUrl || defaultUserImage}
                                         alt="current user image"
                                         className='user__image'
                                         onClick={() => setModal(true)}
                                     />
-                            </Tooltip>
+                                </Tooltip>
+                            </div>
+                            {modal && <MyModal visible={modal} setVisible={setModal}>
+                                <ImageUpload
+                                    action={() => {
+                                        dispatch(updateImage())
+                                        setModal(false)
+                                    }}
+                                    title="Update image"
+                                    submitTitle="Save"
+                                    setVisible={setModal}
+                                    isLoading={isImageLoading}
+                                    error={error}
+                                />
+                            </MyModal>
+                            }
+                            <MyRating value={user.rating} readonly/>
                         </div>
-                        {modal && <MyModal visible={modal} setVisible={setModal}>
-                            <ImageUpload
-                                action={() => {
-                                    dispatch(updateImage())
-                                    setModal(false)
-                                }}
-                                title="Update image"
-                                submitTitle="Save"
-                                setVisible={setModal}
-                                isLoading={isImageLoading}
-                                error={error}
-                            />
-                        </MyModal>
-                        }
-                        <MyRating value={user.rating} readonly/>
+                        <div>
+                            <UserForm action={() => {
+                                dispatch(updateUser())
+                            }} submitTitle="Save"/>
+                        </div>
                     </div>
-                    <div>
-                        <UserForm action={() => {
-                            dispatch(updateUser())
-                        }} submitTitle="Save"/>
-                    </div>
+                    }
+                    {!isCoursesLoading ?
+                        <>
+                    <ThemeProvider theme={colorTheme}>
+                        <Tabs
+                            value={value}
+                            onChange={handleChange}
+                            textColor="primary"
+                            indicatorColor="primary"
+                            aria-label="primary course tabs"
+                        >
+                            {!isAdmin ?
+                                <>
+                                    <Tab value="member" label="Member courses"/>
+                                    <Tab value="my" label="My courses"/>
+                                </>
+                                : <Tab value="my" label="Courses"/>
+
+                            }
+                        </Tabs>
+                    </ThemeProvider>
+                    <SortAndSearch
+                        params={params}
+                        onParamsChange={value => dispatch(setParams(value))}
+                        action={getCourses}
+                        sortList={sortList}
+                    />
+
+                        <div>
+                            <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
+                                          totalCount={totalCount} changePage={changePage}/>
+                            <CourseList remove={removeCourse} courses={courses} userId={user.id} isAdmin={isAdmin}/>
+                            <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
+                                          totalCount={totalCount} changePage={changePage}/>
+                        </div>
+                        </>
+                        : <Loading/>
+                    }
                 </div>
-            }
-            <ThemeProvider theme={colorTheme}>
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    textColor="primary"
-                    indicatorColor="primary"
-                    aria-label="primary course tabs"
-                >
-                    {!isAdmin && <Tab value="member" label="Member courses"/>}
-                    <Tab value="my" label="My courses" />
-                </Tabs>
-            </ThemeProvider>
-            <SortAndSearch
-                params={params}
-                onParamsChange={value => dispatch(setParams(value))}
-                action={getCourses}
-                sortList={sortList}
-            />
-            <div>
-                <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
-                              totalCount={totalCount} changePage={changePage}/>
-                <CourseList remove={removeCourse} courses={courses} userId={user.id} isAdmin={isAdmin}/>
-                <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
-                              totalCount={totalCount} changePage={changePage}/>
-            </div>
-        </div>
     );
 };
 

@@ -38,7 +38,7 @@ const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
                      alt='user image' className='user__image'/>
                 <div className="content">
                     <div>
-                        {comment.creator.firstName} {comment.creator.lastName} ({comment.creator.userName})
+                        {comment.creator.userName}
                         <MyRating value={comment.rating} readonly/>
                         <MyTextarea value={comment.content} />
                     </div>
@@ -59,9 +59,9 @@ const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
                 </div>
             </div>
             <div className='comment__date'>
-                {comment.dateUpdated === comment.date
-                    ? <div>{new Date(comment.date).toLocaleString()}</div>
-                    : <div>Edited {new Date(comment.dateUpdated).toLocaleString()}</div>
+                {comment.dateUpdated > comment.date
+                    ? <div>Edited {new Date(comment.dateUpdated).toLocaleString()}</div>
+                    : <div>{new Date(comment.date).toLocaleString()}</div>
                 }
             </div>
         </div>
