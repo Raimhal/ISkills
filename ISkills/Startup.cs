@@ -88,7 +88,7 @@ namespace ISkills
                 app.UseSwaggerUI();
             }
 
-            app.UseStaticFiles();
+            app.UseSpaStaticFiles();
             app.UseCustomExceptionHandler();
             app.UseHttpsRedirection();
             app.UseRouting();
@@ -106,8 +106,7 @@ namespace ISkills
 
             app.UseSpa(spa =>
             {
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-                spa.Options.SourcePath = path;
+                spa.Options.SourcePath = "wwwroot";
             });
         }
     }
