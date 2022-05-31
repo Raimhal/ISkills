@@ -7,6 +7,11 @@
     font-weight: 300 !important;
 }
 
+html {
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+}
+
 #root{
     display: flex;
     flex-direction: column;
