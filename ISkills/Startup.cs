@@ -104,13 +104,7 @@ namespace ISkills
                 endpoints.MapControllers();
             });
 
-            //app.UseSpa(spa =>
-            //{
-            //    spa.Options.SourcePath = "wwwroot";
-            //});
-
-
-            app.UseSpa( spa => { });
+            app.UseSpa(spa => { });
         }
     }
 }
