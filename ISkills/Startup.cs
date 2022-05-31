@@ -88,7 +88,8 @@ namespace ISkills
                 app.UseSwaggerUI();
             }
 
-            app.UseStaticFiles();
+            //app.UseStaticFiles();
+            app.UseSpaStaticFiles();
             app.UseCustomExceptionHandler();
             app.UseHttpsRedirection();
             app.UseRouting();
