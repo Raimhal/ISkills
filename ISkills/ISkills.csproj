@@ -15,7 +15,7 @@
 		<PackageReference Include="JavaScriptEngineSwitcher.ChakraCore" Version="3.16.0" />
 		<PackageReference Include="JavaScriptEngineSwitcher.Extensions.MsDependencyInjection" Version="3.3.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.15" />
-		<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.16" />
+		<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="5.0.17" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.15">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -38,6 +38,7 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -87,6 +87,7 @@ namespace ISkills
                 app.UseSwaggerUI();
             }
 
+            app.UseStaticFiles();
             app.UseCustomExceptionHandler();
             app.UseHttpsRedirection();
             app.UseRouting();
@@ -104,12 +105,7 @@ namespace ISkills
 
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
-                {
-                    spa.UseReactDevelopmentServer(npmScript: "start");
-                }
+                spa.Options.SourcePath = "wwwroot";
             });
         }
     }
