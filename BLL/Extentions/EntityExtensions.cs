@@ -83,6 +83,10 @@ namespace BLL.Services
 
         public static async Task<double> GetAvarage<T>(this DbSet<T> context, Expression<Func<T, bool>> sortExpression,
             Expression<Func<T, double>> avarageExpression, CancellationToken cancellationToken = default) where T : class
-            => await context.Where(sortExpression).AverageAsync(avarageExpression, cancellationToken);
+            => await context.AnyAsync(sortExpression, cancellationToken)
+            ? await context.Where(sortExpression).AverageAsync(avarageExpression, cancellationToken)
+            : default;
+        
+
     }
 }

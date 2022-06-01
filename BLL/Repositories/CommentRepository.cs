@@ -119,10 +119,11 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            var course = await _courseDbContext.Courses
-                .GetAsync(_mapper, c => c.Comments.Any(c => c.Id == id), new() { x => x.Comments}, cancellationToken);
 
-            await _commentDbContext.Comments.DeleteByAsync(_mapper, c => c.Id == id, cancellationToken);
+            var course = await _courseDbContext.Courses
+                .GetAsync(_mapper, c => c.Comments.Any(x => x.Id == id), new() { }, cancellationToken);
+
+            await _commentDbContext.Comments.DeleteByAsync(_mapper, x => x.Id == id, cancellationToken);
             await _commentDbContext.SaveChangesAsync(cancellationToken);
 
             await RecalculateRating(course, cancellationToken); 
@@ -130,22 +131,17 @@ namespace BLL.Services
 
         private async Task RecalculateRating(Course course, CancellationToken cancellationToken)
         {
-            if (course.Comments?.Count > 0)
-                course.Rating = await _commentDbContext.Comments
-                    .GetAvarage(x => x.CourseId == course.Id && x.Rating != default, x => x.Rating);
-            else
-                course.Rating = default;
+            course.Rating = await _commentDbContext.Comments
+                .GetAvarage(x => x.CourseId == course.Id && x.Rating != default, x => x.Rating);
 
             await _courseDbContext.SaveChangesAsync(cancellationToken);
 
             var creator = await _userDbContext.Users
-                .GetAsync(_mapper, u => u.Id == course.CreatorId, new() { x => x.Courses }, cancellationToken);
+                .GetAsync(_mapper, u => u.Id == course.CreatorId, new() { }, cancellationToken);
 
-            if(creator.Courses?.Count > 0)
-                creator.Rating = await _courseDbContext.Courses
-                    .GetAvarage(x => x.CreatorId == creator.Id && x.Rating != default, c => c.Rating);
-            else
-                course.Rating = default;
+            creator.Rating = await _courseDbContext.Courses
+                .GetAvarage(x => x.CreatorId == creator.Id && x.Rating != default, c => c.Rating);
+
 
             await _userDbContext.SaveChangesAsync(cancellationToken);
         }

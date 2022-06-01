@@ -182,8 +182,17 @@ namespace BLL.Services
 
             await _cloudinaryService.DeleteAsync(course.ImageUrl);
 
+            var creator = await _userContext.Users.GetAsync(
+                _mapper, x => x.Id == course.CreatorId, new() { }, cancellationToken);
+
              _courseDbContext.Courses.Remove(course);
             await _courseDbContext.SaveChangesAsync(cancellationToken);
+
+            creator.Rating = await _courseDbContext.Courses
+                .GetAvarage(x => x.CreatorId == creator.Id && x.Rating != default, x => x.Rating);
+
+            await _userContext.SaveChangesAsync(cancellationToken);
+
         }
 
         public async Task ToggleUserAssignment(Guid userId, Guid courseId, CancellationToken cancellationToken)

@@ -39,6 +39,7 @@
 div.rb_div{
     display: flex;
     justify-content: space-between;
+    position: relative;
 }
 
 .comments__title {
