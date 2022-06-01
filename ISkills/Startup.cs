@@ -88,8 +88,7 @@ namespace ISkills
                 app.UseSwaggerUI();
             }
 
-            //app.UseStaticFiles();
-            app.UseSpaStaticFiles();
+            app.UseStaticFiles();
             app.UseCustomExceptionHandler();
             app.UseHttpsRedirection();
             app.UseRouting();
@@ -105,7 +104,9 @@ namespace ISkills
                 endpoints.MapControllers();
             });
 
-            app.UseSpa(spa => { });
+            app.UseSpa(spa =>
+                spa.Options.SourcePath = "wwwroot"
+            );
         }
     }
 }
