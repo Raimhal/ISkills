@@ -19,7 +19,7 @@ const AdminUsers = () => {
     const params = useSelector(state => state.user.params)
     const sortList = useSelector(state => state.user.sortList)
     const totalCount = useSelector(state => state.user.totalCount)
-    const isLoading = useSelector(state => state.user.isLoading)
+    const isLoading = useSelector(state => state.user.isUsersLoading)
     const dispatch = useDispatch()
     const [modal, setModal] = useState(false)
     const [imageModal, setImageModal] = useState(false)
