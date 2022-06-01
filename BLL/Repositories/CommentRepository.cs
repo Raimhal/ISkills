@@ -86,18 +86,7 @@ namespace BLL.Services
             await _commentDbContext.Comments.AddAsync(comment, cancellationToken);
             await _commentDbContext.SaveChangesAsync(cancellationToken);
 
-            course.Rating = await _commentDbContext.Comments
-                .GetAvarage(x => x.CourseId == course.Id && x.Rating != default, x => x.Rating);
-
-            await _courseDbContext.SaveChangesAsync(cancellationToken);
-
-            var creator = await _userDbContext.Users
-                .GetAsync(_mapper, x => x.Id == course.CreatorId, new() { }, cancellationToken);
-
-            creator.Rating = await _courseDbContext.Courses
-                .GetAvarage(x => x.CreatorId == creator.Id && x.Rating != default, x => x.Rating);
-
-            await _userDbContext.SaveChangesAsync(cancellationToken);
+            await RecalculateRating(course, cancellationToken);
 
             return comment.Id;
         }
@@ -125,29 +114,23 @@ namespace BLL.Services
             _commentDbContext.Comments.Update(comment);
             await _commentDbContext.SaveChangesAsync(cancellationToken);
 
-            course.Rating = await _commentDbContext.Comments
-                .GetAvarage(x => x.CourseId == course.Id && x.Rating != default, x => x.Rating);
-
-            await _courseDbContext.SaveChangesAsync(cancellationToken);
-
-            var creator = await _userDbContext.Users
-                .GetAsync(_mapper, x => x.Id == course.CreatorId, new() { }, cancellationToken);
-
-            creator.Rating = await _courseDbContext.Courses
-                .GetAvarage(x => x.CreatorId == creator.Id && x.Rating != default, x => x.Rating);
-
-            await _userDbContext.SaveChangesAsync(cancellationToken);
+            await RecalculateRating(course, cancellationToken);
         }
 
         public async Task DeleteByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             var course = await _courseDbContext.Courses
-                .GetAsync(_mapper, c => c.Comments.Any(c => c.Id == id), new() { }, cancellationToken);
+                .GetAsync(_mapper, c => c.Comments.Any(c => c.Id == id), new() { x => x.Comments}, cancellationToken);
 
             await _commentDbContext.Comments.DeleteByAsync(_mapper, c => c.Id == id, cancellationToken);
             await _commentDbContext.SaveChangesAsync(cancellationToken);
 
-            if (course.Comments.Count > 0)
+            await RecalculateRating(course, cancellationToken); 
+        }
+
+        private async Task RecalculateRating(Course course, CancellationToken cancellationToken)
+        {
+            if (course.Comments?.Count > 0)
                 course.Rating = await _commentDbContext.Comments
                     .GetAvarage(x => x.CourseId == course.Id && x.Rating != default, x => x.Rating);
             else
@@ -156,13 +139,15 @@ namespace BLL.Services
             await _courseDbContext.SaveChangesAsync(cancellationToken);
 
             var creator = await _userDbContext.Users
-                .GetAsync(_mapper, u => u.Id == course.CreatorId, new() { }, cancellationToken);
+                .GetAsync(_mapper, u => u.Id == course.CreatorId, new() { x => x.Courses }, cancellationToken);
 
-            creator.Rating = await _courseDbContext.Courses
-                .GetAvarage(x => x.CreatorId == creator.Id && x.Rating != default, c => c.Rating);
+            if(creator.Courses?.Count > 0)
+                creator.Rating = await _courseDbContext.Courses
+                    .GetAvarage(x => x.CreatorId == creator.Id && x.Rating != default, c => c.Rating);
+            else
+                course.Rating = default;
 
             await _userDbContext.SaveChangesAsync(cancellationToken);
-            
         }
     }
 }
