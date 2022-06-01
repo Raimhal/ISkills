@@ -27,7 +27,7 @@ import Loading from "../components/UI/Loading/Loading";
 const AccountPage = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.user)
-    const isLoading = useSelector(state => state.user.isLoading)
+    const isLoading = useSelector(state => state.user.isActionLoading)
     const isImageLoading = useSelector(state => state.user.isImageLoading)
     const error = useSelector(state => state.user.error)
     const [modal, setModal] = useState(false)
@@ -75,7 +75,6 @@ const AccountPage = () => {
 
     return (
                 <div className="wide main account">
-                    {!isLoading &&
                     <div className="top">
                         <div className="look-up">
                             <div style={{position: "relative"}}>
@@ -110,9 +109,6 @@ const AccountPage = () => {
                             }} submitTitle="Save"/>
                         </div>
                     </div>
-                    }
-                    {!isCoursesLoading ?
-                        <>
                     <ThemeProvider theme={colorTheme}>
                         <Tabs
                             value={value}
@@ -121,14 +117,8 @@ const AccountPage = () => {
                             indicatorColor="primary"
                             aria-label="primary course tabs"
                         >
-                            {!isAdmin ?
-                                <>
-                                    <Tab value="member" label="Member courses"/>
-                                    <Tab value="my" label="My courses"/>
-                                </>
-                                : <Tab value="my" label="Courses"/>
-
-                            }
+                            {!isAdmin && <Tab value="member" label="Member courses"/>}
+                            <Tab value="my" label={!isAdmin ? "My courses" : "Courses"}/>
                         </Tabs>
                     </ThemeProvider>
                     <SortAndSearch
@@ -137,7 +127,7 @@ const AccountPage = () => {
                         action={getCourses}
                         sortList={sortList}
                     />
-
+                    {!isCoursesLoading ?
                         <div>
                             <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                                           totalCount={totalCount} changePage={changePage}/>
@@ -145,8 +135,9 @@ const AccountPage = () => {
                             <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                                           totalCount={totalCount} changePage={changePage}/>
                         </div>
-                        </>
-                        : <Loading/>
+                        :   <div style={{position: "relative"}}>
+                                <Loading/>
+                            </div>
                     }
                 </div>
     );

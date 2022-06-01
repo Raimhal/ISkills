@@ -130,8 +130,11 @@ namespace BLL.Services
 
             await _courseDbContext.SaveChangesAsync(cancellationToken);
 
-            user.Rating = await _courseDbContext.Courses
-                .GetAvarage(x => x.CreatorId == course.CreatorId && x.Rating != default, x => x.Rating);
+            var creator = await _userDbContext.Users
+                .GetAsync(_mapper, x => x.Id == course.CreatorId, new() { }, cancellationToken);
+
+            creator.Rating = await _courseDbContext.Courses
+                .GetAvarage(x => x.CreatorId == creator.Id && x.Rating != default, x => x.Rating);
 
             await _userDbContext.SaveChangesAsync(cancellationToken);
         }
@@ -145,20 +148,21 @@ namespace BLL.Services
             await _commentDbContext.SaveChangesAsync(cancellationToken);
 
             if (course.Comments.Count > 0)
-            {
                 course.Rating = await _commentDbContext.Comments
                     .GetAvarage(x => x.CourseId == course.Id && x.Rating != default, x => x.Rating);
+            else
+                course.Rating = default;
 
-                await _courseDbContext.SaveChangesAsync(cancellationToken);
+            await _courseDbContext.SaveChangesAsync(cancellationToken);
 
-                var user = await _userDbContext.Users
-                    .GetAsync(_mapper, u => u.Id == course.CreatorId, new() { }, cancellationToken);
+            var creator = await _userDbContext.Users
+                .GetAsync(_mapper, u => u.Id == course.CreatorId, new() { }, cancellationToken);
 
-                user.Rating = await _courseDbContext.Courses
-                    .GetAvarage(x => x.CreatorId == user.Id && x.Rating != default, c => c.Rating);
+            creator.Rating = await _courseDbContext.Courses
+                .GetAvarage(x => x.CreatorId == creator.Id && x.Rating != default, c => c.Rating);
 
-                await _userDbContext.SaveChangesAsync(cancellationToken);
-            }
+            await _userDbContext.SaveChangesAsync(cancellationToken);
+            
         }
     }
 }

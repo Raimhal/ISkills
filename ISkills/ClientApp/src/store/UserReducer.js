@@ -35,7 +35,7 @@ const defaultState = {
         {name: 'Username', value: 'userName'},
         {name: 'Rating', value: 'rating'},
     ],
-    isLoading: false,
+    isLoading: true,
     isActionLoading: false,
     isDeleteLoading: false,
     isImageLoading: false,
@@ -99,7 +99,7 @@ export const UserReducer = (state = defaultState, action) => {
         case SET_USERS_LOADING:
             return {...state, isUsersLoading: action.payload}
         case CLEAR_USERS_LOADING:
-            return {...state, isUsersLoading: defaultState.isLoading}
+            return {...state, isUsersLoading: defaultState.isUsersLoading}
         case SET_ERROR:
             return {...state, error: action.payload}
         case CLEAR_ERROR:
@@ -107,15 +107,15 @@ export const UserReducer = (state = defaultState, action) => {
         case SET_ACTION_LOADING:
             return {...state, isActionLoading: action.payload}
         case CLEAR_ACTION_LOADING:
-            return {...state, isActionLoading: defaultState.isLoading}
+            return {...state, isActionLoading: defaultState.isActionLoading}
         case SET_DELETE_LOADING:
             return {...state, isDeleteLoading: action.payload}
         case CLEAR_DELETE_LOADING:
-            return {...state, isDeleteLoading: defaultState.isLoading}
+            return {...state, isDeleteLoading: defaultState.isDeleteLoading}
         case SET_IMAGE_LOADING:
             return {...state, isImageLoading: action.payload}
         case CLEAR_IMAGE_LOADING:
-            return {...state, isImageLoading: defaultState.isLoading}
+            return {...state, isImageLoading: defaultState.isImageLoading}
         default:
             return state
     }
@@ -135,8 +135,8 @@ export const setTotalCount = (payload) => ({type: SET_TOTAL_COUNT, payload: payl
 export const clearTotalCount = () => ({type: CLEAR_TOTAL_COUNT})
 export const setLoading = (payload) => ({type: SET_LOADING, payload: payload})
 export const clearLoading = () => ({type: CLEAR_LOADING})
-export const setUsersLoading = (payload) => ({type: SET_LOADING, payload: payload})
-export const clearUsersLoading = () => ({type: CLEAR_LOADING})
+export const setUsersLoading = (payload) => ({type: SET_USERS_LOADING, payload: payload})
+export const clearUsersLoading = () => ({type: CLEAR_USERS_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
 export const setActionLoading = (payload) => ({type: SET_ACTION_LOADING, payload: payload})

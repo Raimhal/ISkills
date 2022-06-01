@@ -39,35 +39,31 @@ const Courses = () => {
     }
 
     return (
-            <>
+        <div className="wide main">
+            <div style={{display: "flex", flexDirection: "column"}}>
+                <SortAndSearch
+                    params={params}
+                    onParamsChange={value => dispatch(setParams(value))}
+                    action={getCourses}
+                    sortList={sortList}
+                />
+                {params.themeId
+                && <div>
+                    Theme: {theme?.title}
+                </div>
+                }
+            </div>
             {!isCoursesLoading ?
-                <div className="wide main">
-                    <div style={{display: "flex", flexDirection: "column"}}>
-                        <SortAndSearch
-                            params={params}
-                            onParamsChange={value => dispatch(setParams(value))}
-                            action={getCourses}
-                            sortList={sortList}
-                        />
-                        {params.themeId
-                        && <div>
-                            Theme: {theme?.title}
-                        </div>
-                        }
-                    </div>
-                    {courses.length > 0 &&
-                        <div>
-                            <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
-                                          totalCount={totalCount} changePage={changePage}/>
-                            <CourseList remove={removeCourse} courses={courses} userId={userId} isAdmin={isAdmin}/>
-                            <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
-                                          totalCount={totalCount} changePage={changePage}/>
-                        </div>
-                    }
+                <div>
+                    <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
+                                  totalCount={totalCount} changePage={changePage}/>
+                    <CourseList remove={removeCourse} courses={courses} userId={userId} isAdmin={isAdmin}/>
+                    <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
+                                  totalCount={totalCount} changePage={changePage}/>
                 </div>
                 : <Loading/>
             }
-            </>
+            </div>
     );
 };
 

@@ -19,7 +19,7 @@ const AdminUsers = () => {
     const params = useSelector(state => state.user.params)
     const sortList = useSelector(state => state.user.sortList)
     const totalCount = useSelector(state => state.user.totalCount)
-    const isLoading = useSelector(state => state.user.isUsersLoading)
+    const isImageLoading = useSelector(state => state.user.isImageLoading)
     const dispatch = useDispatch()
     const [modal, setModal] = useState(false)
     const [imageModal, setImageModal] = useState(false)
@@ -30,6 +30,7 @@ const AdminUsers = () => {
     }
 
     useEffect( () =>{
+        console.log("log")
         dispatch(getUsers())
     }, [params.page, params.sortOption, params.reverse])
 
@@ -82,7 +83,7 @@ const AdminUsers = () => {
                             title="Update image"
                             submitTitle="Save"
                             setVisible={setImageModal}
-                            isLoading={isLoading}
+                            isLoading={isImageLoading}
                             error={error}
                         />
                     </MyModal>

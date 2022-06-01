@@ -102,7 +102,8 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
                 helperText={formik.touched.lastName && formik.errors.lastName}
             />
             <MyAlert type="error" item={error}/>
-            <MyButton type="submit">{!isLoading ? submitTitle : <Loading/>}</MyButton>
+            <MyButton type="submit" >{submitTitle}</MyButton>
+            {isLoading && <Loading/>}
         </form>
     );
 };
