@@ -39,6 +39,7 @@ const defaultState = {
     isActionLoading: false,
     isDeleteLoading: false,
     isImageLoading: false,
+    isUsersLoading: false,
     error: null
 }
 
@@ -56,6 +57,8 @@ const SET_TOTAL_COUNT = "SET_USER_TOTAL_COUNT"
 const CLEAR_TOTAL_COUNT = "CLEAR_USER_TOTAL_COUNT"
 const SET_LOADING = "SET_USER_LOADING"
 const CLEAR_LOADING = "CLEAR_USER_LOADING"
+const SET_USERS_LOADING = "SET_USERS_LOADING"
+const CLEAR_USERS_LOADING = "CLEAR_USERS_LOADING"
 const SET_ERROR = "SET_USER_ERROR"
 const SET_ACTION_LOADING = "SET_USER_ACTION_LOADING"
 const CLEAR_ACTION_LOADING = "CLEAR_USER_ACTION_LOADING"
@@ -93,6 +96,10 @@ export const UserReducer = (state = defaultState, action) => {
             return {...state, isLoading: action.payload}
         case CLEAR_LOADING:
             return {...state, isLoading: defaultState.isLoading}
+        case SET_USERS_LOADING:
+            return {...state, isUsersLoading: action.payload}
+        case CLEAR_USERS_LOADING:
+            return {...state, isUsersLoading: defaultState.isLoading}
         case SET_ERROR:
             return {...state, error: action.payload}
         case CLEAR_ERROR:
@@ -128,6 +135,8 @@ export const setTotalCount = (payload) => ({type: SET_TOTAL_COUNT, payload: payl
 export const clearTotalCount = () => ({type: CLEAR_TOTAL_COUNT})
 export const setLoading = (payload) => ({type: SET_LOADING, payload: payload})
 export const clearLoading = () => ({type: CLEAR_LOADING})
+export const setUsersLoading = (payload) => ({type: SET_LOADING, payload: payload})
+export const clearUsersLoading = () => ({type: CLEAR_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
 export const setActionLoading = (payload) => ({type: SET_ACTION_LOADING, payload: payload})
@@ -196,7 +205,7 @@ export const getUsers = (courseId = null) => async (dispatch, getState) => {
         dispatch(setParams(newParams))
         dispatch(setUsers(newUsers))
         dispatch(setTotalCount(+totalCount))
-    }, setError, setLoading)
+    }, setError, setUsersLoading)
 };
 
 export const createUser = (navigate = null) => async (dispatch, getState) => {
