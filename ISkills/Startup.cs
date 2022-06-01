@@ -74,7 +74,7 @@ namespace ISkills
             services.AddControllersWithViews();
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "ClientApp/build";
+                configuration.RootPath = "wwwroot";
             });
         }
 
