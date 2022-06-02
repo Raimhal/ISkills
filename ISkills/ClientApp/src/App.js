@@ -21,12 +21,12 @@ const App = () => {
 
    return (
        <div className="App">
-           {!isLoading ?
+           {/*{!isLoading ?*/}
                <BrowserRouter>
                    <Navbar/>
                    <AppRouter/>
                </BrowserRouter>
-           : <Loading/> }
+           {/*: <Loading/> }*/}
        </div>
    )
 }
