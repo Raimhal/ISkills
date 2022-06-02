@@ -35,7 +35,7 @@ const defaultState = {
         {name: 'Username', value: 'userName'},
         {name: 'Rating', value: 'rating'},
     ],
-    isLoading: true,
+    isLoading: false,
     isActionLoading: false,
     isDeleteLoading: false,
     isImageLoading: false,
@@ -156,6 +156,14 @@ export const login = (navigate) => async (dispatch, getState) => {
         localStorage.setItem('accessToken', data.jwtToken)
         dispatch(getCurrentUser())
         navigate('/')
+    }, setError, setActionLoading)
+}
+
+export const logout = () => async (dispatch) => {
+    await responseHandler(dispatch, async () => {
+        localStorage.clear()
+        dispatch(logoutUser())
+        dispatch(clearUser())
     }, setError, setActionLoading)
 }
 

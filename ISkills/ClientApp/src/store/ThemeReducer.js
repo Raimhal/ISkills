@@ -164,8 +164,9 @@ export const createTheme = (setModal = null) => async (dispatch, getState) => {
 
     await responseHandler(dispatch, async () => {
         const themeId = await ThemeService.Create(theme)
-        dispatch(setTheme({...theme, id: themeId}))
-        dispatch(setThemes([...themes, theme]))
+        const newTheme = {...theme, id: themeId}
+        dispatch(setTheme({...newTheme}))
+        dispatch(setThemes([...themes, {...newTheme}]))
         setModal && setModal(false)
     }, setError, setActionLoading)
 }

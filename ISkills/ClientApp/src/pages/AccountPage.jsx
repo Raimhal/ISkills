@@ -3,7 +3,7 @@ import defaultUserImage from '../assets/images/defaultUserImage.png'
 import UserForm from "../components/user/UserForm";
 import MyRating from "../components/UI/Rating/MyRating";
 import {useDispatch, useSelector} from "react-redux";
-import {getCurrentUser, updateImage, updateUser} from "../store/UserReducer";
+import {clearUser, getCurrentUser, updateImage, updateUser} from "../store/UserReducer";
 import MyModal from "../components/UI/MyModal/MyModal";
 import ImageUpload from "../components/UI/Upload/ImageUpload";
 import {Tooltip} from "@material-ui/core";
@@ -118,14 +118,18 @@ const AccountPage = () => {
                         action={getCourses}
                         sortList={sortList}
                     />
-                    {!isCoursesLoading && courses.length > 0 ?
-                        <div>
-                            <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
-                                          totalCount={totalCount} changePage={changePage}/>
-                            <CourseList remove={removeCourse} courses={courses} userId={user.id} isAdmin={isAdmin}/>
-                            <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
-                                          totalCount={totalCount} changePage={changePage}/>
-                        </div>
+                    {!isCoursesLoading ?
+                        <>
+                            {courses.length > 0 &&
+                                <div>
+                                    <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
+                                                  totalCount={totalCount} changePage={changePage}/>
+                                    <CourseList remove={removeCourse} courses={courses} userId={user.id} isAdmin={isAdmin}/>
+                                    <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
+                                                  totalCount={totalCount} changePage={changePage}/>
+                                </div>
+                            }
+                        </>
                         :   <div style={{position: "relative"}}>
                                 <Loading/>
                             </div>
