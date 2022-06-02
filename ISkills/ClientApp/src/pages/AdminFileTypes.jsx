@@ -20,6 +20,7 @@ const AdminFileTypes = () => {
     const [createModal, setCreateModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
     const error = useSelector(state => state.file.error)
+    const isLoading = useSelector(state => state.file.isLoading)
 
 
     const changePage = (page) => {
@@ -48,6 +49,7 @@ const AdminFileTypes = () => {
                         onParamsChange={value => dispatch(setParams(value))}
                         action={getFileTypes}
                         sortList={sortList}
+                        isLoading={isLoading}
                     />
                     <MyTable
                         items={types}

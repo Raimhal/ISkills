@@ -24,6 +24,7 @@ const AdminUsers = () => {
     const [modal, setModal] = useState(false)
     const [imageModal, setImageModal] = useState(false)
     const error = useSelector(state => state.user.error)
+    const isLoading = useSelector(state => state.user.isUsersLoading)
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -45,6 +46,7 @@ const AdminUsers = () => {
                         onParamsChange={value => dispatch(setParams(value))}
                         action={getUsers}
                         sortList={sortList}
+                        isLoading={isLoading}
                     />
                     <MyTable
                         items={users}

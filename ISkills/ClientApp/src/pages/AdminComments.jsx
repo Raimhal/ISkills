@@ -17,6 +17,7 @@ const AdminComments = () => {
     const dispatch = useDispatch()
     const [modal, setModal] = useState(false)
     const error = useSelector(state => state.comment.error)
+    const isLoading = useSelector(state => state.comment.isLoading)
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -37,6 +38,7 @@ const AdminComments = () => {
                         onParamsChange={value => dispatch(setParams(value))}
                         action={getComments}
                         sortList={sortList}
+                        isLoading={isLoading}
                     />
                     <MyTable
                         items={comments}

@@ -27,6 +27,7 @@ const AdminCategories = () => {
     const [createModal, setCreateModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
     const error = useSelector(state => state.category.error)
+    const isLoading = useSelector(state => state.chapter.isLoading)
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -54,6 +55,7 @@ const AdminCategories = () => {
                         onParamsChange={value => dispatch(setParams(value))}
                         action={getCategories}
                         sortList={sortList}
+                        isLoading={isLoading}
                     />
                     <MyTable
                         items={categories}

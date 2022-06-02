@@ -44,6 +44,7 @@ const AdminVideos = () => {
                         onParamsChange={value => dispatch(setParams(value))}
                         action={getVideos}
                         sortList={sortList}
+                        isLoading={isLoading}
                     />
                     <MyTable
                         items={videos}

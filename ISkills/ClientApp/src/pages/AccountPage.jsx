@@ -117,6 +117,7 @@ const AccountPage = () => {
                         onParamsChange={value => dispatch(setParams(value))}
                         action={getCourses}
                         sortList={sortList}
+                        isLoading={isCoursesLoading}
                     />
                     {!isCoursesLoading ?
                         <>

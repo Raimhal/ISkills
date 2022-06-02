@@ -135,6 +135,10 @@ button {
     margin-top: 1rem;
 }
 
+.MuiToggleButton-root {
+    border: none !important;
+}
+
 @media screen and (max-width: 1000px) {
     .main {
         width: 95% !important;

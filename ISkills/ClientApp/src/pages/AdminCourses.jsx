@@ -59,6 +59,7 @@ const AdminCourses = () => {
                         onParamsChange={value => dispatch(setParams(value))}
                         action={getCourses}
                         sortList={sortList}
+                        isLoading={isLoading}
                     />
                     <MyTable
                         items={courses}

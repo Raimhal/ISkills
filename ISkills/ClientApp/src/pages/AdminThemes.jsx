@@ -20,6 +20,7 @@ const AdminThemes = () => {
     const [createModal, setCreateModal] = useState(false)
     const [updateModal, setUpdateModal] = useState(false)
     const error = useSelector(state => state.theme.error)
+    const isLoading = useSelector(state => state.theme.isLoading)
 
 
     const changePage = (page) => {
@@ -48,6 +49,7 @@ const AdminThemes = () => {
                         onParamsChange={value => dispatch(setParams(value))}
                         action={getThemes}
                         sortList={sortList}
+                        isLoading={isLoading}
                     />
                     <MyTable
                         items={themes}

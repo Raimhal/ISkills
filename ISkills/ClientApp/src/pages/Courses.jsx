@@ -46,6 +46,7 @@ const Courses = () => {
                     onParamsChange={value => dispatch(setParams(value))}
                     action={getCourses}
                     sortList={sortList}
+                    isLoading={isCoursesLoading}
                 />
                 {params.themeId
                 && <div>

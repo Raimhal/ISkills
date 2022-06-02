@@ -16,6 +16,7 @@ const AdminChapters = () => {
     const dispatch = useDispatch()
     const [modal, setModal] = useState(false)
     const error = useSelector(state => state.chapter.error)
+    const isLoading = useSelector(state => state.chapter.isLoading)
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -36,6 +37,7 @@ const AdminChapters = () => {
                         onParamsChange={value => dispatch(setParams(value))}
                         action={getChapters}
                         sortList={sortList}
+                        isLoading={isLoading}
                     />
                     <MyTable
                         items={chapters}

@@ -11,7 +11,7 @@ import ArrowCircleUpOutlinedIcon from '@mui/icons-material/ArrowCircleUpOutlined
 import ArrowCircleDownOutlinedIcon from '@mui/icons-material/ArrowCircleDownOutlined';
 import {useDispatch} from "react-redux";
 
-const SortAndSearch = ({sortList, params, action, onParamsChange}) => {
+const SortAndSearch = ({sortList, params, action, onParamsChange, isLoading}) => {
     const dispatch = useDispatch()
     return (
         <form onSubmit={(e) => {
@@ -32,9 +32,10 @@ const SortAndSearch = ({sortList, params, action, onParamsChange}) => {
                         selected={params.reverse}
                         onChange={() => onParamsChange({...params, reverse: !params.reverse})}
                         sx={{border: "none", background: 'transparent !important', m: 0, p: 0}}
+                        disabled={isLoading}
                     >
                         {params.reverse
-                            ? <ArrowCircleUpOutlinedIcon />
+                            ? <ArrowCircleUpOutlinedIcon  />
                             : <ArrowCircleDownOutlinedIcon />
                         }
                     </ToggleButton>
