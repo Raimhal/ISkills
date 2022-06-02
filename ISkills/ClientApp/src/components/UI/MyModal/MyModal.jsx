@@ -10,7 +10,7 @@ const MyModal = ({children, visible, setVisible, childrenStyle = {},...props}) =
     return (
         <div {...props} className={rootClasses.join(' ')} onMouseDown={() => setVisible(false)}>
             <div style={childrenStyle} className={classes.myModalContent} onMouseDown={(e) => e.stopPropagation()}>
-                {children}
+                    {children}
             </div>
         </div>
     );
