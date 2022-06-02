@@ -13,6 +13,7 @@ import {useFormik} from "formik";
 import MyFormikAlert from "../UI/Alert/MyFormikAlert";
 import MyAlert from "../UI/Alert/MyAlert";
 import Loading from "../UI/Loading/Loading";
+import InnerLoading from "../UI/Loading/InnerLoading";
 
 const CourseForm = ({action, title, ...props}) => {
     const course = useSelector(state => state.course.course)
@@ -202,7 +203,10 @@ const CourseForm = ({action, title, ...props}) => {
                 }
             </div>
             <MyAlert item={error}/>
-            <MyButton type="submit">{!isLoading ? title : <Loading/>}</MyButton>
+            {!isLoading
+                ? <MyButton type="submit">{title}</MyButton>
+                : <InnerLoading/>
+            }
         </form>
     );
 };

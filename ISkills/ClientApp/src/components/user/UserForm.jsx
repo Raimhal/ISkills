@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {setUser} from "../../store/UserReducer";
 import MyAlert from "../UI/Alert/MyAlert";
 import Loading from "../UI/Loading/Loading";
+import InnerLoading from "../UI/Loading/InnerLoading";
 
 const UserForm = ({action, title = null, submitTitle, ...props}) => {
     const dispatch = useDispatch()
@@ -102,8 +103,10 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
                 helperText={formik.touched.lastName && formik.errors.lastName}
             />
             <MyAlert type="error" item={error}/>
-            <MyButton type="submit" >{submitTitle}</MyButton>
-            {isLoading && <Loading/>}
+            {!isLoading
+                ? <MyButton type="submit">{submitTitle}</MyButton>
+                : <InnerLoading/>
+            }
         </form>
     );
 };

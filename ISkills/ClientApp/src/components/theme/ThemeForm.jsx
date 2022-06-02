@@ -11,6 +11,7 @@ import {useFormik} from "formik";
 import MyFormikAlert from "../UI/Alert/MyFormikAlert";
 import MyAlert from "../UI/Alert/MyAlert";
 import Loading from "../UI/Loading/Loading";
+import InnerLoading from "../UI/Loading/InnerLoading";
 
 const ThemeForm = ({action, title, ...props}) => {
     const theme = useSelector(state => state.theme.theme)
@@ -72,7 +73,10 @@ const ThemeForm = ({action, title, ...props}) => {
             />
             <MyFormikAlert condition={formik.touched.categoryId && Boolean(formik.errors.categoryId)} item={formik.errors.categoryId}/>
             <MyAlert item={error}/>
-            <MyButton type="submit">{!isLoading ? title : <Loading/>}</MyButton>
+            {!isLoading
+                ? <MyButton type="submit">{title}</MyButton>
+                : <InnerLoading/>
+            }
         </form>
     );
 };

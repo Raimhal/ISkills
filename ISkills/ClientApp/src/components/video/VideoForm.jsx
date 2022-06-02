@@ -10,6 +10,7 @@ import * as yup from "yup";
 import MyAlert from "../UI/Alert/MyAlert";
 import MyFormikAlert from "../UI/Alert/MyFormikAlert";
 import Loading from "../UI/Loading/Loading";
+import InnerLoading from "../UI/Loading/InnerLoading";
 
 const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, ...props}) => {
     const dispatch = useDispatch()
@@ -77,7 +78,10 @@ const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, 
                 required
             />
             <MyAlert item={error}/>
-        <MyButton type="submit">{!isLoading ? title : <Loading/>}</MyButton>
+            {!isLoading
+                ? <MyButton type="submit">{title}</MyButton>
+                : <InnerLoading/>
+            }
         </form>
     );
 };

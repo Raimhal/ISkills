@@ -37,9 +37,6 @@ const AdminVideos = () => {
     return (
         <div style={{position: "relative"}}>
             <AdminNavbar/>
-            {isLoading &&
-                <Loading/>
-            }
                 <div className="wide main">
                     <h2 className="title">Videos</h2>
                     <SortAndSearch

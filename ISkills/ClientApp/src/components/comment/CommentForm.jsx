@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {clearComment, setComment} from "../../store/CommentReducer";
 import MyAlert from "../UI/Alert/MyAlert";
 import Loading from "../UI/Loading/Loading";
+import InnerLoading from "../UI/Loading/InnerLoading";
 
 const CommentForm = ({action, title, ...props}) => {
     const dispatch = useDispatch()
@@ -28,7 +29,10 @@ const CommentForm = ({action, title, ...props}) => {
             <MyAlert item={error}/>
             <div className="rb_div">
                 <MyRating value={comment.rating} onChange={value => dispatch(setComment({...comment, rating: value}))}/>
-                <MyButton onClick={commentAction}>{!isLoading ? title : <Loading/>}</MyButton>
+                {!isLoading
+                    ? <MyButton onClick={commentAction}>{title}</MyButton>
+                    : <InnerLoading/>
+                }
             </div>
         </form>
     );

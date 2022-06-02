@@ -12,6 +12,11 @@ html {
     overflow-y: scroll;
 }
 
+body {
+    margin: 0;
+    padding: 0;
+}
+
 #root{
     display: flex;
     flex-direction: column;
@@ -49,25 +54,25 @@ html {
     gap: 0.5rem;
 }
 
-/*::-webkit-scrollbar-track*/
-/*{*/
-/*    border-radius: 10px;*/
-/*    background-color: transparent;*/
-/*}*/
+#root  ::-webkit-scrollbar-track
+{
+    border-radius: 10px;
+    background-color: transparent;
+}
 
-/*::-webkit-scrollbar*/
-/*{*/
-/*    width: 5px;*/
-/*    max-width: 5px;*/
-/*    max-height: 5px;*/
-/*}*/
+#root  ::-webkit-scrollbar
+{
+    width: 5px;
+    max-width: 5px;
+    max-height: 5px;
+}
 
-/*::-webkit-scrollbar-thumb*/
-/*{*/
-/*    border-radius: 3px;*/
-/*    -webkit-box-shadow: inset 0 0 6px rgba(134, 134, 134, 0.5);*/
-/*    background: transparent;*/
-/*}*/
+#root  ::-webkit-scrollbar-thumb
+{
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0 0 6px rgba(134, 134, 134, 0.5);
+    background: transparent;
+}
 
 .form {
     display: flex;

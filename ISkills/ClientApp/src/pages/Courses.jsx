@@ -53,7 +53,7 @@ const Courses = () => {
                 </div>
                 }
             </div>
-            {!isCoursesLoading ?
+            {!isCoursesLoading && courses.length > 0?
                 <div>
                     <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                                   totalCount={totalCount} changePage={changePage}/>

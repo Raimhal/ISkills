@@ -39,21 +39,13 @@ const AccountPage = () => {
     const isAdmin = useSelector(state => state.user.isAdmin)
     const isCoursesLoading = useSelector(state => state.course.isLoading)
 
-    useEffect(() => {
-        if(isAdmin)
-            setValue("my")
-
-
-        return () => {
-            dispatch(clearCourses())
-        }
-    }, [])
-
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     useEffect(() => {
+        if(isAdmin)
+            setValue("my")
 
         switch (value) {
             case "member":
@@ -90,8 +82,7 @@ const AccountPage = () => {
                             {modal && <MyModal visible={modal} setVisible={setModal}>
                                 <ImageUpload
                                     action={() => {
-                                        dispatch(updateImage())
-                                        setModal(false)
+                                        dispatch(updateImage(setModal))
                                     }}
                                     title="Update image"
                                     submitTitle="Save"
@@ -127,7 +118,7 @@ const AccountPage = () => {
                         action={getCourses}
                         sortList={sortList}
                     />
-                    {!isCoursesLoading ?
+                    {!isCoursesLoading && courses.length > 0 ?
                         <div>
                             <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                                           totalCount={totalCount} changePage={changePage}/>

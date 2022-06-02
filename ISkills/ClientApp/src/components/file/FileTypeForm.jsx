@@ -8,6 +8,7 @@ import {useFormik} from "formik";
 import {setFileType} from "../../store/FileReducer";
 import MyAlert from "../UI/Alert/MyAlert";
 import Loading from "../UI/Loading/Loading";
+import InnerLoading from "../UI/Loading/InnerLoading";
 
 const FileTypeForm = ({action, title, ...props}) => {
     const type = useSelector(state => state.file.type)
@@ -67,7 +68,10 @@ const FileTypeForm = ({action, title, ...props}) => {
                 helperText={formik.touched.fileSize && formik.errors.fileSize}
             />
             <MyAlert item={error}/>
-            <MyButton type="submit">{!isLoading ? title : <Loading/>}</MyButton>
+            {!isLoading
+                ? <MyButton type="submit">{title}</MyButton>
+                : <InnerLoading/>
+            }
         </form>
     );
 };

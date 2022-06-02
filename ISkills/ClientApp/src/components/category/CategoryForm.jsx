@@ -8,6 +8,7 @@ import * as yup from "yup";
 import {useFormik} from "formik";
 import MyAlert from "../UI/Alert/MyAlert";
 import Loading from "../UI/Loading/Loading";
+import InnerLoading from "../UI/Loading/InnerLoading";
 
 const CategoryForm = ({action, title, ...props}) => {
     const category = useSelector(state => state.category.category)
@@ -46,7 +47,10 @@ const CategoryForm = ({action, title, ...props}) => {
                 helperText={formik.touched.title && formik.errors.title}
             />
             <MyAlert item={error}/>
-            <MyButton type="submit">{!isLoading ? title : <Loading/>}</MyButton>
+            {!isLoading
+                ? <MyButton type="submit">{title}</MyButton>
+                : <InnerLoading/>
+            }
         </form>
     );
 };

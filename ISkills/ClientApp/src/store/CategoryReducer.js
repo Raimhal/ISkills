@@ -143,6 +143,7 @@ export const createCategory = (setModal = null) => async (dispatch, getState) =>
         const categoryId = await CategoryService.Create(category)
         dispatch(setCategory({...category, id: categoryId}))
         dispatch(setCategories([...categories, category]))
+
         setModal && setModal(false)
     }, setError, setActionLoading)
 }

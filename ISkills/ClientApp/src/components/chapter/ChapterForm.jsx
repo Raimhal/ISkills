@@ -10,6 +10,7 @@ import {useFormik} from "formik";
 
 import MyAlert from "../UI/Alert/MyAlert";
 import Loading from "../UI/Loading/Loading";
+import InnerLoading from "../UI/Loading/InnerLoading";
 
 const ChapterForm = ({action, title, ...props}) => {
     const chapter = useSelector(state => state.chapter.chapter)
@@ -67,7 +68,10 @@ const ChapterForm = ({action, title, ...props}) => {
                 />
             </div>
             <MyAlert type="error" item={error}/>
-            <MyButton type="submit">{!isLoading ? title : <Loading/>}</MyButton>
+            {!isLoading
+                ? <MyButton type="submit">{title}</MyButton>
+                : <InnerLoading/>
+            }
         </form>
     );
 };

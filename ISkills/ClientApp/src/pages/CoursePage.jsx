@@ -17,6 +17,7 @@ import CourseForm from "../components/course/CourseForm";
 import {useDispatch, useSelector} from "react-redux";
 import {clearCourse, getCourse, setCourse, updateCourse, updateImage} from "../store/CourseReducer";
 import {
+    clearComment,
     clearComments,
     createComment,
     getComments,
@@ -218,8 +219,7 @@ const CoursePage = () => {
                                 <MyModal visible={imageModal} setVisible={setImageModal}>
                                     <ImageUpload
                                         action={() => {
-                                            dispatch(updateImage())
-                                            setImageModal(false)
+                                            dispatch(updateImage(setImageModal))
                                         }}
                                         title="Update image"
                                         submitTitle="Save"
@@ -279,8 +279,8 @@ const CoursePage = () => {
                                 {videoModal &&
                                     <MyModal visible={videoModal} setVisible={setVideoModal}>
                                         <VideoForm
-                                            action={async () => {
-                                                await dispatch(createVideo(setVideoModal))
+                                            action={ () => {
+                                                dispatch(createVideo(setVideoModal))
                                             }}
                                             title="Add video"
                                             submitTitle="Add"
@@ -384,7 +384,10 @@ const CoursePage = () => {
                     <div style={{position: "fixed", bottom: 25, right: 25}}>
                         <ThemeProvider theme={colorTheme}>
                             <Tooltip title="Add comment" placement="left">
-                                    <Fab color="primary" aria-label="add" size="medium" onClick={() => setCommentUpdateModal(true)}
+                                    <Fab color="primary" aria-label="add" size="medium" onClick={() => {
+                                        dispatch(clearComment())
+                                        setCommentUpdateModal(true)
+                                    }}
                                          className={classes.navbar__link}>
                                         <AddIcon/>
                                     </Fab>
