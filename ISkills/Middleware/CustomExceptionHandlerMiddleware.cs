@@ -45,6 +45,9 @@ namespace ISkills.Middleware
                 case ConflictException:
                     code = HttpStatusCode.Conflict;
                     break;
+                case ArgumentException:
+                    code = HttpStatusCode.BadRequest;
+                    break;
             }
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)code;

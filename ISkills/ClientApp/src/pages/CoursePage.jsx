@@ -129,7 +129,7 @@ const CoursePage = () => {
 
     return (
         <div className="main">
-            { !isCourseLoading ?
+            {/*{ !isCourseLoading ?*/}
                 <>
             <div className="block">
                 <div className="course__head">
@@ -406,8 +406,8 @@ const CoursePage = () => {
                     </div>
                     }
             </>
-                : <Loading/>
-            }
+            {/*    : <Loading/>*/}
+            {/*}*/}
         </div>
     );
 };

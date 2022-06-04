@@ -115,8 +115,8 @@ export const createComment = (setModal = null) => async(dispatch, getState) => {
         dispatch(clearComment())
         const date = new Date()
         const newComment = {...comment, id: commentId, creator: currentUser, creatorId: currentUser.id, date: date, dateUpdated: date, courseId: course.id}
-        console.log(newComment)
         dispatch(setComments([newComment, ...comments]))
+        dispatch(clearComment())
         const newRating = ((course.rating * +totalCount + comment.rating) / (+totalCount + 1))
         dispatch(setCourse({...course, rating: newRating }))
         dispatch(setTotalCount(+totalCount + 1))
@@ -166,12 +166,16 @@ export const updateComment = (setModal = null) => async (dispatch, getState)  =>
     const state = getState().comment
     const comment = state.comment
     const comments = state.comments
+    const totalCount = state.totalCount
+    const course = getState().course.course
 
     await responseHandler(dispatch, async () => {
         console.log(comment)
         const index = comments.findIndex(x => x.id === comment.id)
         await CommentService.Update(comment.id, comment)
-        comments[index] = comment
+        const newRating = (course.rating * +totalCount + (comment.rating - comments[index].rating)) / +totalCount
+        comments[index] = {...comment}
+        dispatch(setCourse({...course, rating: newRating }))
         dispatch(setComments([...comments]))
         setModal && setModal(false)
     }, setError, setActionLoading)

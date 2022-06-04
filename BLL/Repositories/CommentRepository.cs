@@ -71,6 +71,10 @@ namespace BLL.Services
 
         public async Task<Guid> CreateAsync(CreateCommentDto model, CancellationToken cancellationToken)
         {
+
+            if (string.IsNullOrEmpty(model.Content))
+                throw new ArgumentException("Comment ontent can't be empty");
+
             Expression<Func<User, bool>> userExpression = u => u.Id == model.CreatorId;
             var user = await _userDbContext.Users
                .GetAsync(_mapper, userExpression, new() { }, cancellationToken);
@@ -97,7 +101,7 @@ namespace BLL.Services
                 GetAsync(_mapper, c => c.Id == id, new () { }, cancellationToken);
 
             if (string.IsNullOrEmpty(model.Content))
-                throw new ValidationException();
+                throw new ArgumentException("Comment content can't be empty");
 
             var user = await _userDbContext.Users
                .GetAsync(_mapper, u => u.Id == model.CreatorId, new() { }, cancellationToken);
