@@ -1,6 +1,7 @@
-import React from 'react';
-import {createUser} from "../store/UserReducer";
+import React, {useEffect} from 'react';
+import {clearError, clearUser, createUser} from "../store/UserReducer";
 import RegistrationForm from "../components/user/RegistrationForm";
+import {useDispatch} from "react-redux";
 
 const RegisterPage = () => {
     return (

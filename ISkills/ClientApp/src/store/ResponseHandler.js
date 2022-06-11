@@ -5,7 +5,7 @@ export const responseHandler = async (dispatch, action, setError, setLoading) =>
         dispatch(setError(null))
     }
     catch (e) {
-        dispatch(setError(e.response?.data.error || "error"))
+        dispatch(setError(e.response?.data.error || "Error"))
     }
     finally {
         dispatch(setLoading(false))

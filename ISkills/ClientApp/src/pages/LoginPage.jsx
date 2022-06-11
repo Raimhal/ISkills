@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import MyInput from "../components/UI/Input/MyInput";
 import MyButton from "../components/UI/Button/MyButton";
 import {useDispatch, useSelector} from "react-redux";
-import {login, setUser} from "../store/UserReducer";
+import {clearError, login, setUser} from "../store/UserReducer";
 import {useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import * as yup from 'yup';
@@ -35,6 +35,10 @@ const LoginPage = () => {
         validationSchema: schema,
         onSubmit: loginAction
     })
+
+    useEffect( () => {
+        dispatch(clearError())
+    }, [])
 
     return (
         <div className="center">
