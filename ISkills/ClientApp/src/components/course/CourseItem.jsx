@@ -46,7 +46,7 @@ const CourseItem = ({course, remove, userId, isAdmin}) => {
                         <div style={{whiteSpace: "nowrap"}}>
                             {course.price !== 0
                                 ? <div>{course.price} $</div>
-                                : <div>For free</div>
+                                : <div>Free</div>
                             }
                         </div>
                         {hasAccess &&

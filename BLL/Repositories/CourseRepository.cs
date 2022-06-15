@@ -211,6 +211,7 @@ namespace BLL.Services
             else
                 course.Students.Add(user);
 
+
             _courseDbContext.Courses.Update(course);
             await _courseDbContext.SaveChangesAsync(cancellationToken);
         }

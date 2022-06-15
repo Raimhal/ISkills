@@ -44,7 +44,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.JavaScript" />
     <property name="ts.external.directory.path" value="E:\WebStorm 2020.3.2\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -188,6 +188,8 @@
       <workItem from="1654340380342" duration="8169000" />
       <workItem from="1654583043665" duration="32000" />
       <workItem from="1654952193466" duration="1354000" />
+      <workItem from="1654953588797" duration="678000" />
+      <workItem from="1655273358111" duration="7790000" />
     </task>
     <servers />
   </component>

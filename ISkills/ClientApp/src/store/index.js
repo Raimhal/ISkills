@@ -1,6 +1,6 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import {UserReducer} from "./UserReducer";
-import {composeWithDevTools} from "redux-devtools-extension";
+import {composeWithDevTools} from "redux-devtools-extension/developmentOnly";
 import {CourseReducer} from "./CourseReducer";
 import {CommentReducer} from "./CommentReducer";
 import {ThemeReducer} from "./ThemeReducer";
@@ -21,6 +21,5 @@ const rootReducer = combineReducers({
     file: FileReducer,
 })
 
-const composeEnhancers = composeWithDevTools || compose;
-export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 

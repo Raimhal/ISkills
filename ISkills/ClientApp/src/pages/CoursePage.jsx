@@ -83,6 +83,7 @@ const CoursePage = () => {
     const isCommentsLoading = useSelector(state => state.comment.isLoading)
     const isStudentsLoading = useSelector(state => state.user.isLoading)
     const isChaptersLoading = useSelector(state => state.chapter.isLoading)
+    const isLoading = useSelector(state => state.user.isLoading)
 
     const [modal, setModal] = useState(false)
 
@@ -128,9 +129,8 @@ const CoursePage = () => {
     }
 
     return (
+        (!isCourseLoading && !isLoading) ?
         <div className="main">
-            {/*{ !isCourseLoading ?*/}
-                <>
             <div className="block">
                 <div className="course__head">
                     <img
@@ -147,8 +147,8 @@ const CoursePage = () => {
                             <div>{course.language}</div>
                         </div>
                         <div>Created: {new Date(course.dateCreated).toLocaleDateString()}</div>
-                        {course.dateUpdated <= course.dateCreated &&
-                        <div>Last updated: {new Date(course.dateUpdated).toDateString()}</div>
+                        {new Date(course.dateCreated) < new Date(course.dateUpdated) &&
+                        <div>Last updated: {new Date(course.dateUpdated).toLocaleDateString()}</div>
                         }
                         <MyRating value={course.rating} readonly/>
                         <div>Theme: {course.theme?.title}</div>
@@ -405,10 +405,8 @@ const CoursePage = () => {
                         }
                     </div>
                     }
-            </>
-            {/*    : <Loading/>*/}
-            {/*}*/}
         </div>
+            : <Loading/>
     );
 };
 export default CoursePage;
