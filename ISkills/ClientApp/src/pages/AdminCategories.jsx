@@ -71,6 +71,7 @@ const AdminCategories = () => {
                             setUpdateModal(true)
                         }}
                         error={error}
+                        clearError={() => dispatch(clearError())}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={categories.length}
                     totalCount={totalCount} changePage={changePage}/>

@@ -64,6 +64,7 @@ const AdminThemes = () => {
                             setUpdateModal(true)
                         }}
                         error={error}
+                        clearError={() => dispatch(clearError())}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={themes.length}
                     totalCount={totalCount} changePage={changePage}/>

@@ -41,7 +41,7 @@ const ThemeForm = ({action, title, ...props}) => {
 
     useEffect(() => {
         dispatch(getAllCategories())
-    })
+    }, [])
 
 
     return (

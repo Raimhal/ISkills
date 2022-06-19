@@ -15,7 +15,7 @@ import MyButton from "../components/UI/Button/MyButton";
 import MyModal from "../components/UI/MyModal/MyModal";
 import CourseForm from "../components/course/CourseForm";
 import {useDispatch, useSelector} from "react-redux";
-import {clearCourse, getCourse, setCourse, updateCourse, updateImage} from "../store/CourseReducer";
+import {clearCourse, clearError, getCourse, setCourse, updateCourse, updateImage} from "../store/CourseReducer";
 import {
     clearComment,
     clearComments,
@@ -23,7 +23,8 @@ import {
     getComments,
     removeComment,
     setParams as setCommentsParams,
-    updateComment
+    updateComment,
+    clearError as clearCommentError
 } from "../store/CommentReducer";
 import {assignUser, clearUsers, getCurrentUser, getUsers, setParams as setUsersParams} from "../store/UserReducer";
 import MyTextarea from "../components/UI/Textarea/MyTextarea";
@@ -33,7 +34,8 @@ import {
     getChapters,
     removeChapter,
     setParams as setChaptersParams,
-    updateChapter
+    updateChapter,
+    clearError as clearChapterError
 } from "../store/ChapterReducer";
 import ChapterList from "../components/chapter/ChapterList";
 import ChapterForm from "../components/chapter/ChapterForm";
@@ -47,7 +49,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import Loading from "../components/UI/Loading/Loading";
-import {createVideo, removeVideo, updateVideo} from "../store/VideoReducer";
+import {createVideo, removeVideo, updateVideo, clearError as clearVideoError} from "../store/VideoReducer";
 import classes from "../components/UI/Navbar/Navbar.module.css";
 import AddIcon from "@mui/icons-material/Add";
 import {colorTheme} from "../styleThemes";
@@ -177,6 +179,7 @@ const CoursePage = () => {
                 <div style={{display: "flex", justifyContent: "flex-end"}}>
                     <Tooltip title="Edit" placement="bottom">
                         <IconButton aria-label="edit" onClick={() => {
+                            dispatch(clearError())
                             const category = categories.find(x => x.id === course.theme?.categoryId)
                             dispatch(setCourse({...course, categoryId: category.id}))
                             setModal(true)
@@ -185,7 +188,10 @@ const CoursePage = () => {
                         </IconButton>
                     </Tooltip>
                     <Tooltip title="Update image" placement="bottom">
-                        <IconButton aria-label="update image" onClick={() => setImageModal(true)}>
+                        <IconButton aria-label="update image" onClick={() => {
+                            dispatch(clearError())
+                            setImageModal(true)
+                        }}>
                             <CameraAltOutlinedIcon />
                         </IconButton>
                     </Tooltip>
@@ -258,7 +264,10 @@ const CoursePage = () => {
                             {(currentUser.id === course.creatorId || isAdmin) &&
                             <div>
                                 <Tooltip title="Add chapter" placement="bottom">
-                                    <IconButton aria-label="add chapter" onClick={() => setChapterModal(true)}>
+                                    <IconButton aria-label="add chapter" onClick={() => {
+                                        dispatch(clearChapterError())
+                                        setChapterModal(true)
+                                    }}>
                                         <AddBoxIcon />
                                     </IconButton>
                                 </Tooltip>
@@ -271,7 +280,10 @@ const CoursePage = () => {
                                 }
                                 {totalChapterCount > 0 &&
                                     <Tooltip title="Add video" placement="bottom">
-                                        <IconButton aria-label="add video" onClick={() => setVideoModal(true)}>
+                                        <IconButton aria-label="add video" onClick={() => {
+                                            dispatch(clearVideoError())
+                                            setVideoModal(true)
+                                        }}>
                                             <VideoLibraryIcon/>
                                         </IconButton>
                                     </Tooltip>
@@ -321,9 +333,10 @@ const CoursePage = () => {
                             />
                             <ChapterList
                                 chapters={chapters}
-                                update={() =>
+                                update={() => {
+                                    dispatch(clearChapterError())
                                     setChapterUpdateModal(true)
-                                }
+                                }}
                                 updateVideo={() => setVideoUpdateModal(true)}
                                 remove={removeChapter}
                                 removeVideo={removeVideo}
@@ -357,7 +370,10 @@ const CoursePage = () => {
                                     />
                                     <CommentList
                                         comments={comments}
-                                        update={() => setCommentModal(true)}
+                                        update={() => {
+                                            dispatch(clearCommentError())
+                                            setCommentModal(true)
+                                        }}
                                         remove={removeComment}
                                         userId={currentUser.id}
                                         isAdmin={isAdmin}
@@ -386,6 +402,7 @@ const CoursePage = () => {
                             <Tooltip title="Add comment" placement="left">
                                     <Fab color="primary" aria-label="add" size="medium" onClick={() => {
                                         dispatch(clearComment())
+                                        dispatch(clearCommentError())
                                         setCommentUpdateModal(true)
                                     }}
                                          className={classes.navbar__link}>

@@ -3,7 +3,15 @@ import {useDispatch, useSelector} from "react-redux";
 import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
-import {createType, getFileTypes, removeType, setFileType, setParams, updateType} from "../store/FileReducer";
+import {
+    clearError,
+    createType,
+    getFileTypes,
+    removeType,
+    setFileType,
+    setParams,
+    updateType
+} from "../store/FileReducer";
 import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
 import MyModal from "../components/UI/MyModal/MyModal";
 import FileTypeForm from "../components/file/FileTypeForm";
@@ -39,7 +47,10 @@ const AdminFileTypes = () => {
                     <div style={{display: "flex", justifyContent: "space-between"}} className="title">
                         <h2>File types</h2>
                         <Tooltip title="Add file type" placement="bottom">
-                            <IconButton aria-label="add file type" onClick={() => setCreateModal(true)}>
+                            <IconButton aria-label="add file type" onClick={() => {
+                                dispatch(clearError())
+                                setCreateModal(true)
+                            }}>
                                 <AddBoxIcon />
                             </IconButton>
                         </Tooltip>
@@ -56,9 +67,11 @@ const AdminFileTypes = () => {
                         items={types}
                         remove={removeType}
                         updateClick={(type) => {
+                            dispatch(clearError())
                             dispatch(setFileType(type))
                             setUpdateModal(true)
                         }}
+                        clearError={() => dispatch(clearError())}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={types.length}
                     totalCount={totalCount} changePage={changePage}/>

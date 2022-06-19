@@ -7,7 +7,7 @@ import defaultUserImage from "../../assets/images/defaultUserImage.png";
 import MyEditor from "../UI/Editor/MyEditor";
 import MyButton from "../UI/Button/MyButton";
 import {useDispatch} from "react-redux";
-import {setComment} from "../../store/CommentReducer";
+import {clearError, setComment} from "../../store/CommentReducer";
 import ReactHtmlParser from "react-html-parser";
 import Parse from "html-react-parser"
 import MyTextarea from "../UI/Textarea/MyTextarea";
@@ -31,6 +31,7 @@ const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
 
     const handleUpdateClick = (e) => {
         e.stopPropagation()
+        dispatch(clearError())
         dispatch(setComment(comment))
         update()
     }
@@ -56,6 +57,7 @@ const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
                         <Tooltip title="Delete" placement="left">
                             <IconButton aria-label="delete" onClick={(e) => {
                                 e.stopPropagation()
+                                dispatch(clearError())
                                 setDeleteModal(true)
                             }}>
                                 <DeleteIcon />

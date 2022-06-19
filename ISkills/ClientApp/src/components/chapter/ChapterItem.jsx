@@ -3,13 +3,13 @@ import '../../styles/Chapter.css'
 import '../../styles/Button.css'
 import MyTextarea from "../UI/Textarea/MyTextarea";
 import {useDispatch, useSelector} from "react-redux";
-import {setChapter} from "../../store/ChapterReducer";
+import {clearError, setChapter} from "../../store/ChapterReducer";
 import MyModal from "../UI/MyModal/MyModal";
 import {IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from '@mui/icons-material/Edit';
 import {Tooltip} from '@material-ui/core';
-import {getVideos, setVideo} from "../../store/VideoReducer";
+import {getVideos, setVideo, clearError as clearVideoError} from "../../store/VideoReducer";
 import MyPlayer from "../video/MyPlayer";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import ConfirmationDeleteForm from "../UI/ConfirmationDeleteForm/ConfirmationDeleteForm";
@@ -29,22 +29,26 @@ const ChapterItem = ({chapter, remove, update, userId, isAdmin, updateVideo, rem
 
     const removeHandleClick = (e) => {
         e.stopPropagation()
+        dispatch(clearError())
         dispatch(remove(chapter.id))
     }
 
     const handleUpdateClick = (e) => {
         e.stopPropagation()
+        dispatch(clearError())
         dispatch(setChapter(chapter))
         update()
     }
 
     const removeVideoHandleClick = (e, video)=> {
         e.stopPropagation()
+        dispatch(clearVideoError())
         dispatch(removeVideo(video.id))
     }
 
     const handleVideoUpdateClick = (e, video)=> {
         e.stopPropagation()
+        dispatch(clearVideoError())
         dispatch(setVideo(video))
         updateVideo()
     }

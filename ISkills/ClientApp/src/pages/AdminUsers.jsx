@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
-import {getUsers, removeUser, setParams, setUser, updateImage, updateUser} from "../store/UserReducer";
+import {clearError, getUsers, removeUser, setParams, setUser, updateImage, updateUser} from "../store/UserReducer";
 import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
 import {Tooltip} from "@material-ui/core";
 import defaultUserImage from "../assets/images/defaultUserImage.png";
@@ -53,6 +53,7 @@ const AdminUsers = () => {
                         items={users}
                         remove={removeUser}
                         updateClick={(user) => {
+                            dispatch(clearError())
                             dispatch(setUser(user))
                             setModal(true)
                         }}
@@ -68,6 +69,7 @@ const AdminUsers = () => {
                                 </IconButton>
                             </Tooltip>
                         }
+                        clearError={() => dispatch(clearError())}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={users.length}
                     totalCount={totalCount} changePage={changePage}/>

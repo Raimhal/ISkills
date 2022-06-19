@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
-import {getVideos, removeVideo, setParams, setVideo, updateVideo} from "../store/VideoReducer";
+import {clearError, getVideos, removeVideo, setParams, setVideo, updateVideo} from "../store/VideoReducer";
 import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
 import Loading from "../components/UI/Loading/Loading";
 import MyModal from "../components/UI/MyModal/MyModal";
@@ -51,6 +51,7 @@ const AdminVideos = () => {
                         items={videos}
                         remove={removeVideo}
                         updateClick={(video) => {
+                            dispatch(clearError())
                             dispatch(setVideo(video))
                             setModal(true)
                         }}
@@ -64,6 +65,7 @@ const AdminVideos = () => {
                                 </IconButton>
                             </Tooltip>
                         }
+                        clearError={() => dispatch(clearError())}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={videos.length}
                     totalCount={totalCount} changePage={changePage}/>

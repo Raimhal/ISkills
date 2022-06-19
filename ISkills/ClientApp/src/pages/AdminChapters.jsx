@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
-import {getChapters, removeChapter, setChapter, setParams, updateChapter} from "../store/ChapterReducer";
+import {clearError, getChapters, removeChapter, setChapter, setParams, updateChapter} from "../store/ChapterReducer";
 import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
 import MyModal from "../components/UI/MyModal/MyModal";
 import ChapterForm from "../components/chapter/ChapterForm";
@@ -44,9 +44,11 @@ const AdminChapters = () => {
                         items={chapters}
                         remove={removeChapter}
                         updateClick={(chapter) => {
+                            dispatch(clearError())
                             dispatch(setChapter(chapter))
                             setModal(true)
                         }}
+                        clearError={() => dispatch(clearError())}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={chapters.length}
                     totalCount={totalCount} changePage={changePage}/>

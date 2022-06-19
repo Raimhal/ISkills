@@ -3,6 +3,7 @@ import {IconButton} from '@mui/material'
 import {useDispatch, useSelector} from "react-redux";
 
 import {
+    clearError,
     getCourse,
     getCourses,
     removeCourse,
@@ -66,6 +67,7 @@ const AdminCourses = () => {
                         items={courses}
                         remove={removeCourse}
                         updateClick={async (course) => {
+                            dispatch(clearError())
                             const courseTheme = await ThemeService.GetTheme(course.themeId)
                             const category = categories.find(x => x.id === courseTheme.categoryId)
                             dispatch(setCourse({...course, categoryId: category.id}))
@@ -83,6 +85,7 @@ const AdminCourses = () => {
                                 </IconButton>
                             </Tooltip>
                         }
+                        clearError={() => dispatch(clearError())}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                     totalCount={totalCount} changePage={changePage}/>

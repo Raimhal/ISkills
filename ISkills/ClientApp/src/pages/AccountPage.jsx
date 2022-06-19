@@ -3,7 +3,7 @@ import defaultUserImage from '../assets/images/defaultUserImage.png'
 import UserForm from "../components/user/UserForm";
 import MyRating from "../components/UI/Rating/MyRating";
 import {useDispatch, useSelector} from "react-redux";
-import {clearUser, getCurrentUser, updateImage, updateUser} from "../store/UserReducer";
+import {clearError, clearUser, getCurrentUser, updateImage, updateUser} from "../store/UserReducer";
 import MyModal from "../components/UI/MyModal/MyModal";
 import ImageUpload from "../components/UI/Upload/ImageUpload";
 import {Tooltip} from "@material-ui/core";
@@ -75,7 +75,10 @@ const AccountPage = () => {
                                         src={user.imageUrl || defaultUserImage}
                                         alt="current user image"
                                         className='user__image'
-                                        onClick={() => setModal(true)}
+                                        onClick={() => {
+                                            dispatch(clearError())
+                                            setModal(true)
+                                        }}
                                     />
                                 </Tooltip>
                             </div>

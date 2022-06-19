@@ -3,13 +3,17 @@ import {IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MyModal from "../UI/MyModal/MyModal";
 import ConfirmationDeleteForm from "../UI/ConfirmationDeleteForm/ConfirmationDeleteForm";
+import {useDispatch} from "react-redux";
+import {clearError} from "../../store/VideoReducer";
 
 const VideoDeleteItem = ({remove}) => {
+    const dispatch = useDispatch()
     const [deleteModal, setDeleteModal] = useState(false)
     return (
         <div>
             <IconButton aria-label="delete" onClick={(e) => {
                 e.stopPropagation()
+                dispatch(clearError())
                 setDeleteModal(true)
             }
             }>

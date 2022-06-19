@@ -16,6 +16,7 @@ import languageImage from "../../assets/images/language.png";
 import MyInput from "../UI/Input/MyInput";
 import MyModal from "../UI/MyModal/MyModal";
 import ConfirmationDeleteForm from "../UI/ConfirmationDeleteForm/ConfirmationDeleteForm";
+import {clearError} from "../../store/CourseReducer";
 
 
 const CourseItem = ({course, remove, userId, isAdmin}) => {
@@ -57,6 +58,7 @@ const CourseItem = ({course, remove, userId, isAdmin}) => {
                             <Tooltip title="Delete" placement="left">
                                 <IconButton aria-label="delete" onClick={(e) => {
                                     e.stopPropagation()
+                                    dispatch(clearError())
                                     setDeleteModal(true)
                                 }}>
                                     <DeleteIcon />
