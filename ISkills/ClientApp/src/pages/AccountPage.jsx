@@ -92,7 +92,7 @@ const AccountPage = () => {
                                 />
                             </MyModal>
                             }
-                            <MyRating value={user.rating} readonly/>
+                            {user.rating > 0 && <MyRating value={user.rating} readonly/>}
                         </div>
                         <div>
                             <UserForm action={() => {

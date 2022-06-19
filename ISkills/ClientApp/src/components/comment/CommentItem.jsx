@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom'
 import '../../styles/Button.css'
 import '../../styles/Comment.css'
@@ -16,13 +16,17 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from "@mui/icons-material/Delete";
 import {Tooltip} from "@material-ui/core";
 import {setCourse} from "../../store/CourseReducer";
+import MyModal from "../UI/MyModal/MyModal";
+import MyPlayer from "../video/MyPlayer";
+import ConfirmationDeleteForm from "../UI/ConfirmationDeleteForm/ConfirmationDeleteForm";
 
 
 const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
     const dispatch = useDispatch()
-    const removeHandleClick = (e) => {
+    const [deleteModal, setDeleteModal] = useState(false)
+    const handleDelete = (e) => {
         e.stopPropagation()
-       dispatch(remove(comment.id))
+        dispatch(remove(comment.id))
     }
 
     const handleUpdateClick = (e) => {
@@ -50,13 +54,21 @@ const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Delete" placement="left">
-                            <IconButton aria-label="delete" onClick={removeHandleClick}>
+                            <IconButton aria-label="delete" onClick={(e) => {
+                                e.stopPropagation()
+                                setDeleteModal(true)
+                            }}>
                                 <DeleteIcon />
                             </IconButton>
                         </Tooltip>
                     </div>
                     }
                 </div>
+                {deleteModal &&
+                    <MyModal visible={deleteModal} setVisible={setDeleteModal}>
+                        <ConfirmationDeleteForm title="comment" remove={handleDelete} setDeleteModal={setDeleteModal}/>
+                    </MyModal>
+                }
             </div>
             <div className='comment__date'>
                 {comment.dateUpdated > comment.date

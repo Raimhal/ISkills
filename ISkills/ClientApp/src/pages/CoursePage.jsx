@@ -150,7 +150,7 @@ const CoursePage = () => {
                         {new Date(course.dateCreated) < new Date(course.dateUpdated) &&
                         <div>Last updated: {new Date(course.dateUpdated).toLocaleDateString()}</div>
                         }
-                        <MyRating value={course.rating} readonly/>
+                        {course.rating > 0 && <MyRating value={course.rating} readonly/>}
                         <div>Theme: {course.theme?.title}</div>
                         {totalChapterCount > 0 && <div>{totalChapterCount} chapters</div>}
                         {course.students.length > 0 && <div>{course.students.length} students</div>}

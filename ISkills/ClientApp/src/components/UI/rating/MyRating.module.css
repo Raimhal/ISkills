@@ -6,5 +6,6 @@
     font-weight: bold;
     gap: 0.2rem;
     white-space: nowrap;
+    z-index: 1;
 
 }

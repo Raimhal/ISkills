@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom'
 import '../../styles/Course.css'
 import '../../styles/Button.css'
@@ -14,12 +14,15 @@ import {Tooltip} from "@material-ui/core";
 import {useDispatch} from "react-redux";
 import languageImage from "../../assets/images/language.png";
 import MyInput from "../UI/Input/MyInput";
+import MyModal from "../UI/MyModal/MyModal";
+import ConfirmationDeleteForm from "../UI/ConfirmationDeleteForm/ConfirmationDeleteForm";
 
 
 const CourseItem = ({course, remove, userId, isAdmin}) => {
     const navigate = useNavigate();
     const dispatch = useDispatch()
     const hasAccess = (userId === course.creatorId || isAdmin)
+    const [deleteModal, setDeleteModal] = useState(false)
 
 
     const removeHandleClick = (e) => {
@@ -33,7 +36,7 @@ const CourseItem = ({course, remove, userId, isAdmin}) => {
                 <div className="course__content">
                     <div>
                         <h3>{course.title}</h3>
-                        <MyRating value={course.rating} readonly/>
+                        {course.rating > 0 && <MyRating value={course.rating} readonly/>}
                         <div className="language">
                             <img src={languageImage} alt="language : " style={{width: 16}}/>
                             <div>{course.language}</div>
@@ -52,10 +55,18 @@ const CourseItem = ({course, remove, userId, isAdmin}) => {
                         {hasAccess &&
                         <div className="course__btns">
                             <Tooltip title="Delete" placement="left">
-                                <IconButton aria-label="delete" onClick={removeHandleClick}>
+                                <IconButton aria-label="delete" onClick={(e) => {
+                                    e.stopPropagation()
+                                    setDeleteModal(true)
+                                }}>
                                     <DeleteIcon />
                                 </IconButton>
                             </Tooltip>
+                            {deleteModal &&
+                                <MyModal visible={deleteModal} setVisible={setDeleteModal}>
+                                    <ConfirmationDeleteForm title="comment" remove={removeHandleClick} setDeleteModal={setDeleteModal}/>
+                                </MyModal>
+                            }
                         </div>
                         }
                     </div>

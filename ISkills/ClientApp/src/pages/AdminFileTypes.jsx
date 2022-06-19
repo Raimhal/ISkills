@@ -52,6 +52,7 @@ const AdminFileTypes = () => {
                         isLoading={isLoading}
                     />
                     <MyTable
+                        title="file type"
                         items={types}
                         remove={removeType}
                         updateClick={(type) => {

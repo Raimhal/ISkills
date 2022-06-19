@@ -4,6 +4,12 @@ import RegistrationForm from "../components/user/RegistrationForm";
 import {useDispatch} from "react-redux";
 
 const RegisterPage = () => {
+    const dispatch = useDispatch()
+
+    useEffect( () => {
+        dispatch(clearError())
+    }, [])
+
     return (
         <div className="center">
             <RegistrationForm

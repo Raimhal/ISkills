@@ -47,6 +47,7 @@ const AdminVideos = () => {
                         isLoading={isLoading}
                     />
                     <MyTable
+                        title="video"
                         items={videos}
                         remove={removeVideo}
                         updateClick={(video) => {

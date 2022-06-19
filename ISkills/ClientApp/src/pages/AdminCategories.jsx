@@ -58,6 +58,7 @@ const AdminCategories = () => {
                         isLoading={isLoading}
                     />
                     <MyTable
+                        title="chapter"
                         items={categories}
                         remove={removeCategory}
                         updateClick={(category) => {

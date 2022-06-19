@@ -41,6 +41,7 @@ const AdminComments = () => {
                         isLoading={isLoading}
                     />
                     <MyTable
+                        title="comment"
                         items={comments}
                         remove={removeComment}
                         updateClick={(comment) => {

@@ -12,6 +12,8 @@ import {Tooltip} from '@material-ui/core';
 import {getVideos, setVideo} from "../../store/VideoReducer";
 import MyPlayer from "../video/MyPlayer";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
+import ConfirmationDeleteForm from "../UI/ConfirmationDeleteForm/ConfirmationDeleteForm";
+import VideoDeleteItem from "../video/VideoDeleteItem";
 
 
 const ChapterItem = ({chapter, remove, update, userId, isAdmin, updateVideo, removeVideo}) => {
@@ -22,6 +24,8 @@ const ChapterItem = ({chapter, remove, update, userId, isAdmin, updateVideo, rem
     const isAuth = useSelector(state => state.user.isAuth)
     const hasAccess = (userId === course.creatorId || isAdmin) && isAuth
     const [viewModal, setViewModal] = useState(false)
+    const [deleteModal, setDeleteModal] = useState(false)
+    const [deleteChapterModal, setDeleteChapterModal] = useState(false)
 
     const removeHandleClick = (e) => {
         e.stopPropagation()
@@ -82,14 +86,12 @@ const ChapterItem = ({chapter, remove, update, userId, isAdmin, updateVideo, rem
                                     <p>{video.title}</p>
                                 </div>
                                 {hasAccess &&
-                                <div>
-                                    <IconButton aria-label="update" onClick={(e) => handleVideoUpdateClick(e, video)}>
-                                        <EditIcon/>
-                                    </IconButton>
-                                    <IconButton aria-label="delete" onClick={(e) => removeVideoHandleClick(e, video)}>
-                                        <DeleteIcon/>
-                                    </IconButton>
-                                </div>
+                                    <div style={{display: "flex"}}>
+                                        <IconButton aria-label="update" onClick={(e) => handleVideoUpdateClick(e, video)}>
+                                            <EditIcon/>
+                                        </IconButton>
+                                        <VideoDeleteItem remove={(e) => removeVideoHandleClick(e, video)}/>
+                                    </div>
                                 }
                             </div>
                         )}
@@ -108,10 +110,18 @@ const ChapterItem = ({chapter, remove, update, userId, isAdmin, updateVideo, rem
                             </IconButton>
                         </Tooltip>
                         <Tooltip title="Delete">
-                            <IconButton aria-label="delete" onClick={removeHandleClick}>
+                            <IconButton aria-label="delete" onClick={(e) => {
+                                e.stopPropagation()
+                                setDeleteChapterModal(true)
+                            }}>
                                 <DeleteIcon/>
                             </IconButton>
                         </Tooltip>
+                        {deleteChapterModal &&
+                            <MyModal visible={deleteChapterModal} setVisible={setDeleteChapterModal}>
+                                <ConfirmationDeleteForm title="chapter" remove={(e) => removeHandleClick(e)} setDeleteModal={setDeleteChapterModal}/>
+                            </MyModal>
+                        }
                     </div>
                     }
                 </div>

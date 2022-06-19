@@ -49,6 +49,7 @@ const AdminUsers = () => {
                         isLoading={isLoading}
                     />
                     <MyTable
+                        title="user"
                         items={users}
                         remove={removeUser}
                         updateClick={(user) => {

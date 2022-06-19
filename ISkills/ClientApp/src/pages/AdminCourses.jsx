@@ -62,6 +62,7 @@ const AdminCourses = () => {
                         isLoading={isLoading}
                     />
                     <MyTable
+                        title="course"
                         items={courses}
                         remove={removeCourse}
                         updateClick={async (course) => {

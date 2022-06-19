@@ -52,6 +52,7 @@ const AdminThemes = () => {
                         isLoading={isLoading}
                     />
                     <MyTable
+                        title="theme"
                         items={themes}
                         remove={removeTheme}
                         updateClick={(theme) => {

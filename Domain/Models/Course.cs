@@ -19,7 +19,7 @@ namespace Domain.Models
         public string ImageUrl { get; set; }
         public double Rating { get; set; } 
         public int? ThemeId { get; set; }
-        public Theme Theme { get; set; }
+        public Theme? Theme { get; set; }
         public Guid CreatorId { get; set; }
         public virtual ICollection<User> Students { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }

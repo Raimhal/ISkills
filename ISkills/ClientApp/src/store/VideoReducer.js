@@ -160,20 +160,24 @@ export const createVideo = (setModal = null) => async (dispatch, getState) => {
 
 export const removeVideo = id => async (dispatch, getState) => {
     const state = getState().video
+    const videos = state.videos
     const chapters = getState().chapter.chapters
     const totalCount = state.totalCount
 
     await responseHandler(dispatch, async () => {
+        console.log(id)
         const chapterIndex = chapters.findIndex(x =>
-            x.id === chapters.find(x =>
-                x.videos.some(x => x.id === id)).id)
+            x.videos.some(x => x.id === id))
 
         await VideoService.Delete(id)
 
-        chapters[chapterIndex].videos = [...chapters[chapterIndex].videos.filter(x => x.id !== id)]
-        chapters[chapterIndex].videosCount -= 1
+        if(chapterIndex > -1) {
+            chapters[chapterIndex].videos = [...chapters[chapterIndex].videos.filter(x => x.id !== id)]
+            chapters[chapterIndex].videosCount -= 1
+            dispatch(setChapters([...chapters]))
+        }
 
-        dispatch(setChapters([...chapters]))
+        dispatch(setVideos([...videos.filter(x => x.id !== id)]))
         dispatch(setTotalCount(+totalCount - 1))
     }, setError, setDeleteLoading)
 

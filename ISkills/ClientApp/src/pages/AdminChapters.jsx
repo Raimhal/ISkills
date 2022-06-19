@@ -40,6 +40,7 @@ const AdminChapters = () => {
                         isLoading={isLoading}
                     />
                     <MyTable
+                        title="chapter"
                         items={chapters}
                         remove={removeChapter}
                         updateClick={(chapter) => {
