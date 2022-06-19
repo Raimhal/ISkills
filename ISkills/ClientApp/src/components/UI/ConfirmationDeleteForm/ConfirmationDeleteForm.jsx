@@ -10,7 +10,7 @@ const ConfirmationDeleteForm = ({title, remove, setDeleteModal, ...props}) => {
                 <MyButton onClick={(e) => {
                     e.stopPropagation()
                     remove(e)
-                }}>I sure</MyButton>
+                }}>I'm sure</MyButton>
                 <MyButton onClick={(e) => {
                     e.stopPropagation()
                     setDeleteModal(false)
