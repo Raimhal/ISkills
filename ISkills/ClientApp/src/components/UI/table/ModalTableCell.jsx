@@ -6,7 +6,7 @@ import MyModal from "../MyModal/MyModal";
 import ConfirmationDeleteForm from "../ConfirmationDeleteForm/ConfirmationDeleteForm";
 import {useDispatch} from "react-redux";
 
-const ModalTableCell = ({title, remove, ...props}) => {
+const ModalTableCell = ({title, remove, error, ...props}) => {
     const dispatch = useDispatch()
     const [deleteModal, setDeleteModal] = useState(false)
     return (
@@ -21,7 +21,7 @@ const ModalTableCell = ({title, remove, ...props}) => {
             </Tooltip>
             {deleteModal &&
             <MyModal visible={deleteModal} setVisible={setDeleteModal}>
-                <ConfirmationDeleteForm title={title} remove={remove} setDeleteModal={setDeleteModal}/>
+                <ConfirmationDeleteForm error={error} title={title} remove={remove} setDeleteModal={setDeleteModal}/>
             </MyModal>
             }
         </div>

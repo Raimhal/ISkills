@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
-import {createTheme, getThemes, removeTheme, setParams, setTheme, updateTheme} from "../store/ThemeReducer";
+import {clearError, createTheme, getThemes, removeTheme, setParams, setTheme, updateTheme} from "../store/ThemeReducer";
 import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
 import MyModal from "../components/UI/MyModal/MyModal";
 import ThemeForm from "../components/theme/ThemeForm";
@@ -39,7 +39,10 @@ const AdminThemes = () => {
                     <div style={{display: "flex", justifyContent: "space-between"}} className="title">
                         <h2>Themes</h2>
                         <Tooltip title="Add file type" placement="bottom">
-                            <IconButton aria-label="add file type" onClick={() => setCreateModal(true)}>
+                            <IconButton aria-label="add file type" onClick={() => {
+                                dispatch(clearError())
+                                setCreateModal(true)
+                            }}>
                                 <AddBoxIcon />
                             </IconButton>
                         </Tooltip>
@@ -56,9 +59,11 @@ const AdminThemes = () => {
                         items={themes}
                         remove={removeTheme}
                         updateClick={(theme) => {
+                            dispatch(clearError())
                             dispatch(setTheme(theme))
                             setUpdateModal(true)
                         }}
+                        error={error}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={themes.length}
                     totalCount={totalCount} changePage={changePage}/>

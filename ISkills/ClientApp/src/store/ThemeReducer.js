@@ -176,11 +176,15 @@ export const removeTheme = id => async (dispatch, getState) => {
     const themes = state.themes
     const totalCount = state.totalCount
 
-    await responseHandler(dispatch, async () => {
-        await ThemeService.Delete(id)
-        dispatch(setThemes(themes.filter(c => c.id !== id)))
-        dispatch(setTotalCount(+totalCount - 1))
-    }, setError, setDeleteLoading)
+    if(totalCount > 1) {
+        await responseHandler(dispatch, async () => {
+            await ThemeService.Delete(id)
+            dispatch(setThemes(themes.filter(c => c.id !== id)))
+            dispatch(setTotalCount(+totalCount - 1))
+        }, setError, setDeleteLoading)
+    }
+    else
+        dispatch(setError("You can't delete last theme"))
 
 }
 

@@ -154,11 +154,15 @@ export const removeCategory = id => async (dispatch, getState) => {
     const categories = state.categories
     const totalCount = state.totalCount
 
-    await responseHandler(dispatch, async () => {
-        await CategoryService.Delete(id)
-        dispatch(setCategories(categories.filter(c => c.id !== id)))
-        dispatch(setTotalCount(+totalCount - 1))
-    }, setError, setDeleteLoading)
+    if(totalCount > 1) {
+        await responseHandler(dispatch, async () => {
+            await CategoryService.Delete(id)
+            dispatch(setCategories(categories.filter(c => c.id !== id)))
+            dispatch(setTotalCount(+totalCount - 1))
+        }, setError, setDeleteLoading)
+    }
+    else
+        dispatch(setError("You can't delete last category"))
 
 }
 

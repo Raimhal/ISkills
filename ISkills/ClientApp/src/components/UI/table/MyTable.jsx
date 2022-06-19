@@ -10,7 +10,7 @@ import ConfirmationDeleteForm from "../ConfirmationDeleteForm/ConfirmationDelete
 import ModalTableCell from "./ModalTableCell";
 
 
-const MyTable = ({title, items, remove = null, updateClick = null, iconChildren = null}) => {
+const MyTable = ({title, items, remove = null, updateClick = null, iconChildren = null, error = null}) => {
     const dispatch = useDispatch()
 
     return (
@@ -49,7 +49,7 @@ const MyTable = ({title, items, remove = null, updateClick = null, iconChildren 
                                         <EditIcon />
                                     </IconButton>
                                 </Tooltip>
-                                <ModalTableCell title={title} remove={() => dispatch(remove(item.id))}/>
+                                <ModalTableCell error={error} title={title} remove={() => dispatch(remove(item.id))}/>
                             </TableCell>
                             {Object.values(item)?.map(value => (
                                 (value === null || typeof(value) !== 'object')

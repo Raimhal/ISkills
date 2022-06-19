@@ -4,6 +4,7 @@ import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import {
+    clearError,
     createCategory,
     getCategories,
     removeCategory,
@@ -45,7 +46,10 @@ const AdminCategories = () => {
                     <div style={{display: "flex", justifyContent: "space-between"}} className="title">
                         <h2>Categories</h2>
                         <Tooltip title="Add file type" placement="bottom">
-                            <IconButton aria-label="add file type" onClick={() => setCreateModal(true)}>
+                            <IconButton aria-label="add file type" onClick={() => {
+                                dispatch(clearError())
+                                setCreateModal(true)
+                            }}>
                                 <AddBoxIcon />
                             </IconButton>
                         </Tooltip>
@@ -62,9 +66,11 @@ const AdminCategories = () => {
                         items={categories}
                         remove={removeCategory}
                         updateClick={(category) => {
+                            dispatch(clearError())
                             dispatch(setCategory(category))
                             setUpdateModal(true)
                         }}
+                        error={error}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={categories.length}
                     totalCount={totalCount} changePage={changePage}/>
