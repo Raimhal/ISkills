@@ -49,6 +49,7 @@ const AdminChapters = () => {
                             setModal(true)
                         }}
                         clearError={() => dispatch(clearError())}
+                        forbiddenFields={["id"]}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={chapters.length}
                     totalCount={totalCount} changePage={changePage}/>

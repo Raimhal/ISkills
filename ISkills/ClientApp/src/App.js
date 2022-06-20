@@ -9,6 +9,7 @@ import Navbar from "./components/UI/Navbar/Navbar";
 import Loading from "./components/UI/Loading/Loading";
 import SlideMenu from "./components/UI/SlideMenu/SlideMenu";
 import { MenuContext } from 'react-flexible-sliding-menu';
+import "rsuite/dist/rsuite.min.css";
 
 const App = () => {
     const dispatch = useDispatch()

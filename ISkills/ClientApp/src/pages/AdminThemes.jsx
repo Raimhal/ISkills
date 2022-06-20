@@ -65,6 +65,7 @@ const AdminThemes = () => {
                         }}
                         error={error}
                         clearError={() => dispatch(clearError())}
+                        forbiddenFields={["id"]}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={themes.length}
                     totalCount={totalCount} changePage={changePage}/>

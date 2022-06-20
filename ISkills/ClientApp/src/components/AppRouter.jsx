@@ -7,18 +7,22 @@ import NotFoundPage from "../pages/NotFoundPage";
 const AppRouter = () => {
     const isAuth = useSelector(state => state.user.isAuth)
     const isAdmin = useSelector(state => state.user.isAdmin)
+
+    let routes = [...publicRoutes]
+
+    if(isAuth)
+        routes = [...routes, ...privateRoutes]
+
+    if(isAdmin)
+        routes = [...routes, ...adminRoutes]
+
+    routes.push({path: "*", component: <NotFoundPage/>})
+
     return (
             <Routes>
-                {publicRoutes.map(route =>
+                {routes.map(route =>
                     <Route path={route.path} element={route.component}  key={route.path}/>
                 )}
-                {isAuth && privateRoutes.map(route =>
-                    <Route path={route.path} element={route.component}  key={route.path}/>
-                )}
-                {isAdmin && adminRoutes.map(route =>
-                    <Route path={route.path} element={route.component}  key={route.path}/>
-                )}
-                <Route path="*" element={<NotFoundPage/>} key="*"/>
             </Routes>
     );
 };

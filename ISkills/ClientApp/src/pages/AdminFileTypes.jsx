@@ -72,6 +72,7 @@ const AdminFileTypes = () => {
                             setUpdateModal(true)
                         }}
                         clearError={() => dispatch(clearError())}
+                        forbiddenFields={["id"]}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={types.length}
                     totalCount={totalCount} changePage={changePage}/>

@@ -7,14 +7,19 @@
     font-weight: 300 !important;
 }
 
+a {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
 html {
     overflow: -moz-scrollbars-vertical;
-    overflow-y: scroll;
+    overflow-y: scroll !important;
 }
 
 body {
     margin: 0;
-    padding: 0;
+    padding: 0 !important;
 }
 
 #root{
@@ -137,6 +142,14 @@ button {
 
 .MuiToggleButton-root {
     border: none !important;
+}
+
+.correct__overflow {
+    overscroll-behavior: contain;
+}
+
+.MuiButtonBase-root {
+
 }
 
 @media screen and (max-width: 1000px) {

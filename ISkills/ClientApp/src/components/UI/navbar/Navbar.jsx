@@ -60,7 +60,7 @@ const Navbar = () => {
                 }
                 <NestedMenu label="Categories" className={classes.navbar__link}/>
             </div>
-                <div>
+                <div style={{gap: "0.5rem", justifyContent: "end"}}>
                     {isAdmin &&
                         <AdminMenu label='Admin' className={classes.navbar__link}/>
                     }

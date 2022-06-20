@@ -10,12 +10,12 @@ import ConfirmationDeleteForm from "../ConfirmationDeleteForm/ConfirmationDelete
 import ModalTableCell from "./ModalTableCell";
 
 
-const MyTable = ({title, items, remove = null, updateClick = null, iconChildren = null, error = null, clearError = null}) => {
+const MyTable = ({title, items, remove = null, updateClick = null, iconChildren = null, error = null, clearError = null, forbiddenFields = []}) => {
     const dispatch = useDispatch()
 
     return (
         <TableContainer component={Paper} id="tableContainer">
-            <Table sx={{minWidth: 650, whiteSpace: "nowrap"}} aria-label="simple table" onWheel={(e) => {
+            <Table sx={{minWidth: 650, whiteSpace: "nowrap"}} className="correct__overflow" aria-label="simple table" onWheel={(e) => {
                 const el = document.querySelector('#tableContainer')
                 const scrollPosition = el.scrollLeft
                 el.scrollTo({
@@ -28,8 +28,10 @@ const MyTable = ({title, items, remove = null, updateClick = null, iconChildren 
                 <TableHead>
                     <TableRow >
                         <TableCell align="left">Actions</TableCell>
+
                         {Object.keys(items[0] || {})?.map((key) => {
-                            if (items[0][key] === null || typeof(items[0][key]) !== 'object') {
+                            console.log(key)
+                            if ((typeof(items[0][key]) !== 'object' && !forbiddenFields.includes(key))) {
                                 return <TableCell key={key} align="right">{key}</TableCell>
                             }
                         }
@@ -52,13 +54,13 @@ const MyTable = ({title, items, remove = null, updateClick = null, iconChildren 
                                 <ModalTableCell clearError={clearError} error={error} title={title} remove={() => dispatch(remove(item.id))}/>
                             </TableCell>
                             {Object.values(item)?.map(value => (
-                                (value === null || typeof(value) !== 'object')
+                                ((typeof(value) !== 'object' && !forbiddenFields.includes(Object.keys(item).find(key => item[key] === value))))
                                 && <TableCell
                                     align="right"
                                     key={`${item.id}-${randomNumber()}`}
                                     sx={{overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 350}}
                                 >
-                                    {value}
+                                    {value === "" || isNaN(value)  ? value : Math.round(value * 100) / 100 }
                                 </TableCell>
                             ))}
                         </TableRow>

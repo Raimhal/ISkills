@@ -49,7 +49,7 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
 
     return (
         <form className="form" onSubmit={formik.handleSubmit} {...props}>
-            <h3>{title}</h3>
+            <h4>{title}</h4>
             <MyInput
                 type="text"
                 name="userName"

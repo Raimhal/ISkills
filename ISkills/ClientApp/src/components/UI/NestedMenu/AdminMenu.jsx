@@ -2,45 +2,24 @@ import React, {useState} from 'react';
 import {Menu, MenuItem, Typography} from "@material-ui/core";
 import {useNavigate} from "react-router-dom";
 import {adminRoutes} from "../../../router";
+import {Dropdown, ButtonToolbar, CustomProvider} from 'rsuite';
 
-const AdminMenu = ({label, className, props}) => {
-    const [menuPosition, setMenuPosition] = useState(null);
+const AdminMenu = ({label, className, ...props}) => {
     const navigate = useNavigate()
     const onClickItem = (path) => {
-        setMenuPosition(null);
         navigate(path)
     };
 
-
-
-    const handleMouseEnter = (event) => {
-        if (menuPosition) {
-            return;
-        }
-        event.preventDefault();
-        setMenuPosition({
-            top: event.pageY,
-            left: event.pageX
-        });
-    }
-
     return (
-        <div onClick={handleMouseEnter} {...props} className={className}>
-            <Typography className={`paraSelect`}>
-                {label}
-            </Typography>
-            <Menu
-                open={!!menuPosition}
-                onClose={() => setMenuPosition(null)}
-                anchorReference="anchorPosition"
-                anchorPosition={menuPosition}
-            >
-                <MenuItem disabled>Pages</MenuItem>
-                {adminRoutes.map(route =>
-                    <MenuItem key={route.path} onClick={() => onClickItem(route.path)}>{route.title}</MenuItem>
-                )}
-            </Menu>
-        </div>
+
+            <ButtonToolbar>
+                <Dropdown trigger="hover" title="Admin" size="md" placement="bottomEnd" {...props}>
+                    <Dropdown.Item disabled={true}>Pages</Dropdown.Item>
+                     {adminRoutes.map(route =>
+                         <Dropdown.Item eventKey={route.path} key={route.path} onSelect={() => onClickItem(route.path)}>{route.title}</Dropdown.Item>
+                     )}
+                </Dropdown>
+            </ButtonToolbar>
     );
 };
 

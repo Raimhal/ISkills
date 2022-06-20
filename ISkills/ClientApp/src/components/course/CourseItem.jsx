@@ -36,7 +36,7 @@ const CourseItem = ({course, remove, userId, isAdmin}) => {
                 <img src={course.imageUrl || defaultCourseImage} alt="course image" className="course__image"/>
                 <div className="course__content">
                     <div>
-                        <h3>{course.title}</h3>
+                        <h4>{course.title}</h4>
                         {course.rating > 0 && <MyRating value={course.rating} readonly/>}
                         <div className="language">
                             <img src={languageImage} alt="language : " style={{width: 16}}/>

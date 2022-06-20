@@ -6,11 +6,11 @@ import {setParams} from "../../../store/CourseReducer";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {getAllThemes, setTheme} from "../../../store/ThemeReducer";
+import {ButtonToolbar, Dropdown} from "rsuite";
 
 const NestedMenu = ({label, ...props}) => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [menuPosition, setMenuPosition] = useState(null);
     const categories = useSelector(state => state.category.categories)
     const category = useSelector(state => state.category.category)
     const params = useSelector(state => state.course.params)
@@ -29,56 +29,34 @@ const NestedMenu = ({label, ...props}) => {
     }
 
     const onClickItem = (themeId) => {
-        setMenuPosition(null);
         dispatch(setParams({...params, themeId: themeId}))
         const theme = category.themes[category.themes.findIndex(x => x.id === themeId)]
         dispatch(setTheme(theme))
         navigate("/")
     };
 
-
-
-    const handleMouseEnter = (event) => {
-        if (menuPosition) {
-            return;
-        }
-        event.preventDefault();
-        setMenuPosition({
-            top: event.pageY,
-            left: event.pageX
-        });
-    }
-
     useEffect(() => {
         dispatch(getAllCategories())
     }, [])
 
     return (
-        <div onClick={handleMouseEnter} {...props}>
-            <Typography className="paraSelect">
-                {label}
-            </Typography>
-            <Menu
-                open={!!menuPosition}
-                onClose={() => setMenuPosition(null)}
-                anchorReference="anchorPosition"
-                anchorPosition={menuPosition}
-            >
-                <MenuItem disabled>Categories</MenuItem>
+        <ButtonToolbar>
+            <Dropdown size="md" title="Categories" onOpen={() => console.log('open')} trigger={["click"]} onSelect={() => console.log("select")}>
+                <Dropdown.Item disabled>Categories</Dropdown.Item>
                 {categories?.map(category =>
-                    <NestedMenuItem onMouseEnter={() => onHoverItem(category)}
-                                    parentMenuOpen={!!menuPosition} label={category.title} key={category.id}>
-                        <MenuItem disabled>Themes</MenuItem>
-                        {!isThemesLoading && category.themes?.map(theme =>
-                            <MenuItem onClick={() => {
-                                onClickItem(theme.id)
-
-                            }} key={theme.id}>{theme.title}</MenuItem>
-                        )}
-                    </NestedMenuItem>
+                    <div key={category.id} onMouseEnter={() => onHoverItem(category)}>
+                        <Dropdown.Menu title={category.title} eventKey={category.id}>
+                            {!isThemesLoading && <>
+                                <Dropdown.Item disabled>Themes</Dropdown.Item>
+                                {category?.themes?.map(theme =>
+                                    <Dropdown.Item key={theme.id} eventKey={theme.id} onClick={() => onClickItem(theme.id)}>{theme.title}</Dropdown.Item>
+                                )}
+                            </>}
+                        </Dropdown.Menu>
+                    </div>
                 )}
-            </Menu>
-        </div>
+            </Dropdown>
+        </ButtonToolbar>
     );
 };
 

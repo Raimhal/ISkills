@@ -80,6 +80,8 @@ export const UserReducer = (state = defaultState, action) => {
             return {...state, users: defaultState.users}
         case SET_USER:
             return {...state, user: action.payload}
+        case CLEAR_USER:
+            return {...state, user: defaultState.user}
         case SET_IS_ADMIN:
             return {...state, isAdmin: action.payload}
         case LOGOUT:

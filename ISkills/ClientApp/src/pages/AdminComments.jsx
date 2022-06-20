@@ -58,6 +58,7 @@ const AdminComments = () => {
                             setModal(true)
                         }}
                         clearError={() => dispatch(clearError())}
+                        forbiddenFields={["id"]}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={comments.length}
                     totalCount={totalCount} changePage={changePage}/>

@@ -86,6 +86,7 @@ const AdminCourses = () => {
                             </Tooltip>
                         }
                         clearError={() => dispatch(clearError())}
+                        forbiddenFields={["id", "imageUrl"]}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                     totalCount={totalCount} changePage={changePage}/>

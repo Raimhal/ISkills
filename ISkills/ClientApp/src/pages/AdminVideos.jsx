@@ -66,6 +66,7 @@ const AdminVideos = () => {
                             </Tooltip>
                         }
                         clearError={() => dispatch(clearError())}
+                        forbiddenFields={["id", "url"]}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={videos.length}
                     totalCount={totalCount} changePage={changePage}/>

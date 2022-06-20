@@ -53,6 +53,7 @@
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
+    "rsuite": "^5.15.1",
     "slate": "^0.76.1",
     "slate-history": "^0.66.0",
     "slate-react": "^0.76.1",

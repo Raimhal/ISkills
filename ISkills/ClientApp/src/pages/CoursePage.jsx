@@ -143,7 +143,7 @@ const CoursePage = () => {
                         style={{cursor: hasAccess && "pointer" }}
                     />
                     <div style={{padding: "0.5rem"}}>
-                        <h3>{course.title}</h3>
+                        <h4>{course.title}</h4>
                         <div className="language">
                             <img src={languageImage} alt="language : " style={{width: 16}}/>
                             <div>{course.language}</div>
@@ -201,13 +201,13 @@ const CoursePage = () => {
             <div className="course__page">
                     {course.description && course.description.trim() !== '<p></p>' &&
                     <div className="block">
-                        <h4>Description :</h4>
+                        <h5>Description :</h5>
                         <MyTextarea value={course.description}/>
                     </div>
                     }
                     {course.requirements && course.requirements.trim() !== '<p></p>' &&
                     <div className="block">
-                        <h4>Requirements :</h4>
+                        <h5>Requirements :</h5>
                         <MyTextarea value={course.requirements}/>
                     </div>
                     }
@@ -239,7 +239,7 @@ const CoursePage = () => {
                     }
                 { course.students.length > 0 &&
                 <div className="block">
-                    <h4>Students : </h4>
+                    <h5>Students : </h5>
                     <div className="user__list">
                         {course.students?.map(student =>
                             <Tooltip
@@ -260,7 +260,7 @@ const CoursePage = () => {
                     {(hasAccess || (course.students?.some(x => x.id === currentUser.id) && chapters.length > 0))&&
                     <div className="block">
                         <div className="chapter__title">
-                            <h4>{totalChapterCount} chapters :</h4>
+                            <h5>{totalChapterCount} chapters :</h5>
                             {(currentUser.id === course.creatorId || isAdmin) &&
                             <div>
                                 <Tooltip title="Add chapter" placement="bottom">
@@ -357,7 +357,7 @@ const CoursePage = () => {
                     {comments.length > 0 &&
                         <div>
                             <div className="comments__title">
-                                <h4>{totalCommentCount} comments :</h4>
+                                <h5>{totalCommentCount} comments :</h5>
                             </div>
                             {comments.length > 0 &&
                                 <div>
