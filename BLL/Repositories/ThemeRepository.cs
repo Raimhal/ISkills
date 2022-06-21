@@ -84,6 +84,7 @@ namespace BLL.Services
 
         public async Task UpdateAsync(int id, CreateThemeDto model, CancellationToken cancellationToken)
         {
+
             var theme = await _themeDbContext.Themes.GetAsync(
                 _mapper, t => t.Id == id, new() { }, cancellationToken);
 
@@ -94,6 +95,10 @@ namespace BLL.Services
                 _mapper, c => c.Id == model.CategoryId, new() { }, cancellationToken);
 
             theme.Title = model.Title;
+
+            if (theme.CategoryId != model.CategoryId && theme.Id == defaultThemeId)
+                throw new ConflictException("You can't change the default theme category!");
+
             theme.Category = category;
 
             _themeDbContext.Themes.Update(theme);
@@ -103,7 +108,8 @@ namespace BLL.Services
         public async Task DeleteByIdAsync(int id, CancellationToken cancellationToken)
         {
             if (id == defaultThemeId)
-                return;
+                throw new ConflictException("You can't delete default theme!");
+
             var theme = await _themeDbContext.Themes.GetAsync(_mapper, u => u.Id == id, new() { x => x.Courses},cancellationToken);
 
             foreach (var course in theme.Courses)

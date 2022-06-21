@@ -19,6 +19,7 @@ namespace BLL.Services
     {
         private readonly ICategoryDbContext _categoryDbContext;
         private readonly IMapper _mapper;
+        private readonly int defaultCategoryId = 1;
 
         public CategoryRepository(ICategoryDbContext categoryDbContext, IMapper mapper) =>
             (_categoryDbContext, _mapper) = (categoryDbContext, mapper);
@@ -90,6 +91,9 @@ namespace BLL.Services
 
         public async Task DeleteByIdAsync(int id, CancellationToken cancellationToken)
         {
+            if (id == defaultCategoryId)
+                throw new ConflictException("You can't delete default category!");
+
             await _categoryDbContext.Categories.DeleteByAsync(_mapper, c => c.Id == id, cancellationToken);
             await _categoryDbContext.SaveChangesAsync(cancellationToken);
         }
