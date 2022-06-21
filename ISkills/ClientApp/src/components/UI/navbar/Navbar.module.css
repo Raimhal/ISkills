@@ -62,9 +62,9 @@
 }
 
 .navbar__links:hover {
-    color: red;
+    color: #975ad4 !important;
 }
 
 .active {
-    color: #975ad4;
+    color: #975ad4 !important;
 }

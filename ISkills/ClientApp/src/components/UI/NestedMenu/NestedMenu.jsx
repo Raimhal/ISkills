@@ -15,6 +15,7 @@ const NestedMenu = ({label, ...props}) => {
     const category = useSelector(state => state.category.category)
     const params = useSelector(state => state.course.params)
     const themes = useSelector(state => state.theme.themes)
+    const theme = useSelector(state => state.theme.theme)
     const isThemesLoading = useSelector(state => state.theme.isLoading)
 
     const getThemes = async (id) => {
@@ -29,9 +30,11 @@ const NestedMenu = ({label, ...props}) => {
     }
 
     const onClickItem = (themeId) => {
+        if(themeId === theme.id)
+            return
         dispatch(setParams({...params, themeId: themeId}))
-        const theme = category.themes[category.themes.findIndex(x => x.id === themeId)]
-        dispatch(setTheme(theme))
+        const newTheme = category.themes[category.themes.findIndex(x => x.id === themeId)]
+        dispatch(setTheme(newTheme))
         navigate("/")
     };
 
@@ -48,8 +51,8 @@ const NestedMenu = ({label, ...props}) => {
                         <Dropdown.Menu title={category.title} eventKey={category.id}>
                             {!isThemesLoading && <>
                                 <Dropdown.Item disabled>Themes</Dropdown.Item>
-                                {category?.themes?.map(theme =>
-                                    <Dropdown.Item key={theme.id} eventKey={theme.id} onClick={() => onClickItem(theme.id)}>{theme.title}</Dropdown.Item>
+                                {category?.themes?.map(t =>
+                                    <Dropdown.Item key={t.id} eventKey={t.id} onClick={() => onClickItem(t.id)} active={theme.id === t.id}>{t.title}</Dropdown.Item>
                                 )}
                             </>}
                         </Dropdown.Menu>
