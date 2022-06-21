@@ -10,7 +10,7 @@ const AdminMenu = ({label, className, ...props}) => {
         navigate(path)
     };
     const location = useLocation()
-    console.log(location)
+
 
     return (
 

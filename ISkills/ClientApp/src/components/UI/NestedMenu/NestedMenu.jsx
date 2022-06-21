@@ -52,7 +52,7 @@ const NestedMenu = ({label, ...props}) => {
                             {!isThemesLoading && <>
                                 <Dropdown.Item disabled>Themes</Dropdown.Item>
                                 {category?.themes?.map(t =>
-                                    <Dropdown.Item key={t.id} eventKey={t.id} onClick={() => onClickItem(t.id)} active={theme.id === t.id}>{t.title}</Dropdown.Item>
+                                    <Dropdown.Item key={t.id} eventKey={t.id} onClick={() => onClickItem(t.id)} active={theme?.id === t.id}>{t.title}</Dropdown.Item>
                                 )}
                             </>}
                         </Dropdown.Menu>

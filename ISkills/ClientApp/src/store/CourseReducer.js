@@ -126,6 +126,7 @@ export const clearImageLoading = () => ({type: CLEAR_IMAGE_LOADING})
 export const getCourse = (id, navigate = null) => async (dispatch, getState) => {
     const error = getState().course.error
 
+
     await responseHandler(dispatch, async () => {
         const course = await CourseService.GetCourse(id)
 
@@ -137,15 +138,17 @@ export const getCourse = (id, navigate = null) => async (dispatch, getState) => 
 
 export const getCourses = (creatorId = null) => async (dispatch, getState) => {
     const params = getState().course.params
+    const isAdmin = getState().user.isAdmin
 
     await responseHandler(dispatch, async () => {
         if (params.query === '')
             delete params.query
-        const newParams = {
+        let newParams = {
             ...params,
             skip: (params.page - 1) * params.take,
-            creatorId: creatorId
         }
+        if(!isAdmin)
+            newParams = {...newParams, creatorId: creatorId}
 
         const [totalCount, newCourses] = await CourseService.GetCourses({
             params: newParams

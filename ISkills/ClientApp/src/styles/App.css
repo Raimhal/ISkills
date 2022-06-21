@@ -15,6 +15,7 @@ a {
 html {
     overflow: -moz-scrollbars-vertical;
     overflow-y: scroll !important;
+    overscroll-behavior: contain;
 }
 
 body {

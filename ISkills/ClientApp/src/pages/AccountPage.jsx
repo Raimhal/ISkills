@@ -23,6 +23,7 @@ import CourseList from "../components/course/CourseList";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import {colorTheme} from "../styleThemes";
 import Loading from "../components/UI/Loading/Loading";
+import {clearTheme} from "../store/ThemeReducer";
 
 const AccountPage = () => {
     const dispatch = useDispatch()
@@ -30,13 +31,15 @@ const AccountPage = () => {
     const isLoading = useSelector(state => state.user.isActionLoading)
     const isImageLoading = useSelector(state => state.user.isImageLoading)
     const error = useSelector(state => state.user.error)
+    const isAdmin = useSelector(state => state.user.isAdmin)
+
     const [modal, setModal] = useState(false)
-    const [value, setValue] = useState("member")
+    const [value, setValue] = useState(isAdmin ? "my" : "member")
+
     const params = useSelector(state => state.course.params)
     const sortList = useSelector(state => state.course.sortList)
     const courses = useSelector(state => state.course.courses)
     const totalCount = useSelector(state => state.course.totalCount)
-    const isAdmin = useSelector(state => state.user.isAdmin)
     const isCoursesLoading = useSelector(state => state.course.isLoading)
 
     const handleChange = (event, newValue) => {
@@ -44,8 +47,10 @@ const AccountPage = () => {
     };
 
     useEffect(() => {
-        if(isAdmin)
-            setValue("my")
+        dispatch(clearTheme())
+    })
+
+    useEffect(() => {
 
         switch (value) {
             case "member":
@@ -104,16 +109,18 @@ const AccountPage = () => {
                         </div>
                     </div>
                     <ThemeProvider theme={colorTheme}>
-                        <Tabs
-                            value={value}
-                            onChange={handleChange}
-                            textColor="primary"
-                            indicatorColor="primary"
-                            aria-label="primary course tabs"
-                        >
-                            {!isAdmin && <Tab value="member" label="Member courses"/>}
-                            <Tab value="my" label={!isAdmin ? "My courses" : "Courses"}/>
-                        </Tabs>
+                        {value !== "" &&
+                            <Tabs
+                                value={value}
+                                onChange={handleChange}
+                                textColor="primary"
+                                indicatorColor="primary"
+                                aria-label="primary course tabs"
+                            >
+                                {!isAdmin && <Tab value="member" label="Member courses"/>}
+                                <Tab value="my" label={!isAdmin ? "My courses" : "Courses"}/>
+                            </Tabs>
+                        }
                     </ThemeProvider>
                     <SortAndSearch
                         params={params}

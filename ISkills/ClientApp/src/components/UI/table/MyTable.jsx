@@ -15,13 +15,16 @@ const MyTable = ({title, items, remove = null, updateClick = null, iconChildren 
 
     return (
         <TableContainer component={Paper} id="tableContainer">
-            <Table sx={{minWidth: 650, whiteSpace: "nowrap"}} className="correct__overflow" aria-label="simple table" onWheel={(e) => {
+            <Table sx={{minWidth: 650, whiteSpace: "nowrap"}}
+                   className="correct__overflow" aria-label="simple table" onWheel={(e) => {
+                e.stopPropagation()
                 const el = document.querySelector('#tableContainer')
                 const scrollPosition = el.scrollLeft
                 el.scrollTo({
                     top: 0,
                     left: (scrollPosition + e.deltaY),
                 })
+                window.scrollTo(window.scrollX, window.scrollY)
             }
             }>
 

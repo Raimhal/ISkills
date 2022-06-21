@@ -26,7 +26,7 @@ const SortAndSearch = ({sortList, params, action, onParamsChange, isLoading}) =>
                     defaultValue="Sort by"
                     options={sortList}
                 />
-                <Tooltip title="Reverse">
+                <Tooltip title="Reverse" disabled={isLoading}>
                     <ToggleButton
                         value="toggle"
                         selected={params.reverse}

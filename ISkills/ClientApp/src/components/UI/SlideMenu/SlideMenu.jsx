@@ -46,7 +46,7 @@ export default function SlideMenu({anchor, children, buttonContent, ...props}) {
                     <ListItem key={child.props.to} disablePadding>
                         <ListItemButton onClick={() => {
                             navigate(child.props.to)
-                            child.props.onClick()
+                            child.props.onClick && child.props.onClick()
                         }}>
                             <ListItemText primary={child.props.children} className={child.props.className} />
                         </ListItemButton>

@@ -7,6 +7,7 @@ import {clearCourse, clearCourses, getCourses, removeCourse, setParams} from "..
 import {useDispatch, useSelector} from "react-redux";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import Loading from "../components/UI/Loading/Loading";
+import {clearTheme} from "../store/ThemeReducer";
 
 
 const Courses = () => {
@@ -31,6 +32,12 @@ const Courses = () => {
             dispatch(clearCourses())
         }
     }, [params.page, params.sortOption, params.themeId, params.reverse])
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearTheme())
+        }
+    }, [])
 
 
 

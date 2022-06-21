@@ -2,23 +2,19 @@ import React, {useState} from 'react';
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import classes from "./Navbar.module.css"
 import {useDispatch, useSelector} from "react-redux";
-import {logout, logoutUser} from "../../../store/UserReducer";
+import {logout} from "../../../store/UserReducer";
 import MyModal from "../MyModal/MyModal";
 import CourseForm from "../../course/CourseForm";
-import {clearParams, createCourse, getCourses, setCourse} from "../../../store/CourseReducer";
+import {clearParams, createCourse, getCourses} from "../../../store/CourseReducer";
 import NestedMenu from "../NestedMenu/NestedMenu";
-import {Fab, IconButton} from "@mui/material";
+import {Fab} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import {ThemeProvider} from "@emotion/react";
 import {Tooltip} from "@material-ui/core";
 import AdminMenu from "../NestedMenu/AdminMenu";
 import {colorTheme} from "../../../styleThemes";
-import AddBoxIcon from "@mui/icons-material/AddBox";
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
-import MenuProvider from 'react-flexible-sliding-menu';
 import SlideMenu from "../SlideMenu/SlideMenu";
-import defaultCourseImage from "../../../assets/images/defaultCourseImage.png";
-import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 
 const Navbar = () => {
     const isAuth = useSelector(state => state.user.isAuth)
@@ -26,7 +22,6 @@ const Navbar = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const location = useLocation()
-    const [burgerModal, setBurgerModal] = useState(false)
 
     const isCreateCourse = new RegExp(/^\/courses\/([\w\d-]+)/).test(location.pathname)
 
@@ -101,7 +96,6 @@ const Navbar = () => {
                                     </Link>
                                     <Link to="/register"
                                           className={`${classes.navbar__link} ${location.pathname === "/register" && classes.active}`}
-                                          onClick={() => setBurgerModal(false)}
                                     >
                                         Sing up
                                     </Link>
