@@ -196,6 +196,28 @@ namespace DAL.Migrations
                     b.ToTable("Courses");
                 });
 
+            modelBuilder.Entity("Domain.Models.Purchase", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId");
+
+                    b.HasIndex("Id")
+                        .IsUnique();
+
+                    b.ToTable("Purchases");
+                });
+
             modelBuilder.Entity("Domain.Models.RefreshToken", b =>
                 {
                     b.Property<Guid>("Id")
@@ -421,6 +443,17 @@ namespace DAL.Migrations
                     b.Navigation("Theme");
                 });
 
+            modelBuilder.Entity("Domain.Models.Purchase", b =>
+                {
+                    b.HasOne("Domain.Models.Course", "Course")
+                        .WithMany("Purchases")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
             modelBuilder.Entity("Domain.Models.RefreshToken", b =>
                 {
                     b.HasOne("Domain.Models.User", "User")
@@ -483,6 +516,8 @@ namespace DAL.Migrations
                     b.Navigation("Chapters");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("Purchases");
                 });
 
             modelBuilder.Entity("Domain.Models.Theme", b =>

@@ -4,7 +4,7 @@ import MyInput from "../components/UI/Input/MyInput";
 import MyButton from "../components/UI/Button/MyButton";
 import {useDispatch, useSelector} from "react-redux";
 import {clearError, login, setUser} from "../store/UserReducer";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import * as yup from 'yup';
 import MyAlert from "../components/UI/Alert/MyAlert";
@@ -71,7 +71,11 @@ const LoginPage = () => {
                     helperText={formik.touched.password && formik.errors.password}
                 />
                 <MyAlert item={error}/>
-                <MyButton type="submit">Log in</MyButton>
+                <MyButton type="submit" onClick={() => dispatch(clearError())}>Log in</MyButton>
+                <p>
+                    I haven't an account :
+                    <Link to="/register" className="link"> Sign Up</Link>
+                </p>
             </form>
         </div>
     );

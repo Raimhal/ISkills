@@ -62,42 +62,54 @@ namespace DAL
 
                 context.AllowedFileTypes.AddRange
                     (
-                    new AllowedFileType
+                    new ()
                     {
                         Id = 1,
                         FileType = "mp4",
-                        FileSize = 128
+                        FileSize = 100
                     },
-                    new AllowedFileType
+                    new ()
                     {
                         Id = 2,
                         FileType = "jpg",
-                        FileSize = 16
+                        FileSize = 10
                     },
-                    new AllowedFileType
+                    new ()
                     {
 
                         Id = 3,
                         FileType = "png",
-                        FileSize = 16
+                        FileSize = 10
                     },
-                    new AllowedFileType
+                    new ()
                     {
                         Id = 4,
                         FileType = "gif",
-                        FileSize = 32
+                        FileSize = 10
                     },
-                    new AllowedFileType
+                    new ()
                     {
                         Id = 5,
                         FileType = "avi",
-                        FileSize = 128
+                        FileSize = 100
                     },
-                    new AllowedFileType
+                    new ()
                     {
                         Id = 6,
                         FileType = "pdf",
-                        FileSize = 16
+                        FileSize = 100
+                    },
+                    new ()
+                    {
+                        Id = 7,
+                        FileType = "jpeg",
+                        FileSize = 10
+                    },
+                    new()
+                    {
+                        Id = 8,
+                        FileType = "sql",
+                        FileSize = 10
                     }
                     );
 
@@ -113,7 +125,7 @@ namespace DAL
                 {
                     Id = 1,
                     Title = "Other",
-                    CategoryId = category.Id
+                    Category = category
                 };
 
                 context.Themes.Add(theme);

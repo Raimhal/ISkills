@@ -36,6 +36,8 @@ namespace DAL
                 provider.GetService<IskillsContext>());
             services.AddScoped<IRefreshTokenDbContext>(provider =>
                 provider.GetService<IskillsContext>());
+            services.AddScoped<IPurchaseDbContext>(provider =>
+                provider.GetService<IskillsContext>());
 
             return services;
         }

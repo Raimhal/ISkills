@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {clearError, clearUser, createUser} from "../store/UserReducer";
 import RegistrationForm from "../components/user/RegistrationForm";
 import {useDispatch} from "react-redux";
+import {Link} from "react-router-dom";
 
 const RegisterPage = () => {
     const dispatch = useDispatch()
@@ -16,7 +17,8 @@ const RegisterPage = () => {
                 action={createUser}
                 submitTitle="Sign up"
                 title="Registration"
-                className="form register"/>
+                className="form register"
+            />
         </div>
     );
 };

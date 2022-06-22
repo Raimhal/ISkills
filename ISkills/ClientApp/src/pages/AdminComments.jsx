@@ -40,7 +40,7 @@ const AdminComments = () => {
             <AdminNavbar/>
             {/*{!isLoading &&*/}
                 <div className="wide main">
-                    <h2 className="title">Comments</h2>
+                    <h3 className="title">Comments</h3>
                     <SortAndSearch
                         params={params}
                         onParamsChange={value => dispatch(setParams(value))}

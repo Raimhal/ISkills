@@ -6,7 +6,7 @@ import {CSSTransition, TransitionGroup} from "react-transition-group";
 const ChapterList = ({chapters, title, remove, update, userId, isAdmin, updateVideo, removeVideo}) => {
     return (
         <div>
-            <h2 style={{padding: "5px"}}>{title}</h2>
+            <h3 style={{padding: "5px"}}>{title}</h3>
             {chapters?.length === 0
                 ? <div>No chapters found</div>
                 : <TransitionGroup className="chapters">

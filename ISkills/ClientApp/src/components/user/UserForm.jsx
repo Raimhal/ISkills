@@ -4,7 +4,7 @@ import MyButton from "../UI/Button/MyButton";
 import * as yup from "yup";
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {setUser} from "../../store/UserReducer";
+import {clearError, setUser} from "../../store/UserReducer";
 import MyAlert from "../UI/Alert/MyAlert";
 import Loading from "../UI/Loading/Loading";
 import InnerLoading from "../UI/Loading/InnerLoading";
@@ -104,7 +104,7 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
             />
             <MyAlert type="error" item={error}/>
             {!isLoading
-                ? <MyButton type="submit">{submitTitle}</MyButton>
+                ? <MyButton type="submit" onClick={() => dispatch(clearError())}>{submitTitle}</MyButton>
                 : <InnerLoading/>
             }
         </form>

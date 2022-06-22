@@ -25,11 +25,12 @@ namespace BLL
             services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<IChapterRepository, ChapterRepository>();
             services.AddScoped<IVideoRepository, VideoRepository>();
+            services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<IAntivirusService, AntivirusService>();
             services.AddScoped<IDatabaseService, DatabaseService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
 
-            if (!isDevelopment)
+            if (isDevelopment)
             {
                 services.AddSingleton<AutoBackupService>();
                 services.AddHostedService<AutoBackupService>();

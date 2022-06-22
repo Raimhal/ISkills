@@ -54,7 +54,7 @@ const AdminCourses = () => {
         <div style={{display: 'flex'}}>
             <AdminNavbar/>
                 <div className="adminPage">
-                    <h2 className="title">Courses</h2>
+                    <h3 className="title">Courses</h3>
                     <SortAndSearch
                         params={params}
                         onParamsChange={value => dispatch(setParams(value))}

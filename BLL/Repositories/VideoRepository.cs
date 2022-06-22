@@ -19,15 +19,15 @@ namespace BLL.Services
     {
         private readonly IVideoDbContext _videoDbContext;
         private readonly IChapterDbContext _chapterDbContext;
-        private readonly IFileRepository _fileService;
+        private readonly IFileRepository _fileRepository;
         public readonly IAntivirusService _antivirusService;
         public readonly ICloudinaryService _cloudinaryService;
         private readonly IMapper _mapper;
 
         public VideoRepository(IVideoDbContext videoDbContext, IChapterDbContext chapterDbContext,
-            IFileRepository fileService, IAntivirusService antivirusService, IMapper mapper, ICloudinaryService cloudinaryService)
-            => (_videoDbContext, _chapterDbContext, _fileService, _antivirusService, _mapper, _cloudinaryService)
-            = (videoDbContext, chapterDbContext, fileService, antivirusService, mapper, cloudinaryService);
+            IFileRepository fileRepository, IAntivirusService antivirusService, IMapper mapper, ICloudinaryService cloudinaryService)
+            => (_videoDbContext, _chapterDbContext, _fileRepository, _antivirusService, _mapper, _cloudinaryService)
+            = (videoDbContext, chapterDbContext, fileRepository, antivirusService, mapper, cloudinaryService);
 
         private readonly List<Expression<Func<Video, dynamic>>> includes = new()
         {
@@ -98,7 +98,7 @@ namespace BLL.Services
             var video = await _videoDbContext.Videos.GetAsync(_mapper,
                 v => v.Id == id, new () { }, cancellationToken);
 
-            if (!await _fileService.IsValidFile(model.File))
+            if (!await _fileRepository.IsValidFile(model.File))
                 throw new ConflictException("File is too large");
 
             if (await _chapterDbContext.Chapters.AnyAsync(x => x.Id == model.ChapterId, cancellationToken))

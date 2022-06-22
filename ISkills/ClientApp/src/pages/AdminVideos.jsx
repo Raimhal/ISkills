@@ -38,7 +38,7 @@ const AdminVideos = () => {
         <div style={{position: "relative"}}>
             <AdminNavbar/>
                 <div className="wide main">
-                    <h2 className="title">Videos</h2>
+                    <h3 className="title">Videos</h3>
                     <SortAndSearch
                         params={params}
                         onParamsChange={value => dispatch(setParams(value))}

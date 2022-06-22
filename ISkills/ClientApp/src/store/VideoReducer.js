@@ -152,6 +152,7 @@ export const createVideo = (setModal = null) => async (dispatch, getState) => {
         chapters[index].videosCount = +chapters[index].videosCount + 1
 
         dispatch(setChapters([...chapters]))
+        dispatch(clearVideo())
         setModal && setModal(false)
     }, setError, setActionLoading)
 
@@ -193,6 +194,7 @@ export const updateVideo = (setModal = null) => async (dispatch, getState)  => {
         await VideoService.Update({...video, file: document.querySelector("#file").files[0]})
         chapters[chapterIndex].videos[index] = video
         dispatch(setChapters([...chapters]))
+        dispatch(clearVideo())
         setModal && setModal(false)
     }, setError, setActionLoading)
 }

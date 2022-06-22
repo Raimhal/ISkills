@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface ICategoryRepository : IBaseRepository<int, Category, CreateCategoryDto, CategoryDto>
+    public interface ICategoryRepository : IRepository<int, Category, CreateCategoryDto, CategoryDto>
     {
     }
 }

@@ -94,7 +94,7 @@ namespace ISkills.Controllers
         [Route("api/courses/{id}/assignment")]
         public async Task<IActionResult> ToggleUserAssignment(Guid id, CancellationToken cancellationToken)
         {
-            await _courseService.ToggleUserAssignment(UserId, id, cancellationToken);
+            await _courseService.AssignUserToCourse(UserId, id, cancellationToken);
             return NoContent();
         }
 

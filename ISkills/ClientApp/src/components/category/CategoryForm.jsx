@@ -3,7 +3,7 @@ import MyInput from "../UI/Input/MyInput";
 import MyButton from "../UI/Button/MyButton";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
-import {setCategory} from "../../store/CategoryReducer";
+import {clearError, setCategory} from "../../store/CategoryReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
 import MyAlert from "../UI/Alert/MyAlert";
@@ -32,7 +32,7 @@ const CategoryForm = ({action, title, ...props}) => {
     })
 
     return (
-        <form className="form" onSubmit={formik.handleSubmit}>
+        <form className="form" onSubmit={formik.handleSubmit} noValidate>
             <MyInput
                 type="text"
                 name="title"
@@ -45,10 +45,11 @@ const CategoryForm = ({action, title, ...props}) => {
                 label="Title"
                 error={formik.touched.title && Boolean(formik.errors.title)}
                 helperText={formik.touched.title && formik.errors.title}
+                required
             />
             <MyAlert item={error}/>
             {!isLoading
-                ? <MyButton type="submit">{title}</MyButton>
+                ? <MyButton type="submit" onClick={() => dispatch(clearError())}>{title}</MyButton>
                 : <InnerLoading/>
             }
         </form>

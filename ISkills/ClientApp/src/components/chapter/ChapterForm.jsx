@@ -4,7 +4,7 @@ import MyButton from "../UI/Button/MyButton";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import MyEditor from "../UI/Editor/MyEditor";
 import {useDispatch, useSelector} from "react-redux";
-import {setChapter} from "../../store/ChapterReducer";
+import {clearError, setChapter} from "../../store/ChapterReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
 
@@ -38,7 +38,7 @@ const ChapterForm = ({action, title, ...props}) => {
     })
 
     return (
-        <form className="form" onSubmit={formik.handleSubmit}>
+        <form className="form" onSubmit={formik.handleSubmit} noValidate>
             <div className="block">
                 <MyInput
                     type="text"
@@ -52,6 +52,7 @@ const ChapterForm = ({action, title, ...props}) => {
                     label="Title"
                     error={formik.touched.title && Boolean(formik.errors.title)}
                     helperText={formik.touched.title && formik.errors.title}
+                    required
                 />
             </div>
             <div className="block">
@@ -69,7 +70,7 @@ const ChapterForm = ({action, title, ...props}) => {
             </div>
             <MyAlert type="error" item={error}/>
             {!isLoading
-                ? <MyButton type="submit">{title}</MyButton>
+                ? <MyButton type="submit" onClick={() => dispatch(clearError())}>{title}</MyButton>
                 : <InnerLoading/>
             }
         </form>

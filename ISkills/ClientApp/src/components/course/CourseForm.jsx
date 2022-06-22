@@ -5,7 +5,7 @@ import MySelect from "../UI/Select/MySelect";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import MyEditor from "../UI/Editor/MyEditor";
 import {useDispatch, useSelector} from "react-redux";
-import {setCourse} from "../../store/CourseReducer";
+import {clearError, setCourse} from "../../store/CourseReducer";
 import {getAllCategories} from "../../store/CategoryReducer";
 import {getAllThemes} from "../../store/ThemeReducer";
 import * as yup from "yup";
@@ -79,7 +79,7 @@ const CourseForm = ({action, title, ...props}) => {
 
 
     return (
-        <form className="form" onSubmit={formik.handleSubmit}>
+        <form className="form" onSubmit={formik.handleSubmit} noValidate>
             {/*<MyFormikAlert condition={formik.touched.chapterId && Boolean(formik.errors.chapterId)} item={formik.errors.chapterId}/>*/}
             <div className="block">
                 <MyInput
@@ -95,6 +95,7 @@ const CourseForm = ({action, title, ...props}) => {
                     error={formik.touched.title && Boolean(formik.errors.title)}
                     helperText={formik.touched.title && formik.errors.title}
                     autoFocus
+                    required
                 />
             </div>
             <div className="block">
@@ -152,6 +153,7 @@ const CourseForm = ({action, title, ...props}) => {
                     defaultValue="Language"
                     options={languages}
                     error={formik.touched.language && Boolean(formik.errors.language)}
+                    required
                 />
                 <MyFormikAlert condition={formik.touched.language && Boolean(formik.errors.language)} item={formik.errors.language}/>
                 <MySelect
@@ -165,6 +167,7 @@ const CourseForm = ({action, title, ...props}) => {
                     defaultValue="Category"
                     options={categories.map(c => ({name: c.title, value: c.id.toString()}))}
                     error={formik.touched.categoryId && Boolean(formik.errors.categoryId)}
+                    required
                 />
                 <MyFormikAlert condition={formik.touched.categoryId && Boolean(formik.errors.categoryId)} item={formik.errors.categoryId}/>
                 {course.categoryId !== undefined && course.categoryId !== null && <div style={{display: "flex", flexDirection: "column"}}>
@@ -179,6 +182,7 @@ const CourseForm = ({action, title, ...props}) => {
                         defaultValue="Theme"
                         options={themes.map(c => ({name: c.title, value: c.id.toString()}))}
                         error={formik.touched.themeId && Boolean(formik.errors.themeId)}
+                        required
                     />
                     <MyFormikAlert condition={formik.touched.themeId && Boolean(formik.errors.themeId)} item={formik.errors.themeId}/>
                 </div>
@@ -199,12 +203,13 @@ const CourseForm = ({action, title, ...props}) => {
                     onBlur={formik.handleBlur}
                     error={formik.touched.price && Boolean(formik.errors.price)}
                     helperText={formik.touched.price && formik.errors.price}
+                    required
                 />
                 }
             </div>
             <MyAlert item={error}/>
             {!isLoading
-                ? <MyButton type="submit">{title}</MyButton>
+                ? <MyButton type="submit" onClick={() => dispatch(clearError())}>{title}</MyButton>
                 : <InnerLoading/>
             }
         </form>

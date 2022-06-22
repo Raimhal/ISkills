@@ -120,6 +120,7 @@ export const createType = (setModal = null) => async (dispatch, getState) => {
         var newType = {...type, id: typeId}
         dispatch(setFileType(newType))
         dispatch(setFileTypes([...types, newType]))
+        dispatch(clearFileType())
         setModal && setModal(false)
     }, setError, setActionLoading)
 }
@@ -146,6 +147,7 @@ export const updateType = (setModal = null) => async (dispatch, getState)  => {
         await FileService.Update(type.id, type)
         types[index] = type
         dispatch(setFileTypes([...types]))
+        dispatch(clearFileType())
         setModal && setModal(false)
     }, setError, setActionLoading)
 }

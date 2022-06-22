@@ -55,7 +55,7 @@ const AdminUsers = () => {
             <AdminNavbar/>
             {/*{!isLoading &&*/}
                 <div className="wide main">
-                    <h2 className="title">Users</h2>
+                    <h3 className="title">Users</h3>
                     <SortAndSearch
                         params={params}
                         onParamsChange={value => dispatch(setParams(value))}

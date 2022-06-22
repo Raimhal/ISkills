@@ -142,8 +142,8 @@ export const createCategory = (setModal = null) => async (dispatch, getState) =>
     await responseHandler(dispatch, async () => {
         const categoryId = await CategoryService.Create(category)
         const newCategory = {...category, id: categoryId}
-        dispatch(setCategory({...newCategory}))
         dispatch(setCategories([...categories, newCategory]))
+        dispatch(clearCategory())
 
         setModal && setModal(false)
     }, setError, setActionLoading)
@@ -172,6 +172,7 @@ export const updateCategory = (setModal = null) => async (dispatch, getState)  =
         await CategoryService.Update(category.id, category)
         categories[index] = category
         dispatch(setCategories([...categories]))
+        dispatch(clearCategory())
         setModal && setModal(false)
     }, setError, setActionLoading)
 }

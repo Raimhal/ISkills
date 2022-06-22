@@ -219,6 +219,7 @@ export const updateCourse = (setModal = null) => async (dispatch, getState)  => 
         await CourseService.Update(course.id, course)
         courses[index] = course
         dispatch(setCourses([...courses]))
+        dispatch(clearCourse())
         setModal && setModal(false)
     }, setError, setActionLoading)
 }

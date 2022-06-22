@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface ICommentRepository : IBaseRepository<Guid, Comment, CreateCommentDto, CommentDto>
+    public interface ICommentRepository : IRepository<Guid, Comment, CreateCommentDto, CommentDto>
     {
     }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import MyInput from "../UI/Input/MyInput";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
-import {setVideo} from "../../store/VideoReducer";
+import {clearError, setVideo} from "../../store/VideoReducer";
 import MyButton from "../UI/Button/MyButton";
 import MySelect from "../UI/Select/MySelect";
 import {useFormik} from "formik";
@@ -51,6 +51,7 @@ const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, 
                 label="Title"
                 error={formik.touched.title && Boolean(formik.errors.title)}
                 helperText={formik.touched.title && formik.errors.title}
+                required
             />
             {!isModified &&
             <>
@@ -65,6 +66,7 @@ const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, 
                     defaultValue="Chapter"
                     options={chapters.map(c => ({name: c.title, value: c.id}))}
                     error={formik.touched.chapterId && Boolean(formik.errors.chapterId)}
+                    required
                 />
                 <MyFormikAlert condition={formik.touched.chapterId && Boolean(formik.errors.chapterId)}
                                item={formik.errors.chapterId}/>
@@ -79,7 +81,7 @@ const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, 
             />
             <MyAlert item={error}/>
             {!isLoading
-                ? <MyButton type="submit">{title}</MyButton>
+                ? <MyButton type="submit" onClick={() => dispatch(clearError())}>{title}</MyButton>
                 : <InnerLoading/>
             }
         </form>

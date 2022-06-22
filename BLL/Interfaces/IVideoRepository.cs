@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IVideoRepository : IBaseRepository<Guid, Video, CreateVideoDto, VideoDto>
+    public interface IVideoRepository : IRepository<Guid, Video, CreateVideoDto, VideoDto>
     {
         Task PatchAsync(Guid id, UpdateVideoDto model, CancellationToken cancellationToken);
     }

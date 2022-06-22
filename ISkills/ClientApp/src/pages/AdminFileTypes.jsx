@@ -45,7 +45,7 @@ const AdminFileTypes = () => {
             {/*{!isLoading &&*/}
                 <div className="wide main">
                     <div style={{display: "flex", justifyContent: "space-between"}} className="title">
-                        <h2>File types</h2>
+                        <h3>File types</h3>
                         <Tooltip title="Add file type" placement="bottom">
                             <IconButton aria-label="add file type" onClick={() => {
                                 dispatch(clearError())

@@ -53,6 +53,7 @@ import {createVideo, removeVideo, updateVideo, clearError as clearVideoError} fr
 import classes from "../components/UI/Navbar/Navbar.module.css";
 import AddIcon from "@mui/icons-material/Add";
 import {colorTheme} from "../styleThemes";
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 
 const CoursePage = () => {
     const dispatch = useDispatch()
@@ -406,7 +407,7 @@ const CoursePage = () => {
                                         setCommentUpdateModal(true)
                                     }}
                                          className={classes.navbar__link}>
-                                        <AddIcon/>
+                                        <StarBorderOutlinedIcon/>
                                     </Fab>
                             </Tooltip>
                         </ThemeProvider>

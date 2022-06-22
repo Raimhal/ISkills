@@ -23,15 +23,16 @@ namespace BLL.Services
         private readonly ICourseDbContext _courseDbContext;
         private readonly IUserDbContext _userContext;
         private readonly IThemeDbContext _themeContext;
-        private readonly IFileRepository _fileService;
+        private readonly IPurchaseRepository _purchaseRepository;
         private readonly IMapper _mapper;
         private readonly ICloudinaryService _cloudinaryService;
 
 
         public CourseRepository(ICourseDbContext courseDbContext, IUserDbContext userContext,
-            IThemeDbContext themeContext, IFileRepository fileService, ICloudinaryService cloudinaryService, IMapper mapper)
-            => (_courseDbContext, _userContext, _themeContext, _fileService, _cloudinaryService, _mapper)
-            = (courseDbContext, userContext, themeContext, fileService, cloudinaryService, mapper);
+            IThemeDbContext themeContext, ICloudinaryService cloudinaryService,
+            IPurchaseRepository purchaseRepository, IMapper mapper)
+            => (_courseDbContext, _userContext, _themeContext, _cloudinaryService, _purchaseRepository, _mapper)
+            = (courseDbContext, userContext, themeContext, cloudinaryService, purchaseRepository, mapper);
 
         public async Task<PaginationList<CourseDto>> GetList(int skip, int take, string query,
             string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
@@ -195,7 +196,7 @@ namespace BLL.Services
 
         }
 
-        public async Task ToggleUserAssignment(Guid userId, Guid courseId, CancellationToken cancellationToken)
+        public async Task AssignUserToCourse(Guid userId, Guid courseId, CancellationToken cancellationToken)
         {
             var user = await _userContext.Users.GetAsync(_mapper,
                 x => x.Id == userId, new() { }, cancellationToken);
@@ -207,10 +208,11 @@ namespace BLL.Services
                 throw new ConflictException("Conflict! You are the creator of this course");
 
             if (course.Students.Contains(user))
-                course.Students.Remove(user);
-            else
-                course.Students.Add(user);
+                throw new ConflictException("Conflict! You are the member of this course");
 
+            await _purchaseRepository.CreateAsync(new CreatePurchaseDto{ CourseId = course.Id }, cancellationToken);
+
+            course.Students.Add(user);
 
             _courseDbContext.Courses.Update(course);
             await _courseDbContext.SaveChangesAsync(cancellationToken);

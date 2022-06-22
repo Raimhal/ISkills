@@ -24,5 +24,6 @@ namespace Domain.Models
         public virtual ICollection<User> Students { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
         public virtual ICollection<Chapter> Chapters { get; set; }
+        public virtual ICollection<Purchase> Purchases { get; set; }
     }
 }

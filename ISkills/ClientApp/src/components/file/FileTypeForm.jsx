@@ -5,7 +5,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
 import * as yup from "yup";
 import {useFormik} from "formik";
-import {setFileType} from "../../store/FileReducer";
+import {clearError, setFileType} from "../../store/FileReducer";
 import MyAlert from "../UI/Alert/MyAlert";
 import Loading from "../UI/Loading/Loading";
 import InnerLoading from "../UI/Loading/InnerLoading";
@@ -40,7 +40,7 @@ const FileTypeForm = ({action, title, ...props}) => {
 
 
     return (
-        <form className="form" onSubmit={formik.handleSubmit}>
+        <form className="form" onSubmit={formik.handleSubmit} noValidate>
             <MyInput
                 type="text"
                 name="fileType"
@@ -53,6 +53,7 @@ const FileTypeForm = ({action, title, ...props}) => {
                 label="Type"
                 error={formik.touched.fileType && Boolean(formik.errors.fileType)}
                 helperText={formik.touched.fileType && formik.errors.fileType}
+                required
             />
             <MyInput
                 type="text"
@@ -66,10 +67,11 @@ const FileTypeForm = ({action, title, ...props}) => {
                 label="Size"
                 error={formik.touched.fileSize && Boolean(formik.errors.fileSize)}
                 helperText={formik.touched.fileSize && formik.errors.fileSize}
+                required
             />
             <MyAlert item={error}/>
             {!isLoading
-                ? <MyButton type="submit">{title}</MyButton>
+                ? <MyButton type="submit" onClick={() => dispatch(clearError())}>{title}</MyButton>
                 : <InnerLoading/>
             }
         </form>

@@ -33,6 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Backups\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

@@ -145,7 +145,8 @@ export const createChapter = (setModal = null) => async(dispatch, getState) => {
         const chapterId = await ChapterService.Create({...chapter, courseId: course.id})
         dispatch(setChapters([...chapters, {...chapter, id: chapterId, creatorId: user.id}]))
         dispatch(setTotalCount(+totalCount + 1))
-        setModal(false)
+        dispatch(clearChapter())
+        setModal && setModal(false)
     }, setError, setActionLoading)
 }
 
@@ -158,6 +159,7 @@ export const updateChapter = (setModal = null) => async (dispatch, getState)  =>
         await ChapterService.Update(chapter.id, chapter)
         chapters[index] = chapter
         dispatch(setChapters([...chapters]))
+        dispatch(clearChapter())
         setModal && setModal(false)
     }, setError, setActionLoading)
 }

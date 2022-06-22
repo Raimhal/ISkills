@@ -23,16 +23,16 @@ namespace BLL.Services
         private readonly IUserDbContext _userContext;
         private readonly IRoleDbContext _roleContext;
         private readonly ICourseDbContext _courseDbContext;
-        private readonly IFileRepository _fileService;
+        private readonly IFileRepository _fileRepository;
         private readonly ICloudinaryService _cloudinaryService;
         private readonly IMapper _mapper;
         private readonly int saltSize = 16;
 
         public UserRepository(IUserDbContext userContext, IRoleDbContext roleContext,
-            ICourseDbContext courseContext, IFileRepository fileService,
+            ICourseDbContext courseContext, IFileRepository fileRepository,
             ICloudinaryService cloudinaryService, IMapper mapper) 
-            => (_userContext, _roleContext, _courseDbContext, _fileService, _cloudinaryService, _mapper)
-            = (userContext, roleContext, courseContext, fileService, cloudinaryService ,mapper);
+            => (_userContext, _roleContext, _courseDbContext, _fileRepository, _cloudinaryService, _mapper)
+            = (userContext, roleContext, courseContext, fileRepository, cloudinaryService ,mapper);
 
 
         public async Task<PaginationList<UserDto>> GetList(int skip, int take,
@@ -181,6 +181,9 @@ namespace BLL.Services
                 .ToListAsync(cancellationToken);
 
             await _cloudinaryService.DeleteAsync(user.ImageUrl);
+
+            foreach (var course in courses)
+                await _cloudinaryService.DeleteAsync(course.ImageUrl);
 
             _courseDbContext.Courses.RemoveRange(courses);
             _userContext.Users.Remove(user);

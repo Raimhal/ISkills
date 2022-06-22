@@ -4,9 +4,9 @@ import MyButton from "../UI/Button/MyButton";
 import * as yup from "yup";
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
-import {setUser} from "../../store/UserReducer";
+import {clearError, setUser} from "../../store/UserReducer";
 import MyAlert from "../UI/Alert/MyAlert";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const RegistrationForm = ({action, title = null, submitTitle, ...props}) => {
     const dispatch = useDispatch()
@@ -57,7 +57,7 @@ const RegistrationForm = ({action, title = null, submitTitle, ...props}) => {
 
 
     return (
-        <form className="form" onSubmit={formik.handleSubmit} {...props}>
+        <form className="form" onSubmit={formik.handleSubmit} {...props} noValidate>
             <h3>{title}</h3>
             <MyInput
                 type="text"
@@ -71,6 +71,7 @@ const RegistrationForm = ({action, title = null, submitTitle, ...props}) => {
                 label="Username"
                 error={formik.touched.userName && Boolean(formik.errors.userName)}
                 helperText={formik.touched.userName && formik.errors.userName}
+                required
             />
             <MyInput
                 type="text"
@@ -84,6 +85,7 @@ const RegistrationForm = ({action, title = null, submitTitle, ...props}) => {
                 label="Email"
                 error={formik.touched.email && Boolean(formik.errors.email)}
                 helperText={formik.touched.email && formik.errors.email}
+                required
             />
             <MyInput
                 type="text"
@@ -123,6 +125,7 @@ const RegistrationForm = ({action, title = null, submitTitle, ...props}) => {
                 label="Password"
                 error={formik.touched.password && Boolean(formik.errors.password)}
                 helperText={formik.touched.password && formik.errors.password}
+                required
             />
             <MyInput
                 type="password"
@@ -136,9 +139,15 @@ const RegistrationForm = ({action, title = null, submitTitle, ...props}) => {
                 label="Confirm password"
                 error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
                 helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                required
             />
             <MyAlert type="error" item={error}/>
-            <MyButton type="submit">{submitTitle}</MyButton>
+            <MyButton type="submit" onClick={() => clearError()}>{submitTitle}</MyButton>
+            <p>
+                I already have an account :
+                <Link to="/login" className="link"> Log In</Link>
+            </p>
+
         </form>
     );
 };

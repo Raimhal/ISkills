@@ -7,10 +7,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace DAL
 {
-    public class IskillsContext : DbContext, IUserDbContext,
-        IRoleDbContext, IAllowedFileTypeDbContext, ICourseDbContext,
-        ICommentDbContext, IChapterDbContext, IVideoDbContext, 
-        IThemeDbContext, ICategoryDbContext, IRefreshTokenDbContext
+    public class IskillsContext : DbContext, IUserDbContext, IRoleDbContext,
+        IAllowedFileTypeDbContext, ICourseDbContext, ICommentDbContext,
+        IChapterDbContext, IVideoDbContext, IThemeDbContext, ICategoryDbContext,
+        IRefreshTokenDbContext, IPurchaseDbContext
     {
         public IskillsContext(DbContextOptions<IskillsContext> options)
             : base(options)
@@ -28,6 +28,7 @@ namespace DAL
         public DbSet<Theme> Themes { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -42,6 +43,7 @@ namespace DAL
             modelBuilder.ApplyConfiguration(new VideoTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ThemeTypeConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PurchaseTypeConfiguration());
             base.OnModelCreating(modelBuilder);
 
         }

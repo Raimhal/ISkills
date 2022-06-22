@@ -5,7 +5,7 @@ import MySelect from "../UI/Select/MySelect";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
 import {getAllCategories} from "../../store/CategoryReducer";
-import {setTheme} from "../../store/ThemeReducer";
+import {clearError, setTheme} from "../../store/ThemeReducer";
 import * as yup from "yup";
 import {useFormik} from "formik";
 import MyFormikAlert from "../UI/Alert/MyFormikAlert";
@@ -45,7 +45,7 @@ const ThemeForm = ({action, title, ...props}) => {
 
 
     return (
-        <form className="form" onSubmit={formik.handleSubmit}>
+        <form className="form" onSubmit={formik.handleSubmit} noValidate>
             <MyInput
                 type="text"
                 name="title"
@@ -58,6 +58,7 @@ const ThemeForm = ({action, title, ...props}) => {
                 label="Title"
                 error={formik.touched.title && Boolean(formik.errors.title)}
                 helperText={formik.touched.title && formik.errors.title}
+                required
             />
             <MySelect
                 name="categoryId"
@@ -70,11 +71,12 @@ const ThemeForm = ({action, title, ...props}) => {
                 defaultValue="Category"
                 options={categories.map(c => ({name: c.title, value: c.id.toString()}))}
                 error={formik.touched.categoryId && Boolean(formik.errors.categoryId)}
+                required
             />
             <MyFormikAlert condition={formik.touched.categoryId && Boolean(formik.errors.categoryId)} item={formik.errors.categoryId}/>
             <MyAlert item={error}/>
             {!isLoading
-                ? <MyButton type="submit">{title}</MyButton>
+                ? <MyButton type="submit" onClick={() => dispatch(clearError())}>{title}</MyButton>
                 : <InnerLoading/>
             }
         </form>

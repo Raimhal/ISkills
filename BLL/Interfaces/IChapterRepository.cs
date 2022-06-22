@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    public interface IChapterRepository : IBaseRepository<Guid, Chapter, CreateChapterDto, ChapterDto>
+    public interface IChapterRepository : IRepository<Guid, Chapter, CreateChapterDto, ChapterDto>
     {
     }
 }

@@ -6,7 +6,7 @@ import CommentItem from "./CommentItem";
 const CommentList = ({comments, title, remove, update, userId, isAdmin}) => {
     return (
         <div className="comments">
-            <h2 style={{padding: "5px"}}>{title}</h2>
+            <h3 style={{padding: "5px"}}>{title}</h3>
             {comments?.length === 0
                 ? <div>No comments found</div>
                 : <TransitionGroup className="courses">

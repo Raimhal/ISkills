@@ -6,7 +6,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import MyEditor from "../UI/Editor/MyEditor";
 import MyRating from "../UI/Rating/MyRating";
 import {useDispatch, useSelector} from "react-redux";
-import {clearComment, setComment} from "../../store/CommentReducer";
+import {clearComment, clearError, setComment} from "../../store/CommentReducer";
 import MyAlert from "../UI/Alert/MyAlert";
 import InnerLoading from "../UI/Loading/InnerLoading";
 import MyFormikAlert from "../UI/Alert/MyFormikAlert";
@@ -54,7 +54,7 @@ const CommentForm = ({action, title, ...props}) => {
                 {!isLoading
                     ? <MyButton
                         type="submit"
-                        onClick={() => console.log(formik.errors)}
+                        onClick={() => dispatch(clearError())}
                         // disabled={formik.values.content.includes("<p></p>", "<p></p> ", "")}
                     >{title}</MyButton>
                     : <InnerLoading/>

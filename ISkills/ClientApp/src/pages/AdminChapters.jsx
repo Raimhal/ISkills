@@ -31,7 +31,7 @@ const AdminChapters = () => {
             <AdminNavbar/>
             {/*{!isLoading &&*/}
                 <div className="wide main">
-                    <h2 className="title">Chapters</h2>
+                    <h3 className="title">Chapters</h3>
                     <SortAndSearch
                         params={params}
                         onParamsChange={value => dispatch(setParams(value))}
