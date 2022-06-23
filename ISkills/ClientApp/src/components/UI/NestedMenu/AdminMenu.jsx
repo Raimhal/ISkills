@@ -15,10 +15,13 @@ const AdminMenu = ({label, className, ...props}) => {
     return (
 
             <ButtonToolbar>
-                <Dropdown trigger="hover" title="Admin" size="md" placement="bottomEnd" {...props}>
+                <Dropdown trigger="click" title="Admin" size="md" placement="bottomEnd" {...props}>
                     <Dropdown.Item disabled={true}>Pages</Dropdown.Item>
                      {adminRoutes.map(route =>
-                         <Dropdown.Item eventKey={route.path} key={route.path} onSelect={() => onClickItem(route.path)} active={route.path === location.pathname}>{route.title}</Dropdown.Item>
+                         <Dropdown.Item eventKey={route.path} key={route.path} onSelect={(e) => {
+                             onClickItem(route.path)
+
+                         }} active={route.path === location.pathname}>{route.title}</Dropdown.Item>
                      )}
                 </Dropdown>
             </ButtonToolbar>

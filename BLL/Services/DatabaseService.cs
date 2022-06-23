@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using System.Net;
+using BLL.DtoModels;
 
 namespace BLL.Services
 {
@@ -27,9 +28,14 @@ namespace BLL.Services
             _cloudinaryService = cloudinaryService;
         }
 
+        public async Task<PaginationList<CloudinarySearchResourceDto>> GetBackups(int skip, int take)
+        {
+            return await _cloudinaryService.GetFilesLinks("format:sql", skip, take);
+        }
+
         public async Task<string> BackupDatabase(string databaseString, string postgresqlPath)
         {
-            var date = DateTime.UtcNow.ToString("yyyy-dd-MM_HH-mm-ss");
+            var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
 
             var directory = GetBackupDirectory();
             if (!Directory.Exists(directory))
@@ -77,28 +83,6 @@ namespace BLL.Services
             process.Start();
             process.WaitForExit();
             process.Close();
-        }
-
-
-        public string GetConnectionString(IConfiguration configuration)
-        {
-            string connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
-            if (string.IsNullOrEmpty(connectionString))
-                connectionString = configuration.GetConnectionString("DbConnection");
-            else
-            {
-                connectionString = connectionString.Split("//")[1];
-                string user = connectionString.Split(':')[0];
-                connectionString = connectionString.Replace(user, "").Substring(1);
-                string password = connectionString.Split('@')[0];
-                connectionString = connectionString.Replace(password, "").Substring(1);
-                string server = connectionString.Split(':')[0];
-                connectionString = connectionString.Replace(server, "").Substring(1);
-                string port = connectionString.Split('/')[0];
-                string database = connectionString.Split('/')[1];
-                connectionString = $"Host={server};Port={port};Database={database};Username={user};Password={password}";
-            }
-            return connectionString;
         }
 
         private static string GetBackupDirectory() => Path.Combine(Environment.CurrentDirectory, "Backups");

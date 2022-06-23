@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using System.IO;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace ISkills
 {
@@ -55,6 +56,11 @@ namespace ISkills
                 });
             services.AddSwaggerGen();
 
+            services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = long.MaxValue;
+            });
+
 
 
 
@@ -87,6 +93,12 @@ namespace ISkills
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.Use(async (context, next) =>
+            {
+                context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = null; // unlimited I guess
+                await next.Invoke();
+            });
 
             app.UseStaticFiles();
             app.UseCustomExceptionHandler();

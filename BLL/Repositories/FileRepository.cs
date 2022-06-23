@@ -104,7 +104,7 @@ namespace BLL.Services
             var type = await _fileTypesContext.AllowedFileTypes.GetAsync(
                 _mapper, t => t.FileType == extension, new() { }, CancellationToken.None);
 
-            return (file.Length / Math.Pow(10, 6)) <= type.FileSize;
+            return (file.Length / Math.Pow(1024, 2)) <= type.FileSize;
         }
     }
 }

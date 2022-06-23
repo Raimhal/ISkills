@@ -57,11 +57,7 @@ namespace BLL.Services
         private async Task<bool> HasAccessToEntity<T>(Guid userId, DbSet<T> context,
             Expression<Func<T, bool>> expression, CancellationToken cancellationToken)
             where T : class
-        {
-            var isAdmin = await IsAdmin(userId, cancellationToken);
-            var accessor = await context.AnyAsync(expression, cancellationToken);
-            return isAdmin || accessor;
-        }
+            => await IsAdmin(userId, cancellationToken) || await context.AnyAsync(expression, cancellationToken);
 
     }
 }

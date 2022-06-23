@@ -1,4 +1,6 @@
-﻿using BLL.Interfaces;
+﻿using AutoMapper;
+using BLL.DtoModels;
+using BLL.Interfaces;
 using BLL.Validation.Exceptions;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
@@ -17,11 +19,31 @@ namespace BLL.Services
     {
         private readonly Cloudinary _cloudinary;
         private readonly IFileRepository _fileService;
+        private readonly IMapper _mapper;
 
-        public CloudinaryService(IConfiguration configuration, IFileRepository fileService)
+        public CloudinaryService(IConfiguration configuration, IFileRepository fileService, IMapper mapper)
         {
             _cloudinary = new Cloudinary(Environment.GetEnvironmentVariable("CLOUDINARY_URL"));
             _fileService = fileService;
+            _mapper = mapper;
+        }
+
+        public async Task<PaginationList<CloudinarySearchResourceDto>> GetFilesLinks(string searchExpression, int skip, int take)
+        {
+            var result = await _cloudinary.Search()
+                .Expression(searchExpression)
+                .SortBy("public_id", "desc")
+                .MaxResults(skip + take)
+                .ExecuteAsync();
+
+            var resourses = _mapper.Map<List<CloudinarySearchResourceDto>>(result.Resources?.Skip(skip));
+            var totalCount = result.TotalCount;
+
+            return new PaginationList<CloudinarySearchResourceDto>
+            {
+                TotalCount = totalCount,
+                List = resourses
+            };
         }
 
         public async Task<string> UploadFileAsync(IFormFile file, string fileName)

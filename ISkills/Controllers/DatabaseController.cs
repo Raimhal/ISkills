@@ -42,5 +42,15 @@ namespace Iskills.Controllers
             return NoContent();
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("api/database/backups")]
+        public async Task<ActionResult<List<CloudinarySearchResourceDto>>> GetBackups(int skip = 0, int take = 10)
+        {
+            var content = await _databaseService.GetBackups(skip, take);
+            Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
+            return Ok(content.List);
+        }
+
     }
 }

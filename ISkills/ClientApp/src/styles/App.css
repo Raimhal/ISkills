@@ -69,16 +69,21 @@ body {
 
 #root ::-webkit-scrollbar
 {
-    width: 5px;
-    max-width: 5px;
-    max-height: 5px;
+    width: 6px;
+    max-width: 6px;
+    max-height: 6px;
 }
 
 #root ::-webkit-scrollbar-thumb
 {
     border-radius: 3px;
-    -webkit-box-shadow: inset 0 0 6px rgba(134, 134, 134, 0.5);
+    -webkit-box-shadow: inset 0 0 5px rgba(134, 134, 134, 0.5);
     background: transparent;
+}
+
+#root ::-webkit-scrollbar-thumb:hover
+{
+    -webkit-box-shadow: inset 0 0 10px rgba(134, 134, 134, 0.5);
 }
 
 .form {

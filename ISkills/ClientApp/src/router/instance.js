@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const instance = axios.create({
-    baseURL: `https://iskills-app.herokuapp.com/api`,
+    baseURL: `https://localhost:5001/api`,
 });
 
 instance.interceptors.request.use((config) => {

@@ -15,18 +15,19 @@ const MyTable = ({title, items, remove = null, updateClick = null, iconChildren 
 
     return (
         <TableContainer component={Paper} id="tableContainer">
-            <Table sx={{minWidth: 650, whiteSpace: "nowrap"}}
-                   className="correct__overflow" aria-label="simple table" onWheel={(e) => {
-                e.stopPropagation()
-                const el = document.querySelector('#tableContainer')
-                const scrollPosition = el.scrollLeft
-                el.scrollTo({
-                    top: 0,
-                    left: (scrollPosition + e.deltaY),
-                })
-                window.scrollTo(window.scrollX, window.scrollY)
-            }
-            }>
+            <Table sx={{minWidth: "fit-content", whiteSpace: "nowrap"}}
+                   className="correct__overflow"
+                   aria-label="simple table"
+                   // onWheel={(e) => {
+                   //      e.stopPropagation()
+                   //      const el = document.querySelector('#tableContainer')
+                   //      const scrollPosition = el.scrollLeft
+                   //      el.scrollTo({
+                   //          top: 0,
+                   //          left: (scrollPosition + e.deltaY),
+                   //      })
+                   // }}
+            >
 
                 <TableHead>
                     <TableRow >
@@ -56,16 +57,17 @@ const MyTable = ({title, items, remove = null, updateClick = null, iconChildren 
                                 </Tooltip>
                                 <ModalTableCell clearError={clearError} error={error} title={title} remove={() => dispatch(remove(item.id))}/>
                             </TableCell>
-                            {Object.values(item)?.map(value => (
-                                ((typeof(value) !== 'object' && !forbiddenFields.includes(Object.keys(item).find(key => item[key] === value))))
+                            {Object.keys(item)?.map(key =>
+                                (typeof(item[key]) !== 'object' && !forbiddenFields.includes(key))
                                 && <TableCell
                                     align="right"
-                                    key={`${item.id}-${randomNumber()}`}
+                                    key={`${item.id}-=${randomNumber()}`}
                                     sx={{overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 350}}
                                 >
-                                    {value === "" || isNaN(value)  ? value : Math.round(value * 100) / 100 }
+                                    {console.log(Date.parse(item[key]))}
+                                    {item[key] === "" || isNaN(item[key])  ? !isNaN(Date.parse(item[key])) ? new Date(item[key]).toLocaleString() : item[key] : Math.round(item[key] * 100) / 100 }
                                 </TableCell>
-                            ))}
+                            )}
                         </TableRow>
                     ))}
                 </TableBody>
