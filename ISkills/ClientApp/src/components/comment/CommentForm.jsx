@@ -40,7 +40,7 @@ const CommentForm = ({action, title, ...props}) => {
                 defaultValue={formik.values.content}
                 onChange={value => {
                     formik.setValues({...formik.values, content: value})
-                    console.log(formik.values)
+
                     dispatch(setComment({...comment, content: value}))
                 }}
                 error={formik.touched.content && Boolean(formik.errors.content)}

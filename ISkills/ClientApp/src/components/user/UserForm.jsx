@@ -44,8 +44,6 @@ const UserForm = ({action, title = null, submitTitle, ...props}) => {
         onSubmit: userAction
     })
 
-    console.log(user)
-
 
     return (
         <form className="form" onSubmit={formik.handleSubmit} {...props}>

@@ -96,7 +96,7 @@ namespace ISkills
 
             app.Use(async (context, next) =>
             {
-                context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = null; // unlimited I guess
+                context.Features.Get<IHttpMaxRequestBodySizeFeature>().MaxRequestBodySize = null;
                 await next.Invoke();
             });
 

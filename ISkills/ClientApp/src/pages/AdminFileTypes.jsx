@@ -41,7 +41,7 @@ const AdminFileTypes = () => {
 
     return (
         <div>
-            <AdminNavbar/>
+            {/*<AdminNavbar/>*/}
             {/*{!isLoading &&*/}
                 <div className="wide main">
                     <div style={{display: "flex", justifyContent: "space-between"}} className="title">
@@ -71,6 +71,7 @@ const AdminFileTypes = () => {
                             dispatch(setFileType(type))
                             setUpdateModal(true)
                         }}
+                        error={error}
                         clearError={() => dispatch(clearError())}
                         forbiddenFields={["id"]}
                     />

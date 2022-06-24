@@ -20,6 +20,15 @@ namespace Iskills.Controllers
         public DatabaseController(IDatabaseService databaseService) =>
             _databaseService = databaseService;
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("api/database/backups")]
+        public async Task<ActionResult<List<CloudinarySearchResourceDto>>> GetBackups(int skip = 0, int take = 10)
+        {
+            var content = await _databaseService.GetBackups(skip, take);
+            Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
+            return Ok(content.List);
+        }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
@@ -43,13 +52,12 @@ namespace Iskills.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet]
-        [Route("api/database/backups")]
-        public async Task<ActionResult<List<CloudinarySearchResourceDto>>> GetBackups(int skip = 0, int take = 10)
+        [HttpDelete]
+        [Route("api/database/backup")]
+        public async Task<IActionResult> DeleteBackup(string backupUrl)
         {
-            var content = await _databaseService.GetBackups(skip, take);
-            Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
-            return Ok(content.List);
+            await _databaseService.DeleteBackup(backupUrl);
+            return NoContent();
         }
 
     }

@@ -28,7 +28,7 @@ const AdminChapters = () => {
 
     return (
         <div>
-            <AdminNavbar/>
+            {/*<AdminNavbar/>*/}
             {/*{!isLoading &&*/}
                 <div className="wide main">
                     <h3 className="title">Chapters</h3>
@@ -48,6 +48,7 @@ const AdminChapters = () => {
                             dispatch(setChapter(chapter))
                             setModal(true)
                         }}
+                        error={error}
                         clearError={() => dispatch(clearError())}
                         forbiddenFields={["id"]}
                     />

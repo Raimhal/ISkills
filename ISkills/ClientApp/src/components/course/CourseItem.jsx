@@ -15,7 +15,7 @@ import {useDispatch} from "react-redux";
 import languageImage from "../../assets/images/language.png";
 import MyInput from "../UI/Input/MyInput";
 import MyModal from "../UI/MyModal/MyModal";
-import ConfirmationDeleteForm from "../UI/ConfirmationDeleteForm/ConfirmationDeleteForm";
+import ConfirmationForm from "../UI/ConfirmationForm/ConfirmationForm";
 import {clearError} from "../../store/CourseReducer";
 
 
@@ -66,7 +66,7 @@ const CourseItem = ({course, remove, userId, isAdmin}) => {
                             </Tooltip>
                             {deleteModal &&
                                 <MyModal visible={deleteModal} setVisible={setDeleteModal}>
-                                    <ConfirmationDeleteForm title="comment" remove={removeHandleClick} setDeleteModal={setDeleteModal}/>
+                                    <ConfirmationForm title={"Are you sure you want to delete this course?"} action={removeHandleClick} setModal={setDeleteModal}/>
                                 </MyModal>
                             }
                         </div>

@@ -12,7 +12,7 @@ import {Tooltip} from '@material-ui/core';
 import {getVideos, setVideo, clearError as clearVideoError} from "../../store/VideoReducer";
 import MyPlayer from "../video/MyPlayer";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
-import ConfirmationDeleteForm from "../UI/ConfirmationDeleteForm/ConfirmationDeleteForm";
+import ConfirmationForm from "../UI/ConfirmationForm/ConfirmationForm";
 import VideoDeleteItem from "../video/VideoDeleteItem";
 
 
@@ -123,7 +123,7 @@ const ChapterItem = ({chapter, remove, update, userId, isAdmin, updateVideo, rem
                         </Tooltip>
                         {deleteChapterModal &&
                             <MyModal visible={deleteChapterModal} setVisible={setDeleteChapterModal}>
-                                <ConfirmationDeleteForm title="chapter" remove={(e) => removeHandleClick(e)} setDeleteModal={setDeleteChapterModal}/>
+                                <ConfirmationForm title={"Are you sure you want to delete this chapter?"} action={(e) => removeHandleClick(e)} setModal={setDeleteChapterModal}/>
                             </MyModal>
                         }
                     </div>

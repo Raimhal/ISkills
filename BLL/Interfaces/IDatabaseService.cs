@@ -12,6 +12,7 @@ namespace BLL.Interfaces
         public Task<string> BackupDatabase(string databaseString, string postgresPath);
         public void RestoreDatabase(string databaseString, string postgresPath, string backupUrl);
         public Task<PaginationList<CloudinarySearchResourceDto>> GetBackups(int skip, int take);
+        public Task DeleteBackup(string backupUrl);
 
     }
 }

@@ -44,7 +44,7 @@ const NestedMenu = ({label, ...props}) => {
 
     return (
         <ButtonToolbar>
-            <Dropdown size="md" title="Categories" onOpen={() => console.log('open')} trigger={["click"]} onSelect={() => console.log("select")}>
+            <Dropdown size="md" title="Categories" trigger={["click"]}>
                 <Dropdown.Item disabled>Categories</Dropdown.Item>
                 {categories?.map(category =>
                     <div key={category.id} onMouseEnter={() => onHoverItem(category)}>

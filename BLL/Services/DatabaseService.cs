@@ -33,6 +33,11 @@ namespace BLL.Services
             return await _cloudinaryService.GetFilesLinks("format:sql", skip, take);
         }
 
+        public async Task DeleteBackup(string backupUrl)
+        {
+            await _cloudinaryService.DeleteAsync(backupUrl);
+        }
+
         public async Task<string> BackupDatabase(string databaseString, string postgresqlPath)
         {
             var date = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
@@ -58,6 +63,8 @@ namespace BLL.Services
         public void RestoreDatabase(string databaseString, string postgresqlPath, string backupUrl)
         {
             var directory = GetBackupDirectory();
+            if (string.IsNullOrEmpty(backupUrl))
+                return;
             var fileName = backupUrl.Split('/').Last();
             var filePath = Path.Combine(directory, fileName);
             if (!File.Exists(filePath))

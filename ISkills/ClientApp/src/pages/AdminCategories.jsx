@@ -40,7 +40,7 @@ const AdminCategories = () => {
 
     return (
         <div>
-            <AdminNavbar/>
+            {/*<AdminNavbar/>*/}
             {/*{!isLoading &&*/}
                 <div className="wide main">
                     <div style={{display: "flex", justifyContent: "space-between"}} className="title">

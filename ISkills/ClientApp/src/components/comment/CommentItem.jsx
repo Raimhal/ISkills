@@ -18,7 +18,7 @@ import {Tooltip} from "@material-ui/core";
 import {setCourse} from "../../store/CourseReducer";
 import MyModal from "../UI/MyModal/MyModal";
 import MyPlayer from "../video/MyPlayer";
-import ConfirmationDeleteForm from "../UI/ConfirmationDeleteForm/ConfirmationDeleteForm";
+import ConfirmationForm from "../UI/ConfirmationForm/ConfirmationForm";
 
 
 const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
@@ -68,7 +68,7 @@ const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
                 </div>
                 {deleteModal &&
                     <MyModal visible={deleteModal} setVisible={setDeleteModal}>
-                        <ConfirmationDeleteForm title="comment" remove={handleDelete} setDeleteModal={setDeleteModal}/>
+                        <ConfirmationForm title={"Are you sure you want to delete this comment?"} action={handleDelete} setModal={setDeleteModal}/>
                     </MyModal>
                 }
             </div>

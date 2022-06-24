@@ -6,7 +6,7 @@ import {Tooltip} from "@material-ui/core";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import MyModal from "../MyModal/MyModal";
-import ConfirmationDeleteForm from "../ConfirmationDeleteForm/ConfirmationDeleteForm";
+import ConfirmationForm from "../ConfirmationForm/ConfirmationForm";
 import ModalTableCell from "./ModalTableCell";
 
 
@@ -34,7 +34,6 @@ const MyTable = ({title, items, remove = null, updateClick = null, iconChildren 
                         <TableCell align="left">Actions</TableCell>
 
                         {Object.keys(items[0] || {})?.map((key) => {
-                            console.log(key)
                             if ((typeof(items[0][key]) !== 'object' && !forbiddenFields.includes(key))) {
                                 return <TableCell key={key} align="right">{key}</TableCell>
                             }
@@ -49,13 +48,17 @@ const MyTable = ({title, items, remove = null, updateClick = null, iconChildren 
                             sx={{'&:last-child td, &:last-child th': {border: 0}}}
                         >
                             <TableCell align="left" style={{display: "flex"}}>
-                                {iconChildren && iconChildren(item.imageUrl, item)}
-                                <Tooltip title="Edit" placement="bottom">
-                                    <IconButton aria-label="edit" onClick={() => updateClick(item)}>
-                                        <EditIcon />
-                                    </IconButton>
-                                </Tooltip>
-                                <ModalTableCell clearError={clearError} error={error} title={title} remove={() => dispatch(remove(item.id))}/>
+                                {iconChildren && iconChildren(item)}
+                                {updateClick &&
+                                    <Tooltip title="Edit" placement="bottom">
+                                        <IconButton aria-label="edit" onClick={() => updateClick(item)}>
+                                            <EditIcon/>
+                                        </IconButton>
+                                    </Tooltip>
+                                }
+                                {remove &&
+                                    <ModalTableCell clearError={clearError} error={error} title={title} remove={() => dispatch(remove(item.id))}/>
+                                }
                             </TableCell>
                             {Object.keys(item)?.map(key =>
                                 (typeof(item[key]) !== 'object' && !forbiddenFields.includes(key))
@@ -64,7 +67,6 @@ const MyTable = ({title, items, remove = null, updateClick = null, iconChildren 
                                     key={`${item.id}-=${randomNumber()}`}
                                     sx={{overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 350}}
                                 >
-                                    {console.log(Date.parse(item[key]))}
                                     {item[key] === "" || isNaN(item[key])  ? !isNaN(Date.parse(item[key])) ? new Date(item[key]).toLocaleString() : item[key] : Math.round(item[key] * 100) / 100 }
                                 </TableCell>
                             )}

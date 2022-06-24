@@ -11,7 +11,7 @@ namespace BLL.DtoModels
 {
     public class CloudinarySearchResourceDto : IMapWith<SearchResource>
     {
-        public string PublicId { get; set; }
+        public string Created { get; set; }
         public string FileName { get; set; }
         public string Url { get; set; }
 

@@ -36,7 +36,7 @@ const AdminVideos = () => {
 
     return (
         <div style={{position: "relative"}}>
-            <AdminNavbar/>
+            {/*<AdminNavbar/>*/}
                 <div className="wide main">
                     <h3 className="title">Videos</h3>
                     <SortAndSearch
@@ -55,7 +55,7 @@ const AdminVideos = () => {
                             dispatch(setVideo(video))
                             setModal(true)
                         }}
-                        iconChildren={ (url, video) =>
+                        iconChildren={ (video) =>
                             <Tooltip title="Video" placement="bottom">
                                 <IconButton aria-label="show video" onClick={() => {
                                     dispatch(setVideo(video))
@@ -65,6 +65,7 @@ const AdminVideos = () => {
                                 </IconButton>
                             </Tooltip>
                         }
+                        error={error}
                         clearError={() => dispatch(clearError())}
                         forbiddenFields={["id", "url"]}
                     />

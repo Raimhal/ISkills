@@ -46,13 +46,12 @@ const AdminUsers = () => {
     }, [])
 
     useEffect( () =>{
-        console.log("log")
         dispatch(getUsers())
     }, [params.page, params.sortOption, params.reverse])
 
     return (
         <div>
-            <AdminNavbar/>
+            {/*<AdminNavbar/>*/}
             {/*{!isLoading &&*/}
                 <div className="wide main">
                     <h3 className="title">Users</h3>
@@ -72,9 +71,9 @@ const AdminUsers = () => {
                             dispatch(setUser(user))
                             setModal(true)
                         }}
-                        iconChildren={ (url, user) =>
+                        iconChildren={ (user) =>
                             <Tooltip title={
-                                <img src={url || defaultUserImage} alt="image"/>
+                                <img src={user.imageUrl || defaultUserImage} alt="image"/>
                             } placement="bottom">
                                 <IconButton aria-label="update image" onClick={() => {
                                     dispatch(setUser(user))
@@ -84,6 +83,7 @@ const AdminUsers = () => {
                                 </IconButton>
                             </Tooltip>
                         }
+                        error={error}
                         clearError={() => dispatch(clearError())}
                         forbiddenFields={["id", "imageUrl"]}
                     />

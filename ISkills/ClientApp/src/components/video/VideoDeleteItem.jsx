@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {IconButton} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MyModal from "../UI/MyModal/MyModal";
-import ConfirmationDeleteForm from "../UI/ConfirmationDeleteForm/ConfirmationDeleteForm";
+import ConfirmationForm from "../UI/ConfirmationForm/ConfirmationForm";
 import {useDispatch} from "react-redux";
 import {clearError} from "../../store/VideoReducer";
 
@@ -21,7 +21,7 @@ const VideoDeleteItem = ({remove}) => {
             </IconButton>
             {deleteModal &&
                 <MyModal visible={deleteModal} setVisible={setDeleteModal} onClick={(e) => {e.stopPropagation()}}>
-                    <ConfirmationDeleteForm title="video" remove={(e) => remove(e)} setDeleteModal={setDeleteModal}/>
+                    <ConfirmationForm title={"Are you sure you want to delete this video?"} action={(e) => remove(e)} setModal={setDeleteModal}/>
                 </MyModal>
             }
         </div>

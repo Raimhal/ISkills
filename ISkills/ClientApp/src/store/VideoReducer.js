@@ -166,7 +166,6 @@ export const removeVideo = id => async (dispatch, getState) => {
     const totalCount = state.totalCount
 
     await responseHandler(dispatch, async () => {
-        console.log(id)
         const chapterIndex = chapters.findIndex(x =>
             x.videos.some(x => x.id === id))
 

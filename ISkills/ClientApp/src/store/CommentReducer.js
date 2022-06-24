@@ -169,7 +169,6 @@ export const updateComment = (setModal = null) => async (dispatch, getState)  =>
     const course = getState().course.course
 
     await responseHandler(dispatch, async () => {
-        console.log(comment)
         const index = comments.findIndex(x => x.id === comment.id)
         await CommentService.Update(comment.id, comment)
         const newRating = (course.rating * +totalCount + (comment.rating - comments[index].rating)) / +totalCount

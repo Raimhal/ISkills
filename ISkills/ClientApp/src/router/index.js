@@ -12,6 +12,7 @@ import AdminComments from "../pages/AdminComments";
 import AdminChapters from "../pages/AdminChapters";
 import AdminVideos from "../pages/AdminVideos";
 import AdminFileTypes from "../pages/AdminFileTypes";
+import DatabasePage from "../pages/DatabasePage";
 
 
 const publicRoutes = [
@@ -35,6 +36,7 @@ const adminRoutes = [
     {path: '/admin/file-types', component: <AdminFileTypes />, title: 'FileTypes'},
     {path: '/admin/themes', component: <AdminThemes />, title: 'Themes'},
     {path: '/admin/categories', component: <AdminCategories />, title: 'Categories'},
+    {path: '/backups', component: <DatabasePage />, title: 'Backups'},
 ]
 
 export {publicRoutes, privateRoutes, adminRoutes}

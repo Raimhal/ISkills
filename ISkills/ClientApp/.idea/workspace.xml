@@ -41,7 +41,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../heroku/Psalterium/frontend" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/API" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.JavaScript" />
@@ -50,11 +50,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\API" />
+      <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\store" />
+      <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\pages" />
       <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\components\UI\Loading" />
       <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\components" />
-      <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\components\file" />
-      <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\components\user" />
-      <recent name="E:\it\Secound Course\ISkills\frontend\src\assets\images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp" />
@@ -203,7 +203,8 @@
       <workItem from="1655892347325" duration="6013000" />
       <workItem from="1655933958488" duration="367000" />
       <workItem from="1655934446512" duration="542000" />
-      <workItem from="1655965378183" duration="7240000" />
+      <workItem from="1655965378183" duration="7927000" />
+      <workItem from="1656050082462" duration="18951000" />
     </task>
     <servers />
   </component>

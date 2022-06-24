@@ -52,7 +52,7 @@ const AdminCourses = () => {
 
     return (
         <div style={{display: 'flex'}}>
-            <AdminNavbar/>
+            {/*<AdminNavbar/>*/}
                 <div className="adminPage">
                     <h3 className="title">Courses</h3>
                     <SortAndSearch
@@ -73,9 +73,9 @@ const AdminCourses = () => {
                             dispatch(setCourse({...course, categoryId: category.id}))
                             setModal(true)
                         }}
-                        iconChildren={ (url, course) =>
+                        iconChildren={ (course) =>
                             <Tooltip title={
-                                <img src={url || defaultCourseImage} alt="image"/>
+                                <img src={course.imageUrl || defaultCourseImage} alt="image"/>
                             } placement="bottom">
                                 <IconButton aria-label="update image" onClick={() => {
                                     dispatch(setCourse(course))
@@ -87,6 +87,7 @@ const AdminCourses = () => {
                         }
                         clearError={() => dispatch(clearError())}
                         forbiddenFields={["id", "imageUrl"]}
+                        error={error}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                     totalCount={totalCount} changePage={changePage}/>

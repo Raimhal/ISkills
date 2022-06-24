@@ -15,6 +15,7 @@ import AdminMenu from "../NestedMenu/AdminMenu";
 import {colorTheme} from "../../../styleThemes";
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import SlideMenu from "../SlideMenu/SlideMenu";
+import {adminRoutes} from "../../../router";
 
 const Navbar = () => {
     const isAuth = useSelector(state => state.user.isAuth)
@@ -100,6 +101,14 @@ const Navbar = () => {
                                         Sing up
                                     </Link>
                                 </div>
+                        }
+                        adminChildren={isAdmin &&
+                            <div className={classes.adminNavbar__links}>
+                                {adminRoutes.map(route =>
+                                    <Link key={route.path} to={route.path}
+                                          className={`${classes.navbar__link} ${location.pathname === route.path && classes.active}`}>{route.title}</Link>
+                                )}
+                            </div>
                         }
                         buttonContent={
                             <MenuRoundedIcon className={classes.navbar__link}/>

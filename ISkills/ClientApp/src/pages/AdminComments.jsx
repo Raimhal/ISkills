@@ -37,7 +37,7 @@ const AdminComments = () => {
 
     return (
         <div>
-            <AdminNavbar/>
+            {/*<AdminNavbar/>*/}
             {/*{!isLoading &&*/}
                 <div className="wide main">
                     <h3 className="title">Comments</h3>
@@ -59,6 +59,7 @@ const AdminComments = () => {
                         }}
                         clearError={() => dispatch(clearError())}
                         forbiddenFields={["id"]}
+                        error={error}
                     />
                     <MyPagination page={params.page} pageSize={params.take} pageCount={comments.length}
                     totalCount={totalCount} changePage={changePage}/>

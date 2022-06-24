@@ -71,9 +71,7 @@ namespace BLL.Services
         {
             if (string.IsNullOrEmpty(url))
                 return;
-            var publicId = string.Join("/", url.Split("/")[^2..]);
-            var deletionParams = new DeletionParams(publicId);
-            await _cloudinary.DestroyAsync(deletionParams);
+            var result = await _cloudinary.DestroyAsync(CreateDeletionParams(url));
         }
 
         private async Task<string> UploadAsync<T>(T uploadParams)
@@ -95,6 +93,24 @@ namespace BLL.Services
             uploadParams.PublicId = name;
             uploadParams.Overwrite = true;
             return uploadParams;
+        }
+
+        private DeletionParams CreateDeletionParams(string url)
+        {
+            ResourceType resourceType;
+            if (!url.Contains("/files/"))
+                url = url[..url.LastIndexOf(".")];
+
+            var publicId = string.Join("/", url.Split("/")[^2..]);
+
+            if (url.Contains("/images/"))
+                resourceType = ResourceType.Image;
+            else if (url.Contains("/videos/"))
+                resourceType = ResourceType.Video;
+            else
+                resourceType = ResourceType.Raw;
+
+            return new DeletionParams(publicId) { ResourceType = resourceType };
         }
     }
 }
