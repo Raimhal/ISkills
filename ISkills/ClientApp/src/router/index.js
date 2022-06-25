@@ -13,6 +13,7 @@ import AdminChapters from "../pages/AdminChapters";
 import AdminVideos from "../pages/AdminVideos";
 import AdminFileTypes from "../pages/AdminFileTypes";
 import DatabasePage from "../pages/DatabasePage";
+import StatisticsPage from "../pages/StatisticsPage";
 
 
 const publicRoutes = [
@@ -37,6 +38,7 @@ const adminRoutes = [
     {path: '/admin/themes', component: <AdminThemes />, title: 'Themes'},
     {path: '/admin/categories', component: <AdminCategories />, title: 'Categories'},
     {path: '/backups', component: <DatabasePage />, title: 'Backups'},
+    {path: '/statistic', component: <StatisticsPage />, title: 'Statistic'},
 ]
 
 export {publicRoutes, privateRoutes, adminRoutes}

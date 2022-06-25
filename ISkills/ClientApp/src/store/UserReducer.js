@@ -4,6 +4,7 @@ import {responseHandler} from "./ResponseHandler";
 import jwt_decode from "jwt-decode";
 import CourseService from "../API/CourseService";
 import {setCourse} from "./CourseReducer";
+import {setPurchases} from "./StatisticReducer";
 
 
 const defaultState = {
@@ -35,7 +36,7 @@ const defaultState = {
         {name: 'Username', value: 'userName'},
         {name: 'Rating', value: 'rating'},
     ],
-    isLoading: false,
+    isLoading: true,
     isActionLoading: false,
     isDeleteLoading: false,
     isImageLoading: false,
@@ -173,6 +174,7 @@ export const assignUser = (navigate = null) => async (dispatch, getState) => {
     const currentUser = getState().user.user
     const course = getState().course.course
     const isAuth = getState().user.isAuth
+    const purchases = getState().statistic.purchases
 
     if(!isAuth){
         navigate('/login')
@@ -182,6 +184,9 @@ export const assignUser = (navigate = null) => async (dispatch, getState) => {
 
     await responseHandler(dispatch, async () => {
         await CourseService.ToggleAssignment(course.id)
+
+        purchases[purchases.length -1 ].count += 1
+        dispatch(setPurchases([...purchases]))
         dispatch(setCourse({...course, students: [...course.students, currentUser]}))
         dispatch(setUser({...currentUser, courses: [...currentUser.courses, course]}))
     }, setError, setActionLoading)

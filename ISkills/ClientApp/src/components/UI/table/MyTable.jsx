@@ -67,7 +67,7 @@ const MyTable = ({title, items, remove = null, updateClick = null, iconChildren 
                                     key={`${item.id}-=${randomNumber()}`}
                                     sx={{overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 350}}
                                 >
-                                    {item[key] === "" || isNaN(item[key])  ? !isNaN(Date.parse(item[key])) ? new Date(item[key]).toLocaleString() : item[key] : Math.round(item[key] * 100) / 100 }
+                                    {item[key] === "" || isNaN(item[key])  ? (!isNaN(Date.parse(item[key])) && item[key].match(/^(\d+).(\d{2}).(\d+)/) ? (new Date(item[key])).toLocaleString() : item[key] ) : Math.round(item[key] * 100) / 100 }
                                 </TableCell>
                             )}
                         </TableRow>

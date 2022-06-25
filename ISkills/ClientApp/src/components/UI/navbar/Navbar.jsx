@@ -103,7 +103,7 @@ const Navbar = () => {
                                 </div>
                         }
                         adminChildren={isAdmin &&
-                            <div className={classes.adminNavbar__links}>
+                            <div className={classes.navbar__link}>
                                 {adminRoutes.map(route =>
                                     <Link key={route.path} to={route.path}
                                           className={`${classes.navbar__link} ${location.pathname === route.path && classes.active}`}>{route.title}</Link>

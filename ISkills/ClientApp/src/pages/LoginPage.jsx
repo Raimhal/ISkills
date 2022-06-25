@@ -8,12 +8,14 @@ import {Link, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import * as yup from 'yup';
 import MyAlert from "../components/UI/Alert/MyAlert";
+import InnerLoading from "../components/UI/Loading/InnerLoading";
 
 const LoginPage = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.user)
     const error = useSelector(state => state.user.error)
+    const isLoading = useSelector(state => state.user.isActionLoading)
 
     const loginAction = () => dispatch(login(navigate))
 
@@ -71,7 +73,10 @@ const LoginPage = () => {
                     helperText={formik.touched.password && formik.errors.password}
                 />
                 <MyAlert item={error}/>
-                <MyButton type="submit" onClick={() => dispatch(clearError())}>Log in</MyButton>
+                {!isLoading
+                    ? <MyButton type="submit" onClick={() => dispatch(clearError())}>Log in</MyButton>
+                    : <InnerLoading/>
+                }
                 <p>
                     I haven't an account :
                     <Link to="/register" className="link"> Sign Up</Link>

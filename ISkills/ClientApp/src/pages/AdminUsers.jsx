@@ -5,7 +5,7 @@ import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import {
     clearError,
-    clearUser, getCurrentUser,
+    clearUser, clearUsers, getCurrentUser,
     getUsers,
     removeUser,
     setParams,
@@ -42,6 +42,7 @@ const AdminUsers = () => {
     useEffect(() => {
         return () => {
             dispatch(getCurrentUser())
+            dispatch(clearUsers())
         }
     }, [])
 

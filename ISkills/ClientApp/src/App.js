@@ -8,6 +8,7 @@ import {getCurrentUser} from "./store/UserReducer";
 import Navbar from "./components/UI/Navbar/Navbar";
 import Loading from "./components/UI/Loading/Loading";
 import "rsuite/dist/rsuite.min.css";
+import '../node_modules/react-vis/dist/style.css';
 
 const App = () => {
     const dispatch = useDispatch()

@@ -35,7 +35,7 @@ import {
     removeChapter,
     setParams as setChaptersParams,
     updateChapter,
-    clearError as clearChapterError
+    clearError as clearChapterError, clearChapter
 } from "../store/ChapterReducer";
 import ChapterList from "../components/chapter/ChapterList";
 import ChapterForm from "../components/chapter/ChapterForm";
@@ -49,11 +49,25 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import Loading from "../components/UI/Loading/Loading";
-import {createVideo, removeVideo, updateVideo, clearError as clearVideoError} from "../store/VideoReducer";
+import {createVideo, removeVideo, updateVideo, clearError as clearVideoError, clearVideo} from "../store/VideoReducer";
 import classes from "../components/UI/Navbar/Navbar.module.css";
 import AddIcon from "@mui/icons-material/Add";
 import {colorTheme} from "../styleThemes";
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import InnerLoading from "../components/UI/Loading/InnerLoading";
+import {curveCatmullRom} from 'd3-shape';
+import {
+    XYPlot,
+    LineSeries,
+    HorizontalGridLines,
+    VerticalGridLines,
+    XAxis,
+    ChartLabel,
+    YAxis,
+    LineSeriesCanvas, LabelSeries, VerticalBarSeriesCanvas, Hint, Crosshair, VerticalBarSeries
+} from 'react-vis';
+import BarSeries from "react-vis/es/plot/series/bar-series";
+import {clearPurchases, getPurchasesStatistic} from "../store/StatisticReducer";
 
 const CoursePage = () => {
     const dispatch = useDispatch()
@@ -87,7 +101,9 @@ const CoursePage = () => {
     const isStudentsLoading = useSelector(state => state.user.isLoading)
     const isChaptersLoading = useSelector(state => state.chapter.isLoading)
     const isLoading = useSelector(state => state.user.isLoading)
+    const isAssignLoading = useSelector(state => state.user.isActionLoading)
 
+    const purchases = useSelector(state => state.statistic.purchases)
     const [modal, setModal] = useState(false)
 
     const [modalComment, setCommentModal] = useState(false)
@@ -103,11 +119,14 @@ const CoursePage = () => {
 
     useEffect(() => {
         dispatch(getCourse(id, navigate))
+        dispatch(getPurchasesStatistic(id))
+
         return () => {
             dispatch(clearCourse())
             dispatch(clearComments())
             dispatch(clearUsers())
             dispatch(clearChapters())
+            dispatch(clearPurchases())
         }
     }, [])
 
@@ -131,8 +150,9 @@ const CoursePage = () => {
         dispatch(setChaptersParams({...chaptersParams, page: page}))
     }
 
+
     return (
-        (!isCourseLoading && !isLoading) ?
+        !isCourseLoading  ?
         <div className="main">
             <div className="block">
                 <div className="course__head">
@@ -155,8 +175,8 @@ const CoursePage = () => {
                         }
                         {course.rating > 0 && <MyRating value={course.rating} readonly/>}
                         <div>Theme: {course.theme?.title}</div>
-                        {totalChapterCount > 0 && <div>{totalChapterCount} chapters</div>}
-                        {course.students.length > 0 && <div>{course.students.length} students</div>}
+                        {totalChapterCount > 0 && <div>{totalChapterCount} {totalChapterCount === 1 ? "chapter" : "chapters"}</div>}
+                        {course.students.length > 0 && <div>{course.students.length} {course.students.length === 1 ? "student" : "students"}</div>}
                     </div>
                 </div>
                 {!hasUserAccess &&
@@ -164,14 +184,20 @@ const CoursePage = () => {
                     {course.price === 0
                         ? <div className="price">
                             <div> Free </div>
-                            <MyButton onClick={() => dispatch(assignUser(navigate))}>Get</MyButton>
+                            {!isAssignLoading
+                                ? <MyButton onClick={() => dispatch(assignUser(navigate))}>Get</MyButton>
+                                : <InnerLoading/>
+                            }
                         </div>
                         : <div className="price">
                             <div>{course.price} $</div>
-                            <MyButton onClick={ () =>
-                                // redirect to payment page
-                                dispatch(assignUser(navigate))
-                            }>Buy now</MyButton>
+                            {!isAssignLoading
+                                ? <MyButton onClick={ () =>
+                                    // redirect to payment page
+                                    dispatch(assignUser(navigate))
+                                }>Buy now</MyButton>
+                                : <InnerLoading/>
+                            }
                         </div>
                     }
                 </div>
@@ -212,6 +238,24 @@ const CoursePage = () => {
                         <MyTextarea value={course.requirements}/>
                     </div>
                     }
+                    {purchases.length > 0 && <div className="block">
+                        <h5>Purchases for last ten days :</h5>
+                        <div style={{display: "flex", justifyContent: "center"}}>
+                            <XYPlot xType="ordinal" width={500} height={400} xDistance={100}>
+                                <HorizontalGridLines />
+                                <VerticalGridLines />
+                                <XAxis/>
+                                <YAxis/>
+                                <VerticalBarSeriesCanvas
+                                    data={[...purchases].map(purchase => {
+                                        return {x: new Date(purchase.name).toLocaleDateString("en-US", {month: "short",day: "2-digit"}), y: purchase.count}
+                                    })}
+                                    color={"#975ad4"}
+                                />
+                            </XYPlot>
+                        </div>
+                    </div>
+                    }
                     { hasAccess &&
                         <div>
                             {modal &&
@@ -240,7 +284,7 @@ const CoursePage = () => {
                     }
                 { course.students.length > 0 &&
                 <div className="block">
-                    <h5>Students : </h5>
+                    <h5>{course.students.length} {course.students.length === 1 ? "student" : "students"} : </h5>
                     <div className="user__list">
                         {course.students?.map(student =>
                             <Tooltip
@@ -261,11 +305,12 @@ const CoursePage = () => {
                     {(hasAccess || (course.students?.some(x => x.id === currentUser.id) && chapters.length > 0))&&
                     <div className="block">
                         <div className="chapter__title">
-                            <h5>{totalChapterCount} chapters :</h5>
+                            <h5>{totalChapterCount} {totalChapterCount === 1 ? "chapter" : "chapters"} :</h5>
                             {(currentUser.id === course.creatorId || isAdmin) &&
                             <div>
                                 <Tooltip title="Add chapter" placement="bottom">
                                     <IconButton aria-label="add chapter" onClick={() => {
+                                        dispatch(clearChapter())
                                         dispatch(clearChapterError())
                                         setChapterModal(true)
                                     }}>
@@ -282,6 +327,7 @@ const CoursePage = () => {
                                 {totalChapterCount > 0 &&
                                     <Tooltip title="Add video" placement="bottom">
                                         <IconButton aria-label="add video" onClick={() => {
+                                            dispatch(clearVideo())
                                             dispatch(clearVideoError())
                                             setVideoModal(true)
                                         }}>
@@ -358,7 +404,7 @@ const CoursePage = () => {
                     {comments.length > 0 &&
                         <div>
                             <div className="comments__title">
-                                <h5>{totalCommentCount} comments :</h5>
+                                <h5>{totalCommentCount} {totalCommentCount === 1 ? "comment" : "comments"} :</h5>
                             </div>
                             {comments.length > 0 &&
                                 <div>

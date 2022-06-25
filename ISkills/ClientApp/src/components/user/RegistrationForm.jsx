@@ -7,12 +7,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {clearError, setUser} from "../../store/UserReducer";
 import MyAlert from "../UI/Alert/MyAlert";
 import {Link, useNavigate} from "react-router-dom";
+import InnerLoading from "../UI/Loading/InnerLoading";
 
 const RegistrationForm = ({action, title = null, submitTitle, ...props}) => {
     const dispatch = useDispatch()
     const currentUser = useSelector(state => state.user.user)
     const error = useSelector(state => state.user.error)
     const navigate = useNavigate()
+    const isLoading = useSelector(state => state.user.isActionLoading)
 
     const userAction = () => {
         dispatch(action(navigate))
@@ -142,7 +144,10 @@ const RegistrationForm = ({action, title = null, submitTitle, ...props}) => {
                 required
             />
             <MyAlert type="error" item={error}/>
-            <MyButton type="submit" onClick={() => clearError()}>{submitTitle}</MyButton>
+            {!isLoading
+                ? <MyButton type="submit" onClick={() => clearError()}>{submitTitle}</MyButton>
+                : <InnerLoading/>
+            }
             <p>
                 I already have an account :
                 <Link to="/login" className="link"> Log In</Link>

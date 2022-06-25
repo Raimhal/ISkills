@@ -71,6 +71,7 @@ namespace BLL.Services
                 c => c.Id == model.CourseId, new() { c => c.Chapters }, cancellationToken);
 
             var chapter = _mapper.Map<Chapter>(model);
+            chapter.Course = course;
 
             await _chapterDbContext.Chapters.AddAsync(chapter, cancellationToken);
             await _chapterDbContext.SaveChangesAsync(cancellationToken);

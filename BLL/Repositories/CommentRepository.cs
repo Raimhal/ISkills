@@ -73,7 +73,7 @@ namespace BLL.Services
         {
 
             if (string.IsNullOrEmpty(model.Content))
-                throw new ArgumentException("Comment ontent can't be empty");
+                throw new ArgumentException("Comment content can't be empty");
 
             Expression<Func<User, bool>> userExpression = u => u.Id == model.CreatorId;
             var user = await _userDbContext.Users

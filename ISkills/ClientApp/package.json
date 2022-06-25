@@ -50,6 +50,8 @@
     "react-star-ratings": "^2.3.0",
     "react-transition-group": "^4.4.2",
     "react-video": "^1.5.3",
+    "react-vis": "^1.11.7",
+    "recharts": "^2.1.11",
     "redux": "^4.1.2",
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",

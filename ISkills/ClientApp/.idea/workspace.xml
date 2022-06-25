@@ -41,7 +41,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/API" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/pages" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.JavaScript" />
@@ -50,9 +50,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\API" />
-      <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\store" />
       <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\pages" />
+      <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\store" />
+      <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\API" />
       <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\components\UI\Loading" />
       <recent name="E:\it\Secound Course\ISkills\ISkills\ClientApp\src\components" />
     </key>
@@ -205,6 +205,7 @@
       <workItem from="1655934446512" duration="542000" />
       <workItem from="1655965378183" duration="7927000" />
       <workItem from="1656050082462" duration="18951000" />
+      <workItem from="1656149159230" duration="23244000" />
     </task>
     <servers />
   </component>

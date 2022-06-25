@@ -65,7 +65,7 @@ export default function SlideMenu({anchor, children, buttonContent, adminChildre
             </List>
             <Divider />
             {adminChildren && <List>
-                <ListItemButton onClick={handleClick} className={adminChildren.props.children[0]?.props.className}>
+                <ListItemButton onClick={handleClick} className={adminChildren.props.className}>
                     <ListItemText primary="Admin"/>
                     {open ? <ExpandLess/> : <ExpandMore/>}
                 </ListItemButton>
