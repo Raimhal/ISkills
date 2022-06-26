@@ -64,7 +64,14 @@ import {
     XAxis,
     ChartLabel,
     YAxis,
-    LineSeriesCanvas, LabelSeries, VerticalBarSeriesCanvas, Hint, Crosshair, VerticalBarSeries
+    LineSeriesCanvas,
+    LabelSeries,
+    VerticalBarSeriesCanvas,
+    Hint,
+    Crosshair,
+    VerticalBarSeries,
+    makeWidthFlexible,
+    FlexibleXYPlot, FlexibleWidthXYPlot
 } from 'react-vis';
 import BarSeries from "react-vis/es/plot/series/bar-series";
 import {clearPurchases, getPurchasesStatistic} from "../store/StatisticReducer";
@@ -117,6 +124,8 @@ const CoursePage = () => {
 
     const [imageModal, setImageModal] = useState(false)
 
+    const [monthStyle, setMonthStyle] = useState("narrow")
+
     useEffect(() => {
         dispatch(getCourse(id, navigate))
         dispatch(getPurchasesStatistic(id))
@@ -149,7 +158,6 @@ const CoursePage = () => {
     const changeChaptersPage = (page) => {
         dispatch(setChaptersParams({...chaptersParams, page: page}))
     }
-
 
     return (
         !isCourseLoading  ?
@@ -241,18 +249,26 @@ const CoursePage = () => {
                     {purchases.length > 0 && <div className="block">
                         <h5>Purchases for last ten days :</h5>
                         <div style={{display: "flex", justifyContent: "center"}}>
-                            <XYPlot xType="ordinal" width={500} height={400} xDistance={100}>
+                            <FlexibleWidthXYPlot
+                                xType="ordinal"
+                                height={300}
+                                animation
+                            >
                                 <HorizontalGridLines />
-                                <VerticalGridLines />
-                                <XAxis/>
-                                <YAxis/>
-                                <VerticalBarSeriesCanvas
-                                    data={[...purchases].map(purchase => {
-                                        return {x: new Date(purchase.name).toLocaleDateString("en-US", {month: "short",day: "2-digit"}), y: purchase.count}
-                                    })}
-                                    color={"#975ad4"}
-                                />
-                            </XYPlot>
+                                    <XAxis  title="Day" style={{
+                                        line: {stroke: ''},
+                                        text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600, fontSize: 10}
+                                    }} />
+                                    <YAxis  title="Count"
+                                            tickTotal={7}
+                                            style={{
+                                                line: {stroke: ''},
+                                                text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600, fontSize: 10}
+                                            }}/>
+                                    <VerticalBarSeriesCanvas data = {purchases.map(purchase => {
+                                        return {x: new Date(purchase.name).toLocaleString("en-US", {month: window.innerWidth < 600 ? "narrow" : "short", day: "2-digit"}), y: purchase.count}
+                                    })} color="#975ad4"/>
+                            </FlexibleWidthXYPlot>
                         </div>
                     </div>
                     }

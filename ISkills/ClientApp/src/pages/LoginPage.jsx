@@ -3,7 +3,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import MyInput from "../components/UI/Input/MyInput";
 import MyButton from "../components/UI/Button/MyButton";
 import {useDispatch, useSelector} from "react-redux";
-import {clearError, login, setUser} from "../store/UserReducer";
+import {clearError, clearUser, login, setUser} from "../store/UserReducer";
 import {Link, useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import * as yup from 'yup';
