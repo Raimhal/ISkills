@@ -14,6 +14,11 @@ export  default class UserService {
         return response.data
     }
 
+    static async RefreshToken(){
+        const response = await EntityService.Create('/account/refresh-token')
+        return response.data
+    }
+
     static async getCurrentUser(config = {}) {
         const response = await EntityService.Get(`/users/current`, config)
         return response.data

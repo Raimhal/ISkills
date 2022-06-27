@@ -36,42 +36,37 @@ const AdminComments = () => {
     }, [params.page, params.sortOption, params.reverse])
 
     return (
-        <div>
-            {/*<AdminNavbar/>*/}
-            {/*{!isLoading &&*/}
-                <div className="wide main">
-                    <h3 className="title">Comments</h3>
-                    <SortAndSearch
-                        params={params}
-                        onParamsChange={value => dispatch(setParams(value))}
-                        action={getComments}
-                        sortList={sortList}
-                        isLoading={isLoading}
-                    />
-                    <MyTable
-                        title="comment"
-                        items={comments}
-                        remove={removeComment}
-                        updateClick={(comment) => {
-                            dispatch(clearError())
-                            dispatch(setComment(comment))
-                            setModal(true)
-                        }}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id"]}
-                        error={error}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={comments.length}
-                    totalCount={totalCount} changePage={changePage}/>
-                    {modal &&
-                        <MyModal visible={modal} setVisible={setModal}>
-                            <CommentForm action={() => {
-                                dispatch(updateComment(setModal))
-                            }} title="Save"/>
-                        </MyModal>
-                    }
-                </div>
-            {/*}*/}
+        <div className="wide main">
+            <h3 className="title">Comments</h3>
+            <SortAndSearch
+                params={params}
+                onParamsChange={value => dispatch(setParams(value))}
+                action={getComments}
+                sortList={sortList}
+                isLoading={isLoading}
+            />
+            <MyTable
+                title="comment"
+                items={comments}
+                remove={removeComment}
+                updateClick={(comment) => {
+                    dispatch(clearError())
+                    dispatch(setComment(comment))
+                    setModal(true)
+                }}
+                clearError={() => dispatch(clearError())}
+                forbiddenFields={["id"]}
+                error={error}
+            />
+            <MyPagination page={params.page} pageSize={params.take} pageCount={comments.length}
+            totalCount={totalCount} changePage={changePage}/>
+            {modal &&
+                <MyModal visible={modal} setVisible={setModal}>
+                    <CommentForm action={() => {
+                        dispatch(updateComment(setModal))
+                    }} title="Save"/>
+                </MyModal>
+            }
         </div>
     );
 };

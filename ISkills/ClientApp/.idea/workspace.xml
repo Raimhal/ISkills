@@ -41,7 +41,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/pages" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../patterns" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.JavaScript" />
@@ -207,7 +207,10 @@
       <workItem from="1656050082462" duration="18951000" />
       <workItem from="1656149159230" duration="23244000" />
       <workItem from="1656173746234" duration="1019000" />
-      <workItem from="1656233683369" duration="4115000" />
+      <workItem from="1656233683369" duration="6509000" />
+      <workItem from="1656254909875" duration="180000" />
+      <workItem from="1656352801252" duration="1142000" />
+      <workItem from="1656355590634" duration="6832000" />
     </task>
     <servers />
   </component>

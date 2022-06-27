@@ -71,7 +71,8 @@ const AccountPage = () => {
     }
 
     return (
-                <div className="wide main account">
+        !isLoading && !isCoursesLoading
+        ? <div className="wide main account">
                     <div className="top">
                         <div className="look-up">
                             <div style={{position: "relative"}}>
@@ -146,6 +147,8 @@ const AccountPage = () => {
                             </div>
                     }
                 </div>
+            : <Loading />
+
     );
 };
 

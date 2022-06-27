@@ -35,59 +35,56 @@ const AdminVideos = () => {
     }, [params.page, params.sortOption, params.reverse])
 
     return (
-        <div style={{position: "relative"}}>
-            {/*<AdminNavbar/>*/}
-                <div className="wide main">
-                    <h3 className="title">Videos</h3>
-                    <SortAndSearch
-                        params={params}
-                        onParamsChange={value => dispatch(setParams(value))}
-                        action={getVideos}
-                        sortList={sortList}
-                        isLoading={isLoading}
-                    />
-                    <MyTable
-                        title="video"
-                        items={videos}
-                        remove={removeVideo}
-                        updateClick={(video) => {
-                            dispatch(clearError())
+        <div className="wide main">
+            <h3 className="title">Videos</h3>
+            <SortAndSearch
+                params={params}
+                onParamsChange={value => dispatch(setParams(value))}
+                action={getVideos}
+                sortList={sortList}
+                isLoading={isLoading}
+            />
+            <MyTable
+                title="video"
+                items={videos}
+                remove={removeVideo}
+                updateClick={(video) => {
+                    dispatch(clearError())
+                    dispatch(setVideo(video))
+                    setModal(true)
+                }}
+                iconChildren={ (video) =>
+                    <Tooltip title="Video" placement="bottom">
+                        <IconButton aria-label="show video" onClick={() => {
                             dispatch(setVideo(video))
-                            setModal(true)
-                        }}
-                        iconChildren={ (video) =>
-                            <Tooltip title="Video" placement="bottom">
-                                <IconButton aria-label="show video" onClick={() => {
-                                    dispatch(setVideo(video))
-                                    setViewModal(true)
-                                }}>
-                                    <CameraAltOutlinedIcon />
-                                </IconButton>
-                            </Tooltip>
-                        }
-                        error={error}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id", "url"]}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={videos.length}
-                    totalCount={totalCount} changePage={changePage}/>
-                    {modal && <MyModal visible={modal} setVisible={setModal}>
-                        <VideoForm
-                            action={() => {
-                                dispatch(updateVideo(setModal))
-                            }}
-                            title="Update video"
-                            submitTitle="Save"
-                            setVisible={setModal}
-                            isModified={true}
-                        />
-                    </MyModal>
-                    }
-                    {viewModal && <MyModal visible={viewModal} setVisible={setViewModal}>
-                        <MyPlayer video={video}/>
-                    </MyModal>
-                    }
-                </div>
+                            setViewModal(true)
+                        }}>
+                            <CameraAltOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                }
+                error={error}
+                clearError={() => dispatch(clearError())}
+                forbiddenFields={["id", "url"]}
+            />
+            <MyPagination page={params.page} pageSize={params.take} pageCount={videos.length}
+            totalCount={totalCount} changePage={changePage}/>
+            {modal && <MyModal visible={modal} setVisible={setModal}>
+                <VideoForm
+                    action={() => {
+                        dispatch(updateVideo(setModal))
+                    }}
+                    title="Update video"
+                    submitTitle="Save"
+                    setVisible={setModal}
+                    isModified={true}
+                />
+            </MyModal>
+            }
+            {viewModal && <MyModal visible={viewModal} setVisible={setViewModal}>
+                <MyPlayer video={video}/>
+            </MyModal>
+            }
         </div>
     );
 };

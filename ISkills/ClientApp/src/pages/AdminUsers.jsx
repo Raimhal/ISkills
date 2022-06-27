@@ -51,67 +51,62 @@ const AdminUsers = () => {
     }, [params.page, params.sortOption, params.reverse])
 
     return (
-        <div>
-            {/*<AdminNavbar/>*/}
-            {/*{!isLoading &&*/}
-                <div className="wide main">
-                    <h3 className="title">Users</h3>
-                    <SortAndSearch
-                        params={params}
-                        onParamsChange={value => dispatch(setParams(value))}
-                        action={getUsers}
-                        sortList={sortList}
-                        isLoading={isLoading}
-                    />
-                    <MyTable
-                        title="user"
-                        items={users}
-                        remove={removeUser}
-                        updateClick={(user) => {
-                            dispatch(clearError())
+        <div className="wide main">
+            <h3 className="title">Users</h3>
+            <SortAndSearch
+                params={params}
+                onParamsChange={value => dispatch(setParams(value))}
+                action={getUsers}
+                sortList={sortList}
+                isLoading={isLoading}
+            />
+            <MyTable
+                title="user"
+                items={users}
+                remove={removeUser}
+                updateClick={(user) => {
+                    dispatch(clearError())
+                    dispatch(setUser(user))
+                    setModal(true)
+                }}
+                iconChildren={ (user) =>
+                    <Tooltip title={
+                        <img src={user.imageUrl || defaultUserImage} alt="image"/>
+                    } placement="bottom">
+                        <IconButton aria-label="update image" onClick={() => {
                             dispatch(setUser(user))
-                            setModal(true)
-                        }}
-                        iconChildren={ (user) =>
-                            <Tooltip title={
-                                <img src={user.imageUrl || defaultUserImage} alt="image"/>
-                            } placement="bottom">
-                                <IconButton aria-label="update image" onClick={() => {
-                                    dispatch(setUser(user))
-                                    setImageModal(true)
-                                }}>
-                                    <CameraAltOutlinedIcon />
-                                </IconButton>
-                            </Tooltip>
-                        }
-                        error={error}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id", "imageUrl"]}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={users.length}
-                    totalCount={totalCount} changePage={changePage}/>
-                    {modal &&
-                    <MyModal visible={modal} setVisible={setModal}>
-                        <UserForm action={() => {
-                            dispatch(updateUser(setModal))
-                        }} title="Update" submitTitle="Save"/>
-                    </MyModal>
-                    }
-                    {imageModal && <MyModal visible={imageModal} setVisible={setImageModal}>
-                        <ImageUpload
-                            action={() => {
-                                dispatch(updateImage(setImageModal))
-                            }}
-                            title="Update image"
-                            submitTitle="Save"
-                            setVisible={setImageModal}
-                            isLoading={isImageLoading}
-                            error={error}
-                        />
-                    </MyModal>
-                    }
-                </div>
-            {/*}*/}
+                            setImageModal(true)
+                        }}>
+                            <CameraAltOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                }
+                error={error}
+                clearError={() => dispatch(clearError())}
+                forbiddenFields={["id", "imageUrl"]}
+            />
+            <MyPagination page={params.page} pageSize={params.take} pageCount={users.length}
+            totalCount={totalCount} changePage={changePage}/>
+            {modal &&
+            <MyModal visible={modal} setVisible={setModal}>
+                <UserForm action={() => {
+                    dispatch(updateUser(setModal))
+                }} title="Update" submitTitle="Save"/>
+            </MyModal>
+            }
+            {imageModal && <MyModal visible={imageModal} setVisible={setImageModal}>
+                <ImageUpload
+                    action={() => {
+                        dispatch(updateImage(setImageModal))
+                    }}
+                    title="Update image"
+                    submitTitle="Save"
+                    setVisible={setImageModal}
+                    isLoading={isImageLoading}
+                    error={error}
+                />
+            </MyModal>
+            }
         </div>
     );
 };

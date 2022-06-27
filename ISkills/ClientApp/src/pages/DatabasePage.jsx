@@ -44,55 +44,50 @@ const DatabasePage = () => {
     }, [params.page])
 
     return (
-        <div>
-            {/*<AdminNavbar/>*/}
-            {/*{!isLoading &&*/}
-                <div className="wide main">
-                    <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}} className="title">
-                        <h3>Backups</h3>
-                        <Tooltip title="Create Backup" placement="bottom">
-                            <div>
-                                {!isActionLoading
-                                    ?
-                                        <IconButton aria-label="create backup" onClick={() => dispatch(createBackup())}>
-                                            <AddBoxIcon />
-                                        </IconButton>
-                                    : <InnerLoading />
-                                }
-                            </div>
-                        </Tooltip>
-                    </div>
-                    <MyTable
-                        title="backup"
-                        items={backups.map(backup => {
-                            return {id: backup.url, ...backup}
-                        })}
-                        remove={removeBackup}
-                        iconChildren={ (backup) =>
-                            <Tooltip title="Restore" placement="bottom">
-                                <IconButton aria-label="execute restore" onClick={() => {
-                                    dispatch(setBackup(backup))
-                                    setModal(true)
-                                }}>
-                                    <RestoreIcon />
+        <div className="wide main">
+            <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}} className="title">
+                <h3>Backups</h3>
+                <Tooltip title="Create Backup" placement="bottom">
+                    <div>
+                        {!isActionLoading
+                            ?
+                                <IconButton aria-label="create backup" onClick={() => dispatch(createBackup())}>
+                                    <AddBoxIcon />
                                 </IconButton>
-                            </Tooltip>
+                            : <InnerLoading />
                         }
-                        error={error}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["url", "id"]}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={backups.length}
-                    totalCount={totalCount} changePage={changePage}/>
-                </div>
-                {modal && <MyModal visible={modal} setVisible={setModal}>
-                    <ConfirmationForm error={error} title={"Are you sure you want to restore to this backup?"} action={(e) => {
-                        e.stopPropagation()
-                        dispatch(executeRestore(setModal))
-                    }} setModal={setModal}/>
-                </MyModal>
+                    </div>
+                </Tooltip>
+            </div>
+            <MyTable
+                title="backup"
+                items={backups.map(backup => {
+                    return {id: backup.url, ...backup}
+                })}
+                remove={removeBackup}
+                iconChildren={ (backup) =>
+                    <Tooltip title="Restore" placement="bottom">
+                        <IconButton aria-label="execute restore" onClick={() => {
+                            dispatch(setBackup(backup))
+                            setModal(true)
+                        }}>
+                            <RestoreIcon />
+                        </IconButton>
+                    </Tooltip>
                 }
-            {/*}*/}
+                error={error}
+                clearError={() => dispatch(clearError())}
+                forbiddenFields={["url", "id"]}
+            />
+            <MyPagination page={params.page} pageSize={params.take} pageCount={backups.length}
+            totalCount={totalCount} changePage={changePage}/>
+            {modal && <MyModal visible={modal} setVisible={setModal}>
+                <ConfirmationForm error={error} title={"Are you sure you want to restore to this backup?"} action={(e) => {
+                    e.stopPropagation()
+                    dispatch(executeRestore(setModal))
+                }} setModal={setModal}/>
+            </MyModal>
+            }
         </div>
     );
 };

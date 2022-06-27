@@ -11,6 +11,7 @@ const defaultState = {
     isAuth: false,
     isAdmin: false,
     users: [],
+    tokens: null,
     user: {
         email: "",
         password: "",
@@ -157,9 +158,19 @@ export const login = (navigate) => async (dispatch, getState) => {
     await responseHandler(dispatch, async () => {
         const data = await UserService.Login(user)
         localStorage.setItem('accessToken', data.jwtToken)
+        localStorage.setItem('refreshToken', data.refreshToken)
         dispatch(getCurrentUser())
         navigate('/')
     }, setError, setActionLoading)
+}
+
+export const refreshTokens = () => async (dispatch) => {
+    await responseHandler(dispatch, async () => {
+        localStorage.clear()
+        const data = await UserService.RefreshToken()
+        localStorage.setItem('accessToken', data.jwtToken)
+        localStorage.setItem('refreshToken', data.refreshToken)
+    }, setError, setLoading)
 }
 
 export const logout = () => async (dispatch) => {

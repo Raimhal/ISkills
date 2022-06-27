@@ -22,7 +22,7 @@ const defaultState = {
         {name: 'Title', value: 'title'},
         {name: 'Chapter', value: 'chapterId'},
     ],
-    isLoading: false,
+    isLoading: true,
     isActionLoading: false,
     isDeleteLoading: false,
     error: null

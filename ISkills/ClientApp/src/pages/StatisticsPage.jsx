@@ -1,29 +1,28 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {clearUsers, getCurrentUser, getUsers, setParams} from "../store/UserReducer";
-import {getPurchasesStatistic} from "../store/StatisticReducer";
-import {
-    FlexibleWidthXYPlot,
-    HorizontalGridLines,
-    VerticalBarSeriesCanvas,
-    VerticalGridLines,
-    XAxis,
-    XYPlot,
-    YAxis
-} from "react-vis";
+import {clearLoading, clearPurchases, getPurchasesStatistic} from "../store/StatisticReducer";
+import {FlexibleWidthXYPlot, HorizontalGridLines, VerticalBarSeriesCanvas, XAxis, YAxis} from "react-vis";
+import Loading from "../components/UI/Loading/Loading";
 
 const StatisticsPage = () => {
     const purchases = useSelector(state => state.statistic.purchases)
     const dispatch = useDispatch()
+    const isLoading = useSelector(state => state.statistic.isLoading)
 
     useEffect( () =>{
         dispatch(getPurchasesStatistic())
+
+        return () => {
+            dispatch(clearPurchases())
+            dispatch(clearLoading())
+        }
     }, [])
 
     return (
         <div className="wide main">
             <h3 className="title">Statistic</h3>
-            <div style={{display: "flex", justifyContent: "center"}}>
+            {!isLoading
+            ? <div style={{display: "flex", justifyContent: "center"}}>
                 <FlexibleWidthXYPlot
                     xType="ordinal"
                     height={300}
@@ -45,6 +44,8 @@ const StatisticsPage = () => {
                     })} color="#975ad4"/>
                 </FlexibleWidthXYPlot>
             </div>
+            : <Loading/>
+            }
         </div>
     );
 };

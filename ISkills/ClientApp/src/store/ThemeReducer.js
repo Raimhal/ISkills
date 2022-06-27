@@ -21,7 +21,7 @@ const defaultState = {
         {name: 'Category', value: 'categoryId'},
     ],
     themes : [],
-    isLoading: false,
+    isLoading: true,
     isActionLoading: false,
     isDeleteLoading: false,
     error: null

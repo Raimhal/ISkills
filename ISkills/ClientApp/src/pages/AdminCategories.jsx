@@ -18,6 +18,7 @@ import CategoryForm from "../components/category/CategoryForm";
 import {Tooltip} from "@material-ui/core";
 import {IconButton} from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import Loading from "../components/UI/Loading/Loading";
 
 const AdminCategories = () => {
     const categories = useSelector(state => state.category.categories)
@@ -38,59 +39,57 @@ const AdminCategories = () => {
         dispatch(getCategories())
     }, [params.page, params.sortOption, params.reverse])
 
+    console.log(!isLoading)
+
     return (
-        <div>
-            {/*<AdminNavbar/>*/}
-            {/*{!isLoading &&*/}
-                <div className="wide main">
-                    <div style={{display: "flex", justifyContent: "space-between"}} className="title">
-                        <h3>Categories</h3>
-                        <Tooltip title="Add file type" placement="bottom">
-                            <IconButton aria-label="add file type" onClick={() => {
-                                dispatch(clearError())
-                                setCreateModal(true)
-                            }}>
-                                <AddBoxIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                    <SortAndSearch
-                        params={params}
-                        onParamsChange={value => dispatch(setParams(value))}
-                        action={getCategories}
-                        sortList={sortList}
-                        isLoading={isLoading}
-                    />
-                    <MyTable
-                        title="chapter"
-                        items={categories}
-                        remove={removeCategory}
-                        updateClick={(category) => {
-                            dispatch(clearError())
-                            dispatch(setCategory(category))
-                            setUpdateModal(true)
-                        }}
-                        error={error}
-                        clearError={() => dispatch(clearError())}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={categories.length}
-                    totalCount={totalCount} changePage={changePage}/>
-                    {createModal &&
-                    <MyModal visible={createModal} setVisible={setCreateModal}>
-                        <CategoryForm action={async () => {
-                            await dispatch(createCategory(setCreateModal))
-                        }} title="Add"/>
-                    </MyModal>
-                    }
-                    {updateModal &&
-                    <MyModal visible={updateModal} setVisible={setUpdateModal}>
-                        <CategoryForm action={async () => {
-                            await dispatch(updateCategory(setUpdateModal))
-                        }} title="Save"/>
-                    </MyModal>
-                    }
-                </div>
-            {/*}*/}
+        <div className="wide main">
+            <div style={{display: "flex", justifyContent: "space-between"}} className="title">
+                <h3>Categories</h3>
+                <Tooltip title="Add file type" placement="bottom">
+                    <IconButton aria-label="add file type" onClick={() => {
+                        dispatch(clearError())
+                        setCreateModal(true)
+                    }}>
+                        <AddBoxIcon />
+                    </IconButton>
+                </Tooltip>
+            </div>
+            <SortAndSearch
+                params={params}
+                onParamsChange={value => dispatch(setParams(value))}
+                action={getCategories}
+                sortList={sortList}
+                isLoading={isLoading}
+            />
+
+            <MyTable
+                title="chapter"
+                items={categories}
+                remove={removeCategory}
+                updateClick={(category) => {
+                    dispatch(clearError())
+                    dispatch(setCategory(category))
+                    setUpdateModal(true)
+                }}
+                error={error}
+                clearError={() => dispatch(clearError())}
+            />
+            <MyPagination page={params.page} pageSize={params.take} pageCount={categories.length}
+            totalCount={totalCount} changePage={changePage}/>
+            {createModal &&
+            <MyModal visible={createModal} setVisible={setCreateModal}>
+                <CategoryForm action={async () => {
+                    await dispatch(createCategory(setCreateModal))
+                }} title="Add"/>
+            </MyModal>
+            }
+            {updateModal &&
+            <MyModal visible={updateModal} setVisible={setUpdateModal}>
+                <CategoryForm action={async () => {
+                    await dispatch(updateCategory(setUpdateModal))
+                }} title="Save"/>
+            </MyModal>
+            }
         </div>
     );
 };

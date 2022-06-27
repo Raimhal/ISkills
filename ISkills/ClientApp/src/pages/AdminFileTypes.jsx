@@ -40,59 +40,54 @@ const AdminFileTypes = () => {
     }, [params.page, params.sortOption, params.reverse])
 
     return (
-        <div>
-            {/*<AdminNavbar/>*/}
-            {/*{!isLoading &&*/}
-                <div className="wide main">
-                    <div style={{display: "flex", justifyContent: "space-between"}} className="title">
-                        <h3>File types</h3>
-                        <Tooltip title="Add file type" placement="bottom">
-                            <IconButton aria-label="add file type" onClick={() => {
-                                dispatch(clearError())
-                                setCreateModal(true)
-                            }}>
-                                <AddBoxIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                    <SortAndSearch
-                        params={params}
-                        onParamsChange={value => dispatch(setParams(value))}
-                        action={getFileTypes}
-                        sortList={sortList}
-                        isLoading={isLoading}
-                    />
-                    <MyTable
-                        title="file type"
-                        items={types}
-                        remove={removeType}
-                        updateClick={(type) => {
-                            dispatch(clearError())
-                            dispatch(setFileType(type))
-                            setUpdateModal(true)
-                        }}
-                        error={error}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id"]}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={types.length}
-                    totalCount={totalCount} changePage={changePage}/>
-                    {createModal &&
-                    <MyModal visible={createModal} setVisible={setCreateModal}>
-                        <FileTypeForm action={() => {
-                            dispatch(createType(setCreateModal))
-                        }} title="Add"/>
-                    </MyModal>
-                    }
-                    {updateModal &&
-                    <MyModal visible={updateModal} setVisible={setUpdateModal}>
-                        <FileTypeForm action={() => {
-                            dispatch(updateType(setUpdateModal))
-                        }} title="Save"/>
-                    </MyModal>
-                    }
-                </div>
-            {/*}*/}
+        <div className="wide main">
+            <div style={{display: "flex", justifyContent: "space-between"}} className="title">
+                <h3>File types</h3>
+                <Tooltip title="Add file type" placement="bottom">
+                    <IconButton aria-label="add file type" onClick={() => {
+                        dispatch(clearError())
+                        setCreateModal(true)
+                    }}>
+                        <AddBoxIcon />
+                    </IconButton>
+                </Tooltip>
+            </div>
+            <SortAndSearch
+                params={params}
+                onParamsChange={value => dispatch(setParams(value))}
+                action={getFileTypes}
+                sortList={sortList}
+                isLoading={isLoading}
+            />
+            <MyTable
+                title="file type"
+                items={types}
+                remove={removeType}
+                updateClick={(type) => {
+                    dispatch(clearError())
+                    dispatch(setFileType(type))
+                    setUpdateModal(true)
+                }}
+                error={error}
+                clearError={() => dispatch(clearError())}
+                forbiddenFields={["id"]}
+            />
+            <MyPagination page={params.page} pageSize={params.take} pageCount={types.length}
+            totalCount={totalCount} changePage={changePage}/>
+            {createModal &&
+            <MyModal visible={createModal} setVisible={setCreateModal}>
+                <FileTypeForm action={() => {
+                    dispatch(createType(setCreateModal))
+                }} title="Add"/>
+            </MyModal>
+            }
+            {updateModal &&
+            <MyModal visible={updateModal} setVisible={setUpdateModal}>
+                <FileTypeForm action={() => {
+                    dispatch(updateType(setUpdateModal))
+                }} title="Save"/>
+            </MyModal>
+            }
         </div>
     );
 };

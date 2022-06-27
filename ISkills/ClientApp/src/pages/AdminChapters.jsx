@@ -27,43 +27,37 @@ const AdminChapters = () => {
     }, [params.page, params.sortOption, params.reverse])
 
     return (
-        <div>
-            {/*<AdminNavbar/>*/}
-            {/*{!isLoading &&*/}
-                <div className="wide main">
-                    <h3 className="title">Chapters</h3>
-                    <SortAndSearch
-                        params={params}
-                        onParamsChange={value => dispatch(setParams(value))}
-                        action={getChapters}
-                        sortList={sortList}
-                        isLoading={isLoading}
-                    />
-                    <MyTable
-                        title="chapter"
-                        items={chapters}
-                        remove={removeChapter}
-                        updateClick={(chapter) => {
-                            dispatch(clearError())
-                            dispatch(setChapter(chapter))
-                            setModal(true)
-                        }}
-                        error={error}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id"]}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={chapters.length}
-                    totalCount={totalCount} changePage={changePage}/>
-                    {modal &&
-                    <MyModal visible={modal} setVisible={setModal}>
-                        <ChapterForm action={() => {
-                            dispatch(updateChapter(setModal))
-                        }} title="Save"/>
-                    </MyModal>
-                    }
-                </div>
-
-            {/*}*/}
+        <div className="wide main">
+            <h3 className="title">Chapters</h3>
+            <SortAndSearch
+                params={params}
+                onParamsChange={value => dispatch(setParams(value))}
+                action={getChapters}
+                sortList={sortList}
+                isLoading={isLoading}
+            />
+            <MyTable
+                title="chapter"
+                items={chapters}
+                remove={removeChapter}
+                updateClick={(chapter) => {
+                    dispatch(clearError())
+                    dispatch(setChapter(chapter))
+                    setModal(true)
+                }}
+                error={error}
+                clearError={() => dispatch(clearError())}
+                forbiddenFields={["id"]}
+            />
+            <MyPagination page={params.page} pageSize={params.take} pageCount={chapters.length}
+            totalCount={totalCount} changePage={changePage}/>
+            {modal &&
+            <MyModal visible={modal} setVisible={setModal}>
+                <ChapterForm action={() => {
+                    dispatch(updateChapter(setModal))
+                }} title="Save"/>
+            </MyModal>
+            }
         </div>
     );
 };

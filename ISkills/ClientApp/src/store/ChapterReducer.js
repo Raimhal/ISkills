@@ -21,7 +21,7 @@ const defaultState = {
         {name: 'Title', value: 'title'},
         {name: 'Course', value: 'courseId'},
     ],
-    isLoading: false,
+    isLoading: true,
     isActionLoading: false,
     isDeleteLoading: false,
     error: null

@@ -3,7 +3,7 @@ import "../styles/App.css"
 import "../styles/Course.css"
 import CourseList from "../components/course/CourseList";
 import MyPagination from "../components/UI/Pagination/MyPagination";
-import {clearCourse, clearCourses, getCourses, removeCourse, setParams} from "../store/CourseReducer";
+import {clearCourse, clearCourses, getCourses, removeCourse, setLoading, setParams} from "../store/CourseReducer";
 import {useDispatch, useSelector} from "react-redux";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import Loading from "../components/UI/Loading/Loading";

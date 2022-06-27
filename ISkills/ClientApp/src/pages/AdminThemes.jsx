@@ -32,59 +32,54 @@ const AdminThemes = () => {
     }, [params.page, params.sortOption, params.reverse])
 
     return (
-        <div>
-            {/*<AdminNavbar/>*/}
-            {/*{!isLoading &&*/}
-                <div className="wide main">
-                    <div style={{display: "flex", justifyContent: "space-between"}} className="title">
-                        <h3>Themes</h3>
-                        <Tooltip title="Add file type" placement="bottom">
-                            <IconButton aria-label="add file type" onClick={() => {
-                                dispatch(clearError())
-                                setCreateModal(true)
-                            }}>
-                                <AddBoxIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </div>
-                    <SortAndSearch
-                        params={params}
-                        onParamsChange={value => dispatch(setParams(value))}
-                        action={getThemes}
-                        sortList={sortList}
-                        isLoading={isLoading}
-                    />
-                    <MyTable
-                        title="theme"
-                        items={themes}
-                        remove={removeTheme}
-                        updateClick={(theme) => {
-                            dispatch(clearError())
-                            dispatch(setTheme(theme))
-                            setUpdateModal(true)
-                        }}
-                        error={error}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id"]}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={themes.length}
-                    totalCount={totalCount} changePage={changePage}/>
-                    {createModal &&
-                    <MyModal visible={createModal} setVisible={setCreateModal}>
-                        <ThemeForm action={() => {
-                            dispatch(createTheme(setCreateModal))
-                        }} title="Add"/>
-                    </MyModal>
-                    }
-                    {updateModal &&
-                    <MyModal visible={updateModal} setVisible={setUpdateModal}>
-                        <ThemeForm action={() => {
-                            dispatch(updateTheme(setUpdateModal))
-                        }} title="Save"/>
-                    </MyModal>
-                    }
-                </div>
-            {/*}*/}
+        <div className="wide main">
+            <div style={{display: "flex", justifyContent: "space-between"}} className="title">
+                <h3>Themes</h3>
+                <Tooltip title="Add file type" placement="bottom">
+                    <IconButton aria-label="add file type" onClick={() => {
+                        dispatch(clearError())
+                        setCreateModal(true)
+                    }}>
+                        <AddBoxIcon />
+                    </IconButton>
+                </Tooltip>
+            </div>
+            <SortAndSearch
+                params={params}
+                onParamsChange={value => dispatch(setParams(value))}
+                action={getThemes}
+                sortList={sortList}
+                isLoading={isLoading}
+            />
+            <MyTable
+                title="theme"
+                items={themes}
+                remove={removeTheme}
+                updateClick={(theme) => {
+                    dispatch(clearError())
+                    dispatch(setTheme(theme))
+                    setUpdateModal(true)
+                }}
+                error={error}
+                clearError={() => dispatch(clearError())}
+                forbiddenFields={["id"]}
+            />
+            <MyPagination page={params.page} pageSize={params.take} pageCount={themes.length}
+            totalCount={totalCount} changePage={changePage}/>
+            {createModal &&
+            <MyModal visible={createModal} setVisible={setCreateModal}>
+                <ThemeForm action={() => {
+                    dispatch(createTheme(setCreateModal))
+                }} title="Add"/>
+            </MyModal>
+            }
+            {updateModal &&
+            <MyModal visible={updateModal} setVisible={setUpdateModal}>
+                <ThemeForm action={() => {
+                    dispatch(updateTheme(setUpdateModal))
+                }} title="Save"/>
+            </MyModal>
+            }
         </div>
     );
 };

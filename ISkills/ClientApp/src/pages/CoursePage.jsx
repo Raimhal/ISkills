@@ -15,7 +15,15 @@ import MyButton from "../components/UI/Button/MyButton";
 import MyModal from "../components/UI/MyModal/MyModal";
 import CourseForm from "../components/course/CourseForm";
 import {useDispatch, useSelector} from "react-redux";
-import {clearCourse, clearError, getCourse, setCourse, updateCourse, updateImage} from "../store/CourseReducer";
+import {
+    clearCourse, clearCourseLoading,
+    clearError,
+    getCourse,
+    setCourse,
+    setCourseLoading,
+    updateCourse,
+    updateImage
+} from "../store/CourseReducer";
 import {
     clearComment,
     clearComments,
@@ -74,7 +82,7 @@ import {
     FlexibleXYPlot, FlexibleWidthXYPlot
 } from 'react-vis';
 import BarSeries from "react-vis/es/plot/series/bar-series";
-import {clearPurchases, getPurchasesStatistic} from "../store/StatisticReducer";
+import {clearPurchases, getPurchasesStatistic, clearLoading as clearStatisticLoading} from "../store/StatisticReducer";
 
 const CoursePage = () => {
     const dispatch = useDispatch()
@@ -88,7 +96,7 @@ const CoursePage = () => {
     const isAdmin = useSelector(state => state.user.isAdmin)
     const isAuth = useSelector(state => state.user.isAuth)
     const isImageLoading = useSelector(state => state.course.isImageLoading)
-    const isCourseLoading = useSelector(state => state.course.isLoading)
+    const isCourseLoading = useSelector(state => state.course.isCourseLoading)
 
     const hasAccess = (course.creatorId === currentUser.id) || isAdmin
     const hasUserAccess = hasAccess || course.students?.some(x => x.id === currentUser.id)
@@ -109,8 +117,11 @@ const CoursePage = () => {
     const isChaptersLoading = useSelector(state => state.chapter.isLoading)
     const isLoading = useSelector(state => state.user.isLoading)
     const isAssignLoading = useSelector(state => state.user.isActionLoading)
+    const isStatisticLoading = useSelector(state => state.statistic.isLoading)
 
     const purchases = useSelector(state => state.statistic.purchases)
+    const statisticDays = useSelector(state => state.statistic.params.days)
+
     const [modal, setModal] = useState(false)
 
     const [modalComment, setCommentModal] = useState(false)
@@ -124,9 +135,8 @@ const CoursePage = () => {
 
     const [imageModal, setImageModal] = useState(false)
 
-    const [monthStyle, setMonthStyle] = useState("narrow")
-
     useEffect(() => {
+        console.log(isCourseLoading)
         dispatch(getCourse(id, navigate))
         dispatch(getPurchasesStatistic(id))
 
@@ -136,6 +146,8 @@ const CoursePage = () => {
             dispatch(clearUsers())
             dispatch(clearChapters())
             dispatch(clearPurchases())
+            dispatch(clearCourseLoading())
+            dispatch(clearStatisticLoading())
         }
     }, [])
 
@@ -246,8 +258,8 @@ const CoursePage = () => {
                         <MyTextarea value={course.requirements}/>
                     </div>
                     }
-                    {purchases.length > 0 && <div className="block">
-                        <h5>Purchases for last ten days :</h5>
+                    {(!isStatisticLoading && purchases.length > 0) && <div className="block">
+                        <h5>Purchases for last {statisticDays} days :</h5>
                         <div style={{display: "flex", justifyContent: "center"}}>
                             <FlexibleWidthXYPlot
                                 xType="ordinal"

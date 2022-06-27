@@ -11,7 +11,7 @@ const defaultState = {
         skip: 0,
         take: 10,
     },
-    isLoading: false,
+    isLoading: true,
     isActionLoading: false,
     idDeleteLoading: false,
     error: null
@@ -110,7 +110,6 @@ export const createBackup = () => async(dispatch, getState) => {
 
 export const executeRestore = (setModal = null) => async(dispatch, getState) => {
     const backup = getState().backup.backup
-    console.log(backup);
 
     await responseHandler(dispatch, async () => {
         await BackupService.ExecuteRestore({
@@ -146,6 +145,7 @@ export const removeBackup = url => async (dispatch, getState) => {
     const totalCount = getState().backup.totalCount
 
     await responseHandler(dispatch, async () => {
+        console.log(url)
         await BackupService.Delete(url)
         dispatch(setBackups([...backups.filter(b => b.url !== url)]))
         dispatch(setTotalCount(+totalCount - 1))

@@ -37,8 +37,6 @@ namespace BLL.Services
             if (!model.Password.AreEqual(user.Salt, user.Password))
                 throw new ConflictException(message: "Email or password is incorrect");
 
-            var jwtToken = GenerateJwtToken(user);
-
             RefreshToken refreshToken;
             if (!user.RefreshTokens.Any(t => t.IsActive == true))
             {
@@ -51,6 +49,8 @@ namespace BLL.Services
             else
                 refreshToken = user.RefreshTokens
                     .FirstOrDefault(t => t.IsActive);
+
+            var jwtToken = GenerateJwtToken(user);
 
             return new AuthenticateResponse(jwtToken, refreshToken.Token);
         }
@@ -125,7 +125,7 @@ namespace BLL.Services
                 audience: AuthOptions.AUDIENCE,
                 notBefore: now,
                 claims: identity.Claims,
-                expires: now.AddDays(AuthOptions.LIFETIME),
+                expires: now.AddHours(AuthOptions.LIFETIME),
                 signingCredentials: new SigningCredentials(
                     AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256)
                 );

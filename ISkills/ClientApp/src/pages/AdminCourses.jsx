@@ -51,67 +51,64 @@ const AdminCourses = () => {
     }, [params.page, params.sortOption, params.themeId, params.reverse])
 
     return (
-        <div style={{display: 'flex'}}>
-            {/*<AdminNavbar/>*/}
-                <div className="adminPage">
-                    <h3 className="title">Courses</h3>
-                    <SortAndSearch
-                        params={params}
-                        onParamsChange={value => dispatch(setParams(value))}
-                        action={getCourses}
-                        sortList={sortList}
-                        isLoading={isLoading}
-                    />
-                    <MyTable
-                        title="course"
-                        items={courses}
-                        remove={removeCourse}
-                        updateClick={async (course) => {
-                            dispatch(clearError())
-                            const courseTheme = await ThemeService.GetTheme(course.themeId)
-                            const category = categories.find(x => x.id === courseTheme.categoryId)
-                            dispatch(setCourse({...course, categoryId: category.id}))
-                            setModal(true)
-                        }}
-                        iconChildren={ (course) =>
-                            <Tooltip title={
-                                <img src={course.imageUrl || defaultCourseImage} alt="image"/>
-                            } placement="bottom">
-                                <IconButton aria-label="update image" onClick={() => {
-                                    dispatch(setCourse(course))
-                                    setImageModal(true)
-                                }}>
-                                    <CameraAltOutlinedIcon />
-                                </IconButton>
-                            </Tooltip>
-                        }
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id", "imageUrl"]}
-                        error={error}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
-                    totalCount={totalCount} changePage={changePage}/>
-                    {modal &&
-                        <MyModal visible={modal} setVisible={setModal}>
-                            <CourseForm action={() => {
-                                dispatch(updateCourse(setModal))
-                            }} title="Save"/>
-                        </MyModal>
-                    }
-                    {imageModal && <MyModal visible={imageModal} setVisible={setImageModal}>
-                        <ImageUpload
-                            action={() => {
-                                dispatch(updateImage(setImageModal))
-                            }}
-                            title="Update image"
-                            submitTitle="Save"
-                            setVisible={setImageModal}
-                            isLoading={isLoading}
-                            error={error}
-                        />
-                    </MyModal>
-                    }
-                </div>
+        <div className="wide main">
+            <h3 className="title">Courses</h3>
+            <SortAndSearch
+                params={params}
+                onParamsChange={value => dispatch(setParams(value))}
+                action={getCourses}
+                sortList={sortList}
+                isLoading={isLoading}
+            />
+            <MyTable
+                title="course"
+                items={courses}
+                remove={removeCourse}
+                updateClick={async (course) => {
+                    dispatch(clearError())
+                    const courseTheme = await ThemeService.GetTheme(course.themeId)
+                    const category = categories.find(x => x.id === courseTheme.categoryId)
+                    dispatch(setCourse({...course, categoryId: category.id}))
+                    setModal(true)
+                }}
+                iconChildren={ (course) =>
+                    <Tooltip title={
+                        <img src={course.imageUrl || defaultCourseImage} alt="image"/>
+                    } placement="bottom">
+                        <IconButton aria-label="update image" onClick={() => {
+                            dispatch(setCourse(course))
+                            setImageModal(true)
+                        }}>
+                            <CameraAltOutlinedIcon />
+                        </IconButton>
+                    </Tooltip>
+                }
+                clearError={() => dispatch(clearError())}
+                forbiddenFields={["id", "imageUrl"]}
+                error={error}
+            />
+            <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
+            totalCount={totalCount} changePage={changePage}/>
+            {modal &&
+                <MyModal visible={modal} setVisible={setModal}>
+                    <CourseForm action={() => {
+                        dispatch(updateCourse(setModal))
+                    }} title="Save"/>
+                </MyModal>
+            }
+            {imageModal && <MyModal visible={imageModal} setVisible={setImageModal}>
+                <ImageUpload
+                    action={() => {
+                        dispatch(updateImage(setImageModal))
+                    }}
+                    title="Update image"
+                    submitTitle="Save"
+                    setVisible={setImageModal}
+                    isLoading={isLoading}
+                    error={error}
+                />
+            </MyModal>
+            }
         </div>
     );
 };

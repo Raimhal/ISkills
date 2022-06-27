@@ -71,7 +71,7 @@ namespace BLL.Services
         {
             if (string.IsNullOrEmpty(url))
                 return;
-            var result = await _cloudinary.DestroyAsync(CreateDeletionParams(url));
+            await _cloudinary.DestroyAsync(CreateDeletionParams(url));
         }
 
         private async Task<string> UploadAsync<T>(T uploadParams)

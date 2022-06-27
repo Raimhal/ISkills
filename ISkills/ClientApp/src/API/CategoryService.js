@@ -10,7 +10,6 @@ export  default class CategoryService {
     }
 
     static async GetCategoriesAll(config = {}) {
-        console.log(config)
         const response = await EntityService.Get('/categories/all', config)
         return response.data
     }

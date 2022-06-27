@@ -18,7 +18,7 @@ const defaultState = {
         {name: 'Type', value: 'fileType'},
         {name: 'Size', value: 'fileSize'},
     ],
-    isLoading: false,
+    isLoading: true,
     isActionLoading: false,
     isDeleteLoading: false,
     error: null

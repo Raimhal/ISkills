@@ -16,7 +16,7 @@ const defaultState = {
         sortOption: "date",
         days: 10
     },
-    isLoading: false,
+    isLoading: true,
     error: null
 }
 
@@ -98,8 +98,6 @@ export const getPurchasesStatistic = (courseId = null) => async (dispatch, getSt
             list.push(item)
             today.setDate(today.getDate() - 1)
         }
-
-        console.log(list)
 
 
         dispatch(setParams(newParams))

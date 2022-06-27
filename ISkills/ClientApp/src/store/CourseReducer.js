@@ -35,7 +35,8 @@ const defaultState = {
     ],
     courses : [],
     totalCount: 0,
-    isLoading: false,
+    isLoading: true,
+    isCourseLoading: true,
     isActionLoading: false,
     isDeleteLoading: false,
     isImageLoading: false,
@@ -52,6 +53,8 @@ const SET_TOTAL_COUNT = "SET_COURSE_TOTAL_COUNT"
 const CLEAR_TOTAL_COUNT = "CLEAR_COURSE_TOTAL_COUNT"
 const SET_LOADING = "SET_COURSE_LOADING"
 const CLEAR_LOADING = "CLEAR_COURSE_LOADING"
+const SET_COURSE_LOADING = "SET_ONE_COURSE_LOADING"
+const CLEAR_COURSE_LOADING = "CLEAR_ONE_COURSE_LOADING"
 const SET_ACTION_LOADING = "SET_COURSE_ACTION_LOADING"
 const CLEAR_ACTION_LOADING = "CLEAR_COURSE_ACTION_LOADING"
 const SET_DELETE_LOADING = "SET_COURSE_DELETE_LOADING"
@@ -83,6 +86,10 @@ export const CourseReducer = (state = defaultState, action) => {
             return {...state, isLoading: action.payload}
         case CLEAR_LOADING:
             return {...state, isLoading: defaultState.isLoading}
+        case SET_COURSE_LOADING:
+            return {...state, isCourseLoading: action.payload}
+        case CLEAR_COURSE_LOADING:
+            return {...state, isCourseLoading: defaultState.isLoading}
         case SET_ERROR:
             return {...state, error: action.payload}
         case CLEAR_ERROR:
@@ -114,6 +121,8 @@ export const setTotalCount = (payload) => ({type: SET_TOTAL_COUNT, payload: payl
 export const clearTotalCount = () => ({type: CLEAR_TOTAL_COUNT})
 export const setLoading = (payload) => ({type: SET_LOADING, payload: payload})
 export const clearLoading = () => ({type: CLEAR_LOADING})
+export const setCourseLoading = (payload) => ({type: SET_COURSE_LOADING, payload: payload})
+export const clearCourseLoading = () => ({type: CLEAR_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
 export const clearError = () => ({type: CLEAR_ERROR})
 export const setActionLoading = (payload) => ({type: SET_ACTION_LOADING, payload: payload})
@@ -131,7 +140,7 @@ export const getCourse = (id, navigate = null) => async (dispatch, getState) => 
         const course = await CourseService.GetCourse(id)
 
         dispatch(setCourse({...course, categoryId: ''}))
-    }, setError, setLoading)
+    }, setError, setCourseLoading)
     navigate && error && navigate('/404')
 
 };

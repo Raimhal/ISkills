@@ -24,7 +24,7 @@ const defaultState = {
         {name: 'Creator', value: 'creatorId'},
         {name: 'Date', value: 'date'},
     ],
-    isLoading: false,
+    isLoading: true,
     isActionLoading: false,
     isDeleteLoading: false,
     error: null

@@ -20,7 +20,7 @@ const defaultState = {
         {name: 'Id', value: 'id'},
         {name: 'Title', value: 'title'},
     ],
-    isLoading: false,
+    isLoading: true,
     isActionLoading: false,
     isDeleteLoading: false,
     error: null

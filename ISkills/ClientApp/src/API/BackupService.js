@@ -16,12 +16,12 @@ export default class BackupService {
     }
 
     static async ExecuteRestore(config = {}){
-        console.log(config)
         await EntityService.Create('/database/restore', {}, config)
     }
 
     static async Delete(url) {
-        const path = `/database/backup?backupUrl${url}`
+        console.log(url)
+        const path = `/database/backup?backupUrl=${url}`
         await EntityService.Delete(path)
     }
 }
