@@ -15,10 +15,11 @@ using Domain.Models;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
+using Braintree;
 
 namespace BLL.Services
 {
-    class CourseRepository : ICourseService
+    class CourseRepository : ICourseRepository
     {
         private readonly ICourseDbContext _courseDbContext;
         private readonly IUserDbContext _userContext;
@@ -26,13 +27,14 @@ namespace BLL.Services
         private readonly IPurchaseRepository _purchaseRepository;
         private readonly IMapper _mapper;
         private readonly ICloudinaryService _cloudinaryService;
+        private readonly IBraintreeService _braintreeService;
 
 
         public CourseRepository(ICourseDbContext courseDbContext, IUserDbContext userContext,
             IThemeDbContext themeContext, ICloudinaryService cloudinaryService,
-            IPurchaseRepository purchaseRepository, IMapper mapper)
-            => (_courseDbContext, _userContext, _themeContext, _cloudinaryService, _purchaseRepository, _mapper)
-            = (courseDbContext, userContext, themeContext, cloudinaryService, purchaseRepository, mapper);
+            IPurchaseRepository purchaseRepository, IBraintreeService braintreeService, IMapper mapper)
+            => (_courseDbContext, _userContext, _themeContext, _cloudinaryService, _purchaseRepository, _braintreeService, _mapper)
+            = (courseDbContext, userContext, themeContext, cloudinaryService, purchaseRepository, braintreeService, mapper);
 
         public async Task<PaginationList<CourseDto>> GetList(int skip, int take, string query,
             string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
@@ -196,7 +198,7 @@ namespace BLL.Services
 
         }
 
-        public async Task AssignUserToCourse(Guid userId, Guid courseId, CancellationToken cancellationToken)
+        public async Task AssignUserToCourse(Guid userId, Guid courseId, CancellationToken cancellationToken, string paymentNonce = null)
         {
             var user = await _userContext.Users.GetAsync(_mapper,
                 x => x.Id == userId, new() { }, cancellationToken);
@@ -209,6 +211,9 @@ namespace BLL.Services
 
             if (course.Students.Contains(user))
                 throw new ConflictException("Conflict! You are the member of this course");
+
+            if(paymentNonce != null)
+                await _braintreeService.ExecuteTransaction(course.Price, paymentNonce);
 
             await _purchaseRepository.CreateAsync(new CreatePurchaseDto{ CourseId = course.Id }, cancellationToken);
 

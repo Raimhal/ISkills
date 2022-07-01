@@ -7,7 +7,9 @@ import {clearCourse, clearCourses, getCourses, removeCourse, setLoading, setPara
 import {useDispatch, useSelector} from "react-redux";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import Loading from "../components/UI/Loading/Loading";
+import emptyListImage from "../../src/assets/images/empty-list.png"
 import {clearTheme} from "../store/ThemeReducer";
+import EmptyList from "../components/UI/EmptyList/EmptyList";
 
 
 const Courses = () => {
@@ -33,13 +35,6 @@ const Courses = () => {
         }
     }, [params.page, params.sortOption, params.themeId, params.reverse])
 
-    useEffect(() => {
-        return () => {
-            dispatch(clearTheme())
-        }
-    }, [])
-
-
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -63,7 +58,8 @@ const Courses = () => {
             </div>
             {!isCoursesLoading ?
                 <>
-                    {courses.length > 0 &&
+                    {(courses.length > 0 && !isCoursesLoading)
+                        ?
                         <div>
                             <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                                           totalCount={totalCount} changePage={changePage}/>
@@ -71,6 +67,8 @@ const Courses = () => {
                             <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                                           totalCount={totalCount} changePage={changePage}/>
                         </div>
+                        :
+                        <EmptyList title="No courses found"/>
                     }
                     </>
                 : <Loading/>

@@ -22,13 +22,19 @@ namespace BLL.Services
         private readonly IPurchaseDbContext _purchaseDbContext;
         private readonly ICourseDbContext _courseDbContext;
         private readonly IMapper _mapper;
+        private readonly IBraintreeService _braintreeService;
 
-        public PurchaseRepository(IPurchaseDbContext purchaseDbContext, ICourseDbContext courseDbContext, IMapper mapper) 
-            => (_purchaseDbContext, _courseDbContext, _mapper) 
-            = (purchaseDbContext, courseDbContext, mapper);
+        public PurchaseRepository(IPurchaseDbContext purchaseDbContext, ICourseDbContext courseDbContext,
+            IBraintreeService braintreeService, IMapper mapper) 
+            => (_purchaseDbContext, _courseDbContext, _braintreeService, _mapper) 
+            = (purchaseDbContext, courseDbContext, braintreeService, mapper);
 
-        public async Task<PaginationList<PurchaseDto>> GetList(int skip, int take,
-            string query, string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics)
+        public async Task<string> GenerateClientToken() 
+            => await _braintreeService.GetGateway().ClientToken.GenerateAsync();
+
+
+        public async Task<PaginationList<PurchaseDto>> GetList(int skip, int take, string query, string sortOption,
+            bool reverse, CancellationToken cancellationToken, params object[] dynamics)
         {
             var courseId = (Guid?)dynamics[0];
             var startDate = (DateTime?)dynamics[1];
@@ -38,7 +44,9 @@ namespace BLL.Services
                 _mapper,
                 skip,
                 take,
-                p => (courseId == null || p.CourseId == courseId) && (startDate == null || p.Date >= startDate) && (endDate == null || p.Date <= endDate),
+                p => (courseId == null || p.CourseId == courseId) 
+                    && (startDate == null || p.Date >= startDate) 
+                    && (endDate == null || p.Date <= endDate),
                 sortOption,
                 reverse,
                 new() { },
@@ -54,7 +62,9 @@ namespace BLL.Services
 
             return await _purchaseDbContext.Purchases.GetListAllAsync<Purchase, PurchaseDto>(
                 _mapper,
-                p => (courseId == null || p.CourseId == courseId) && (startDate == null || p.Date >= startDate) && (endDate == null || p.Date <= endDate),
+                p => (courseId == null || p.CourseId == courseId) 
+                    && (startDate == null || p.Date >= startDate) 
+                    && (endDate == null || p.Date <= endDate),
                 sortOption,
                 reverse,
                 new() { },
@@ -69,7 +79,9 @@ namespace BLL.Services
             var endDate = (DateTime?)dynamics[2];
 
             return await _purchaseDbContext.Purchases.CustomGroupByAsync(
-                p => (courseId == null || p.CourseId == courseId) && (startDate == null || p.Date >= startDate) && (endDate == null || p.Date <= endDate),
+                p => (courseId == null || p.CourseId == courseId) 
+                    && (startDate == null || p.Date >= startDate) 
+                    && (endDate == null || p.Date <= endDate),
                 sortOption,
                 reverse,
                 p => p.Date.ToString());

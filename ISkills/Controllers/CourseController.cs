@@ -13,23 +13,23 @@ namespace ISkills.Controllers
     [ApiController]
     public class CourseController : BaseController
     {
-        private readonly ICourseService _courseService;
+        private readonly ICourseRepository _courseService;
         private readonly IAccessRepository _accessService;
 
-        public CourseController(ICourseService courseService, IAccessRepository accessService) => 
+        public CourseController(ICourseRepository courseService, IAccessRepository accessService) => 
             (_courseService, _accessService) = (courseService, accessService);
 
 
         [HttpGet]
         [Route("api/courses/all")]
-        public async Task<ActionResult<List<CourseDto>>> GetCoursesAll(CancellationToken cancellationToken,
+        public async Task<ActionResult<List<CourseDto>>> GetCoursesAll(CancellationToken cancellationToken = default,
             string query = "", string sortOption = "title", bool reverse = false, int? themeId = null, Guid? creatorId = null)
             => Ok(await _courseService.GetListAll(query, sortOption, reverse, cancellationToken, themeId, creatorId));
 
 
         [HttpGet]
         [Route("api/courses")]
-        public async Task<ActionResult<List<CourseDto>>> GetCourses(CancellationToken cancellationToken,
+        public async Task<ActionResult<List<CourseDto>>> GetCourses(CancellationToken cancellationToken = default,
             int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false, int? themeId = null, Guid? creatorId = null)
         {
             var content = await _courseService.GetList(skip, take, query, sortOption, reverse, cancellationToken, themeId, creatorId);
@@ -41,7 +41,7 @@ namespace ISkills.Controllers
         [Authorize]
         [HttpGet]
         [Route("api/courses/my-all")]
-        public async Task<ActionResult<List<CourseDto>>> GetMyCoursesAll(CancellationToken cancellationToken,
+        public async Task<ActionResult<List<CourseDto>>> GetMyCoursesAll(CancellationToken cancellationToken = default,
             string query = "", string sortOption = "title", bool reverse = false, int? themeId = null)
             => Ok(await _courseService.GetParentItemsAll(query, sortOption, reverse, cancellationToken, themeId, UserId));
 
@@ -49,7 +49,7 @@ namespace ISkills.Controllers
         [Authorize]
         [HttpGet]
         [Route("api/courses/my")]
-        public async Task<ActionResult<List<CourseDto>>> GetMyCourses(CancellationToken cancellationToken,
+        public async Task<ActionResult<List<CourseDto>>> GetMyCourses(CancellationToken cancellationToken = default,
             int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false, int? themeId = null)
         {
             var content = await _courseService.GetParentItems(skip, take, query, sortOption, reverse, cancellationToken, themeId, UserId);
@@ -60,7 +60,7 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/courses/{id}")]
-        public async Task<ActionResult<CourseDto>> GetCourse(Guid id, CancellationToken cancellationToken)
+        public async Task<ActionResult<CourseDto>> GetCourse(Guid id, CancellationToken cancellationToken = default)
             => Ok(await _courseService.GetByIdAsync(id, cancellationToken));
 
 
@@ -68,7 +68,7 @@ namespace ISkills.Controllers
         [HttpPost]
         [Route("api/courses")]
         public async Task<ActionResult<Guid>> CreateCourse([FromBody] CreateCourseDto model,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             model.CreatorId = UserId;
             return Ok(await _courseService.CreateAsync(model, cancellationToken));
@@ -79,7 +79,7 @@ namespace ISkills.Controllers
         [HttpPut]
         [Route("api/courses/{id}")]
         public async Task<IActionResult> UpdateCourse(Guid id, [FromBody] CreateCourseDto model,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             if (!await _accessService.HasAccessToCourse(UserId, id, cancellationToken))
                 return Forbid();
@@ -92,9 +92,9 @@ namespace ISkills.Controllers
         [Authorize]
         [HttpPatch]
         [Route("api/courses/{id}/assignment")]
-        public async Task<IActionResult> ToggleUserAssignment(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> ToggleUserAssignment(Guid id, string paymentNonce = null, CancellationToken cancellationToken = default)
         {
-            await _courseService.AssignUserToCourse(UserId, id, cancellationToken);
+            await _courseService.AssignUserToCourse(UserId, id, cancellationToken, paymentNonce);
             return NoContent();
         }
 
@@ -103,7 +103,7 @@ namespace ISkills.Controllers
         [HttpPatch]
         [Route("api/courses/{id}")]
         public async Task<ActionResult<string>> UpdateImage(Guid id, [FromForm] IFormFile file,
-            CancellationToken cancellationToken, int width = 256, int height = 256)
+            CancellationToken cancellationToken = default, int width = 256, int height = 256)
         {
             if (!await _accessService.HasAccessToCourse(UserId, id, cancellationToken))
                 return Forbid();
@@ -115,7 +115,7 @@ namespace ISkills.Controllers
         [Authorize]
         [HttpDelete]
         [Route("api/courses/{id}")]
-        public async Task<IActionResult> DeleteCourse(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteCourse(Guid id, CancellationToken cancellationToken = default)
         {
             if (!await _accessService.HasAccessToCourse(UserId, id, cancellationToken))
                 return Forbid();

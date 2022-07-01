@@ -12,6 +12,9 @@ import {Tooltip} from "@material-ui/core";
 import {IconButton} from "@mui/material";
 import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import MyPlayer from "../components/video/MyPlayer";
+import {removeUser, setUser} from "../store/UserReducer";
+import defaultUserImage from "../assets/images/defaultUserImage.png";
+import EmptyList from "../components/UI/EmptyList/EmptyList";
 
 const AdminVideos = () => {
     const video = useSelector(state => state.video.video)
@@ -44,31 +47,37 @@ const AdminVideos = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-            <MyTable
-                title="video"
-                items={videos}
-                remove={removeVideo}
-                updateClick={(video) => {
-                    dispatch(clearError())
-                    dispatch(setVideo(video))
-                    setModal(true)
-                }}
-                iconChildren={ (video) =>
-                    <Tooltip title="Video" placement="bottom">
-                        <IconButton aria-label="show video" onClick={() => {
+            {videos.length > 0
+                ?
+                <>
+                    <MyTable
+                        title="video"
+                        items={videos}
+                        remove={removeVideo}
+                        updateClick={(video) => {
+                            dispatch(clearError())
                             dispatch(setVideo(video))
-                            setViewModal(true)
-                        }}>
-                            <CameraAltOutlinedIcon />
-                        </IconButton>
-                    </Tooltip>
-                }
-                error={error}
-                clearError={() => dispatch(clearError())}
-                forbiddenFields={["id", "url"]}
-            />
-            <MyPagination page={params.page} pageSize={params.take} pageCount={videos.length}
-            totalCount={totalCount} changePage={changePage}/>
+                            setModal(true)
+                        }}
+                        iconChildren={ (video) =>
+                            <Tooltip title="Video" placement="bottom">
+                                <IconButton aria-label="show video" onClick={() => {
+                                    dispatch(setVideo(video))
+                                    setViewModal(true)
+                                }}>
+                                    <CameraAltOutlinedIcon />
+                                </IconButton>
+                            </Tooltip>
+                        }
+                        error={error}
+                        clearError={() => dispatch(clearError())}
+                        forbiddenFields={["id", "url"]}
+                    />
+                    <MyPagination page={params.page} pageSize={params.take} pageCount={videos.length}
+                                  totalCount={totalCount} changePage={changePage}/>
+                </>
+                : <EmptyList title="No videos found"/>
+            }
             {modal && <MyModal visible={modal} setVisible={setModal}>
                 <VideoForm
                     action={() => {

@@ -26,6 +26,8 @@ import defaultCourseImage from '../assets/images/defaultCourseImage.png'
 import {getTheme} from "../store/ThemeReducer";
 import {getAllCategories, getCategories} from "../store/CategoryReducer";
 import ThemeService from "../API/ThemeService";
+import {removeComment, setComment} from "../store/CommentReducer";
+import EmptyList from "../components/UI/EmptyList/EmptyList";
 
 const AdminCourses = () => {
     const courses = useSelector(state => state.course.courses)
@@ -60,35 +62,41 @@ const AdminCourses = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-            <MyTable
-                title="course"
-                items={courses}
-                remove={removeCourse}
-                updateClick={async (course) => {
-                    dispatch(clearError())
-                    const courseTheme = await ThemeService.GetTheme(course.themeId)
-                    const category = categories.find(x => x.id === courseTheme.categoryId)
-                    dispatch(setCourse({...course, categoryId: category.id}))
-                    setModal(true)
-                }}
-                iconChildren={ (course) =>
-                    <Tooltip title={
-                        <img src={course.imageUrl || defaultCourseImage} alt="image"/>
-                    } placement="bottom">
-                        <IconButton aria-label="update image" onClick={() => {
-                            dispatch(setCourse(course))
-                            setImageModal(true)
-                        }}>
-                            <CameraAltOutlinedIcon />
-                        </IconButton>
-                    </Tooltip>
-                }
-                clearError={() => dispatch(clearError())}
-                forbiddenFields={["id", "imageUrl"]}
-                error={error}
-            />
-            <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
-            totalCount={totalCount} changePage={changePage}/>
+            {courses.length > 0
+                ?
+                <>
+                    <MyTable
+                        title="course"
+                        items={courses}
+                        remove={removeCourse}
+                        updateClick={async (course) => {
+                            dispatch(clearError())
+                            const courseTheme = await ThemeService.GetTheme(course.themeId)
+                            const category = categories.find(x => x.id === courseTheme.categoryId)
+                            dispatch(setCourse({...course, categoryId: category.id}))
+                            setModal(true)
+                        }}
+                        iconChildren={ (course) =>
+                            <Tooltip title={
+                                <img src={course.imageUrl || defaultCourseImage} alt="image"/>
+                            } placement="bottom">
+                                <IconButton aria-label="update image" onClick={() => {
+                                    dispatch(setCourse(course))
+                                    setImageModal(true)
+                                }}>
+                                    <CameraAltOutlinedIcon />
+                                </IconButton>
+                            </Tooltip>
+                        }
+                        clearError={() => dispatch(clearError())}
+                        forbiddenFields={["id", "imageUrl"]}
+                        error={error}
+                    />
+                    <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
+                                  totalCount={totalCount} changePage={changePage}/>
+                </>
+                : <EmptyList title="No courses found"/>
+            }
             {modal &&
                 <MyModal visible={modal} setVisible={setModal}>
                     <CourseForm action={() => {

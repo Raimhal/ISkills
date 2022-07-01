@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {clearLoading, clearPurchases, getPurchasesStatistic} from "../store/StatisticReducer";
+import {clearLoading, clearPurchases, getPurchasesStatistic} from "../store/PurchaseReducer";
 import {FlexibleWidthXYPlot, HorizontalGridLines, VerticalBarSeriesCanvas, XAxis, YAxis} from "react-vis";
 import Loading from "../components/UI/Loading/Loading";
 
 const StatisticsPage = () => {
-    const purchases = useSelector(state => state.statistic.purchases)
+    const purchases = useSelector(state => state.purchase.purchases)
     const dispatch = useDispatch()
-    const isLoading = useSelector(state => state.statistic.isLoading)
+    const isLoading = useSelector(state => state.purchase.isLoading)
 
     useEffect( () =>{
         dispatch(getPurchasesStatistic())
@@ -20,7 +20,7 @@ const StatisticsPage = () => {
 
     return (
         <div className="wide main">
-            <h3 className="title">Statistic</h3>
+            <h3 className="title">Purchases</h3>
             {!isLoading
             ? <div style={{display: "flex", justifyContent: "center"}}>
                 <FlexibleWidthXYPlot

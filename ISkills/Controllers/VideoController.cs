@@ -21,20 +21,20 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/videos/{id}")]
-        public async Task<ActionResult<VideoDto>> GetVideo(Guid id, CancellationToken cancellationToken)
+        public async Task<ActionResult<VideoDto>> GetVideo(Guid id, CancellationToken cancellationToken = default)
             => Ok(await _videoService.GetByIdAsync(id, cancellationToken));
 
 
         [HttpGet]
         [Route("api/videos/all")]
-        public async Task<ActionResult<List<ChapterDto>>> GetVideosAll(CancellationToken cancellationToken, 
+        public async Task<ActionResult<List<ChapterDto>>> GetVideosAll(CancellationToken cancellationToken = default, 
             string query = "", string sortOption = "title", bool reverse = false, Guid? chapterId = null)
             => Ok(await _videoService.GetListAll(query, sortOption, reverse, cancellationToken, chapterId));
 
 
         [HttpGet]
         [Route("api/videos")]
-        public async Task<ActionResult<List<ChapterDto>>> GetVideos(CancellationToken cancellationToken, 
+        public async Task<ActionResult<List<ChapterDto>>> GetVideos(CancellationToken cancellationToken = default, 
             int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false, Guid? chapterId = null)
         {
             var content = await _videoService.GetList(skip, take, query, sortOption, reverse, cancellationToken, chapterId);
@@ -47,7 +47,7 @@ namespace ISkills.Controllers
         [HttpPost]
         [Route("api/videos")]
         public async Task<ActionResult<Guid>> CreateChapterVideo([FromForm] CreateVideoDto model,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             if (!await _accessService.HasAccessToChapter(UserId, model.ChapterId, cancellationToken))
                 return Forbid();
@@ -60,7 +60,7 @@ namespace ISkills.Controllers
         [HttpPut]
         [Route("api/videos/{id}")]
         public async Task<IActionResult> UpdateVideo(Guid id, [FromForm] CreateVideoDto model,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             if (!await _accessService.HasAccessToVideo(UserId, id, cancellationToken))
                 return Forbid();
@@ -74,7 +74,7 @@ namespace ISkills.Controllers
         [HttpPatch]
         [Route("api/videos/{id}")]
         public async Task<IActionResult> PatchVideo(Guid id, [FromBody] UpdateVideoDto model,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             if (!await _accessService.HasAccessToVideo(UserId, id, cancellationToken))
                 return Forbid();
@@ -87,7 +87,7 @@ namespace ISkills.Controllers
         [Authorize]
         [HttpDelete]
         [Route("api/videos/{id}")]
-        public async Task<IActionResult> DeleteVideo(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteVideo(Guid id, CancellationToken cancellationToken = default)
         {
             if (!await _accessService.HasAccessToVideo(UserId, id, cancellationToken))
                 return Forbid();

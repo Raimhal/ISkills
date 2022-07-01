@@ -82,7 +82,14 @@ import {
     FlexibleXYPlot, FlexibleWidthXYPlot
 } from 'react-vis';
 import BarSeries from "react-vis/es/plot/series/bar-series";
-import {clearPurchases, getPurchasesStatistic, clearLoading as clearStatisticLoading} from "../store/StatisticReducer";
+import {
+    clearPurchases,
+    getPurchasesStatistic,
+    clearLoading as clearPurchaseLoading,
+    generateClientToken, clearClientToken
+} from "../store/PurchaseReducer";
+import BraintreeDropIn from "../components/UI/Braintree/BraintreeDtopIn";
+import NotFoundPage from "./NotFoundPage";
 
 const CoursePage = () => {
     const dispatch = useDispatch()
@@ -117,10 +124,12 @@ const CoursePage = () => {
     const isChaptersLoading = useSelector(state => state.chapter.isLoading)
     const isLoading = useSelector(state => state.user.isLoading)
     const isAssignLoading = useSelector(state => state.user.isActionLoading)
-    const isStatisticLoading = useSelector(state => state.statistic.isLoading)
+    const isPurchaseLoading = useSelector(state => state.purchase.isLoading)
+    const isClientTokenLoading = useSelector(state => state.purchase.isClientTokenLoading)
 
-    const purchases = useSelector(state => state.statistic.purchases)
-    const statisticDays = useSelector(state => state.statistic.params.days)
+    const purchases = useSelector(state => state.purchase.purchases)
+    const purchaseDays = useSelector(state => state.purchase.params.days)
+    const clientToken = useSelector(state => state.purchase.clientToken)
 
     const [modal, setModal] = useState(false)
 
@@ -135,8 +144,10 @@ const CoursePage = () => {
 
     const [imageModal, setImageModal] = useState(false)
 
+    const [showBraintreeDropIn, setShowBraintreeDropIn] = useState(false);
+
     useEffect(() => {
-        console.log(isCourseLoading)
+
         dispatch(getCourse(id, navigate))
         dispatch(getPurchasesStatistic(id))
 
@@ -147,7 +158,7 @@ const CoursePage = () => {
             dispatch(clearChapters())
             dispatch(clearPurchases())
             dispatch(clearCourseLoading())
-            dispatch(clearStatisticLoading())
+            dispatch(clearPurchaseLoading())
         }
     }, [])
 
@@ -173,6 +184,8 @@ const CoursePage = () => {
 
     return (
         !isCourseLoading  ?
+            <>
+                {!error ?
         <div className="main">
             <div className="block">
                 <div className="course__head">
@@ -199,23 +212,42 @@ const CoursePage = () => {
                         {course.students.length > 0 && <div>{course.students.length} {course.students.length === 1 ? "student" : "students"}</div>}
                     </div>
                 </div>
+                {showBraintreeDropIn &&
+                    <MyModal visible={showBraintreeDropIn} setVisible={setShowBraintreeDropIn}>
+                        <BraintreeDropIn
+                            show={showBraintreeDropIn}
+                            onPaymentCompleted={() => {
+                                setShowBraintreeDropIn(false);
+                            }}
+                            clientToken={clientToken}
+                        />
+                    </MyModal>
+                }
                 {!hasUserAccess &&
                 <div>
                     {course.price === 0
                         ? <div className="price">
                             <div> Free </div>
                             {!isAssignLoading
-                                ? <MyButton onClick={() => dispatch(assignUser(navigate))}>Get</MyButton>
+                                ? <MyButton onClick={() => {
+                                    if(!isAuth)
+                                        navigate('/login')
+                                    else
+                                        dispatch(assignUser())
+                                }}
+                                >Get</MyButton>
                                 : <InnerLoading/>
                             }
                         </div>
                         : <div className="price">
                             <div>{course.price} $</div>
                             {!isAssignLoading
-                                ? <MyButton onClick={ () =>
-                                    // redirect to payment page
-                                    dispatch(assignUser(navigate))
-                                }>Buy now</MyButton>
+                                ? <MyButton onClick={ () => {
+                                    if(!isAuth)
+                                        navigate('/login')
+                                    else
+                                        setShowBraintreeDropIn(true)
+                                }}>Buy now</MyButton>
                                 : <InnerLoading/>
                             }
                         </div>
@@ -258,8 +290,8 @@ const CoursePage = () => {
                         <MyTextarea value={course.requirements}/>
                     </div>
                     }
-                    {(!isStatisticLoading && purchases.length > 0) && <div className="block">
-                        <h5>Purchases for last {statisticDays} days :</h5>
+                    {(!isPurchaseLoading && purchases.length > 0) && <div className="block">
+                        <h5>Purchases for last {purchaseDays} days :</h5>
                         <div style={{display: "flex", justifyContent: "center"}}>
                             <FlexibleWidthXYPlot
                                 xType="ordinal"
@@ -497,8 +529,12 @@ const CoursePage = () => {
                         }
                     </div>
                     }
-        </div>
+                    </div>
+                    : <NotFoundPage/>
+        }
+        </>
             : <Loading/>
     );
 };
+
 export default CoursePage;

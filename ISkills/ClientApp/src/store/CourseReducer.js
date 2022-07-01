@@ -14,7 +14,7 @@ const defaultState = {
         imageUrl: defaultCourseImage,
         categoryId: '',
         themeId: '',
-        theme: {},
+        theme: null,
         students: [],
     },
     params: {
@@ -132,7 +132,7 @@ export const clearDeleteLoading = () => ({type: CLEAR_DELETE_LOADING})
 export const setImageLoading = (payload) => ({type: SET_IMAGE_LOADING, payload: payload})
 export const clearImageLoading = () => ({type: CLEAR_IMAGE_LOADING})
 
-export const getCourse = (id, navigate = null) => async (dispatch, getState) => {
+export const getCourse = (id) => async (dispatch, getState) => {
     const error = getState().course.error
 
 
@@ -141,7 +141,6 @@ export const getCourse = (id, navigate = null) => async (dispatch, getState) => 
 
         dispatch(setCourse({...course, categoryId: ''}))
     }, setError, setCourseLoading)
-    navigate && error && navigate('/404')
 
 };
 
@@ -228,7 +227,6 @@ export const updateCourse = (setModal = null) => async (dispatch, getState)  => 
         await CourseService.Update(course.id, course)
         courses[index] = course
         dispatch(setCourses([...courses]))
-        dispatch(clearCourse())
         setModal && setModal(false)
     }, setError, setActionLoading)
 }

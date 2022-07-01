@@ -19,7 +19,7 @@ namespace BLL
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IFileRepository, FileRepository>();
             services.AddScoped<IAccessRepository, AccessRepository>();
-            services.AddScoped<ICourseService, CourseRepository>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IThemeRepository, ThemeRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICommentRepository, CommentRepository>();
@@ -29,6 +29,7 @@ namespace BLL
             services.AddScoped<IAntivirusService, AntivirusService>();
             services.AddScoped<IDatabaseService, DatabaseService>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
+            services.AddTransient<IBraintreeService, BraintreeService>();
 
             if (isDevelopment)
             {

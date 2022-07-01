@@ -9,7 +9,7 @@ import {ChapterReducer} from "./ChapterReducer";
 import {VideoReducer} from "./VideoReducer";
 import {FileReducer} from "./FileReducer";
 import {BackupReducer} from "./BackupReducer";
-import {StatisticReducer} from "./StatisticReducer";
+import {PurchaseReducer} from "./PurchaseReducer";
 import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
     video: VideoReducer,
     file: FileReducer,
     backup: BackupReducer,
-    statistic: StatisticReducer,
+    purchase: PurchaseReducer,
 })
 
 export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));

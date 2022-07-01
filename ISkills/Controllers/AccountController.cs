@@ -21,7 +21,7 @@ namespace ISkills.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("api/account/authenticate")]
-        public async Task<IActionResult> Authenticate(AuthenticateRequest authenticateRequest, CancellationToken cancellationToken)
+        public async Task<IActionResult> Authenticate(AuthenticateRequest authenticateRequest, CancellationToken cancellationToken = default)
         {
             var tokens = await _accountService.Authenticate(authenticateRequest, GetIp(), cancellationToken);
 
@@ -35,7 +35,7 @@ namespace ISkills.Controllers
 
         [HttpPost]
         [Route("api/account/refresh-token")]
-        public async Task<IActionResult> RefreshToken(CancellationToken cancellationToken)
+        public async Task<IActionResult> RefreshToken(CancellationToken cancellationToken = default)
         {
             var refreshToken = Request.Cookies["refreshToken"];
 
@@ -51,7 +51,7 @@ namespace ISkills.Controllers
 
         [HttpPost]
         [Route("api/account/revoke-token")]
-        public async Task<IActionResult> RevokeToken([FromForm]string token, CancellationToken cancellationToken)
+        public async Task<IActionResult> RevokeToken([FromForm]string token, CancellationToken cancellationToken = default)
         {
             var revokedToken = token ?? Request.Cookies["refreshToken"];
 

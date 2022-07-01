@@ -10,6 +10,8 @@ import ThemeForm from "../components/theme/ThemeForm";
 import {Tooltip} from "@material-ui/core";
 import {IconButton} from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import {removeType, setFileType} from "../store/FileReducer";
+import EmptyList from "../components/UI/EmptyList/EmptyList";
 
 const AdminThemes = () => {
     const themes = useSelector(state => state.theme.themes)
@@ -51,21 +53,28 @@ const AdminThemes = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-            <MyTable
-                title="theme"
-                items={themes}
-                remove={removeTheme}
-                updateClick={(theme) => {
-                    dispatch(clearError())
-                    dispatch(setTheme(theme))
-                    setUpdateModal(true)
-                }}
-                error={error}
-                clearError={() => dispatch(clearError())}
-                forbiddenFields={["id"]}
-            />
-            <MyPagination page={params.page} pageSize={params.take} pageCount={themes.length}
-            totalCount={totalCount} changePage={changePage}/>
+            {themes.length > 0
+                ?
+                <>
+                    <MyTable
+                        title="theme"
+                        items={themes}
+                        remove={removeTheme}
+                        updateClick={(theme) => {
+                            dispatch(clearError())
+                            dispatch(setTheme(theme))
+                            setUpdateModal(true)
+                        }}
+                        error={error}
+                        clearError={() => dispatch(clearError())}
+                        forbiddenFields={["id"]}
+                    />
+                    <MyPagination page={params.page} pageSize={params.take} pageCount={themes.length}
+                                  totalCount={totalCount} changePage={changePage}/>
+                </>
+                : <EmptyList title="No themes found"/>
+            }
+
             {createModal &&
             <MyModal visible={createModal} setVisible={setCreateModal}>
                 <ThemeForm action={() => {

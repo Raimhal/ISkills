@@ -19,6 +19,7 @@ import {Tooltip} from "@material-ui/core";
 import {IconButton} from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Loading from "../components/UI/Loading/Loading";
+import EmptyList from "../components/UI/EmptyList/EmptyList";
 
 const AdminCategories = () => {
     const categories = useSelector(state => state.category.categories)
@@ -38,8 +39,6 @@ const AdminCategories = () => {
     useEffect( () =>{
         dispatch(getCategories())
     }, [params.page, params.sortOption, params.reverse])
-
-    console.log(!isLoading)
 
     return (
         <div className="wide main">
@@ -61,21 +60,26 @@ const AdminCategories = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-
-            <MyTable
-                title="chapter"
-                items={categories}
-                remove={removeCategory}
-                updateClick={(category) => {
-                    dispatch(clearError())
-                    dispatch(setCategory(category))
-                    setUpdateModal(true)
-                }}
-                error={error}
-                clearError={() => dispatch(clearError())}
-            />
-            <MyPagination page={params.page} pageSize={params.take} pageCount={categories.length}
-            totalCount={totalCount} changePage={changePage}/>
+            {categories.length > 0
+                ?
+            <>
+                <MyTable
+                    title="chapter"
+                    items={categories}
+                    remove={removeCategory}
+                    updateClick={(category) => {
+                        dispatch(clearError())
+                        dispatch(setCategory(category))
+                        setUpdateModal(true)
+                    }}
+                    error={error}
+                    clearError={() => dispatch(clearError())}
+                />
+                <MyPagination page={params.page} pageSize={params.take} pageCount={categories.length}
+                totalCount={totalCount} changePage={changePage}/>
+            </>
+                : <EmptyList title="No categories found"/>
+            }
             {createModal &&
             <MyModal visible={createModal} setVisible={setCreateModal}>
                 <CategoryForm action={async () => {

@@ -20,14 +20,14 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/categories/all")]
-        public async Task<ActionResult<List<CategoryDto>>> GetCategoriesAll(CancellationToken cancellationToken,
+        public async Task<ActionResult<List<CategoryDto>>> GetCategoriesAll(CancellationToken cancellationToken = default,
             string query = "", string sortOption = "title", bool reverse = false)
             => Ok(await _categoryService.GetListAll(query, sortOption, reverse, cancellationToken));
         
 
         [HttpGet]
         [Route("api/categories")]
-        public async Task<ActionResult<List<CategoryDto>>> GetCategoryies(CancellationToken cancellationToken,
+        public async Task<ActionResult<List<CategoryDto>>> GetCategoryies(CancellationToken cancellationToken = default,
             int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false)
         {
             var content = await _categoryService.GetList(skip, take, query, sortOption, reverse, cancellationToken);
@@ -38,7 +38,7 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/categories/{id}")]
-        public async Task<ActionResult<CategoryDto>> GetCategory(int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<CategoryDto>> GetCategory(int id, CancellationToken cancellationToken = default)
             => Ok(await _categoryService.GetByIdAsync(id, cancellationToken));
         
 
@@ -46,7 +46,7 @@ namespace ISkills.Controllers
         [HttpPost]
         [Route("api/categories")]
         public async Task<ActionResult<Guid>> CreateCategory([FromBody] CreateCategoryDto model,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
             => Ok(await _categoryService.CreateAsync(model, cancellationToken));
 
 
@@ -54,7 +54,7 @@ namespace ISkills.Controllers
         [HttpPut]
         [Route("api/categories/{id}")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CreateCategoryDto model,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             await _categoryService.UpdateAsync(id, model, cancellationToken);
             return NoContent();
@@ -64,7 +64,7 @@ namespace ISkills.Controllers
         [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("api/categories/{id}")]
-        public async Task<IActionResult> DeleteCategory(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteCategory(int id, CancellationToken cancellationToken = default)
         {
             await _categoryService.DeleteByIdAsync(id, cancellationToken);
             return NoContent();

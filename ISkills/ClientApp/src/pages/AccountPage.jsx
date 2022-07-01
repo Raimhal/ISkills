@@ -24,6 +24,7 @@ import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import {colorTheme} from "../styleThemes";
 import Loading from "../components/UI/Loading/Loading";
 import {clearTheme} from "../store/ThemeReducer";
+import EmptyList from "../components/UI/EmptyList/EmptyList";
 
 const AccountPage = () => {
     const dispatch = useDispatch()
@@ -48,7 +49,7 @@ const AccountPage = () => {
 
     useEffect(() => {
         dispatch(clearTheme())
-    })
+    }, [])
 
     useEffect(() => {
 
@@ -71,7 +72,7 @@ const AccountPage = () => {
     }
 
     return (
-        !isLoading && !isCoursesLoading
+        !isLoading
         ? <div className="wide main account">
                     <div className="top">
                         <div className="look-up">
@@ -132,7 +133,7 @@ const AccountPage = () => {
                     />
                     {!isCoursesLoading ?
                         <>
-                            {courses.length > 0 &&
+                            {courses.length > 0 ?
                                 <div>
                                     <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                                                   totalCount={totalCount} changePage={changePage}/>
@@ -140,6 +141,8 @@ const AccountPage = () => {
                                     <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                                                   totalCount={totalCount} changePage={changePage}/>
                                 </div>
+                                :
+                                <EmptyList title="No courses found"/>
                             }
                         </>
                         :   <div style={{position: "relative"}}>

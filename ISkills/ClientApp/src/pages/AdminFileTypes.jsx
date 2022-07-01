@@ -18,6 +18,8 @@ import FileTypeForm from "../components/file/FileTypeForm";
 import {Tooltip} from "@material-ui/core";
 import {IconButton} from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import {removeComment, setComment} from "../store/CommentReducer";
+import EmptyList from "../components/UI/EmptyList/EmptyList";
 
 const AdminFileTypes = () => {
     const types = useSelector(state => state.file.types)
@@ -59,21 +61,28 @@ const AdminFileTypes = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-            <MyTable
-                title="file type"
-                items={types}
-                remove={removeType}
-                updateClick={(type) => {
-                    dispatch(clearError())
-                    dispatch(setFileType(type))
-                    setUpdateModal(true)
-                }}
-                error={error}
-                clearError={() => dispatch(clearError())}
-                forbiddenFields={["id"]}
-            />
-            <MyPagination page={params.page} pageSize={params.take} pageCount={types.length}
-            totalCount={totalCount} changePage={changePage}/>
+            {types.length > 0
+                ?
+                <>
+                    <MyTable
+                        title="file type"
+                        items={types}
+                        remove={removeType}
+                        updateClick={(type) => {
+                            dispatch(clearError())
+                            dispatch(setFileType(type))
+                            setUpdateModal(true)
+                        }}
+                        error={error}
+                        clearError={() => dispatch(clearError())}
+                        forbiddenFields={["id"]}
+                    />
+                    <MyPagination page={params.page} pageSize={params.take} pageCount={types.length}
+                                  totalCount={totalCount} changePage={changePage}/>
+                </>
+                : <EmptyList title="No file types found"/>
+            }
+
             {createModal &&
             <MyModal visible={createModal} setVisible={setCreateModal}>
                 <FileTypeForm action={() => {

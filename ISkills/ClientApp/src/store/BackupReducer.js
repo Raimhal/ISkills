@@ -145,7 +145,6 @@ export const removeBackup = url => async (dispatch, getState) => {
     const totalCount = getState().backup.totalCount
 
     await responseHandler(dispatch, async () => {
-        console.log(url)
         await BackupService.Delete(url)
         dispatch(setBackups([...backups.filter(b => b.url !== url)]))
         dispatch(setTotalCount(+totalCount - 1))

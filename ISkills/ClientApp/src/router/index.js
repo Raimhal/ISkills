@@ -38,7 +38,7 @@ const adminRoutes = [
     {path: '/admin/themes', component: <AdminThemes />, title: 'Themes'},
     {path: '/admin/categories', component: <AdminCategories />, title: 'Categories'},
     {path: '/backups', component: <DatabasePage />, title: 'Backups'},
-    {path: '/statistic', component: <StatisticsPage />, title: 'Statistic'},
+    {path: '/purchase', component: <StatisticsPage />, title: 'Purchase'},
 ]
 
 export {publicRoutes, privateRoutes, adminRoutes}

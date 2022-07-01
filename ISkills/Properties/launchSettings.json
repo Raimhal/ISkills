@@ -22,9 +22,12 @@
       "environmentVariables": {
         "PG_PATH": "E:/Postgesql/bin",
         "DATABASE_URL": "postgresql://kyzfnehcfiilcj:89e795cfd8e35c92ec0849fd0d779d74f25ec2da10e7d53f154acc6e102b84b7@ec2-63-34-180-86.eu-west-1.compute.amazonaws.com:5432/dbp06hio45nd68",
-        //"DATABASE_URL": "postgresql://postgres:Epidemic2021@localhost:5432/ISkillsDB",
         "CLOUDINARY_URL": "cloudinary://193221823576615:83zd3bmUkx77QvIXoYTs7oYFSwA@hlsg8sz6b",
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "BraintreeEnvironment": "sandbox",
+        "MerchantId": "t6qvjgyp3wt3f4tv",
+        "PublicKey": "jpg8rnsfcswywmm9",
+        "PrivateKey": "5fa9deeb13aba7d73be4851706325b65"
       }
     }
   }

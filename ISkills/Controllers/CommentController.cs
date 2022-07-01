@@ -22,14 +22,14 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/comments/all")]
-        public async Task<ActionResult<List<CommentDto>>> GetCommentsAll(CancellationToken cancellationToken, string query = "",
+        public async Task<ActionResult<List<CommentDto>>> GetCommentsAll(CancellationToken cancellationToken = default, string query = "",
             string sortOption = "date", bool reverse = false, Guid? courseId = null)
             => Ok(await _commentService.GetListAll(query, sortOption, reverse, cancellationToken, courseId));
 
 
         [HttpGet]
         [Route("api/comments")]
-        public async Task<ActionResult<List<CommentDto>>> GetComments(CancellationToken cancellationToken,
+        public async Task<ActionResult<List<CommentDto>>> GetComments(CancellationToken cancellationToken = default,
             int skip = 0, int take = 10, string query = "", string sortOption = "date", bool reverse = false, Guid? courseId = null)
         {
             var content = await _commentService.GetList(skip, take, query, sortOption, reverse, cancellationToken, courseId);
@@ -40,7 +40,7 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/comments/{id}")]
-        public async Task<ActionResult<Comment>> GetCourse(Guid id, CancellationToken cancellationToken)
+        public async Task<ActionResult<Comment>> GetCourse(Guid id, CancellationToken cancellationToken = default)
             => Ok(await _commentService.GetByIdAsync(id, cancellationToken));
 
 
@@ -48,7 +48,7 @@ namespace ISkills.Controllers
         [HttpPost]
         [Route("api/comments")]
         public async Task<ActionResult<Guid>> CreateComment([FromBody] CreateCommentDto model,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             if (!await _accessService.HasAccessToCreateComment(UserId, model.CourseId, cancellationToken))
                 return Forbid();
@@ -62,7 +62,7 @@ namespace ISkills.Controllers
         [HttpPut]
         [Route("api/comments/{id}")]
         public async Task<IActionResult> UpdateComment(Guid id, [FromBody] CreateCommentDto model,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             if (!await _accessService.HasAccessToComment(UserId, id, cancellationToken))
                 return Forbid();
@@ -75,7 +75,7 @@ namespace ISkills.Controllers
         [Authorize]
         [HttpDelete]
         [Route("api/comments/{id}")]
-        public async Task<IActionResult> DeleteC(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteC(Guid id, CancellationToken cancellationToken = default)
         {
             if (!await _accessService.HasAccessToComment(UserId, id, cancellationToken))
                 return Forbid();

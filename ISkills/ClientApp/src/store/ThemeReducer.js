@@ -120,8 +120,10 @@ export const getAllThemes = (categoryId = null) => async (dispatch, getState) =>
 
         dispatch(setParams(newParams))
         dispatch(setThemes(themes))
-        categories[index].themes = [...themes]
-        dispatch(setCategories([...categories]))
+
+        const newCategories = [...categories]
+        newCategories[index].themes = themes
+        dispatch(setCategories([...newCategories]))
     }, setError, setLoading)
 };
 

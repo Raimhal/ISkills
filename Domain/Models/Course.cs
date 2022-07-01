@@ -15,11 +15,11 @@ namespace Domain.Models
         public string Language { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime DateUpdated { get; set; }
-        public float? Price { get; set; }
+        public decimal Price { get; set; }
         public string ImageUrl { get; set; }
         public double Rating { get; set; } 
         public int? ThemeId { get; set; }
-        public Theme? Theme { get; set; }
+        public Theme Theme { get; set; }
         public Guid CreatorId { get; set; }
         public virtual ICollection<User> Students { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }

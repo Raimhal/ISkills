@@ -166,8 +166,8 @@ namespace DAL.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
 
-                    b.Property<float?>("Price")
-                        .HasColumnType("real");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<double>("Rating")
                         .HasColumnType("double precision");
@@ -282,7 +282,7 @@ namespace DAL.Migrations
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
@@ -470,7 +470,8 @@ namespace DAL.Migrations
                     b.HasOne("Domain.Models.Category", "Category")
                         .WithMany("Themes")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
                 });

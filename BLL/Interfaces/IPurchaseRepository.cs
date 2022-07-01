@@ -11,5 +11,6 @@ namespace BLL.Interfaces
     public interface IPurchaseRepository : IBaseRepository<Guid, Purchase, CreatePurchaseDto, PurchaseDto>
     {
         Task<List<GroupedItem>> GetGroupedPurchases(string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics);
+        Task<string> GenerateClientToken();
     }
 }

@@ -15,6 +15,8 @@ import {
 import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
 import MyModal from "../components/UI/MyModal/MyModal";
 import CommentForm from "../components/comment/CommentForm";
+import {removeChapter, setChapter} from "../store/ChapterReducer";
+import EmptyList from "../components/UI/EmptyList/EmptyList";
 
 
 const AdminComments = () => {
@@ -45,21 +47,28 @@ const AdminComments = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-            <MyTable
-                title="comment"
-                items={comments}
-                remove={removeComment}
-                updateClick={(comment) => {
-                    dispatch(clearError())
-                    dispatch(setComment(comment))
-                    setModal(true)
-                }}
-                clearError={() => dispatch(clearError())}
-                forbiddenFields={["id"]}
-                error={error}
-            />
-            <MyPagination page={params.page} pageSize={params.take} pageCount={comments.length}
-            totalCount={totalCount} changePage={changePage}/>
+            {comments.length > 0
+                ?
+                <>
+                    <MyTable
+                        title="comment"
+                        items={comments}
+                        remove={removeComment}
+                        updateClick={(comment) => {
+                            dispatch(clearError())
+                            dispatch(setComment(comment))
+                            setModal(true)
+                        }}
+                        clearError={() => dispatch(clearError())}
+                        forbiddenFields={["id"]}
+                        error={error}
+                    />
+                    <MyPagination page={params.page} pageSize={params.take} pageCount={comments.length}
+                                  totalCount={totalCount} changePage={changePage}/>
+                </>
+                : <EmptyList title="No comments found"/>
+            }
+
             {modal &&
                 <MyModal visible={modal} setVisible={setModal}>
                     <CommentForm action={() => {

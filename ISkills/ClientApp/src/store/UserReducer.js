@@ -4,7 +4,7 @@ import {responseHandler} from "./ResponseHandler";
 import jwt_decode from "jwt-decode";
 import CourseService from "../API/CourseService";
 import {setCourse} from "./CourseReducer";
-import {setPurchases} from "./StatisticReducer";
+import {setPurchases} from "./PurchaseReducer";
 
 
 const defaultState = {
@@ -181,20 +181,18 @@ export const logout = () => async (dispatch) => {
     }, setError, setActionLoading)
 }
 
-export const assignUser = (navigate = null) => async (dispatch, getState) => {
+export const assignUser = (paymentNonce = null) => async (dispatch, getState) => {
     const currentUser = getState().user.user
     const course = getState().course.course
-    const isAuth = getState().user.isAuth
-    const purchases = getState().statistic.purchases
-
-    if(!isAuth){
-        navigate('/login')
-        return
-    }
+    const purchases = getState().purchase.purchases
 
 
     await responseHandler(dispatch, async () => {
-        await CourseService.ToggleAssignment(course.id)
+        await CourseService.ToggleAssignment(course.id, {}, {
+            params: {
+                paymentNonce: paymentNonce
+            }
+        })
 
         purchases[purchases.length -1 ].count += 1
         dispatch(setPurchases([...purchases]))

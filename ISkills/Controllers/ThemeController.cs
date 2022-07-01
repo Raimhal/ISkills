@@ -21,14 +21,14 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/themes/all")]
-        public async Task<ActionResult<List<ThemeDto>>> GetThemesAll(CancellationToken cancellationToken,
+        public async Task<ActionResult<List<ThemeDto>>> GetThemesAll(CancellationToken cancellationToken = default,
             string query = "", string sortOption = "title", bool reverse = false, int? categoryId = null)
             => Ok(await _themeService.GetListAll(query, sortOption, reverse, cancellationToken, categoryId));
 
 
         [HttpGet]
         [Route("api/themes")]
-        public async Task<ActionResult<PaginationList<ThemeDto>>> GetThemes(CancellationToken cancellationToken, 
+        public async Task<ActionResult<PaginationList<ThemeDto>>> GetThemes(CancellationToken cancellationToken = default, 
             int skip = 0, int take = 10, string query = "", string sortOption = "title", bool reverse = false, int? categoryId = null)
         {
             var content = await _themeService.GetList(skip, take, query, sortOption, reverse, cancellationToken, categoryId);
@@ -39,7 +39,7 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/themes/{id}")]
-        public async Task<ActionResult<Theme>> GetTheme(int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<Theme>> GetTheme(int id, CancellationToken cancellationToken = default)
             => Ok(await _themeService.GetByIdAsync(id, cancellationToken));
 
 
@@ -48,7 +48,7 @@ namespace ISkills.Controllers
         [HttpPost]
         [Route("api/themes")]
         public async Task<ActionResult<Guid>> CreateTheme([FromBody] CreateThemeDto model,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
             => Ok(await _themeService.CreateAsync(model, cancellationToken));
 
 
@@ -56,7 +56,7 @@ namespace ISkills.Controllers
         [HttpPut]
         [Route("api/themes/{id}")]
         public async Task<IActionResult> UpdateTheme(int id, [FromBody] CreateThemeDto model,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             await _themeService.UpdateAsync(id, model, cancellationToken);
             return NoContent();
@@ -66,7 +66,7 @@ namespace ISkills.Controllers
         [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("api/themes/{id}")]
-        public async Task<IActionResult> DeleteTheme(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteTheme(int id, CancellationToken cancellationToken = default)
         {
             await _themeService.DeleteByIdAsync(id, cancellationToken);
             return NoContent();

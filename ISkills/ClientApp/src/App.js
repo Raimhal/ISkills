@@ -10,6 +10,7 @@ import Loading from "./components/UI/Loading/Loading";
 import "rsuite/dist/rsuite.min.css";
 import '../node_modules/react-vis/dist/style.css';
 import jwt_decode from "jwt-decode";
+import {generateClientToken} from "./store/PurchaseReducer";
 
 const App = () => {
     const dispatch = useDispatch()
@@ -24,17 +25,18 @@ const App = () => {
             if(exp < Math.floor(+Date.now() / 1000))
                 dispatch(refreshTokens())
             dispatch(getCurrentUser())
+            dispatch(generateClientToken())
         }
     }, [])
 
    return (
            <div className="App">
-               {/*{!isLoading ?*/}
+               {(!localStorage.getItem('accessToken') || !isLoading) ?
                    <BrowserRouter>
                            <Navbar/>
                            <AppRouter/>
                    </BrowserRouter>
-               {/*: <Loading/> }*/}
+               : <Loading/> }
            </div>
 
    )

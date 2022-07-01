@@ -20,14 +20,14 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/file-types/all")]
-        public async Task<ActionResult<List<AllowedFileTypeDto>>> GetFileTypesAll(CancellationToken cancellationToken, 
+        public async Task<ActionResult<List<AllowedFileTypeDto>>> GetFileTypesAll(CancellationToken cancellationToken = default, 
             string query = "", string sortOption = "filetype", bool reverse = false)
             => Ok(await _fileService.GetListAll(query, sortOption, reverse, cancellationToken));
 
 
         [HttpGet]
         [Route("api/file-types")]
-        public async Task<ActionResult<List<AllowedFileTypeDto>>> GetFileTypes(CancellationToken cancellationToken, 
+        public async Task<ActionResult<List<AllowedFileTypeDto>>> GetFileTypes(CancellationToken cancellationToken = default, 
             int skip = 0, int take = 10, string query = "", string sortOption = "filetype", bool reverse = false)
         {
             var content = await _fileService.GetList(skip, take, query, sortOption, reverse, cancellationToken);
@@ -38,7 +38,7 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/file-types/{id}")]
-        public async Task<ActionResult<AllowedFileType>> GetCourse(int id, CancellationToken cancellationToken)
+        public async Task<ActionResult<AllowedFileType>> GetCourse(int id, CancellationToken cancellationToken = default)
             => Ok(await _fileService.GetByIdAsync(id, cancellationToken));
 
 
@@ -46,7 +46,7 @@ namespace ISkills.Controllers
         [HttpPost]
         [Route("api/file-types")]
         public async Task<ActionResult<int>> CreateFileType([FromBody] CreateAllowedFileTypeDto fileTypeDto,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
             => Ok(await _fileService.CreateAsync(fileTypeDto, cancellationToken));
 
 
@@ -54,7 +54,7 @@ namespace ISkills.Controllers
         [HttpPut]
         [Route("api/file-types/{id}")]
         public async Task<IActionResult> UpdateFileType(int id, [FromBody] CreateAllowedFileTypeDto model,
-            CancellationToken cancellationToken)
+            CancellationToken cancellationToken = default)
         {
             await _fileService.UpdateAsync(id, model, cancellationToken);
             return NoContent();
@@ -64,7 +64,7 @@ namespace ISkills.Controllers
         [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("api/file-types/{id}")]
-        public async Task<IActionResult> DeleteFileType(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteFileType(int id, CancellationToken cancellationToken = default)
         {
             await _fileService.DeleteByIdAsync(id, cancellationToken);
             return NoContent();

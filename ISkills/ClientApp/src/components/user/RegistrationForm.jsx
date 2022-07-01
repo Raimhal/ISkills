@@ -145,7 +145,7 @@ const RegistrationForm = ({action, title = null, submitTitle, ...props}) => {
             />
             <MyAlert type="error" item={error}/>
             {!isLoading
-                ? <MyButton type="submit" onClick={() => clearError()}>{submitTitle}</MyButton>
+                ? <MyButton type="submit" onClick={() => dispatch(clearError())}>{submitTitle}</MyButton>
                 : <InnerLoading/>
             }
             <p>

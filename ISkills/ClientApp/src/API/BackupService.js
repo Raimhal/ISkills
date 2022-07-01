@@ -20,7 +20,6 @@ export default class BackupService {
     }
 
     static async Delete(url) {
-        console.log(url)
         const path = `/database/backup?backupUrl=${url}`
         await EntityService.Delete(path)
     }

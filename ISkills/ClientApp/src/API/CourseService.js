@@ -44,8 +44,8 @@ export  default class CourseService {
         await EntityService.Delete(path)
     }
 
-    static async ToggleAssignment(id){
+    static async ToggleAssignment(id, data = {}, config = {}){
         const path = `/courses/${id}/assignment`
-        await EntityService.Patch(path)
+        await EntityService.Patch(path, data, config)
     }
 }

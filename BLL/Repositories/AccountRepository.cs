@@ -65,18 +65,25 @@ namespace BLL.Services
             var refreshToken = user.RefreshTokens
                 .FirstOrDefault(t => t.Token == token);
 
-            var newRefreshTokenDto = GenerateRefreshToken(ip);
-
-            refreshToken.Revoked = DateTime.UtcNow;
-            refreshToken.RevokedByIp = ip;
-            refreshToken.ReplaceByToken = newRefreshTokenDto.Token;
-
-            var newRefreshToken = _mapper.Map<RefreshToken>(newRefreshTokenDto);
-
-            user.RefreshTokens.Add(newRefreshToken);
             var jwtToken = GenerateJwtToken(user);
-            
-            await _userContext.SaveChangesAsync(cancellationToken);
+
+            if (!refreshToken.IsActive)
+            {
+
+                var newRefreshTokenDto = GenerateRefreshToken(ip);
+
+                refreshToken.Revoked = DateTime.UtcNow;
+                refreshToken.RevokedByIp = ip;
+                refreshToken.ReplaceByToken = newRefreshTokenDto.Token;
+
+                var newRefreshToken = _mapper.Map<RefreshToken>(newRefreshTokenDto);
+
+                user.RefreshTokens.Add(newRefreshToken);
+
+                await _userContext.SaveChangesAsync(cancellationToken);
+
+                refreshToken = newRefreshToken;
+            }
 
             return new AuthenticateResponse(jwtToken, refreshToken.Token);
 

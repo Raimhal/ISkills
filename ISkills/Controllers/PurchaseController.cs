@@ -7,6 +7,7 @@ using BLL.DtoModels;
 using BLL.Interfaces;
 using System.Collections.Generic;
 using Domain.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace ISkills.Controllers
 {
@@ -15,12 +16,12 @@ namespace ISkills.Controllers
     {
         private readonly IPurchaseRepository _purchaseRepository;
 
-        public PurchaseController(IPurchaseRepository commentService) => 
+        public PurchaseController(IPurchaseRepository commentService) =>
             (_purchaseRepository) = (commentService);
 
         [HttpGet]
         [Route("api/purchases/grouped")]
-        public async Task<ActionResult<List<PurchaseDto>>> GetComments(CancellationToken cancellationToken,
+        public async Task<ActionResult<List<PurchaseDto>>> GetGroupedPurchases(CancellationToken cancellationToken = default,
             string sortOption = "date", bool reverse = false,
             Guid? courseId = null, DateTime? startDate = null, DateTime? endDate = null)
             => Ok(await _purchaseRepository.GetGroupedPurchases(sortOption, reverse, cancellationToken, courseId, startDate, endDate));
@@ -28,7 +29,7 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/purchases")]
-        public async Task<ActionResult<List<PurchaseDto>>> GetComments(CancellationToken cancellationToken,
+        public async Task<ActionResult<List<PurchaseDto>>> GetPurchases(CancellationToken cancellationToken = default,
             int skip = 0, int take = 10, string query = "", string sortOption = "date", bool reverse = false,
             Guid? courseId = null, DateTime? startDate = null, DateTime? endDate = null)
         {
@@ -41,7 +42,7 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/purchases/all")]
-        public async Task<ActionResult<List<PurchaseDto>>> GetComments(CancellationToken cancellationToken,
+        public async Task<ActionResult<List<PurchaseDto>>> GetAllPurchases(CancellationToken cancellationToken = default,
             string query = "", string sortOption = "date", bool reverse = false,
             Guid? courseId = null, DateTime? startDate = null, DateTime? endDate = null)
             => Ok(await _purchaseRepository.GetListAll(query, sortOption, reverse, cancellationToken, courseId, startDate, endDate));
@@ -49,8 +50,13 @@ namespace ISkills.Controllers
 
         [HttpGet]
         [Route("api/purchases/{id}")]
-        public async Task<ActionResult<Comment>> GetCourse(Guid id, CancellationToken cancellationToken)
+        public async Task<ActionResult<Comment>> GetPurchase(Guid id, CancellationToken cancellationToken = default)
             => Ok(await _purchaseRepository.GetByIdAsync(id, cancellationToken));
 
+        [HttpPost]
+        [Authorize]
+        [Route("api/purchases/generateClientToken")]
+        public async Task<ActionResult<string>> GenerateClientToken()
+            => Ok(await _purchaseRepository.GenerateClientToken());
     }
 }

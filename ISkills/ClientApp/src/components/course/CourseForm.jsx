@@ -66,7 +66,7 @@ const CourseForm = ({action, title, ...props}) => {
         price: yup
             .number("Enter course price")
             .typeError('Price must be a number')
-            .min(0)
+            .min(1)
             .required('Price is required'),
     });
 
@@ -190,7 +190,7 @@ const CourseForm = ({action, title, ...props}) => {
             </div>
             <div className="block">
                 <p><input type="radio" name="buyMode" onChange={() => dispatch(setCourse({...course, price: 0}))} defaultChecked={course.price === 0}/> free to learn</p>
-                <p><input type="radio" name="buyMode" onChange={() => dispatch(setCourse({...course, price: 0.99}))} defaultChecked={course.price !== 0}/> buy to learn </p>
+                <p><input type="radio" name="buyMode" onChange={() => dispatch(setCourse({...course, price: 1}))} defaultChecked={course.price !== 0}/> buy to learn </p>
                 {course.price !== 0 && <MyInput
                     type="text"
                     name="price"
