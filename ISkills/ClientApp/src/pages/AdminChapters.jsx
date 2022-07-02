@@ -3,11 +3,20 @@ import {useDispatch, useSelector} from "react-redux";
 import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
-import {clearError, getChapters, removeChapter, setChapter, setParams, updateChapter} from "../store/ChapterReducer";
+import {
+    clearError,
+    clearLoading,
+    getChapters,
+    removeChapter,
+    setChapter,
+    setParams,
+    updateChapter
+} from "../store/ChapterReducer";
 import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
 import MyModal from "../components/UI/MyModal/MyModal";
 import ChapterForm from "../components/chapter/ChapterForm";
 import EmptyList from "../components/UI/EmptyList/EmptyList";
+import Loading from "../components/UI/Loading/Loading";
 
 const AdminChapters = () => {
     const chapters = useSelector(state => state.chapter.chapters)
@@ -23,6 +32,12 @@ const AdminChapters = () => {
         dispatch(setParams({...params, page: page}))
     }
 
+    useEffect(() => {
+        return () => {
+            dispatch(clearLoading())
+        }
+    }, [])
+
     useEffect( () =>{
         dispatch(getChapters())
     }, [params.page, params.sortOption, params.reverse])
@@ -37,26 +52,31 @@ const AdminChapters = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-            {chapters.length > 0
-                ?
+            {!isLoading ?
                 <>
-                    <MyTable
-                        title="chapter"
-                        items={chapters}
-                        remove={removeChapter}
-                        updateClick={(chapter) => {
-                            dispatch(clearError())
-                            dispatch(setChapter(chapter))
-                            setModal(true)
-                        }}
-                        error={error}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id"]}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={chapters.length}
-                                  totalCount={totalCount} changePage={changePage}/>
+                {chapters.length > 0
+                    ?
+                    <>
+                        <MyTable
+                            title="chapter"
+                            items={chapters}
+                            remove={removeChapter}
+                            updateClick={(chapter) => {
+                                dispatch(clearError())
+                                dispatch(setChapter(chapter))
+                                setModal(true)
+                            }}
+                            error={error}
+                            clearError={() => dispatch(clearError())}
+                            forbiddenFields={["id"]}
+                        />
+                        <MyPagination page={params.page} pageSize={params.take} pageCount={chapters.length}
+                                      totalCount={totalCount} changePage={changePage}/>
+                    </>
+                    : <EmptyList title="No chapters found"/>
+                }
                 </>
-                : <EmptyList title="No chapters found"/>
+                : <Loading/>
             }
             {modal &&
             <MyModal visible={modal} setVisible={setModal}>

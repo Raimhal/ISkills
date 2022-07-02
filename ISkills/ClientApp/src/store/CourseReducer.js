@@ -97,11 +97,11 @@ export const CourseReducer = (state = defaultState, action) => {
         case SET_ACTION_LOADING:
             return {...state, isActionLoading: action.payload}
         case CLEAR_ACTION_LOADING:
-            return {...state, isActionLoading: defaultState.isLoading}
+            return {...state, isActionLoading: defaultState.isActionLoading}
         case SET_DELETE_LOADING:
             return {...state, isDeleteLoading: action.payload}
         case CLEAR_DELETE_LOADING:
-            return {...state, isDeleteLoading: defaultState.isLoading}
+            return {...state, isDeleteLoading: defaultState.isDeleteLoading}
         case SET_IMAGE_LOADING:
             return {...state, isImageLoading: action.payload}
         case CLEAR_IMAGE_LOADING:

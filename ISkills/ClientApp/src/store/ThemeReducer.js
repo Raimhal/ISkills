@@ -69,11 +69,11 @@ export const ThemeReducer = (state = defaultState, action) => {
         case SET_ACTION_LOADING:
             return {...state, isActionLoading: action.payload}
         case CLEAR_ACTION_LOADING:
-            return {...state, isActionLoading: defaultState.isLoading}
+            return {...state, isActionLoading: defaultState.isActionLoading}
         case SET_DELETE_LOADING:
             return {...state, isDeleteLoading: action.payload}
         case CLEAR_DELETE_LOADING:
-            return {...state, isDeleteLoading: defaultState.isLoading}
+            return {...state, isDeleteLoading: defaultState.isDeleteLoading}
         case SET_ERROR:
             return {...state, error: action.payload}
         case CLEAR_ERROR:
@@ -160,11 +160,13 @@ export const createTheme = (setModal = null) => async (dispatch, getState) => {
     const state = getState().theme
     const theme = state.theme
     const themes= state.themes
+    const totalCount = state.totalCount
 
     await responseHandler(dispatch, async () => {
         const themeId = await ThemeService.Create(theme)
         const newTheme = {...theme, id: themeId}
         dispatch(setThemes([...themes, {...newTheme}]))
+        dispatch(setTotalCount(+totalCount + 1))
         dispatch(clearTheme())
         setModal && setModal(false)
     }, setError, setActionLoading)

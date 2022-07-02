@@ -4,7 +4,7 @@ import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import {
-    clearError,
+    clearError, clearLoading,
     clearUser, clearUsers, getCurrentUser,
     getUsers,
     removeUser,
@@ -24,6 +24,7 @@ import ImageUpload from "../components/UI/Upload/ImageUpload";
 import UserForm from "../components/user/UserForm";
 import {removeTheme, setTheme} from "../store/ThemeReducer";
 import EmptyList from "../components/UI/EmptyList/EmptyList";
+import Loading from "../components/UI/Loading/Loading";
 
 const AdminUsers = () => {
     const users = useSelector(state => state.user.users)
@@ -43,6 +44,7 @@ const AdminUsers = () => {
 
     useEffect(() => {
         return () => {
+            dispatch(clearLoading())
             dispatch(getCurrentUser())
             dispatch(clearUsers())
         }
@@ -62,38 +64,43 @@ const AdminUsers = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-            {users.length > 0
-                ?
+            {!isLoading ?
                 <>
-                    <MyTable
-                        title="user"
-                        items={users}
-                        remove={removeUser}
-                        updateClick={(user) => {
-                            dispatch(clearError())
-                            dispatch(setUser(user))
-                            setModal(true)
-                        }}
-                        iconChildren={ (user) =>
-                            <Tooltip title={
-                                <img src={user.imageUrl || defaultUserImage} alt="image"/>
-                            } placement="bottom">
-                                <IconButton aria-label="update image" onClick={() => {
-                                    dispatch(setUser(user))
-                                    setImageModal(true)
-                                }}>
-                                    <CameraAltOutlinedIcon />
-                                </IconButton>
-                            </Tooltip>
-                        }
-                        error={error}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id", "imageUrl"]}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={users.length}
-                                  totalCount={totalCount} changePage={changePage}/>
+                {users.length > 0
+                    ?
+                    <>
+                        <MyTable
+                            title="user"
+                            items={users}
+                            remove={removeUser}
+                            updateClick={(user) => {
+                                dispatch(clearError())
+                                dispatch(setUser(user))
+                                setModal(true)
+                            }}
+                            iconChildren={ (user) =>
+                                <Tooltip title={
+                                    <img src={user.imageUrl || defaultUserImage} alt="image"/>
+                                } placement="bottom">
+                                    <IconButton aria-label="update image" onClick={() => {
+                                        dispatch(setUser(user))
+                                        setImageModal(true)
+                                    }}>
+                                        <CameraAltOutlinedIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            }
+                            error={error}
+                            clearError={() => dispatch(clearError())}
+                            forbiddenFields={["id", "imageUrl"]}
+                        />
+                        <MyPagination page={params.page} pageSize={params.take} pageCount={users.length}
+                                      totalCount={totalCount} changePage={changePage}/>
+                    </>
+                    : <EmptyList title="No users found"/>
+                }
                 </>
-                : <EmptyList title="No users found"/>
+                : <Loading/>
             }
             {modal &&
             <MyModal visible={modal} setVisible={setModal}>

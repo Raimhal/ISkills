@@ -59,11 +59,11 @@ export const BackupReducer = (state = defaultState, action) => {
         case SET_ACTION_LOADING:
             return {...state, isActionLoading: action.payload}
         case CLEAR_ACTION_LOADING:
-            return {...state, isActionLoading: defaultState.isLoading}
+            return {...state, isActionLoading: defaultState.isActionLoading}
         case SET_DELETE_LOADING:
             return {...state, isDeleteLoading: action.payload}
         case CLEAR_DELETE_LOADING:
-            return {...state, isDeleteLoading: defaultState.isLoading}
+            return {...state, isDeleteLoading: defaultState.isDeleteLoading}
         case SET_ERROR:
             return {...state, error: action.payload}
         case CLEAR_ERROR:

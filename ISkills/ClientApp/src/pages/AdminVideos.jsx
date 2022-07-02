@@ -3,7 +3,15 @@ import {useDispatch, useSelector} from "react-redux";
 import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
-import {clearError, getVideos, removeVideo, setParams, setVideo, updateVideo} from "../store/VideoReducer";
+import {
+    clearError,
+    clearLoading,
+    getVideos,
+    removeVideo,
+    setParams,
+    setVideo,
+    updateVideo
+} from "../store/VideoReducer";
 import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
 import Loading from "../components/UI/Loading/Loading";
 import MyModal from "../components/UI/MyModal/MyModal";
@@ -33,6 +41,10 @@ const AdminVideos = () => {
         dispatch(setParams({...params, page: page}))
     }
 
+    useEffect(() => {
+        dispatch(clearLoading())
+    }, [])
+
     useEffect( () =>{
         dispatch(getVideos())
     }, [params.page, params.sortOption, params.reverse])
@@ -47,36 +59,41 @@ const AdminVideos = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-            {videos.length > 0
-                ?
+            {!isLoading ?
                 <>
-                    <MyTable
-                        title="video"
-                        items={videos}
-                        remove={removeVideo}
-                        updateClick={(video) => {
-                            dispatch(clearError())
-                            dispatch(setVideo(video))
-                            setModal(true)
-                        }}
-                        iconChildren={ (video) =>
-                            <Tooltip title="Video" placement="bottom">
-                                <IconButton aria-label="show video" onClick={() => {
-                                    dispatch(setVideo(video))
-                                    setViewModal(true)
-                                }}>
-                                    <CameraAltOutlinedIcon />
-                                </IconButton>
-                            </Tooltip>
-                        }
-                        error={error}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id", "url"]}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={videos.length}
-                                  totalCount={totalCount} changePage={changePage}/>
+                {videos.length > 0
+                    ?
+                    <>
+                        <MyTable
+                            title="video"
+                            items={videos}
+                            remove={removeVideo}
+                            updateClick={(video) => {
+                                dispatch(clearError())
+                                dispatch(setVideo(video))
+                                setModal(true)
+                            }}
+                            iconChildren={ (video) =>
+                                <Tooltip title="Video" placement="bottom">
+                                    <IconButton aria-label="show video" onClick={() => {
+                                        dispatch(setVideo(video))
+                                        setViewModal(true)
+                                    }}>
+                                        <CameraAltOutlinedIcon />
+                                    </IconButton>
+                                </Tooltip>
+                            }
+                            error={error}
+                            clearError={() => dispatch(clearError())}
+                            forbiddenFields={["id", "url"]}
+                        />
+                        <MyPagination page={params.page} pageSize={params.take} pageCount={videos.length}
+                                      totalCount={totalCount} changePage={changePage}/>
+                    </>
+                    : <EmptyList title="No videos found"/>
+                    }
                 </>
-                : <EmptyList title="No videos found"/>
+                : <Loading/>
             }
             {modal && <MyModal visible={modal} setVisible={setModal}>
                 <VideoForm

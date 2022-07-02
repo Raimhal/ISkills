@@ -4,7 +4,7 @@ import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import {
-    clearError,
+    clearError, clearLoading,
     createCategory,
     getCategories,
     removeCategory,
@@ -20,6 +20,7 @@ import {IconButton} from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import Loading from "../components/UI/Loading/Loading";
 import EmptyList from "../components/UI/EmptyList/EmptyList";
+import {setLoading} from "../store/ChapterReducer";
 
 const AdminCategories = () => {
     const categories = useSelector(state => state.category.categories)
@@ -35,6 +36,17 @@ const AdminCategories = () => {
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
     }
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearLoading())
+        }
+    }, [])
+
+    useEffect(() => {
+        if(categories.length > 0)
+            dispatch(setLoading(false))
+    }, [categories.length])
 
     useEffect( () =>{
         dispatch(getCategories())
@@ -60,25 +72,30 @@ const AdminCategories = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-            {categories.length > 0
-                ?
-            <>
-                <MyTable
-                    title="chapter"
-                    items={categories}
-                    remove={removeCategory}
-                    updateClick={(category) => {
-                        dispatch(clearError())
-                        dispatch(setCategory(category))
-                        setUpdateModal(true)
-                    }}
-                    error={error}
-                    clearError={() => dispatch(clearError())}
-                />
-                <MyPagination page={params.page} pageSize={params.take} pageCount={categories.length}
-                totalCount={totalCount} changePage={changePage}/>
-            </>
-                : <EmptyList title="No categories found"/>
+            {!isLoading ?
+                <>
+                {categories.length > 0
+                    ?
+                    <>
+                        <MyTable
+                            title="chapter"
+                            items={categories}
+                            remove={removeCategory}
+                            updateClick={(category) => {
+                                dispatch(clearError())
+                                dispatch(setCategory(category))
+                                setUpdateModal(true)
+                            }}
+                            error={error}
+                            clearError={() => dispatch(clearError())}
+                        />
+                        <MyPagination page={params.page} pageSize={params.take} pageCount={categories.length}
+                        totalCount={totalCount} changePage={changePage}/>
+                    </>
+                        : <EmptyList title="No categories found"/>
+                }
+                </>
+                : <Loading/>
             }
             {createModal &&
             <MyModal visible={createModal} setVisible={setCreateModal}>

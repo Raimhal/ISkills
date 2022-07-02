@@ -68,11 +68,11 @@ export const CategoryReducer = (state = defaultState, action) => {
         case SET_ACTION_LOADING:
             return {...state, isActionLoading: action.payload}
         case CLEAR_ACTION_LOADING:
-            return {...state, isActionLoading: defaultState.isLoading}
+            return {...state, isActionLoading: defaultState.isActionLoading}
         case SET_DELETE_LOADING:
             return {...state, isDeleteLoading: action.payload}
         case CLEAR_DELETE_LOADING:
-            return {...state, isDeleteLoading: defaultState.isLoading}
+            return {...state, isDeleteLoading: defaultState.isDeleteLoading}
         case SET_ERROR:
             return {...state, error: action.payload}
         case CLEAR_ERROR:
@@ -138,12 +138,15 @@ export const createCategory = (setModal = null) => async (dispatch, getState) =>
     const state = getState().category
     const category = state.category
     const categories= state.categories
+    const totalCount = state.totalCount
 
     await responseHandler(dispatch, async () => {
         const categoryId = await CategoryService.Create(category)
         const newCategory = {...category, id: categoryId}
         dispatch(setCategories([...categories, newCategory]))
+        dispatch(setTotalCount(+totalCount + 1))
         dispatch(clearCategory())
+
 
         setModal && setModal(false)
     }, setError, setActionLoading)

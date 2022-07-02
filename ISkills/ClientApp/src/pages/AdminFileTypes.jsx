@@ -4,7 +4,7 @@ import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import {
-    clearError,
+    clearError, clearLoading,
     createType,
     getFileTypes,
     removeType,
@@ -20,6 +20,7 @@ import {IconButton} from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import {removeComment, setComment} from "../store/CommentReducer";
 import EmptyList from "../components/UI/EmptyList/EmptyList";
+import Loading from "../components/UI/Loading/Loading";
 
 const AdminFileTypes = () => {
     const types = useSelector(state => state.file.types)
@@ -36,6 +37,12 @@ const AdminFileTypes = () => {
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
     }
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearLoading())
+        }
+    }, [])
 
     useEffect( () =>{
         dispatch(getFileTypes())
@@ -61,26 +68,31 @@ const AdminFileTypes = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-            {types.length > 0
-                ?
+            {!isLoading ?
                 <>
-                    <MyTable
-                        title="file type"
-                        items={types}
-                        remove={removeType}
-                        updateClick={(type) => {
-                            dispatch(clearError())
-                            dispatch(setFileType(type))
-                            setUpdateModal(true)
-                        }}
-                        error={error}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id"]}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={types.length}
-                                  totalCount={totalCount} changePage={changePage}/>
+                    {types.length > 0
+                        ?
+                        <>
+                            <MyTable
+                                title="file type"
+                                items={types}
+                                remove={removeType}
+                                updateClick={(type) => {
+                                    dispatch(clearError())
+                                    dispatch(setFileType(type))
+                                    setUpdateModal(true)
+                                }}
+                                error={error}
+                                clearError={() => dispatch(clearError())}
+                                forbiddenFields={["id"]}
+                            />
+                            <MyPagination page={params.page} pageSize={params.take} pageCount={types.length}
+                                          totalCount={totalCount} changePage={changePage}/>
+                        </>
+                        : <EmptyList title="No file types found"/>
+                    }
                 </>
-                : <EmptyList title="No file types found"/>
+                : <Loading/>
             }
 
             {createModal &&

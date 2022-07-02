@@ -22,6 +22,8 @@ import CategoryForm from "../components/category/CategoryForm";
 import {createCategory} from "../store/CategoryReducer";
 import InnerLoading from "../components/UI/Loading/InnerLoading";
 import RestoreIcon from '@mui/icons-material/Restore';
+import EmptyList from "../components/UI/EmptyList/EmptyList";
+import Loading from "../components/UI/Loading/Loading";
 
 
 const DatabasePage = () => {
@@ -59,28 +61,39 @@ const DatabasePage = () => {
                     </div>
                 </Tooltip>
             </div>
-            <MyTable
-                title="backup"
-                items={backups.map(backup => {
-                    return {id: backup.url, ...backup}
-                })}
-                remove={removeBackup}
-                iconChildren={ (backup) =>
-                    <Tooltip title="Restore" placement="bottom">
-                        <IconButton aria-label="execute restore" onClick={() => {
-                            dispatch(setBackup(backup))
-                            setModal(true)
-                        }}>
-                            <RestoreIcon />
-                        </IconButton>
-                    </Tooltip>
-                }
-                error={error}
-                clearError={() => dispatch(clearError())}
-                forbiddenFields={["url", "id"]}
-            />
-            <MyPagination page={params.page} pageSize={params.take} pageCount={backups.length}
-            totalCount={totalCount} changePage={changePage}/>
+            {!isLoading ?
+                <>
+                    {backups.length > 0
+                        ?
+                        <>
+                            <MyTable
+                                title="backup"
+                                items={backups.map(backup => {
+                                    return {id: backup.url, ...backup}
+                                })}
+                                remove={removeBackup}
+                                iconChildren={ (backup) =>
+                                    <Tooltip title="Restore" placement="bottom">
+                                        <IconButton aria-label="execute restore" onClick={() => {
+                                            dispatch(setBackup(backup))
+                                            setModal(true)
+                                        }}>
+                                            <RestoreIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                }
+                                error={error}
+                                clearError={() => dispatch(clearError())}
+                                forbiddenFields={["url", "id"]}
+                            />
+                        </>
+                        : <EmptyList title="No file types found"/>
+                    }
+                    <MyPagination page={params.page} pageSize={params.take} pageCount={backups.length}
+                                  totalCount={totalCount} changePage={changePage}/>
+                </>
+                : <Loading/>
+            }
             {modal && <MyModal visible={modal} setVisible={setModal}>
                 <ConfirmationForm error={error} title={"Are you sure you want to restore to this backup?"} action={(e) => {
                     e.stopPropagation()

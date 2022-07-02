@@ -70,11 +70,11 @@ export const VideoReducer = (state = defaultState, action) => {
         case SET_ACTION_LOADING:
             return {...state, isActionLoading: action.payload}
         case CLEAR_ACTION_LOADING:
-            return {...state, isActionLoading: defaultState.isLoading}
+            return {...state, isActionLoading: defaultState.isActionLoading}
         case SET_DELETE_LOADING:
             return {...state, isDeleteLoading: action.payload}
         case CLEAR_DELETE_LOADING:
-            return {...state, isDeleteLoading: defaultState.isLoading}
+            return {...state, isDeleteLoading: defaultState.isDeleteLoading}
         case SET_ERROR:
             return {...state, error: action.payload}
         case CLEAR_ERROR:
@@ -141,6 +141,7 @@ export const createVideo = (setModal = null) => async (dispatch, getState) => {
     const state = getState().video
     const video = state.video
     const chapters = getState().chapter.chapters
+    const totalCount = state.totalCount
 
 
     await responseHandler(dispatch, async () => {
@@ -152,6 +153,7 @@ export const createVideo = (setModal = null) => async (dispatch, getState) => {
         chapters[index].videosCount = +chapters[index].videosCount + 1
 
         dispatch(setChapters([...chapters]))
+        dispatch(setTotalCount(+totalCount + 1))
         dispatch(clearVideo())
         setModal && setModal(false)
     }, setError, setActionLoading)

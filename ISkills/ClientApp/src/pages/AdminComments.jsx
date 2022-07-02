@@ -4,7 +4,7 @@ import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import {
-    clearError,
+    clearError, clearLoading,
     getComments,
     removeComment,
     setComment,
@@ -17,6 +17,7 @@ import MyModal from "../components/UI/MyModal/MyModal";
 import CommentForm from "../components/comment/CommentForm";
 import {removeChapter, setChapter} from "../store/ChapterReducer";
 import EmptyList from "../components/UI/EmptyList/EmptyList";
+import Loading from "../components/UI/Loading/Loading";
 
 
 const AdminComments = () => {
@@ -33,6 +34,12 @@ const AdminComments = () => {
         dispatch(setParams({...params, page: page}))
     }
 
+    useEffect(() => {
+        return () => {
+            dispatch(clearLoading())
+        }
+    }, [])
+
     useEffect( () =>{
         dispatch(getComments())
     }, [params.page, params.sortOption, params.reverse])
@@ -47,26 +54,32 @@ const AdminComments = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-            {comments.length > 0
-                ?
+
+            {!isLoading ?
                 <>
-                    <MyTable
-                        title="comment"
-                        items={comments}
-                        remove={removeComment}
-                        updateClick={(comment) => {
-                            dispatch(clearError())
-                            dispatch(setComment(comment))
-                            setModal(true)
-                        }}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id"]}
-                        error={error}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={comments.length}
-                                  totalCount={totalCount} changePage={changePage}/>
+                {comments.length > 0
+                    ?
+                    <>
+                        <MyTable
+                            title="comment"
+                            items={comments}
+                            remove={removeComment}
+                            updateClick={(comment) => {
+                                dispatch(clearError())
+                                dispatch(setComment(comment))
+                                setModal(true)
+                            }}
+                            clearError={() => dispatch(clearError())}
+                            forbiddenFields={["id"]}
+                            error={error}
+                        />
+                        <MyPagination page={params.page} pageSize={params.take} pageCount={comments.length}
+                                      totalCount={totalCount} changePage={changePage}/>
+                    </>
+                    : <EmptyList title="No comments found"/>
+                }
                 </>
-                : <EmptyList title="No comments found"/>
+                : <Loading/>
             }
 
             {modal &&

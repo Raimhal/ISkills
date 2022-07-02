@@ -235,10 +235,12 @@ export const getUsers = (courseId = null) => async (dispatch, getState) => {
 export const createUser = (navigate = null) => async (dispatch, getState) => {
     const state = getState().user
     const user = state.user
+    const totalCount = state.totalCount
 
     await responseHandler(dispatch, async () => {
         const userId = await UserService.Create(user)
         dispatch(setUser({...user, id: userId}))
+        dispatch(setTotalCount(+totalCount + 1))
         navigate('/login')
     }, setError, setActionLoading)
 }

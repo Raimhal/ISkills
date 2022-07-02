@@ -64,6 +64,14 @@ export const FileReducer = (state = defaultState, action) => {
             return {...state, isLoading: action.payload}
         case CLEAR_LOADING:
             return {...state, isLoading: defaultState.isLoading}
+        case SET_ACTION_LOADING:
+            return {...state, isActionLoading: action.payload}
+        case CLEAR_ACTION_LOADING:
+            return {...state, isActionLoading: defaultState.isActionLoading}
+        case SET_DELETE_LOADING:
+            return {...state, isDeleteLoading: action.payload}
+        case CLEAR_DELETE_LOADING:
+            return {...state, isDeleteLoading: defaultState.isDeleteLoading}
         case SET_ERROR:
             return {...state, error: action.payload}
         case CLEAR_ERROR:
@@ -114,6 +122,7 @@ export const createType = (setModal = null) => async (dispatch, getState) => {
     const state = getState().file
     const type = state.type
     const types = state.types
+    const totalCount = state.totalCount
 
     await responseHandler(dispatch, async () => {
         const typeId = await FileService.Create(type)
@@ -121,6 +130,7 @@ export const createType = (setModal = null) => async (dispatch, getState) => {
         dispatch(setFileType(newType))
         dispatch(setFileTypes([...types, newType]))
         dispatch(clearFileType())
+        dispatch(setTotalCount(+totalCount + 1))
         setModal && setModal(false)
     }, setError, setActionLoading)
 }

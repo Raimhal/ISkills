@@ -3,7 +3,16 @@ import {useDispatch, useSelector} from "react-redux";
 import MyTable from "../components/UI/Table/MyTable";
 import MyPagination from "../components/UI/Pagination/MyPagination";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
-import {clearError, createTheme, getThemes, removeTheme, setParams, setTheme, updateTheme} from "../store/ThemeReducer";
+import {
+    clearError,
+    clearLoading,
+    createTheme,
+    getThemes,
+    removeTheme,
+    setParams,
+    setTheme,
+    updateTheme
+} from "../store/ThemeReducer";
 import AdminNavbar from "../components/UI/Navbar/AdminNavbar";
 import MyModal from "../components/UI/MyModal/MyModal";
 import ThemeForm from "../components/theme/ThemeForm";
@@ -12,6 +21,7 @@ import {IconButton} from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import {removeType, setFileType} from "../store/FileReducer";
 import EmptyList from "../components/UI/EmptyList/EmptyList";
+import Loading from "../components/UI/Loading/Loading";
 
 const AdminThemes = () => {
     const themes = useSelector(state => state.theme.themes)
@@ -28,6 +38,12 @@ const AdminThemes = () => {
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
     }
+
+    useEffect(() => {
+        return () => {
+            dispatch(clearLoading())
+        }
+    }, [])
 
     useEffect( () =>{
         dispatch(getThemes())
@@ -53,26 +69,31 @@ const AdminThemes = () => {
                 sortList={sortList}
                 isLoading={isLoading}
             />
-            {themes.length > 0
-                ?
+            {!isLoading ?
                 <>
-                    <MyTable
-                        title="theme"
-                        items={themes}
-                        remove={removeTheme}
-                        updateClick={(theme) => {
-                            dispatch(clearError())
-                            dispatch(setTheme(theme))
-                            setUpdateModal(true)
-                        }}
-                        error={error}
-                        clearError={() => dispatch(clearError())}
-                        forbiddenFields={["id"]}
-                    />
-                    <MyPagination page={params.page} pageSize={params.take} pageCount={themes.length}
-                                  totalCount={totalCount} changePage={changePage}/>
+                {themes.length > 0
+                    ?
+                    <>
+                        <MyTable
+                            title="theme"
+                            items={themes}
+                            remove={removeTheme}
+                            updateClick={(theme) => {
+                                dispatch(clearError())
+                                dispatch(setTheme(theme))
+                                setUpdateModal(true)
+                            }}
+                            error={error}
+                            clearError={() => dispatch(clearError())}
+                            forbiddenFields={["id"]}
+                        />
+                        <MyPagination page={params.page} pageSize={params.take} pageCount={themes.length}
+                                      totalCount={totalCount} changePage={changePage}/>
+                    </>
+                    : <EmptyList title="No themes found"/>
+                }
                 </>
-                : <EmptyList title="No themes found"/>
+                : <Loading/>
             }
 
             {createModal &&
