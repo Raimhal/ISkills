@@ -148,7 +148,7 @@ const CoursePage = () => {
 
     useEffect(() => {
 
-        dispatch(getCourse(id, navigate))
+        dispatch(getCourse(id))
         dispatch(getPurchasesStatistic(id))
 
         return () => {
@@ -293,12 +293,11 @@ const CoursePage = () => {
                     {(!isPurchaseLoading && purchases.length > 0) && <div className="block">
                         <h5>Purchases for last {purchaseDays} days :</h5>
                         <div style={{display: "flex", justifyContent: "center"}}>
-                            <FlexibleWidthXYPlot
+                            <FlexibleXYPlot
                                 xType="ordinal"
                                 height={300}
-                                animation
                             >
-                                <HorizontalGridLines />
+                                <HorizontalGridLines/>
                                     <XAxis  title="Day" style={{
                                         line: {stroke: ''},
                                         text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600, fontSize: 10}
@@ -312,7 +311,7 @@ const CoursePage = () => {
                                     <VerticalBarSeriesCanvas data = {purchases.map(purchase => {
                                         return {x: new Date(purchase.name).toLocaleString("en-US", {month: window.innerWidth < 600 ? "narrow" : "short", day: "2-digit"}), y: purchase.count}
                                     })} color="#975ad4"/>
-                            </FlexibleWidthXYPlot>
+                            </FlexibleXYPlot>
                         </div>
                     </div>
                     }

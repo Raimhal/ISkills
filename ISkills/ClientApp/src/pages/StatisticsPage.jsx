@@ -26,7 +26,6 @@ const StatisticsPage = () => {
                 <FlexibleWidthXYPlot
                     xType="ordinal"
                     height={300}
-                    animation
                 >
                     <HorizontalGridLines />
                     <XAxis  title="Day" style={{

@@ -17,27 +17,27 @@ const App = () => {
     const isLoading = useSelector(state => state.user.isLoading)
 
 
+
     useEffect( () => {
-        const refreshToken = localStorage.getItem('refreshToken')
         const accessToken = localStorage.getItem('accessToken')
-        if(!!refreshToken && !!accessToken) {
+        dispatch(getCurrentUser())
+        if(accessToken) {
             const exp = jwt_decode(accessToken).exp
             if(exp < Math.floor(+Date.now() / 1000))
                 dispatch(refreshTokens())
-            dispatch(getCurrentUser())
             dispatch(generateClientToken())
         }
     }, [])
 
    return (
+       !isLoading ?
            <div className="App">
-               {(!localStorage.getItem('accessToken') || !isLoading) ?
                    <BrowserRouter>
                            <Navbar/>
                            <AppRouter/>
                    </BrowserRouter>
-               : <Loading/> }
            </div>
+           : <Loading/>
 
    )
 }

@@ -166,7 +166,6 @@ export const login = (navigate) => async (dispatch, getState) => {
 
 export const refreshTokens = () => async (dispatch) => {
     await responseHandler(dispatch, async () => {
-        localStorage.clear()
         const data = await UserService.RefreshToken()
         localStorage.setItem('accessToken', data.jwtToken)
         localStorage.setItem('refreshToken', data.refreshToken)
