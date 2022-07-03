@@ -30,15 +30,15 @@ const App = () => {
     }, [])
 
    return (
-       !isLoading ?
            <div className="App">
                    <BrowserRouter>
                            <Navbar/>
-                           <AppRouter/>
+                       {!isLoading
+                           ? <AppRouter/>
+                           : <Loading/>
+                       }
                    </BrowserRouter>
            </div>
-           : <Loading/>
-
    )
 }
 
