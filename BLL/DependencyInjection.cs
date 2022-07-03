@@ -31,7 +31,7 @@ namespace BLL
             services.AddTransient<ICloudinaryService, CloudinaryService>();
             services.AddTransient<IBraintreeService, BraintreeService>();
 
-            if (isDevelopment)
+            if (!isDevelopment)
             {
                 services.AddSingleton<AutoBackupService>();
                 services.AddHostedService<AutoBackupService>();
