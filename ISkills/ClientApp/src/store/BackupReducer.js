@@ -98,9 +98,9 @@ export const createBackup = () => async(dispatch, getState) => {
         const separatedUrl = url.split("/")
         const fileName = separatedUrl[separatedUrl.length - 1]
 
-        let created = fileName.replace("Backup_", "").replace(".sql", "")
+        let created = fileName.replace("Backup_", "").split(".")[0]
         const [date, time] = created.split("_")
-        created = `${date.split("-").reverse().join(".")}, ${time.replace("-", ":").replace("-", ":")}`
+        created = new Date(`${date.split("-").reverse().join(".")}, ${time.replace("-", ":").replace("-", ":")}`).toLocaleString()
 
         const backup = {id: url, url: url, created: created, fileName: fileName}
         dispatch(setBackups([backup, ...backups]))
