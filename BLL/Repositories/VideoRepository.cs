@@ -135,7 +135,6 @@ namespace BLL.Services
             var video = await _videoDbContext.Videos.GetAsync(
                 _mapper, v => v.Id == id, new() { }, cancellationToken);
 
-            await _cloudinaryService.DeleteAsync(video.Url);
             _videoDbContext.Videos.Remove(video);
 
             await _videoDbContext.SaveChangesAsync(cancellationToken);

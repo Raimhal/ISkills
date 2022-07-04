@@ -183,8 +183,6 @@ namespace BLL.Services
             var course = await _courseDbContext.Courses.GetAsync(_mapper,
                 c => c.Id == id, new() { }, cancellationToken);
 
-            await _cloudinaryService.DeleteAsync(course.ImageUrl);
-
             var creator = await _userContext.Users.GetAsync(
                 _mapper, x => x.Id == course.CreatorId, new() { }, cancellationToken);
 

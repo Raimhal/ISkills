@@ -180,11 +180,6 @@ namespace BLL.Services
                 .Where(c => c.CreatorId == id)
                 .ToListAsync(cancellationToken);
 
-            await _cloudinaryService.DeleteAsync(user.ImageUrl);
-
-            foreach (var course in courses)
-                await _cloudinaryService.DeleteAsync(course.ImageUrl);
-
             _courseDbContext.Courses.RemoveRange(courses);
             _userContext.Users.Remove(user);
 

@@ -30,7 +30,7 @@ namespace BLL.Services
 
         public async Task<PaginationList<CloudinarySearchResourceDto>> GetBackups(int skip, int take)
         {
-            return await _cloudinaryService.GetFilesLinks("format:sql", skip, take);
+            return await _cloudinaryService.GetFilesLinks("format:bak", skip, take);
         }
 
         public async Task DeleteBackup(string backupUrl)
@@ -46,9 +46,9 @@ namespace BLL.Services
             if (!Directory.Exists(directory))
                 Directory.CreateDirectory(directory);
 
-            var outputFileFullPath = Path.Combine(directory, $@"Backup_{date}.sql");
+            var outputFileFullPath = Path.Combine(directory, $@"Backup_{date}.bak");
 
-            var command = $@"pg_dump -c -d {databaseString} > ""{outputFileFullPath}""";
+            var command = $@"pg_dump -c -Fc -d {databaseString} > ""{outputFileFullPath}""";
             DatabaseAction(postgresqlPath, command);
 
             using var stream = File.OpenRead(outputFileFullPath);
@@ -72,7 +72,7 @@ namespace BLL.Services
                 var webClient = new WebClient();
                 webClient.DownloadFileAsync(new Uri(backupUrl), filePath);
             }
-            var command = $@"psql -d {databaseString} < ""{filePath}""";
+            var command = $@"pg_restore -Fc -d {databaseString} -c ""{filePath}""";
             DatabaseAction(postgresqlPath, command);
         }
 

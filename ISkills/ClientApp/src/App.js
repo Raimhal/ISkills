@@ -31,13 +31,13 @@ const App = () => {
 
    return (
            <div className="App">
-                   <BrowserRouter>
-                           <Navbar/>
-                       {!isLoading
-                           ? <AppRouter/>
-                           : <Loading/>
-                       }
+               {!isLoading
+                   ? <BrowserRouter>
+                       <Navbar/>
+                       <AppRouter/>
                    </BrowserRouter>
+                   : <Loading/>
+               }
            </div>
    )
 }
