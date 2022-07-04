@@ -3,14 +3,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {clearLoading, clearPurchases, getPurchasesStatistic} from "../store/PurchaseReducer";
 import {FlexibleWidthXYPlot, HorizontalGridLines, VerticalBarSeriesCanvas, XAxis, YAxis} from "react-vis";
 import Loading from "../components/UI/Loading/Loading";
+import { Area } from '@ant-design/plots';
 
 const StatisticsPage = () => {
     const purchases = useSelector(state => state.purchase.purchases)
     const dispatch = useDispatch()
     const isLoading = useSelector(state => state.purchase.isLoading)
 
+    let data = [{day: 'Jun 25', count: 14}, {day: 'Jun 27', count: 4}]
+
     useEffect( () =>{
         dispatch(getPurchasesStatistic())
+        console.log(data)
 
         return () => {
             dispatch(clearPurchases())
@@ -22,26 +26,25 @@ const StatisticsPage = () => {
         <div className="wide main">
             <h3 className="title">Purchases</h3>
             {!isLoading
-            ? <div style={{display: "flex", justifyContent: "center"}}>
-                <FlexibleWidthXYPlot
-                    xType="ordinal"
-                    height={300}
-                >
-                    <HorizontalGridLines />
-                    <XAxis  title="Day" style={{
-                        line: {stroke: ''},
-                        text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600, fontSize: 10}
+            ? <div>
+                    <Area {...{
+                        data: purchases,
+                        autoFit: true,
+                        xField: 'name',
+                        yField: 'count',
+                        xAxis: {
+                            tickCount: 0,
+                        },
+                        point: {
+                            size: 5,
+                        },
+                        areaStyle: () => {
+                            return {
+                                gradient: 'l(0) 0:#9c27b0 1:#ccccff',
+                            };
+                        },
+                        color: '#975ad4'
                     }} />
-                    <YAxis  title="Count"
-                            tickTotal={7}
-                            style={{
-                                line: {stroke: ''},
-                                text: {stroke: 'none', fill: '#6b6b76', fontWeight: 600, fontSize: 10}
-                            }}/>
-                    <VerticalBarSeriesCanvas data = {purchases.map(purchase => {
-                        return {x: new Date(purchase.name).toLocaleString("en-US", {month: window.innerWidth < 600 ? "narrow" : "short", day: "2-digit"}), y: purchase.count}
-                    })} color="#975ad4"/>
-                </FlexibleWidthXYPlot>
             </div>
             : <Loading/>
             }

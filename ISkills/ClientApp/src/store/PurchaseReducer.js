@@ -15,7 +15,7 @@ const defaultState = {
         take: 10,
         reverse: false,
         sortOption: "date",
-        days: 10
+        days: 30
     },
     isLoading: true,
     isClientTokenLoading: true,
@@ -105,13 +105,13 @@ export const getPurchasesStatistic = (courseId = null) => async (dispatch, getSt
             let item
             purchases.forEach(purchase => {
                 if((new Date(purchase.name).toLocaleDateString() === new Date(today).toLocaleDateString())){
-                    item = purchase
+                    item = {name: new Date(purchase.name).toLocaleDateString('us', {month: "long", day: "2-digit", year: "numeric"}), count: purchase.count}
                 }
 
             })
 
             if(!item)
-                item = {name: new Date(today), count: 0}
+                item = {name: new Date(today).toLocaleDateString('us', {month: "long", day: "2-digit", year: "numeric"}), count: 0}
 
             list.push(item)
             today.setDate(today.getDate() - 1)
