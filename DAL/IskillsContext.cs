@@ -15,7 +15,7 @@ namespace DAL
         public IskillsContext(DbContextOptions<IskillsContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+                Database.EnsureCreated();
         }
 
         public DbSet<User> Users { get; set; }

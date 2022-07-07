@@ -10,7 +10,8 @@ namespace BLL.Interfaces
 {
     public interface IPurchaseRepository : IBaseRepository<Guid, Purchase, CreatePurchaseDto, PurchaseDto>
     {
-        Task<List<GroupedItem>> GetGroupedPurchases(string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics);
+        Task<List<DayGroupedItem>> GetGroupedPurchases(string sortOption, bool reverse, CancellationToken cancellationToken, params object[] dynamics);
+        Task<List<MonthGroupedItem>> GetGroupedYearPurchases(string sortOption, bool reverse, int year, CancellationToken cancellationToken, params object[] dynamics);
         Task<string> GenerateClientToken();
     }
 }

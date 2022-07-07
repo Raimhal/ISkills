@@ -10,6 +10,7 @@ import {setPurchases} from "./PurchaseReducer";
 const defaultState = {
     isAuth: false,
     isAdmin: false,
+    topUsers: [],
     users: [],
     tokens: null,
     user: {
@@ -38,6 +39,7 @@ const defaultState = {
         {name: 'Rating', value: 'rating'},
     ],
     isLoading: true,
+    isTopUsersLoading: true,
     isActionLoading: false,
     isDeleteLoading: false,
     isImageLoading: false,
@@ -49,6 +51,8 @@ const SET_TOKENS = "LOGIN_USER"
 const SET_AUTH = "SET_AUTH"
 const SET_USERS = "SET_USERS"
 const CLEAR_USERS = "CLEAR_USERS"
+const SET_TOP_USERS = "SET_TOP_USERS"
+const CLEAR_TOP_USERS = "CLEAR_TOP_USERS"
 const SET_USER = "SET_USER"
 const CLEAR_USER = "CLEAR_USER"
 const SET_IS_ADMIN  = "SET_IS_ADMIN"
@@ -59,6 +63,8 @@ const SET_TOTAL_COUNT = "SET_USER_TOTAL_COUNT"
 const CLEAR_TOTAL_COUNT = "CLEAR_USER_TOTAL_COUNT"
 const SET_LOADING = "SET_USER_LOADING"
 const CLEAR_LOADING = "CLEAR_USER_LOADING"
+const SET_TOP_USERS_LOADING = "SET_TOP_USERS_LOADING"
+const CLEAR_TOP_USERS_LOADING = "CLEAR_TOP_USERS_LOADING"
 const SET_USERS_LOADING = "SET_USERS_LOADING"
 const CLEAR_USERS_LOADING = "CLEAR_USERS_LOADING"
 const SET_ERROR = "SET_USER_ERROR"
@@ -80,6 +86,10 @@ export const UserReducer = (state = defaultState, action) => {
             return {...state, users: action.payload}
         case CLEAR_USERS:
             return {...state, users: defaultState.users}
+        case SET_TOP_USERS:
+            return {...state, topUsers: action.payload}
+        case CLEAR_TOP_USERS:
+            return {...state, topUsers: defaultState.topUsers}
         case SET_USER:
             return {...state, user: action.payload}
         case CLEAR_USER:
@@ -100,6 +110,10 @@ export const UserReducer = (state = defaultState, action) => {
             return {...state, isLoading: action.payload}
         case CLEAR_LOADING:
             return {...state, isLoading: defaultState.isLoading}
+        case SET_TOP_USERS_LOADING:
+            return {...state, isTopUsersLoading: action.payload}
+        case CLEAR_TOP_USERS_LOADING:
+            return {...state, isTopUsersLoading: defaultState.isTopUsersLoading}
         case SET_USERS_LOADING:
             return {...state, isUsersLoading: action.payload}
         case CLEAR_USERS_LOADING:
@@ -132,6 +146,8 @@ export const setUsers = (payload) => ({type: SET_USERS, payload: payload})
 export const setUser = (payload) => ({type: SET_USER, payload: payload})
 export const clearUsers = () => ({type: CLEAR_USERS})
 export const clearUser = () => ({type: CLEAR_USER})
+export const setTopUsers = (payload) => ({type: SET_TOP_USERS, payload: payload})
+export const clearTopUsers = () => ({type: CLEAR_TOP_USERS})
 export const logoutUser = () => ({type: LOGOUT})
 export const setParams = (payload) => ({type: SET_PARAMS, payload: payload})
 export const clearParams = () => ({type: CLEAR_PARAMS})
@@ -139,6 +155,8 @@ export const setTotalCount = (payload) => ({type: SET_TOTAL_COUNT, payload: payl
 export const clearTotalCount = () => ({type: CLEAR_TOTAL_COUNT})
 export const setLoading = (payload) => ({type: SET_LOADING, payload: payload})
 export const clearLoading = () => ({type: CLEAR_LOADING})
+export const setTopUsersLoading = (payload) => ({type: SET_TOP_USERS_LOADING, payload: payload})
+export const clearTopUsersLoading = () => ({type: CLEAR_TOP_USERS_LOADING})
 export const setUsersLoading = (payload) => ({type: SET_USERS_LOADING, payload: payload})
 export const clearUsersLoading = () => ({type: CLEAR_USERS_LOADING})
 export const setError = (payload) => ({type: SET_ERROR, payload: payload})
@@ -287,5 +305,19 @@ export const updateImage = (setModal = null) => async (dispatch, getState) => {
         dispatch(setUsers(users))
         setModal && setModal(false)
     }, setError, setImageLoading)
+}
+
+export const getTopUsers = () => async (dispatch, getState) => {
+    await responseHandler(dispatch,async () => {
+        const users = await UserService.GetTopUsers()
+        users.forEach(user => {
+            // user.count = (user.count > 0) ? user.count : Math.floor(Math.random() * 10)
+            // user.rating = (user.rating > 0) ? user.rating : Math.random() * 5
+            user.rating = Math.round(user.rating * 100) / 100
+        })
+
+        dispatch(setTopUsers(users))
+    }, setError, setTopUsersLoading)
+
 }
 

@@ -9,7 +9,7 @@ namespace DAL.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.ToTable("Users").HasKey(p => p.Id);
-            builder.HasIndex(p => new { p.Id, p.Email }).IsUnique();
+            builder.HasIndex(p => new { p.Id, p.Email, p.UserName}).IsUnique();
             builder.Property(p => p.Email).HasMaxLength(64).IsRequired();
             builder.Property(p => p.Password).HasMaxLength(64).IsRequired();
             builder.Property(p => p.UserName).HasMaxLength(64).IsRequired();

@@ -26,6 +26,13 @@ namespace ISkills.Controllers
             Guid? courseId = null, DateTime? startDate = null, DateTime? endDate = null)
             => Ok(await _purchaseRepository.GetGroupedPurchases(sortOption, reverse, cancellationToken, courseId, startDate, endDate));
 
+        [HttpGet]
+        [Route("api/purchases/grouped-year")]
+        public async Task<ActionResult<List<PurchaseDto>>> GetGroupedYearPurchases(int year, CancellationToken cancellationToken = default,
+            string sortOption = "date", bool reverse = false,
+            Guid? courseId = null)
+            => Ok(await _purchaseRepository.GetGroupedYearPurchases(sortOption, reverse, year, cancellationToken, courseId));
+
 
         [HttpGet]
         [Route("api/purchases")]

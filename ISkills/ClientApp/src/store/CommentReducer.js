@@ -172,7 +172,7 @@ export const updateComment = (setModal = null) => async (dispatch, getState)  =>
         const index = comments.findIndex(x => x.id === comment.id)
         await CommentService.Update(comment.id, comment)
         const newRating = (course.rating * +totalCount + (comment.rating - comments[index].rating)) / +totalCount
-        comments[index] = {...comment, rating: newRating}
+        comments[index] = {...comment, rating: newRating, dateUpdated: new Date(Date.now()).toLocaleString()}
 
         dispatch(setComments([...comments]))
         dispatch(clearComment())

@@ -71,7 +71,7 @@ namespace BLL.Services
                 cancellationToken);
         }
 
-        public async Task<List<GroupedItem>> GetGroupedPurchases(string sortOption,
+        public async Task<List<DayGroupedItem>> GetGroupedPurchases(string sortOption,
             bool reverse, CancellationToken cancellationToken, params object[] dynamics)
         {
             var courseId = (Guid?)dynamics[0];
@@ -84,8 +84,23 @@ namespace BLL.Services
                     && (endDate == null || p.Date <= endDate),
                 sortOption,
                 reverse,
-                p => p.Date.ToString());
+                p => p.Date.ToString(),
+                group => new DayGroupedItem { Day = group.Key.ToString(), Amount = group.Count()},
+                cancellationToken);
+        }
 
+        public async Task<List<MonthGroupedItem>> GetGroupedYearPurchases(string sortOption,
+            bool reverse, int year, CancellationToken cancellationToken, params object[] dynamics)
+        {
+            var courseId = (Guid?)dynamics[0];
+
+            return await _purchaseDbContext.Purchases.CustomGroupByAsync(
+                p => (courseId == null || p.CourseId == courseId) && p.Date.Year == year,
+                sortOption,
+                reverse,
+                p => p.Date.Month.ToString(),
+                group => new MonthGroupedItem { Month = group.Key.ToString(), Amount = group.Count() },
+                cancellationToken);
         }
 
         public async Task<Purchase> GetByIdAsync(Guid id, CancellationToken cancellationToken)

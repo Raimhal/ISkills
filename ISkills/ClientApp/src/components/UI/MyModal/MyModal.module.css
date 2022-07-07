@@ -7,7 +7,7 @@
     left: 0;
     display: none;
     background: rgba(0, 0, 0, 0.4);
-    z-index: 30;
+    z-index: 30 ;
 }
 
 .myModalContent {
@@ -25,6 +25,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 30;
 }
 
 @media screen and (max-width: 450px){

@@ -11,7 +11,7 @@ namespace BLL.Validation.Exceptions
                 $"{entity} " +
                 $"with " +
                 $"{key.ToLower()} " +
-                $"({value}) " +
+                $"'{value}' " +
                 $"already exists."
             )     
         { }

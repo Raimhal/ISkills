@@ -15,6 +15,7 @@ using Domain.Models;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.IO;
+using BLL.Extentions;
 
 namespace BLL.Services
 {
@@ -63,6 +64,21 @@ namespace BLL.Services
                   cancellationToken);
         }
 
+        public async Task<List<UserStatisticModel>> GetTopUsers(CancellationToken cancellationToken)
+            => await _userContext.Users
+                .Where(u => _courseDbContext.Courses.Any(c => u.Id == c.CreatorId))
+                .OrderBy("rating", true)
+                .Select(x => new UserStatisticModel
+                {
+                    UserName = x.UserName,
+                    Count = _courseDbContext.Courses.Where(c => x.Id == c.CreatorId).Count(),
+                    ImageUrl = x.ImageUrl,
+                    Email = x.Email,
+                    Rating = x.Rating
+                })
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
         public async Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken)
             => await _userContext.Users.GetAsync(_mapper,
                 x => x.Id == id, new() { x => x.Roles }, cancellationToken);
@@ -84,9 +100,11 @@ namespace BLL.Services
 
         public async Task<Guid> CreateAsync(RegisterUserModel model, CancellationToken cancellationToken)
         {
-            if (await _userContext.Users.SingleOrDefaultAsync(u =>
-                 u.Email == model.Email, cancellationToken) != null)
-                throw new ConflictException($"User with this email ({model.Email}) already exists");
+            if (await _userContext.Users.AnyAsync(u => u.Email == model.Email, cancellationToken))
+                throw new AlreadyExistsException(nameof(User), nameof(model.Email), model.Email);
+
+            if (await _userContext.Users.AnyAsync(u => u.UserName == model.UserName, cancellationToken))
+                throw new AlreadyExistsException(nameof(User), nameof(model.UserName), model.UserName);
 
             var user = _mapper.Map<User>(model);
 
@@ -120,6 +138,13 @@ namespace BLL.Services
                 user.Email = model.Email;
             }
 
+            if (!string.IsNullOrEmpty(model.UserName) && model.UserName != user.UserName)
+            {
+                if (await _userContext.Users.AnyAsync(u => u.UserName == model.UserName, cancellationToken))
+                    throw new AlreadyExistsException(nameof(User), "Username", model.UserName);
+                user.UserName = model.UserName;
+            }
+
             user.FirstName = model.FirstName;
             user.LastName = model.LastName;
             user.UserName = model.UserName;
@@ -143,6 +168,13 @@ namespace BLL.Services
                 if (await _userContext.Users.AnyAsync(u => u.Email == model.Email, cancellationToken))
                     throw new AlreadyExistsException(nameof(User), nameof(model.Email), model.Email);
                 user.Email = model.Email;
+            }
+
+            if (!string.IsNullOrEmpty(model.UserName) && model.UserName != user.UserName)
+            {
+                if (await _userContext.Users.AnyAsync(u => u.UserName == model.UserName, cancellationToken))
+                    throw new AlreadyExistsException(nameof(User), "Username", model.UserName);
+                user.UserName = model.UserName;
             }
 
             user.FirstName = model.FirstName;
@@ -183,10 +215,7 @@ namespace BLL.Services
             _courseDbContext.Courses.RemoveRange(courses);
             _userContext.Users.Remove(user);
 
-            await _userContext.SaveChangesAsync(cancellationToken);   
+            await _userContext.SaveChangesAsync(cancellationToken);
         }
-
-        
-
     }
 }

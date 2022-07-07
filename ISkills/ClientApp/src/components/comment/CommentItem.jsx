@@ -19,6 +19,7 @@ import {setCourse} from "../../store/CourseReducer";
 import MyModal from "../UI/MyModal/MyModal";
 import MyPlayer from "../video/MyPlayer";
 import ConfirmationForm from "../UI/ConfirmationForm/ConfirmationForm";
+import moment from "moment";
 
 
 const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
@@ -73,9 +74,9 @@ const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
                 }
             </div>
             <div className='comment__date'>
-                {comment.dateUpdated > comment.date
-                    ? <div>Edited {new Date(comment.dateUpdated).toLocaleString()}</div>
-                    : <div>{new Date(comment.date).toLocaleString()}</div>
+                {new Date(comment.dateUpdated) > new Date(comment.date)
+                    ? <div>Edited {moment(new Date(comment.dateUpdated)).startOf('second').fromNow()}</div>
+                    : <div>{moment.utc(new Date(comment.date)).local().startOf('second').fromNow()}</div>
                 }
             </div>
         </div>

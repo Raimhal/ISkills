@@ -188,6 +188,8 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatorId");
+
                     b.HasIndex("Id")
                         .IsUnique();
 
@@ -436,9 +438,17 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("Domain.Models.Course", b =>
                 {
+                    b.HasOne("Domain.Models.User", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Domain.Models.Theme", "Theme")
                         .WithMany("Courses")
                         .HasForeignKey("ThemeId");
+
+                    b.Navigation("Creator");
 
                     b.Navigation("Theme");
                 });

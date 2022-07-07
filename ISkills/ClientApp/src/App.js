@@ -16,8 +16,6 @@ const App = () => {
     const dispatch = useDispatch()
     const isLoading = useSelector(state => state.user.isLoading)
 
-
-
     useEffect( () => {
         const accessToken = localStorage.getItem('accessToken')
         dispatch(getCurrentUser())

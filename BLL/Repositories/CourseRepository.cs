@@ -112,7 +112,7 @@ namespace BLL.Services
             => await _courseDbContext.Courses.GetAsync(
                 _mapper,
                 x => x.Id == id,
-                new() { x => x.Theme, x => x.Students},
+                new() { x => x.Theme, x => x.Students, x => x.Creator},
                 cancellationToken);
 
         public async Task<Guid> CreateAsync(CreateCourseDto model, CancellationToken cancellationToken)

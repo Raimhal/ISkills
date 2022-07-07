@@ -87,14 +87,17 @@ namespace BLL.Services
             ? await context.Where(sortExpression).AverageAsync(avarageExpression, cancellationToken)
             : default;
 
-        public static async Task<List<GroupedItem>> CustomGroupByAsync<T>(this IQueryable<T> context,
+        public static async Task<List<TResult>> CustomGroupByAsync<T, TResult>(this IQueryable<T> context,
             Expression<Func<T, bool>> expression, string sortOption, bool reverse,
-            Expression<Func<T, string>> groupByExpression, CancellationToken cancellationToken = default)
-            where T : class 
+            Expression<Func<T, string>> groupByExpression,
+            Expression<Func<IGrouping<string, T>, TResult>> selectExpression,CancellationToken cancellationToken = default)
+            where T : class
+            where TResult : class
             => await context
                 .Where(expression)
                 .OrderBy(sortOption, reverse)
-                .GroupBy(groupByExpression, (key, group) => new GroupedItem { Name = key.ToString(), Count = group.Count() })
+                .GroupBy(groupByExpression)
+                .Select(selectExpression)
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
 

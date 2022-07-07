@@ -9,6 +9,11 @@ export  default class UserService {
         return [totalCount, users]
     }
 
+    static async GetTopUsers(config = {}) {
+        const response = await EntityService.Get('/users/top', config)
+        return response.data
+    }
+
     static async Login(data) {
         const response = await EntityService.Create('/account/authenticate', data)
         return response.data

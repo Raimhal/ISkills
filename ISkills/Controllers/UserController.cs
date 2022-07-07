@@ -15,11 +15,11 @@ namespace Iskills.Controllers
     [ApiController]
     public class UserController : BaseController
     {
-        private readonly IUserRepository _userService;
-        private readonly IAccessRepository _accessService;
+        private readonly IUserRepository _userRepository;
+        private readonly IAccessRepository _accessRepository;
 
-        public UserController(IUserRepository userService, IAccessRepository accessService) =>
-            (_userService, _accessService) = (userService, accessService);
+        public UserController(IUserRepository userRepository, IAccessRepository accessRepository) =>
+            (_userRepository, _accessRepository) = (userRepository, accessRepository);
 
 
         [Authorize(Roles = "Admin")]
@@ -27,7 +27,7 @@ namespace Iskills.Controllers
         [Route("api/users/all")]
         public async Task<ActionResult<List<UserDto>>> GetUsersAll(CancellationToken cancellationToken = default, 
             string query = "", string sortOption = "Email", bool reverse = false, Guid? courseId = null)
-            => Ok(await _userService.GetListAll(query, sortOption, reverse, cancellationToken, courseId));
+            => Ok(await _userRepository.GetListAll(query, sortOption, reverse, cancellationToken, courseId));
 
 
         [Authorize(Roles = "Admin")]
@@ -36,10 +36,16 @@ namespace Iskills.Controllers
         public async Task<ActionResult<List<UserDto>>> GetUsers(CancellationToken cancellationToken = default, 
             int skip = 0, int take = 10, string query="", string sortOption = "Email", bool reverse = false, Guid? courseId = null)
         {
-            var content = await _userService.GetList(skip, take, query, sortOption, reverse, cancellationToken, courseId);
+            var content = await _userRepository.GetList(skip, take, query, sortOption, reverse, cancellationToken, courseId);
             Response.Headers.Add("X-Total-Count", content.TotalCount.ToString());
             return Ok(content.List);
         }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("api/users/top")]
+        public async Task<ActionResult<List<UserDto>>> GetTopUsers(CancellationToken cancellationToken = default)
+            => Ok(await _userRepository.GetTopUsers(cancellationToken));
 
 
         [Authorize]
@@ -47,31 +53,31 @@ namespace Iskills.Controllers
         [Route("api/users/{id}")]
         public async Task<ActionResult<User>> GetUser(Guid id, CancellationToken cancellationToken = default)
         {
-            if (!await _accessService.HasAccessToUser(UserId, id, cancellationToken))
+            if (!await _accessRepository.HasAccessToUser(UserId, id, cancellationToken))
                 return Forbid();
 
-            return Ok(await _userService.GetByIdAsync(id, cancellationToken));
+            return Ok(await _userRepository.GetByIdAsync(id, cancellationToken));
         }
 
 
         [HttpGet]
         [Route("api/users/{id}/short-information")]
         public async Task<ActionResult<UserDetailsDto>> GetUserShortInfo(Guid id, CancellationToken cancellationToken = default)
-            => Ok(await _userService.GetShortInfoByIdAsync(id, cancellationToken));
+            => Ok(await _userRepository.GetShortInfoByIdAsync(id, cancellationToken));
 
 
         [Authorize]
         [HttpGet]
         [Route("api/users/by-email")]
         public async Task<ActionResult<User>> GetUserByEmail(string email, CancellationToken cancellationToken = default)
-            => Ok(await GetUser(await _userService.GetIdFromEmail(email, cancellationToken), cancellationToken));
+            => Ok(await GetUser(await _userRepository.GetIdFromEmail(email, cancellationToken), cancellationToken));
         
 
         [Authorize]
         [HttpGet]
         [Route("api/users/current")]
         public async Task<ActionResult<UserDto>> GetCurrentUser(CancellationToken cancellationToken = default)
-            => Ok(await _userService.GetByIdAsync(UserId, cancellationToken));
+            => Ok(await _userRepository.GetByIdAsync(UserId, cancellationToken));
 
 
         [AllowAnonymous]
@@ -79,7 +85,7 @@ namespace Iskills.Controllers
         [Route("api/users")]
         public async Task<ActionResult<Guid>> CreateUser([FromBody] RegisterUserModel model,
             CancellationToken cancellationToken = default)
-            => Ok(await _userService.CreateAsync(model, cancellationToken));
+            => Ok(await _userRepository.CreateAsync(model, cancellationToken));
 
 
         [Authorize]
@@ -88,10 +94,10 @@ namespace Iskills.Controllers
         public async Task<IActionResult> UpdateUser(Guid id, [FromBody] RegisterUserModel model,
             CancellationToken cancellationToken = default)
         {
-            if (!await _accessService.HasAccessToUser(UserId, id, cancellationToken))
+            if (!await _accessRepository.HasAccessToUser(UserId, id, cancellationToken))
                 return Forbid();
 
-            await _userService.UpdateAsync(id, model, cancellationToken);
+            await _userRepository.UpdateAsync(id, model, cancellationToken);
             return NoContent();
         }
 
@@ -101,10 +107,10 @@ namespace Iskills.Controllers
         public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UpdateUserModel model,
             CancellationToken cancellationToken = default)
         {
-            if (!await _accessService.HasAccessToUser(UserId, id, cancellationToken))
+            if (!await _accessRepository.HasAccessToUser(UserId, id, cancellationToken))
                 return Forbid();
 
-            await _userService.PartlyUpdateAsync(id, model, cancellationToken);
+            await _userRepository.PartlyUpdateAsync(id, model, cancellationToken);
             return NoContent();
         }
 
@@ -115,10 +121,10 @@ namespace Iskills.Controllers
         public async Task<ActionResult<string>> UpdateUserImage(Guid id, [FromForm] IFormFile file,
             CancellationToken cancellationToken = default, int width = 256, int height = 256)
         {
-            if (!await _accessService.HasAccessToUser(UserId, id, cancellationToken))
+            if (!await _accessRepository.HasAccessToUser(UserId, id, cancellationToken))
                 return Forbid();
 
-            return Ok(await _userService.UpdateImageAsync(id, file, width, height, cancellationToken));
+            return Ok(await _userRepository.UpdateImageAsync(id, file, width, height, cancellationToken));
         }
 
 
@@ -127,10 +133,10 @@ namespace Iskills.Controllers
         [Route("api/users/{id}")]
         public async Task<IActionResult> DeleteUser(Guid id, CancellationToken cancellationToken = default)
         {
-            if (!await _accessService.HasAccessToUser(UserId, id, cancellationToken))
+            if (!await _accessRepository.HasAccessToUser(UserId, id, cancellationToken))
                 return Forbid();
 
-            await _userService.DeleteByIdAsync(id, cancellationToken);
+            await _userRepository.DeleteByIdAsync(id, cancellationToken);
             return NoContent();
         }
 

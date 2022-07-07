@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import MyInput from "../UI/Input/MyInput";
 import MyButton from "../UI/Button/MyButton";
 import MySelect from "../UI/Select/MySelect";
@@ -20,6 +20,8 @@ const CourseForm = ({action, title, ...props}) => {
     const dispatch = useDispatch()
     const error = useSelector(state => state.course.error)
     const isLoading = useSelector(state => state.course.isActionLoading)
+
+    const [buyMode, setBuyMode] = useState(false)
 
     const languages = [
         {name: "English", value: "english"},
@@ -66,7 +68,7 @@ const CourseForm = ({action, title, ...props}) => {
         price: yup
             .number("Enter course price")
             .typeError('Price must be a number')
-            .min(1)
+            .min(buyMode ? 0.99 : 0)
             .required('Price is required'),
     });
 
@@ -189,8 +191,16 @@ const CourseForm = ({action, title, ...props}) => {
                 }
             </div>
             <div className="block">
-                <p><input type="radio" name="buyMode" onChange={() => dispatch(setCourse({...course, price: 0}))} defaultChecked={course.price === 0}/> free to learn</p>
-                <p><input type="radio" name="buyMode" onChange={() => dispatch(setCourse({...course, price: 1}))} defaultChecked={course.price !== 0}/> buy to learn </p>
+                <p><input type="radio" name="buyMode" onChange={() => {
+                    setBuyMode(false)
+                    formik.setFieldValue("price", 0)
+                    dispatch(setCourse({...course, price: 0}))
+                }} defaultChecked={course.price === 0}/> free to learn</p>
+                <p><input type="radio" name="buyMode" onChange={() => {
+                    setBuyMode(true)
+                    formik.setFieldValue("price", 0.99)
+                    dispatch(setCourse({...course, price: 0.99}))
+                }} defaultChecked={course.price !== 0}/> buy to learn </p>
                 {course.price !== 0 && <MyInput
                     type="text"
                     name="price"

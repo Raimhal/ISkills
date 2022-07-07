@@ -30,10 +30,7 @@ const Navbar = () => {
     return (
         <div className={classes.navbar}>
             <div>
-                <Link to="/" onClick={() => {
-                    dispatch(clearParams())
-                    dispatch(getCourses())
-                }} className={classes.navbar__link}>ISkills</Link>
+                <Link to="/" className={classes.navbar__link}>ISkills</Link>
                 {isAuth && !isCreateCourse && <ThemeProvider theme={colorTheme}>
                     <Tooltip title="Create course">
                         <Fab
