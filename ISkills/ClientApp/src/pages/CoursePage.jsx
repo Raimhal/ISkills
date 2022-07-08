@@ -197,7 +197,7 @@ const CoursePage = () => {
 
     return (
         <div className="main">
-            {!isCourseLoading ?
+            {(!isCourseLoading && !!course) ?
                 <>
                     {!error ?
                         <div>
@@ -341,6 +341,9 @@ const CoursePage = () => {
                                                 isArea: true,
                                                 smooth: true
                                             },
+                                            foregroundStyle: {
+                                                fill: 'rgba(151,90,212,0.75)',
+                                            }
                                         },
                                         pattern: {
                                             type: 'line',
@@ -509,7 +512,7 @@ const CoursePage = () => {
                                 </div>
                                 }
                                 {comments.length > 0 &&
-                                <div className="block">
+                                <div>
                                     <div className="comments__title">
                                         <h5>{totalCommentCount} {totalCommentCount === 1 ? "comment" : "comments"} :</h5>
                                     </div>

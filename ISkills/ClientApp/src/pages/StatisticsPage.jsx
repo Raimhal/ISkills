@@ -97,8 +97,11 @@ const StatisticsPage = () => {
                                 end: 1,
                                 trendCfg: {
                                     isArea: true,
-                                    smooth: true
+                                    smooth: true,
                                 },
+                                foregroundStyle: {
+                                    fill: 'rgba(151,90,212,0.75)',
+                                }
                             },
                             pattern: {
                                 type: 'line',
