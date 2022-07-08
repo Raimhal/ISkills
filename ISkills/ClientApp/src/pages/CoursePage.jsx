@@ -17,7 +17,7 @@ import CourseForm from "../components/course/CourseForm";
 import {useDispatch, useSelector} from "react-redux";
 import {
     clearCourse, clearCourseLoading,
-    clearError,
+    clearError, clearLoading,
     getCourse,
     setCourse,
     setCourseLoading,
@@ -156,7 +156,6 @@ const CoursePage = () => {
     useEffect(() => {
 
         dispatch(getCourse(id))
-        dispatch(getPurchasesStatistic(id))
 
         return () => {
             dispatch(clearCourse())
@@ -167,6 +166,7 @@ const CoursePage = () => {
             dispatch(clearCourseLoading())
             dispatch(clearPurchaseLoading())
             dispatch(clearPurchaseParams())
+            dispatch(clearLoading())
         }
     }, [])
 
@@ -179,7 +179,7 @@ const CoursePage = () => {
     }, [chaptersParams.page])
 
     useEffect(() => {
-        dispatch(getPurchasesStatistic())
+        dispatch(getPurchasesStatistic(id))
     }, [purchasesParams.days])
 
     const changeCommentsPage = (page) => {

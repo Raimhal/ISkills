@@ -39,7 +39,6 @@ const StatisticsPage = () => {
     useEffect( () =>{
         dispatch(getTopUsers())
 
-
         return () => {
             dispatch(clearPurchases())
             dispatch(clearYearPurchases())
