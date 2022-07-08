@@ -75,8 +75,8 @@ const CommentItem = ({comment, remove, update, userId, isAdmin}) => {
             </div>
             <div className='comment__date'>
                 {new Date(comment.dateUpdated) > new Date(comment.date)
-                    ? <div>Edited {moment(new Date(comment.dateUpdated)).startOf('second').fromNow()}</div>
-                    : <div>{moment.utc(new Date(comment.date)).local().startOf('second').fromNow()}</div>
+                    ? <div>Edited {moment(new Date(comment.dateUpdated + "Z")).startOf("second").fromNow()}</div>
+                    : <div>{moment(new Date(comment.date + "Z")).startOf('second').fromNow()}</div>
                 }
             </div>
         </div>

@@ -57,9 +57,36 @@ namespace ISkills.Controllers
 
 
         [Authorize]
+        [HttpPost]
+        [Route("api/videos/create-by-url")]
+        public async Task<ActionResult<Guid>> CreateChapterVideo([FromBody] CreateVideoByUrlDto model,
+            CancellationToken cancellationToken = default)
+        {
+            if (!await _accessService.HasAccessToChapter(UserId, model.ChapterId, cancellationToken))
+                return Forbid();
+
+            return Ok(await _videoService.CreateAsync(model, cancellationToken));
+        }
+
+
+        [Authorize]
         [HttpPut]
         [Route("api/videos/{id}")]
         public async Task<IActionResult> UpdateVideo(Guid id, [FromForm] CreateVideoDto model,
+            CancellationToken cancellationToken = default)
+        {
+            if (!await _accessService.HasAccessToVideo(UserId, id, cancellationToken))
+                return Forbid();
+
+            await _videoService.UpdateAsync(id, model, cancellationToken);
+            return NoContent();
+        }
+
+
+        [Authorize]
+        [HttpPut]
+        [Route("api/videos/{id}/update-by-url")]
+        public async Task<IActionResult> UpdateVideo(Guid id, [FromBody] CreateVideoByUrlDto model,
             CancellationToken cancellationToken = default)
         {
             if (!await _accessService.HasAccessToVideo(UserId, id, cancellationToken))

@@ -1,6 +1,7 @@
 import {responseHandler} from "./ResponseHandler";
 import CommentService from "../API/CommentService";
 import {setCourse} from "./CourseReducer";
+import moment from "moment"
 
 
 const defaultState = {
@@ -112,7 +113,7 @@ export const createComment = (setModal = null) => async(dispatch, getState) => {
 
     await responseHandler(dispatch, async () => {
         const commentId = await CommentService.Create({...comment, courseId: course.id})
-        const date = new Date()
+        const date = new Date().toISOString().slice(0, -1)
         const newComment = {...comment, id: commentId, creator: currentUser, creatorId: currentUser.id, date: date, dateUpdated: date, courseId: course.id}
         dispatch(setComments([newComment, ...comments]))
         const newRating = ((course.rating * +totalCount + comment.rating) / (+totalCount + 1))
@@ -172,9 +173,10 @@ export const updateComment = (setModal = null) => async (dispatch, getState)  =>
         const index = comments.findIndex(x => x.id === comment.id)
         await CommentService.Update(comment.id, comment)
         const newRating = (course.rating * +totalCount + (comment.rating - comments[index].rating)) / +totalCount
-        comments[index] = {...comment, rating: newRating, dateUpdated: new Date(Date.now()).toLocaleString()}
+        comments[index] = {...comment, dateUpdated: new Date().toISOString().slice(0, -1)}
 
         dispatch(setComments([...comments]))
+        dispatch(setCourse({...course, rating: newRating}))
         dispatch(clearComment())
         setModal && setModal(false)
     }, setError, setActionLoading)

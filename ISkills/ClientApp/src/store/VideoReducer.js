@@ -22,6 +22,7 @@ const defaultState = {
         {name: 'Title', value: 'title'},
         {name: 'Chapter', value: 'chapterId'},
     ],
+    uploadMod: false,
     isLoading: true,
     isActionLoading: false,
     isDeleteLoading: false,
@@ -30,6 +31,8 @@ const defaultState = {
 
 const SET_VIDEO = "SET_VIDEO"
 const CLEAR_VIDEO = "CLEAR_VIDEO"
+const SET_UPLOAD_MOD = "SET_UPLOAD_MOD"
+const CLEAR_UPLOAD_MOD = "CLEAR__UPLOAD_MOD"
 const SET_VIDEOS = "SET_VIDEOS"
 const CLEAR_VIDEOS = "CLEAR_VIDEOS"
 const SET_PARAMS = "SET_VIDEO_VIDEO_PARAMS"
@@ -55,6 +58,10 @@ export const VideoReducer = (state = defaultState, action) => {
             return {...state, video: defaultState.video}
         case CLEAR_VIDEOS:
             return {...state, videos: defaultState.videos}
+        case SET_UPLOAD_MOD:
+            return {...state, uploadMod: action.payload}
+        case CLEAR_UPLOAD_MOD:
+            return {...state, uploadMod: defaultState.uploadMod}
         case SET_PARAMS:
             return {...state, params: action.payload}
         case CLEAR_PARAMS:
@@ -86,6 +93,8 @@ export const VideoReducer = (state = defaultState, action) => {
 
 export const setVideo = (payload) => ({type: SET_VIDEO, payload: payload})
 export const clearVideo = () => ({type: CLEAR_VIDEO})
+export const setUploadMod = (payload) => ({type: SET_UPLOAD_MOD, payload: payload})
+export const clearUploadMod = () => ({type: CLEAR_UPLOAD_MOD})
 export const setVideos = (payload) => ({type: SET_VIDEOS, payload: payload})
 export const clearVideos = () => ({type: CLEAR_VIDEOS})
 export const setParams = (payload) => ({type: SET_PARAMS, payload: payload})
@@ -140,20 +149,25 @@ export const getVideos = (chapterId = null) => async (dispatch, getState) => {
 export const createVideo = (setModal = null) => async (dispatch, getState) => {
     const state = getState().video
     const video = state.video
+    const uploadMod = state.uploadMod
     const chapters = getState().chapter.chapters
     const totalCount = state.totalCount
 
 
     await responseHandler(dispatch, async () => {
+        console.log(video)
         const index = chapters.findIndex(x => x.id === video.chapterId)
-        const response = await VideoService.Create({...video, file: document.querySelector("#file").files[0]})
-        const videoResponse = await VideoService.GetVideo(response.data)
+        const data = uploadMod
+            ? await VideoService.Create({...video, file: document.querySelector("#file").files[0]})
+            : await VideoService.CreateByUrl(video)
+        const videoResponse = await VideoService.GetVideo(data)
 
         chapters[index].videos = [...chapters[index].videos, videoResponse.data]
         chapters[index].videosCount = +chapters[index].videosCount + 1
 
         dispatch(setChapters([...chapters]))
         dispatch(setTotalCount(+totalCount + 1))
+        console.log("clear")
         dispatch(clearVideo())
         setModal && setModal(false)
     }, setError, setActionLoading)
@@ -188,11 +202,14 @@ export const removeVideo = id => async (dispatch, getState) => {
 export const updateVideo = (setModal = null) => async (dispatch, getState)  => {
     const video = getState().video.video
     const chapters = getState().chapter.chapters
+    const uploadMod = getState().video.uploadMod
 
     await responseHandler(dispatch, async () => {
         const chapterIndex = chapters.findIndex(x => x.id === video.chapterId)
         const index = chapters[chapterIndex].videos.findIndex(x => x.id === video.id)
-        await VideoService.Update({...video, file: document.querySelector("#file").files[0]})
+        uploadMod
+            ? await VideoService.Update({...video, file: document.querySelector("#file").files[0]})
+            : await VideoService.UpdateByUrl(video)
         chapters[chapterIndex].videos[index] = video
         dispatch(setChapters([...chapters]))
         dispatch(clearVideo())

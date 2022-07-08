@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import MyInput from "../UI/Input/MyInput";
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {useDispatch, useSelector} from "react-redux";
-import {clearError, setVideo} from "../../store/VideoReducer";
+import {clearError, setUploadMod, setVideo} from "../../store/VideoReducer";
 import MyButton from "../UI/Button/MyButton";
 import MySelect from "../UI/Select/MySelect";
 import {useFormik} from "formik";
@@ -11,6 +11,8 @@ import MyAlert from "../UI/Alert/MyAlert";
 import MyFormikAlert from "../UI/Alert/MyFormikAlert";
 import Loading from "../UI/Loading/Loading";
 import InnerLoading from "../UI/Loading/InnerLoading";
+import {setCourse} from "../../store/CourseReducer";
+import MyUpload from "../UI/Upload/MyUpload";
 
 const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, ...props}) => {
     const dispatch = useDispatch()
@@ -18,7 +20,7 @@ const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, 
     const chapters = useSelector(state => state.chapter.chapters)
     const error = useSelector(state => state.video.error)
     const isLoading = useSelector(state => state.video.isActionLoading)
-
+    const uploadMod = useSelector(state => state.video.uploadMod)
 
     const videoAction = async () => await action(video)
 
@@ -29,6 +31,9 @@ const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, 
         chapterId: yup
             .string()
             .required('Chapter is required'),
+        url: !uploadMod && yup
+            .string("Enter video url")
+            .required("Video url is required")
     });
 
     const formik = useFormik({
@@ -72,13 +77,37 @@ const VideoForm = ({action, title, submitTitle, setVisible, isModified = false, 
                                item={formik.errors.chapterId}/>
             </>
             }
-            <input
+            <p><input type="radio" name="uploadMod" onChange={() => {
+                dispatch(setUploadMod(true))
+            }} defaultChecked={uploadMod}/> by upload</p>
+            <p><input type="radio" name="uploadMod" onChange={() => {
+                dispatch(setUploadMod(false))
+            }} defaultChecked={!uploadMod}/> by url </p>
+            {uploadMod
+                ?
+                <input
                 type="file"
                 name="file"
                 id="file"
                 accept="video/*"
-                required
-            />
+                required={uploadMod}
+                />
+                :
+                <MyInput
+                    type="text"
+                    name="url"
+                    defaultValue={formik.values.url}
+                    onChange={e => {
+                        formik.handleChange(e)
+                        dispatch(setVideo({...video, url: e.target.value}))
+                    }}
+                    onBlur={formik.handleBlur}
+                    label="Video url"
+                    error={formik.touched.url && Boolean(formik.errors.url)}
+                    helperText={formik.touched.url && formik.errors.url}
+                    required
+                />
+            }
             <MyAlert item={error}/>
             {!isLoading
                 ? <MyButton type="submit" onClick={() => dispatch(clearError())}>{title}</MyButton>

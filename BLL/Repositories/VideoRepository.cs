@@ -85,7 +85,26 @@ namespace BLL.Services
 
             // add antivirus
             // await _antivirusService.CheckFile(model.File); 
+
             video.Url = await _cloudinaryService.UploadVideoAsync(model.File, video.Id.ToString());
+
+            await _videoDbContext.Videos.AddAsync(video, cancellationToken);
+            await _videoDbContext.SaveChangesAsync(cancellationToken);
+
+            return video.Id;
+        }
+
+        public async Task<Guid> CreateAsync(CreateVideoByUrlDto model, CancellationToken cancellationToken)
+        {
+            var chapter = await _chapterDbContext.Chapters.GetAsync(_mapper,
+                c => c.Id == model.ChapterId, new() { c => c.Videos }, cancellationToken);
+
+            var video = _mapper.Map<Video>(model);
+
+            video.Id = Guid.NewGuid();
+
+            // add antivirus
+            // await _antivirusService.CheckFile(model.File); 
 
             await _videoDbContext.Videos.AddAsync(video, cancellationToken);
             await _videoDbContext.SaveChangesAsync(cancellationToken);
@@ -109,6 +128,22 @@ namespace BLL.Services
             //await _antivirusService.CheckFile(model.File);
             video.Url = await _cloudinaryService
                 .UploadVideoAsync(model.File, video.Id.ToString());
+
+
+            _videoDbContext.Videos.Update(video);
+            await _videoDbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task UpdateAsync(Guid id, CreateVideoByUrlDto model, CancellationToken cancellationToken)
+        {
+            var video = await _videoDbContext.Videos.GetAsync(_mapper,
+                v => v.Id == id, new() { }, cancellationToken);
+
+            if (await _chapterDbContext.Chapters.AnyAsync(x => x.Id == model.ChapterId, cancellationToken))
+                video.ChapterId = model.ChapterId;
+
+            video.Title = model.Title;
+            video.Url = model.Url;
 
 
             _videoDbContext.Videos.Update(video);

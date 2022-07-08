@@ -20,7 +20,12 @@ export  default class VideoService {
         formData.append("title", video.title)
         formData.append("chapterId", video.chapterId)
         const response =  await EntityService.Create('/videos', formData, config)
-        return response
+        return response.data
+    }
+
+    static async CreateByUrl(video, config = {}){
+        const response =  await EntityService.Create('/videos/create-by-url', video, config)
+        return response.data
     }
 
     static async Update(video, config = {}) {
@@ -30,6 +35,11 @@ export  default class VideoService {
         formData.append("title", video.title)
         formData.append("chapterId", video.chapterId)
         await EntityService.Update(path, formData, config)
+    }
+
+    static async UpdateByUrl(video, config = {}){
+        const path = `/videos/${video.id}/update-by-url`
+        await EntityService.Update(path, video, config)
     }
 
     static async Delete(id) {

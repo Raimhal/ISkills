@@ -509,7 +509,7 @@ const CoursePage = () => {
                                 </div>
                                 }
                                 {comments.length > 0 &&
-                                <div>
+                                <div className="block">
                                     <div className="comments__title">
                                         <h5>{totalCommentCount} {totalCommentCount === 1 ? "comment" : "comments"} :</h5>
                                     </div>

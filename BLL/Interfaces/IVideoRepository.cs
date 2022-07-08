@@ -11,5 +11,7 @@ namespace BLL.Interfaces
     public interface IVideoRepository : IRepository<Guid, Video, CreateVideoDto, VideoDto>
     {
         Task PatchAsync(Guid id, UpdateVideoDto model, CancellationToken cancellationToken);
+        Task<Guid> CreateAsync(CreateVideoByUrlDto model, CancellationToken cancellationToken);
+        Task UpdateAsync(Guid id, CreateVideoByUrlDto model, CancellationToken cancellationToken);
     }
 }

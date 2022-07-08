@@ -4,6 +4,8 @@ import {Editor} from "react-draft-wysiwyg";
 import draftToHtml from "draftjs-to-html";
 import htmlToDraft from "html-to-draftjs"
 import classes from './MyEditor.module.css'
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const MyEditor = ({defaultValue = '', onChange = null, readonly = false,  ...props}) => {
 
