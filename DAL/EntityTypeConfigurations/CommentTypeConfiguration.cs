@@ -14,7 +14,7 @@ namespace DAL.EntityTypeConfigurations
             builder.Property(c => c.Content).IsRequired();
             builder.Property(c => c.Date).IsRequired();
             builder.Property(c => c.DateUpdated).IsRequired();
-            builder.HasOne(c => c.Creator).WithMany(u => u.Comments).HasForeignKey(c => c.CreatorId);
+            builder.HasOne(c => c.Creator).WithMany(u => u.Comments).HasForeignKey(c => c.CreatorId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(c => c.Course).WithMany(u => u.Comments).HasForeignKey(c => c.CourseId).OnDelete(DeleteBehavior.Cascade);
         }
     }

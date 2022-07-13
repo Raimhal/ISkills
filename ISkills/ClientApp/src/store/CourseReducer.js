@@ -30,7 +30,8 @@ const defaultState = {
         {name: 'Title', value: 'title'},
         {name: 'Price', value: 'price'},
         {name: 'Language', value: 'language'},
-        {name: 'Date', value: 'dateCreated'},
+        {name: 'Date of creation', value: 'dateCreated'},
+        {name: 'Last update date', value: 'dateUpdated'},
         {name: 'Rating', value: 'rating'},
     ],
     courses : [],
@@ -154,9 +155,8 @@ export const getCourses = (creatorId = null) => async (dispatch, getState) => {
         let newParams = {
             ...params,
             skip: (params.page - 1) * params.take,
+            creatorId: creatorId
         }
-        if(!isAdmin)
-            newParams = {...newParams, creatorId: creatorId}
 
         const [totalCount, newCourses] = await CourseService.GetCourses({
             params: newParams

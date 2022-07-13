@@ -226,6 +226,13 @@ const CoursePage = () => {
                                         <div>{totalChapterCount} {totalChapterCount === 1 ? "chapter" : "chapters"}</div>}
                                         {course.students.length > 0 &&
                                         <div>{course.students.length} {course.students.length === 1 ? "student" : "students"}</div>}
+                                        <div className="block flex-row center-items">
+                                            <img src={course.creator?.imageUrl || defaultUserImage} alt="creator image" className='user__image'/>
+                                            <div>
+                                                <p>{course.creator?.userName}</p>
+                                                {course.creator?.rating > 0 && <MyRating value={course.creator?.rating} readonly/>}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 {showBraintreeDropIn &&
@@ -342,7 +349,7 @@ const CoursePage = () => {
                                                 smooth: true
                                             },
                                             foregroundStyle: {
-                                                fill: 'rgba(151,90,212,0.75)',
+                                                fill: 'rgba(151,90,212,0.9)',
                                             }
                                         },
                                         pattern: {
@@ -352,11 +359,7 @@ const CoursePage = () => {
                                             },
                                         },
                                         autoHide: true,
-                                        animation: {
-                                            appear: {
-                                                animation: 'fadeIn',
-                                            },
-                                        },
+                                        animation: false,
                                         areaStyle: () => {
                                             return {
                                                 gradient: 'l(0) 0:#9c27b0 1:#ccccff',

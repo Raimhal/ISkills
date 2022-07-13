@@ -15,26 +15,24 @@ const BraintreeDropIn = ({show, onPaymentCompleted, clientToken, ...props}) => {
 
 
     useEffect(() => {
-        if (show) {
-            const initializeBraintree = () => dropin.create({
-                authorization: clientToken,
-                container: '#braintree-drop-in-div',
-            }, function (error, instance) {
-                if (error)
-                    console.error(error)
-                else
-                    setBraintreeInstance(instance);
-            });
+        const initializeBraintree = () => dropin.create({
+            authorization: clientToken,
+            container: '#braintree-drop-in-div',
+        }, function (error, instance) {
+            if (error)
+                console.error(error)
+            else
+                setBraintreeInstance(instance);
+        });
 
-            if (braintreeInstance) {
-                braintreeInstance
-                    .teardown()
-                    .then(() => {
-                        initializeBraintree();
-                    });
-            } else {
-                initializeBraintree();
-            }
+        if (braintreeInstance) {
+            braintreeInstance
+                .teardown()
+                .then(() => {
+                    initializeBraintree();
+                });
+        } else {
+            initializeBraintree();
         }
     }, [show])
 

@@ -44,7 +44,7 @@ namespace BLL.Services
                _mapper,
                skip,
                take,
-               u => u.Email.Contains(query.ToLower().Trim()) && (courseId == null || u.Courses.Any(c => c.Id == courseId)),
+               u => u.UserName.Contains(query.ToLower().Trim()) && (courseId == null || u.Courses.Any(c => c.Id == courseId)),
                sortOption,
                reverse,
                new() { },
@@ -57,7 +57,7 @@ namespace BLL.Services
             Guid? courseId = (Guid?)dynamics[0];
             return await _userContext.Users.GetListAllAsync<User, UserDto>(
                   _mapper,
-                  u => u.Email.Contains(query.ToLower().Trim()) && (courseId == null || u.Courses.Any(c => c.Id == courseId)),
+                  u => u.UserName.Contains(query.ToLower().Trim()) && (courseId == null || u.Courses.Any(c => c.Id == courseId)),
                   sortOption,
                   reverse,
                   new() { },

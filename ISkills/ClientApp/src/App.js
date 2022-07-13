@@ -4,7 +4,7 @@ import "./styles/Course.css"
 import {BrowserRouter} from "react-router-dom";
 import AppRouter from "./components/AppRouter";
 import {useDispatch, useSelector} from "react-redux";
-import {getCurrentUser, refreshTokens} from "./store/UserReducer";
+import {clearError, getCurrentUser, refreshTokens} from "./store/UserReducer";
 import Navbar from "./components/UI/Navbar/Navbar";
 import Loading from "./components/UI/Loading/Loading";
 import "rsuite/dist/rsuite.min.css";
@@ -19,6 +19,7 @@ const App = () => {
     useEffect( () => {
         const accessToken = localStorage.getItem('accessToken')
         dispatch(getCurrentUser())
+        dispatch(clearError())
         if(accessToken) {
             const exp = jwt_decode(accessToken).exp
             if(exp < Math.floor(+Date.now() / 1000))

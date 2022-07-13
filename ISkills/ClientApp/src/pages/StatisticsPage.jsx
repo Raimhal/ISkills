@@ -99,7 +99,7 @@ const StatisticsPage = () => {
                                     smooth: true,
                                 },
                                 foregroundStyle: {
-                                    fill: 'rgba(151,90,212,0.75)',
+                                    fill: 'rgb(151,90,212, 0.9)',
                                 }
                             },
                             pattern: {
@@ -109,11 +109,7 @@ const StatisticsPage = () => {
                                 },
                             },
                             autoHide: true,
-                            animation: {
-                                appear: {
-                                    animation: 'fadeIn',
-                                },
-                            },
+                            animation: false,
                             areaStyle: () => {
                                 return {
                                     gradient: 'l(0) 0:#9c27b0 1:#ccccff',

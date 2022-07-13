@@ -119,7 +119,7 @@ const AccountPage = () => {
                                 aria-label="primary course tabs"
                             >
                                 {!isAdmin && <Tab value="member" label="Member courses"/>}
-                                <Tab value="my" label={!isAdmin ? "My courses" : "Courses"}/>
+                                <Tab value="my" label="My courses" />
                             </Tabs>
                         }
                     </ThemeProvider>

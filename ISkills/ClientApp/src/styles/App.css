@@ -190,7 +190,12 @@ button {
 
 .flex-row {
     display: flex;
-    flex-direction: row;
+    flex-direction: row !important;
     gap: 0.5rem;
     align-items: baseline;
+    padding: 0.2rem 0.5rem !important;
+}
+
+.center-items {
+    align-items: center;
 }

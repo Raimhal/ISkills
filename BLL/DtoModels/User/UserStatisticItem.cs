@@ -14,10 +14,5 @@ namespace BLL.DtoModels
         public double Rating { get; set; }  
         public int Count { get; set; } 
 
-        //public virtual void Mapping(Profile profile)
-        //{
-        //    profile.CreateMap<User, UserStatisticModel>()
-        //        .ReverseMap();
-        //}
     }
 }

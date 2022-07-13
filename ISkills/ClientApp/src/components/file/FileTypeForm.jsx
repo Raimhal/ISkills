@@ -27,7 +27,7 @@ const FileTypeForm = ({action, title, ...props}) => {
         fileSize: yup
             .number("Enter file size")
             .typeError('File size must be a number')
-            .min(0)
+            .min(0.1, "File size must be gather than or equal to 0.1 MB")
             .required('File size is required'),
     });
 
@@ -64,7 +64,7 @@ const FileTypeForm = ({action, title, ...props}) => {
                     dispatch(setFileType({...type, fileSize: e.target.value}))
                 }}
                 onBlur={formik.handleBlur}
-                label="Size"
+                label="Size, MB"
                 error={formik.touched.fileSize && Boolean(formik.errors.fileSize)}
                 helperText={formik.touched.fileSize && formik.errors.fileSize}
                 required

@@ -5,7 +5,7 @@ const defaultState = {
     types: [],
     type: {
         fileType: '',
-        fileSize: 0,
+        fileSize: 0.1,
     },
     totalCount: 0,
     params: {
