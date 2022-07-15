@@ -16,7 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import SortAndSearch from "../components/UI/SortAndSearch/SortAndSearch";
 import Loading from "../components/UI/Loading/Loading";
 import emptyListImage from "../../src/assets/images/empty-list.png"
-import {clearTheme} from "../store/ThemeReducer";
+import {clearTheme, getTheme} from "../store/ThemeReducer";
 import EmptyList from "../components/UI/EmptyList/EmptyList";
 
 
@@ -43,6 +43,7 @@ const Courses = () => {
             dispatch(clearLoading())
         }
     }, [params.page, params.sortOption, params.themeId, params.reverse, !isCoursesLoading && courses.length === 0])
+
 
 
     const changePage = (page) => {

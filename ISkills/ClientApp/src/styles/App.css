@@ -3,13 +3,17 @@
     padding: 0;
     box-sizing: border-box;
     word-break: break-word;
-    font-family: 'Radio Canada', sans-serif !important;
+    font-family: 'Noto Sans', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
     font-weight: 300 !important;
 }
 
 a {
     text-decoration: none !important;
     color: inherit !important;
+    font-weight: 300 !important;
 }
 
 html {
@@ -29,6 +33,7 @@ body {
     align-items: center;
     min-height: 100vh;
     min-width: 100%;
+    font-weight: 300;
 }
 
 .App {
@@ -193,10 +198,23 @@ button {
     flex-direction: row !important;
     gap: 0.5rem;
     align-items: baseline;
-    padding: 0.2rem 0.5rem !important;
 }
 
 .center-items {
     align-items: center;
     display: flex;
+    gap: 0.5rem;
 }
+
+.MuiListItemText-primary, .MuiSelect-select, .MuiButtonBase-root, .MuiInputBase-input {
+    font-weight: 300 !important;
+}
+
+.rs-dropdown-item, .rs-dropdown-toggle {
+    font-weight: 300 !important;
+}
+
+td {
+    font-weight: 300 !important;
+}
+

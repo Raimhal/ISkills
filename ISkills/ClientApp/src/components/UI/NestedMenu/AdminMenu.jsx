@@ -13,7 +13,6 @@ const AdminMenu = ({label, className, ...props}) => {
 
 
     return (
-
             <ButtonToolbar>
                 <Dropdown trigger="click" title="Admin" size="md" placement="bottomEnd" {...props}>
                     <Dropdown.Item disabled={true}>Pages</Dropdown.Item>

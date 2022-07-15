@@ -64,7 +64,7 @@ const StatisticsPage = () => {
         init ?
             <div className="wide main">
                 <div className="block">
-                        <h4 className="flex-row">
+                        <h5 className="flex-row">
                             <span>Purchases for last</span>
                             <ButtonToolbar>
                                 <Dropdown trigger="click" title={purchaseDays} size="md" placement="bottomEnd" disabled={isLoading}>
@@ -77,7 +77,7 @@ const StatisticsPage = () => {
                                 </Dropdown>
                             </ButtonToolbar>
                             <span>days :</span>
-                        </h4>
+                        </h5>
                         <Area {...{
                             data: purchases,
                             autoFit: true,
@@ -120,7 +120,7 @@ const StatisticsPage = () => {
                         {isLoading && <Loading/>}
                     </div>
                     <div className="block">
-                        <h4 className="flex-row">
+                        <h5 className="flex-row">
                             <span>Purchases for</span>
                             <ButtonToolbar>
                                 <Dropdown trigger="click" title={params.year} size="md" placement="bottomEnd" disabled={isYearLoading}>
@@ -134,7 +134,7 @@ const StatisticsPage = () => {
                                 </Dropdown>
                             </ButtonToolbar>
                             <span> :</span>
-                        </h4>
+                        </h5>
                         <Pie
                             {
                             ...{
@@ -169,7 +169,7 @@ const StatisticsPage = () => {
                         />
                     </div>
                     <div className="block">
-                        <h4 className="flex-row">Authors (Rating - Courses) :</h4>
+                        <h5 className="flex-row">Authors (Rating - Courses) :</h5>
                         <BidirectionalBar
                             {...{
                                 data: topUsers,

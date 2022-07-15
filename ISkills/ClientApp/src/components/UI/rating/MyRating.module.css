@@ -2,8 +2,8 @@
 .rating {
     color: rgb(255, 188, 11);
     display: flex;
-    align-items: center;
-    font-weight: bold;
+    align-items: baseline;
+    font-weight: 400;
     gap: 0.2rem;
     white-space: nowrap;
     z-index: 1;

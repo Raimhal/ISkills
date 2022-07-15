@@ -6,7 +6,7 @@ import CommentItem from "./CommentItem";
 const CommentList = ({comments, title, remove, update, userId, isAdmin}) => {
     return (
         <div className="comments">
-            <h3 style={{padding: "5px"}}>{title}</h3>
+            <h4 style={{padding: "5px"}}>{title}</h4>
             <TransitionGroup className="courses">
                 {comments?.map(comment =>
                     <CSSTransition
