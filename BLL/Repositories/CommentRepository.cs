@@ -42,7 +42,7 @@ namespace BLL.Services
                 _mapper,
                 skip,
                 take,
-                c => c.Content.Contains(query.ToLower().Trim()) && (courseId == null || c.CourseId == courseId),
+                c => c.Content.ToLower().Contains(query.ToLower().Trim()) && (courseId == null || c.CourseId == courseId),
                 sortOption,
                 reverse,
                 new() { x => x.Creator },
@@ -55,7 +55,7 @@ namespace BLL.Services
             var courseId = (Guid?)dynamics[0];
             return await _commentDbContext.Comments.GetListAllAsync<Comment, CommentDto>(
                 _mapper,
-                c => c.Content.Contains(query.ToLower().Trim()) && (courseId == null || c.CourseId == courseId),
+                c => c.Content.ToLower().Contains(query.ToLower().Trim()) && (courseId == null || c.CourseId == courseId),
                 sortOption,
                 reverse,
                 new() { x => x.Creator },

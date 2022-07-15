@@ -46,7 +46,7 @@ const AdminFileTypes = () => {
 
     useEffect( () =>{
         dispatch(getFileTypes())
-    }, [params.page, params.sortOption, params.reverse])
+    }, [params.page, params.sortOption, params.reverse, !isLoading && types.length === 0])
 
     return (
         <div className="wide main">
@@ -70,7 +70,7 @@ const AdminFileTypes = () => {
             />
             {!isLoading ?
                 <>
-                    {types.length > 0
+                    {totalCount > 0
                         ?
                         <>
                             <MyTable

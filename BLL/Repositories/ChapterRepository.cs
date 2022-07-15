@@ -38,7 +38,7 @@ namespace BLL.Services
                 _mapper,
                 skip,
                 take,
-                c => c.Title.Contains(query.ToLower().Trim()) && (courseId == null || c.CourseId == courseId),
+                c => c.Title.ToLower().Contains(query.ToLower().Trim()) && (courseId == null || c.CourseId == courseId),
                 sortOption,
                 reverse,
                 new() { },
@@ -51,7 +51,7 @@ namespace BLL.Services
             var courseId = (Guid?)dynamics[0];
             return await _chapterDbContext.Chapters.GetListAllAsync<Chapter, ChapterDto>(
                 _mapper,
-                c => c.Title.Contains(query.ToLower().Trim()) && (courseId == null || c.CourseId == courseId),
+                c => c.Title.ToLower().Contains(query.ToLower().Trim()) && (courseId == null || c.CourseId == courseId),
                 sortOption,
                 reverse,
                 new() { },

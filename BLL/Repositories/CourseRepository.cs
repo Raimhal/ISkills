@@ -46,7 +46,7 @@ namespace BLL.Services
                 _mapper,
                 skip,
                 take,
-                c => c.Title.Contains(query.ToLower().Trim())
+                c => c.Title.ToLower().Contains(query.ToLower().Trim())
                 && (themeId == null || c.ThemeId == themeId)
                 && (creatorId == null || c.CreatorId == creatorId),
                 sortOption,
@@ -63,7 +63,7 @@ namespace BLL.Services
 
             return await _courseDbContext.Courses.GetListAllAsync<Course, CourseDto>(
                 _mapper,
-                c => c.Title.Contains(query.ToLower().Trim())
+                c => c.Title.ToLower().Contains(query.ToLower().Trim())
                 && (themeId == null || c.ThemeId == themeId)
                 && (creatorId == null || c.CreatorId == creatorId),
                 sortOption,
@@ -82,7 +82,7 @@ namespace BLL.Services
                 _mapper,
                 skip,
                 take,
-                c => c.Title.Contains(query.ToLower().Trim())
+                c => c.Title.ToLower().Contains(query.ToLower().Trim())
                 && (themeId == null || c.ThemeId == themeId)
                 && (studentId == null || c.Students.Any(x => x.Id == studentId)),
                 sortOption,
@@ -99,7 +99,7 @@ namespace BLL.Services
 
             return await _courseDbContext.Courses.GetListAllAsync<Course, CourseDto>(
                 _mapper,
-                c => c.Title.Contains(query.ToLower().Trim())
+                c => c.Title.ToLower().Contains(query.ToLower().Trim())
                 && (themeId == null || c.ThemeId == themeId)
                 && (studentId == null || c.Students.Any(x => x.Id == studentId)),
                 sortOption,

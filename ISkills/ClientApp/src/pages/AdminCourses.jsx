@@ -57,7 +57,7 @@ const AdminCourses = () => {
 
     useEffect( () =>{
         dispatch(getCourses())
-    }, [params.page, params.sortOption, params.themeId, params.reverse])
+    }, [params.page, params.sortOption, params.themeId, params.reverse, !isLoading && courses.length === 0])
 
     return (
         <div className="wide main">
@@ -71,7 +71,7 @@ const AdminCourses = () => {
             />
             {!isLoading ?
                 <>
-                {courses.length > 0
+                {totalCount > 0
                     ?
                     <>
                         <MyTable

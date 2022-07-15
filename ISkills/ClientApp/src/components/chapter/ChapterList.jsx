@@ -7,10 +7,8 @@ const ChapterList = ({chapters, title, remove, update, userId, isAdmin, updateVi
     return (
         <div>
             <h3 style={{padding: "5px"}}>{title}</h3>
-            {chapters?.length === 0
-                ? <div>No chapters found</div>
-                : <TransitionGroup className="chapters">
-                    {chapters.map(chapter =>
+            <TransitionGroup className="chapters">
+                    {chapters?.map(chapter =>
                         <CSSTransition
                             key={chapter.id}
                             timeout={500}
@@ -28,7 +26,6 @@ const ChapterList = ({chapters, title, remove, update, userId, isAdmin, updateVi
                         </CSSTransition>
                     )}
                 </TransitionGroup>
-            }
         </div>
     );
 };

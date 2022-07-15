@@ -43,7 +43,7 @@ namespace BLL.Services
                 _mapper,
                 skip,
                 take,
-                c => c.Title.Contains(query.ToLower().Trim()) && (chapterId == null || c.ChapterId == chapterId),
+                c => c.Title.ToLower().Contains(query.ToLower().Trim()) && (chapterId == null || c.ChapterId == chapterId),
                 sortOption,
                 reverse,
                 new() { },
@@ -56,7 +56,7 @@ namespace BLL.Services
             Guid? chapterId = (Guid?)dynamics[0];
             return await _videoDbContext.Videos.GetListAllAsync<Video, VideoDto>(
                 _mapper,
-                c => c.Title.Contains(query.ToLower().Trim()) && (chapterId == null || c.ChapterId == chapterId),
+                c => c.Title.ToLower().Contains(query.ToLower().Trim()) && (chapterId == null || c.ChapterId == chapterId),
                 sortOption,
                 reverse,
                 new() { },

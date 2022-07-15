@@ -155,7 +155,6 @@ export const createVideo = (setModal = null) => async (dispatch, getState) => {
 
 
     await responseHandler(dispatch, async () => {
-        console.log(video)
         const index = chapters.findIndex(x => x.id === video.chapterId)
         const data = uploadMod
             ? await VideoService.Create({...video, file: document.querySelector("#file").files[0]})
@@ -167,7 +166,6 @@ export const createVideo = (setModal = null) => async (dispatch, getState) => {
 
         dispatch(setChapters([...chapters]))
         dispatch(setTotalCount(+totalCount + 1))
-        console.log("clear")
         dispatch(clearVideo())
         setModal && setModal(false)
     }, setError, setActionLoading)

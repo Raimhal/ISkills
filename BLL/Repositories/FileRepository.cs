@@ -39,7 +39,7 @@ namespace BLL.Services
                 _mapper,
                 skip,
                 take,
-                c => c.FileType.Contains(query.ToLower().Trim()),
+                c => c.FileType.ToLower().Contains(query.ToLower().Trim()),
                 sortOption,
                 reverse,
                 new() { },
@@ -49,7 +49,7 @@ namespace BLL.Services
             bool reverse, CancellationToken cancellationToken, params object[] dynamics)
             => await _fileTypesContext.AllowedFileTypes.GetListAllAsync<AllowedFileType, AllowedFileTypeDto>(
                 _mapper,
-                c => c.FileType.Contains(query.ToLower().Trim()),
+                c => c.FileType.ToLower().Contains(query.ToLower().Trim()),
                 sortOption,
                 reverse,
                 new() { },

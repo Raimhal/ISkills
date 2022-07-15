@@ -52,7 +52,7 @@ const AdminUsers = () => {
 
     useEffect( () =>{
         dispatch(getUsers())
-    }, [params.page, params.sortOption, params.reverse])
+    }, [params.page, params.sortOption, params.reverse, !isLoading && users.length === 0])
 
     return (
         <div className="wide main">
@@ -66,7 +66,7 @@ const AdminUsers = () => {
             />
             {!isLoading ?
                 <>
-                {users.length > 0
+                {totalCount > 0
                     ?
                     <>
                         <MyTable

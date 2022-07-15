@@ -48,7 +48,7 @@ namespace BLL.Services
                 _mapper,
                 skip,
                 take,
-                t => t.Title.Contains(query.ToLower().Trim()) && (categoryId == null || t.CategoryId == categoryId),
+                t => t.Title.ToLower().Contains(query.ToLower().Trim()) && (categoryId == null || t.CategoryId == categoryId),
                 sortOption,
                 reverse,
                 new() { },
@@ -61,7 +61,7 @@ namespace BLL.Services
             int? categoryId = (int?)dynamics[0];
             return await _themeDbContext.Themes.GetListAllAsync<Theme, ThemeDto>(
                 _mapper,
-                t => t.Title.Contains(query.ToLower().Trim()) && (categoryId == null || t.CategoryId == categoryId),
+                t => t.Title.ToLower().Contains(query.ToLower().Trim()) && (categoryId == null || t.CategoryId == categoryId),
                 sortOption,
                 reverse,
                 new() { },

@@ -47,7 +47,7 @@ const AdminThemes = () => {
 
     useEffect( () =>{
         dispatch(getThemes())
-    }, [params.page, params.sortOption, params.reverse])
+    }, [params.page, params.sortOption, params.reverse,  !isLoading && themes.length === 0])
 
     return (
         <div className="wide main">
@@ -71,7 +71,7 @@ const AdminThemes = () => {
             />
             {!isLoading ?
                 <>
-                {themes.length > 0
+                {totalCount > 0
                     ?
                     <>
                         <MyTable

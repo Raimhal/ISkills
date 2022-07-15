@@ -65,7 +65,7 @@ const AccountPage = () => {
         return () => {
             dispatch(clearCourses())
         }
-    }, [params.page, params.sortOption, params.themeId, params.reverse, value])
+    }, [params.page, params.sortOption, params.themeId, params.reverse, value, !isCoursesLoading && courses.length  === 0])
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))
@@ -132,7 +132,7 @@ const AccountPage = () => {
                     />
                     {!isCoursesLoading ?
                         <>
-                            {courses.length > 0 ?
+                            {totalCount > 0 ?
                                 <div>
                                     <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}
                                                   totalCount={totalCount} changePage={changePage}/>

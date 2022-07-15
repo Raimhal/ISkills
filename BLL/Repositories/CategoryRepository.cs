@@ -35,7 +35,7 @@ namespace BLL.Services
                 _mapper,
                 skip,
                 take,
-                c => c.Title.Contains(query.ToLower().Trim()),
+                c => c.Title.ToLower().Contains(query.ToLower().Trim()),
                 sortOption,
                 reverse,
                 new () { },
@@ -46,7 +46,7 @@ namespace BLL.Services
         {
             var list = await _categoryDbContext.Categories.GetListAllAsync<Category, CategoryDto>(
                   _mapper,
-                  c => c.Title.Contains(query.ToLower().Trim()),
+                  c => c.Title.ToLower().Contains(query.ToLower().Trim()),
                   sortOption,
                   reverse,
                   new() {  },

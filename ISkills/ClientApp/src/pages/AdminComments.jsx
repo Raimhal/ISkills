@@ -42,7 +42,7 @@ const AdminComments = () => {
 
     useEffect( () =>{
         dispatch(getComments())
-    }, [params.page, params.sortOption, params.reverse])
+    }, [params.page, params.sortOption, params.reverse,  !isLoading && comments.length === 0])
 
     return (
         <div className="wide main">
@@ -57,7 +57,7 @@ const AdminComments = () => {
 
             {!isLoading ?
                 <>
-                {comments.length > 0
+                {totalCount > 0
                     ?
                     <>
                         <MyTable

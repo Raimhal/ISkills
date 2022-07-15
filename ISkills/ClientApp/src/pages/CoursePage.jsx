@@ -172,11 +172,11 @@ const CoursePage = () => {
 
     useEffect(() => {
         dispatch(getComments(id))
-    }, [commentsParams.page])
+    }, [commentsParams.page, !isCommentsLoading && comments.length === 0])
 
     useEffect(() => {
         dispatch(getChapters(id))
-    }, [chaptersParams.page])
+    }, [chaptersParams.page, !isCommentsLoading && chapters.length === 0])
 
     useEffect(() => {
         dispatch(getPurchasesStatistic(id))
@@ -226,11 +226,11 @@ const CoursePage = () => {
                                         <div>{totalChapterCount} {totalChapterCount === 1 ? "chapter" : "chapters"}</div>}
                                         {course.students.length > 0 &&
                                         <div>{course.students.length} {course.students.length === 1 ? "student" : "students"}</div>}
-                                        <div className="block flex-row center-items">
-                                            <img src={course.creator?.imageUrl || defaultUserImage} alt="creator image" className='user__image'/>
-                                            <div>
+                                        <div className="center-items">
+                                            <span>Author: </span>
+                                            <div className="flex-row center-items">
+                                                <img src={course.creator?.imageUrl || defaultUserImage} alt="creator image" className='user__image' style={{width: "24px", height: "24px", minWidth: "24px"}}/>
                                                 <p>{course.creator?.userName}</p>
-                                                {course.creator?.rating > 0 && <MyRating value={course.creator?.rating} readonly/>}
                                             </div>
                                         </div>
                                     </div>
@@ -482,7 +482,7 @@ const CoursePage = () => {
                                         </div>
                                         }
                                     </div>
-                                    {chapters.length > 0 &&
+                                    {totalChapterCount > 0 &&
                                     <div>
                                         <MyPagination
                                             page={chaptersParams.page}
@@ -514,12 +514,11 @@ const CoursePage = () => {
                                     }
                                 </div>
                                 }
-                                {comments.length > 0 &&
                                 <div>
-                                    <div className="comments__title">
+                                    {totalCommentCount > 0 && <div className="comments__title">
                                         <h5>{totalCommentCount} {totalCommentCount === 1 ? "comment" : "comments"} :</h5>
                                     </div>
-                                    {comments.length > 0 &&
+                                    }
                                     <div>
                                         <MyPagination
                                             page={commentsParams.page}
@@ -546,7 +545,6 @@ const CoursePage = () => {
                                             changePage={changeCommentsPage}
                                         />
                                     </div>
-                                    }
                                     {modalComment && <MyModal visible={modalComment} setVisible={setCommentModal}>
                                         <CommentForm action={async () => {
                                             dispatch(updateComment(setCommentModal))
@@ -554,7 +552,6 @@ const CoursePage = () => {
                                     </MyModal>
                                     }
                                 </div>
-                                }
                             </div>
                             {hasUserAccess &&
                             <div style={{position: "fixed", bottom: 25, right: 25}}>

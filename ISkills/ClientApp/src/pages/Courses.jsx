@@ -42,7 +42,7 @@ const Courses = () => {
             dispatch(clearCourses())
             dispatch(clearLoading())
         }
-    }, [params.page, params.sortOption, params.themeId, params.reverse])
+    }, [params.page, params.sortOption, params.themeId, params.reverse, !isCoursesLoading && courses.length === 0])
 
 
     const changePage = (page) => {

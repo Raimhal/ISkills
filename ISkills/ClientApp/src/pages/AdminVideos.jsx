@@ -47,7 +47,7 @@ const AdminVideos = () => {
 
     useEffect( () =>{
         dispatch(getVideos())
-    }, [params.page, params.sortOption, params.reverse])
+    }, [params.page, params.sortOption, params.reverse, !isLoading && videos.length === 0])
 
     return (
         <div className="wide main">
@@ -61,7 +61,7 @@ const AdminVideos = () => {
             />
             {!isLoading ?
                 <>
-                {videos.length > 0
+                {totalCount > 0
                     ?
                     <>
                         <MyTable

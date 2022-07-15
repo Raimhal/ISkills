@@ -40,7 +40,7 @@ const AdminChapters = () => {
 
     useEffect( () =>{
         dispatch(getChapters())
-    }, [params.page, params.sortOption, params.reverse])
+    }, [params.page, params.sortOption, params.reverse, !isLoading && chapters.length === 0])
 
     return (
         <div className="wide main">
@@ -54,7 +54,7 @@ const AdminChapters = () => {
             />
             {!isLoading ?
                 <>
-                {chapters.length > 0
+                {totalCount > 0
                     ?
                     <>
                         <MyTable
