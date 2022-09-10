@@ -42,7 +42,7 @@ const AdminComments = () => {
 
     useEffect( () =>{
         dispatch(getComments())
-    }, [params.page, params.sortOption, params.reverse,  !isLoading && comments.length === 0])
+    }, [params.page, params.sortOption, params.reverse])
 
     return (
         <div className="wide main">

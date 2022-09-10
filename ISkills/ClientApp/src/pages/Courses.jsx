@@ -42,7 +42,7 @@ const Courses = () => {
             dispatch(clearCourses())
             dispatch(clearLoading())
         }
-    }, [params.page, params.sortOption, params.themeId, params.reverse, !isCoursesLoading && courses.length === 0])
+    }, [params.page, params.sortOption, params.themeId, params.reverse])
 
 
 
@@ -68,7 +68,7 @@ const Courses = () => {
             </div>
             {!isCoursesLoading ?
                 <>
-                    {(courses.length > 0 && !isCoursesLoading)
+                    {(courses.length > 0)
                         ?
                         <div>
                             <MyPagination page={params.page} pageSize={params.take} pageCount={courses.length}

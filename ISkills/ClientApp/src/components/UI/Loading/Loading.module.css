@@ -5,10 +5,6 @@
     transform: translate(-50%, -50%);
 }
 
-.Loading__wrapper {
-    /*position: relative;*/
-}
-
 .Inner__Loading {
     top: 50%;
     left: 50%;

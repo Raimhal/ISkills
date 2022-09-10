@@ -55,7 +55,6 @@ const CommentForm = ({action, title, ...props}) => {
                     ? <MyButton
                         type="submit"
                         onClick={() => dispatch(clearError())}
-                        // disabled={formik.values.content.includes("<p></p>", "<p></p> ", "")}
                     >{title}</MyButton>
                     : <InnerLoading/>
                 }

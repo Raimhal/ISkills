@@ -57,7 +57,7 @@ const AdminCourses = () => {
 
     useEffect( () =>{
         dispatch(getCourses())
-    }, [params.page, params.sortOption, params.themeId, params.reverse, !isLoading && courses.length === 0])
+    }, [params.page, params.sortOption, params.themeId, params.reverse])
 
     return (
         <div className="wide main">

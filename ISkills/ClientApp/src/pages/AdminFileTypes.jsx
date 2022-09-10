@@ -46,7 +46,7 @@ const AdminFileTypes = () => {
 
     useEffect( () =>{
         dispatch(getFileTypes())
-    }, [params.page, params.sortOption, params.reverse, !isLoading && types.length === 0])
+    }, [params.page, params.sortOption, params.reverse])
 
     return (
         <div className="wide main">

@@ -50,7 +50,7 @@ const AdminCategories = () => {
 
     useEffect( () =>{
         dispatch(getCategories())
-    }, [params.page, params.sortOption, params.reverse, !isLoading && categories.length === 0])
+    }, [params.page, params.sortOption, params.reverse])
 
     return (
         <div className="wide main">

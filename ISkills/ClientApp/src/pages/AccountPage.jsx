@@ -65,7 +65,7 @@ const AccountPage = () => {
         return () => {
             dispatch(clearCourses())
         }
-    }, [params.page, params.sortOption, params.themeId, params.reverse, value, !isCoursesLoading && courses.length  === 0])
+    }, [params.page, params.sortOption, params.themeId, params.reverse, value])
 
     const changePage = (page) => {
         dispatch(setParams({...params, page: page}))

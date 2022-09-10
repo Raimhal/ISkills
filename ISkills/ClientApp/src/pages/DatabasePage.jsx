@@ -43,7 +43,7 @@ const DatabasePage = () => {
 
     useEffect( () =>{
         dispatch(getBackups())
-    }, [params.page, !isLoading && backups.length === 0])
+    }, [params.page])
 
     return (
         <div className="wide main">

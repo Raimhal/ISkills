@@ -172,11 +172,11 @@ const CoursePage = () => {
 
     useEffect(() => {
         dispatch(getComments(id))
-    }, [commentsParams.page, !isCommentsLoading && comments.length === 0])
+    }, [commentsParams.page])
 
     useEffect(() => {
         dispatch(getChapters(id))
-    }, [chaptersParams.page, !isCommentsLoading && chapters.length === 0])
+    }, [chaptersParams.page])
 
     useEffect(() => {
         dispatch(getPurchasesStatistic(id))
@@ -313,6 +313,7 @@ const CoursePage = () => {
                                     <MyTextarea value={course.requirements}/>
                                 </div>
                                 }
+                                { (!isPurchaseLoading && purchases.length <= 0) &&
                                 <div className="block">
                                     <h5 className="flex-row">
                                         <span>Purchases for last</span>
@@ -342,8 +343,8 @@ const CoursePage = () => {
                                             size: purchaseDays > 30 ? (180 / purchaseDays)  + 1 : 5,
                                         },
                                         slider: {
-                                            start: 0,
-                                            end: 1,
+                                            start: 0.01,
+                                            end: 0.99,
                                             trendCfg: {
                                                 isArea: true,
                                                 smooth: true
@@ -369,6 +370,7 @@ const CoursePage = () => {
                                     }} />
                                     {isPurchaseLoading && <Loading/>}
                                 </div>
+                                }
                                 {hasAccess &&
                                 <div>
                                     {modal &&

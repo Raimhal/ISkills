@@ -47,7 +47,7 @@ const AdminThemes = () => {
 
     useEffect( () =>{
         dispatch(getThemes())
-    }, [params.page, params.sortOption, params.reverse,  !isLoading && themes.length === 0])
+    }, [params.page, params.sortOption, params.reverse])
 
     return (
         <div className="wide main">

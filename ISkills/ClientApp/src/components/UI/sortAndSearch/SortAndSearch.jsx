@@ -26,13 +26,12 @@ const SortAndSearch = ({sortList, params, action, onParamsChange, isLoading}) =>
                     defaultValue="Sort by"
                     options={sortList}
                 />
-                <Tooltip title="Reverse" disabled={isLoading}>
+                <Tooltip title="Reverse">
                     <ToggleButton
                         value="toggle"
                         selected={params.reverse}
-                        onChange={() => onParamsChange({...params, reverse: !params.reverse})}
+                        onChange={() => !isLoading && onParamsChange({...params, reverse: !params.reverse})}
                         sx={{border: "none", background: 'transparent !important', m: 0, p: 0}}
-                        disabled={isLoading}
                     >
                         {params.reverse
                             ? <ArrowCircleUpOutlinedIcon  />

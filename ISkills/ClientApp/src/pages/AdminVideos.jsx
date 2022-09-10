@@ -47,7 +47,7 @@ const AdminVideos = () => {
 
     useEffect( () =>{
         dispatch(getVideos())
-    }, [params.page, params.sortOption, params.reverse, !isLoading && videos.length === 0])
+    }, [params.page, params.sortOption, params.reverse])
 
     return (
         <div className="wide main">
