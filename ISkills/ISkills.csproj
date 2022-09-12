@@ -34,7 +34,6 @@
 
   <ItemGroup>
     <Folder Include="Backups\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>
